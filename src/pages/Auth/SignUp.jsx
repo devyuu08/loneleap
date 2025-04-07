@@ -12,10 +12,12 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
       const result = await signUp(email, password);
@@ -36,6 +38,8 @@ export default function SignUp() {
       } else {
         setError("회원가입에 실패했습니다.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -80,7 +84,7 @@ export default function SignUp() {
             type="submit"
             className="w-full bg-gray-900 text-white py-2 rounded hover:bg-black"
           >
-            가입하기
+            {loading ? "가입 중..." : "가입하기"}
           </button>
         </form>
 
