@@ -41,6 +41,8 @@ export default function AuthForm() {
   };
 
   const handleGoogleLogin = async () => {
+    setLoading(true); // 로딩 상태 시작
+    setError(""); // 기존 에러 초기화
     try {
       const result = await signInWithGoogle();
       dispatch(
@@ -54,6 +56,9 @@ export default function AuthForm() {
       navigate("/");
     } catch (err) {
       console.error("Google 로그인 실패:", err.message);
+      setError("Google 로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoading(false); // 로딩 상태 종료
     }
   };
 
@@ -115,9 +120,11 @@ export default function AuthForm() {
           <button
             type="button"
             onClick={handleGoogleLogin}
+            disabled={loading}
             className="w-full border border-gray-300 rounded py-2 flex items-center justify-center gap-2 hover:bg-gray-50"
           >
-            <span className="text-xl">G</span> Google로 계속하기
+            <span className="text-xl">G</span>
+            {loading ? "로그인 중..." : "Google로 계속하기"}
           </button>
 
           <button

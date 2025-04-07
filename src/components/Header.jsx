@@ -11,9 +11,14 @@ export default function Header() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logout();
-    dispatch(clearUser());
-    navigate("/");
+    try {
+      await logout(); // Firebase 로그아웃 시도
+      dispatch(clearUser()); // Redux 상태 초기화
+      navigate("/"); // 홈으로 이동
+    } catch (error) {
+      console.error("로그아웃 실패:", error);
+      alert("로그아웃에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (

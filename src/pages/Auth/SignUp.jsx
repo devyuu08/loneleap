@@ -11,16 +11,38 @@ export default function SignUp() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState(""); // Added state for password confirmation
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    // 클라이언트 측 유효성 검사
+    if (!trimmedEmail || !trimmedEmail.includes("@")) {
+      setError("유효한 이메일 주소를 입력해주세요.");
+      return;
+    }
+
+    if (trimmedPassword.length < 6) {
+      setError("비밀번호는 최소 6자 이상이어야 합니다.");
+      return;
+    }
+
+    // 비밀번호 확인 일치 검사
+    if (trimmedPassword !== passwordConfirm.trim()) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
     setError("");
     setLoading(true);
 
     try {
-      const result = await signUp(email, password);
+      const result = await signUp(trimmedEmail, trimmedPassword);
       dispatch(
         setUser({
           uid: result.user.uid,
@@ -37,6 +59,7 @@ export default function SignUp() {
         setError("비밀번호는 최소 6자 이상이어야 합니다.");
       } else {
         setError("회원가입에 실패했습니다.");
+        console.error("회원가입 오류:", err);
       }
     } finally {
       setLoading(false);
@@ -76,6 +99,22 @@ export default function SignUp() {
               type="password"
               className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
               onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="passwordConfirm"
+              className="block text-sm font-medium"
+            >
+              비밀번호 확인
+            </label>
+            <input
+              id="passwordConfirm"
+              type="password"
+              className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+              onChange={(e) => setPasswordConfirm(e.target.value)}
               required
             />
           </div>
