@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/Home"; // 기본 홈화면
-import Login from "./components/AuthForm";
+import AuthForm from "./components/AuthForm";
 import SignUp from "./pages/Auth/SignUp";
 
 import { observeAuth } from "./services/auth";
@@ -37,7 +37,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<AuthForm />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
     </>
