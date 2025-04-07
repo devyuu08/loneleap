@@ -1,7 +1,7 @@
 // src/pages/Home.jsx
 import React from "react";
 
-function Home() {
+export default function Home() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold">LoneLeap 메인 페이지</h1>
@@ -9,5 +9,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;

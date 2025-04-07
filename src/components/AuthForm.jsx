@@ -1,15 +1,30 @@
 // src/components/AuthForm.jsx
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../store/userSlice";
 
+import { signIn } from "../services/auth";
 import { signInWithGoogle } from "../services/auth";
 
-function AuthForm() {
+export default function AuthForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleEmailPasswordLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await signIn(email, password);
+      dispatch(setUser(result.user));
+      navigate("/");
+    } catch (err) {
+      console.error("이메일 로그인 실패:", err.message);
+    }
+  };
 
   const handleGoogleLogin = async () => {
     try {
@@ -31,7 +46,7 @@ function AuthForm() {
           </p>
         </div>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleEmailPasswordLogin}>
           <div>
             <label htmlFor="email" className="block mb-1 text-sm font-medium">
               이메일
@@ -41,6 +56,7 @@ function AuthForm() {
               name="email"
               type="email"
               placeholder="your@email.com"
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />
           </div>
@@ -56,6 +72,7 @@ function AuthForm() {
               id="password"
               name="password"
               type="password"
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />
           </div>
@@ -110,5 +127,3 @@ function AuthForm() {
     </div>
   );
 }
-
-export default AuthForm;

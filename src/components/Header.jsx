@@ -5,7 +5,7 @@ import { logout } from "../services/auth";
 import { clearUser } from "../store/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 
-function Header() {
+export default function Header() {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,5 +33,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;
