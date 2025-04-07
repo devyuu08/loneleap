@@ -14,7 +14,14 @@ function App() {
   useEffect(() => {
     const unsubscribe = observeAuth((user) => {
       if (user) {
-        dispatch(setUser(user));
+        dispatch(
+          setUser({
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+          })
+        );
       } else {
         dispatch(clearUser());
       }

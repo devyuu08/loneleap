@@ -19,7 +19,14 @@ export default function AuthForm() {
     e.preventDefault();
     try {
       const result = await signIn(email, password);
-      dispatch(setUser(result.user));
+      dispatch(
+        setUser({
+          uid: result.user.uid,
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoURL: result.user.photoURL,
+        })
+      );
       navigate("/");
     } catch (err) {
       console.error("이메일 로그인 실패:", err.message);
@@ -29,7 +36,14 @@ export default function AuthForm() {
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithGoogle();
-      dispatch(setUser(result.user));
+      dispatch(
+        setUser({
+          uid: result.user.uid,
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoURL: result.user.photoURL,
+        })
+      );
       navigate("/");
     } catch (err) {
       console.error("Google 로그인 실패:", err.message);
