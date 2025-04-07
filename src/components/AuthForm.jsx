@@ -131,7 +131,7 @@ export default function AuthForm() {
 
         <div className="flex justify-between mt-6 text-sm text-gray-500">
           <Link to="/reset">비밀번호를 잊으셨나요?</Link>
-          <Link to="/register">회원가입</Link>
+          <Link to="/signup">회원가입</Link>
         </div>
 
         <footer className="text-xs text-center text-gray-400 mt-10">
