@@ -9,6 +9,8 @@ import { signIn } from "../services/auth";
 import { signInWithGoogle } from "../services/auth";
 
 export default function AuthForm() {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,6 +19,8 @@ export default function AuthForm() {
 
   const handleEmailPasswordLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(""); // 에러 초기화
     try {
       const result = await signIn(email, password);
       dispatch(
@@ -30,6 +34,9 @@ export default function AuthForm() {
       navigate("/");
     } catch (err) {
       console.error("이메일 로그인 실패:", err.message);
+      setError("이메일 또는 비밀번호가 잘못되었습니다.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -95,8 +102,9 @@ export default function AuthForm() {
             type="submit"
             className="w-full bg-gray-900 text-white py-2 rounded font-medium hover:bg-black"
           >
-            로그인
+            {loading ? "로그인 중..." : "로그인"}
           </button>
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
           <div className="flex items-center gap-2 text-sm text-gray-400">
             <div className="h-px flex-1 bg-gray-300" />
