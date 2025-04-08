@@ -13,7 +13,7 @@ export default function DayScheduleList({ days }) {
           <ul>
             {day.schedules.map((item, idx) => (
               <DayScheduleItem
-                key={idx}
+                key={item.id || `${day.day}-${idx}`}
                 time={item.time}
                 activity={item.activity}
                 description={item.description}

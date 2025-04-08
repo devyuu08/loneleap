@@ -1,4 +1,3 @@
-// src/services/queries/useMyItineraries.js
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserItineraries } from "../firestore";
 import { auth } from "../firebase";

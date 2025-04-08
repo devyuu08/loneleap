@@ -1,9 +1,10 @@
-import { useMyItineraries } from "../../services/queries/useMyItineraries";
-import LoadingSpinner from "../../components/LoadingSpinner";
-import EmptyState from "../../components/EmptyState";
-import ItineraryList from "../../components/ItineraryList";
-
 import { Link } from "react-router-dom";
+
+import { useMyItineraries } from "services/queries/useMyItineraries";
+
+import LoadingSpinner from "components/LoadingSpinner";
+import EmptyState from "components/EmptyState";
+import ItineraryList from "components/ItineraryList";
 
 export default function ItineraryListPage() {
   const { data, isLoading, isError } = useMyItineraries();
