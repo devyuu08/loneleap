@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { auth } from "../services/firebase"; // auth에서 uid 가져옴
 import { useAddItinerary } from "../services/queries/itinerary";
 
@@ -20,8 +19,8 @@ export default function CreateItinerary() {
     e.preventDefault(); // 폼 기본 제출 막기
 
     const user = auth.currentUser;
-    if (!user) {
-      alert("로그인이 필요합니다.");
+    if (!user || !user.uid) {
+      alert("로그인 상태가 확인되지 않았습니다.. 다시 로그인해주세요.");
       return;
     }
 

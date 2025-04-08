@@ -9,7 +9,8 @@ import Header from "./components/Header";
 import Home from "./pages/Home"; // 기본 홈화면
 import AuthForm from "./components/AuthForm";
 import SignUp from "./pages/Auth/SignUp";
-import CreateItinerary from "./pages/Itinerary/Create";
+import CreateItineraryPage from "./pages/Itinerary/Create";
+import ItineraryListPage from "./pages/Itinerary/List";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,7 +41,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<AuthForm />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/itinerary/create" element={<CreateItinerary />} />
+        <Route path="/itinerary/create" element={<CreateItineraryPage />} />
+        <Route path="/itinerary" element={<ItineraryListPage />} />
       </Routes>
     </>
   );
