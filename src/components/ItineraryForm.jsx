@@ -1,21 +1,40 @@
 import { useState } from "react";
 import { auth } from "../services/firebase"; // auth에서 uid 가져옴
-import { useAddItinerary } from "../services/queries/itinerary";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 import DatePicker from "./DatePicker";
 import FormSubmitButton from "./FormSubmitButton";
 
-export default function CreateItinerary() {
-  const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [memo, setMemo] = useState("");
-  const [isPublic, setIsPublic] = useState(false);
+import { createItinerary, updateItinerary } from "../services/firestore";
 
-  const { mutate, isPending } = useAddItinerary();
+export default function ItineraryForm({ initialData, isEditMode = false }) {
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [location, setLocation] = useState(initialData?.location || "");
+  const [startDate, setStartDate] = useState(initialData?.startDate || "");
+  const [endDate, setEndDate] = useState(initialData?.endDate || "");
+  const [memo, setMemo] = useState(initialData?.memo || "");
+  const [isPublic, setIsPublic] = useState(initialData?.isPublic || false);
 
-  const handleCreateItinerarySubmit = async (e) => {
+  const navigate = useNavigate();
+
+  const { mutate: addMutate, isPending: isAdding } = useMutation({
+    mutationFn: createItinerary,
+    onSuccess: (newId) => {
+      navigate(`/itinerary/${newId}`);
+    },
+    onError: () => alert("일정 저장 중 오류가 발생했습니다."),
+  });
+
+  const { mutate: updateMutate, isPending: isUpdating } = useMutation({
+    mutationFn: ({ id, updatedData }) => updateItinerary(id, updatedData),
+    onSuccess: () => {
+      navigate(`/itinerary/${initialData.id}`);
+    },
+    onError: () => alert("일정 수정 중 오류가 발생했습니다."),
+  });
+
+  const handleItinerarySubmit = async (e) => {
     e.preventDefault(); // 폼 기본 제출 막기
 
     const user = auth.currentUser;
@@ -32,88 +51,123 @@ export default function CreateItinerary() {
       memo,
       isPublic,
       userId: user.uid,
+      days: initialData?.days || [
+        {
+          day: 1,
+          date: startDate,
+          schedules: [
+            {
+              time: "오전",
+              activity: "강릉 도착",
+              description: "KTX 타고 강릉역 도착",
+            },
+            {
+              time: "오후",
+              activity: "초당순두부 맛집",
+              description: "점심 식사 및 산책",
+            },
+            {
+              time: "저녁",
+              activity: "경포해변 산책",
+              description: "일몰 감상 후 귀가",
+            },
+          ],
+        },
+      ],
     };
-
-    mutate(itineraryData);
+    if (isEditMode) {
+      updateMutate({ id: initialData.id, updatedData: itineraryData });
+    } else {
+      addMutate(itineraryData);
+    }
   };
 
   return (
-    <form className="space-y-4" onSubmit={handleCreateItinerarySubmit}>
-      {/* 제목 */}
-      <div>
-        <label className="text-sm font-medium text-gray-700 mb-1 block">
-          제목
-        </label>
-        <input
-          type="text"
-          name="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
-          placeholder="예: 제주도 혼행"
-        />
-      </div>
+    <div className="max-w-2xl mx-auto px-4 py-10">
+      {/*상단 제목 */}
+      <h2 className="text-2xl font-bold mb-6">
+        {isEditMode ? "일정 수정하기" : "새 일정 만들기"}
+      </h2>
+      <form className="space-y-4" onSubmit={handleItinerarySubmit}>
+        {/* 제목 */}
+        <div>
+          <label className="text-sm font-medium text-gray-700 mb-1 block">
+            제목
+          </label>
+          <input
+            type="text"
+            name="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            placeholder="예: 제주도 혼행"
+          />
+        </div>
 
-      {/* 지역 */}
-      <div>
-        <label className="text-sm font-medium text-gray-700 mb-1 block">
-          여행지
-        </label>
-        <input
-          type="text"
-          name="location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
-          placeholder="예: 제주"
-        />
-      </div>
+        {/* 지역 */}
+        <div>
+          <label className="text-sm font-medium text-gray-700 mb-1 block">
+            여행지
+          </label>
+          <input
+            type="text"
+            name="location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            placeholder="예: 제주"
+          />
+        </div>
 
-      {/* 날짜 */}
-      <div className="grid grid-cols-2 gap-4">
-        <DatePicker
-          label="시작일"
-          name="startDate"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
-        <DatePicker
-          label="종료일"
-          name="endDate"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
-      </div>
+        {/* 날짜 */}
+        <div className="grid grid-cols-2 gap-4">
+          <DatePicker
+            label="시작일"
+            name="startDate"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+          <DatePicker
+            label="종료일"
+            name="endDate"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
 
-      {/* 메모 */}
-      <div>
-        <label className="text-sm font-medium text-gray-700 mb-1 block">
-          메모
-        </label>
-        <textarea
-          name="memo"
-          value={memo}
-          onChange={(e) => setMemo(e.target.value)}
-          rows={3}
-          className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
-          placeholder="예: 성산일출봉 꼭 가기"
-        />
-      </div>
+        {/* 메모 */}
+        <div>
+          <label className="text-sm font-medium text-gray-700 mb-1 block">
+            메모
+          </label>
+          <textarea
+            name="memo"
+            value={memo}
+            onChange={(e) => setMemo(e.target.value)}
+            rows={3}
+            className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+            placeholder="예: 성산일출봉 꼭 가기"
+          />
+        </div>
 
-      {/* 공개 여부 */}
-      <div className="flex items-center space-x-2">
-        <input
-          type="checkbox"
-          name="isPublic"
-          checked={isPublic}
-          onChange={(e) => setIsPublic(e.target.checked)}
-          className="accent-gray-800"
-        />
-        <label className="text-sm text-gray-700">일정을 공개합니다</label>
-      </div>
+        {/* 공개 여부 */}
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            name="isPublic"
+            checked={isPublic}
+            onChange={(e) => setIsPublic(e.target.checked)}
+            className="accent-gray-800"
+          />
+          <label className="text-sm text-gray-700">일정을 공개합니다</label>
+        </div>
 
-      {/* 버튼 */}
-      <FormSubmitButton isLoading={isPending} label="일정 저장하기" />
-    </form>
+        {/* 버튼 */}
+        <FormSubmitButton
+          isLoading={isEditMode ? isUpdating : isAdding}
+          label={isEditMode ? "일정 수정하기" : "일정 저장하기"}
+        />
+      </form>
+    </div>
   );
 }

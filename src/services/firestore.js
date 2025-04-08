@@ -9,6 +9,8 @@ import {
   where,
   doc,
   serverTimestamp,
+  updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 // 일정 생성 함수
@@ -56,6 +58,27 @@ export const fetchItineraryById = async (id) => {
     }
   } catch (error) {
     console.error("일정 상세 조회 오류:", error);
+    throw error;
+  }
+};
+
+// 일정 수정 함수
+export const updateItinerary = async (id, updatedData) => {
+  try {
+    const docRef = doc(db, "itineraries", id);
+    await updateDoc(docRef, updatedData);
+  } catch (error) {
+    console.error("일정 수정 중 오류 발생:", error);
+    throw error;
+  }
+};
+
+// 일정 삭제 함수
+export const deleteItinerary = async (id) => {
+  try {
+    await deleteDoc(doc(db, "itineraries", id));
+  } catch (error) {
+    console.error("일정 삭제 중 오류:", error);
     throw error;
   }
 };
