@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { auth } from "../services/firebase"; // auth에서 uid 가져옴
 import { useNavigate } from "react-router-dom";
+
+import { auth } from "services/firebase"; // auth에서 uid 가져옴
 import { useMutation } from "@tanstack/react-query";
 
 import DatePicker from "./DatePicker";
@@ -16,7 +17,22 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
   const [memo, setMemo] = useState(initialData?.memo || "");
   const [isPublic, setIsPublic] = useState(initialData?.isPublic || false);
 
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
+  // 유효성 검사 함수
+  const validateForm = () => {
+    const newErrors = {};
+    if (!title.trim()) newErrors.title = "제목을 입력해주세요.";
+    if (!location.trim()) newErrors.location = "여행지를 입력해주세요.";
+    if (!startDate) newErrors.startDate = "시작일을 선택해주세요.";
+    if (!endDate) newErrors.endDate = "종료일을 선택해주세요.";
+    if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
+      newErrors.endDate = "종료일은 시작일보다 이후여야 합니다.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const { mutate: addMutate, isPending: isAdding } = useMutation({
     mutationFn: createItinerary,
@@ -35,7 +51,10 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
   });
 
   const handleItinerarySubmit = async (e) => {
-    e.preventDefault(); // 폼 기본 제출 막기
+    e.preventDefault();
+
+    // 유효성 검사 먼저 수행!
+    if (!validateForm()) return;
 
     const user = auth.currentUser;
     if (!user || !user.uid) {
@@ -58,18 +77,18 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
           schedules: [
             {
               time: "오전",
-              activity: "강릉 도착",
-              description: "KTX 타고 강릉역 도착",
+              activity: "도착",
+              description: "목적지 도착",
             },
             {
               time: "오후",
-              activity: "초당순두부 맛집",
-              description: "점심 식사 및 산책",
+              activity: "관광",
+              description: "주요 관광지 방문",
             },
             {
               time: "저녁",
-              activity: "경포해변 산책",
-              description: "일몰 감상 후 귀가",
+              activity: "저녁 식사",
+              description: "현지 맛집 방문",
             },
           ],
         },
@@ -102,6 +121,9 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
             className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             placeholder="예: 제주도 혼행"
           />
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+          )}
         </div>
 
         {/* 지역 */}
@@ -117,22 +139,35 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
             className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             placeholder="예: 제주"
           />
+          {errors.location && (
+            <p className="text-red-500 text-sm mt-1">{errors.location}</p>
+          )}
         </div>
 
         {/* 날짜 */}
         <div className="grid grid-cols-2 gap-4">
-          <DatePicker
-            label="시작일"
-            name="startDate"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-          <DatePicker
-            label="종료일"
-            name="endDate"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
+          <div>
+            <DatePicker
+              label="시작일"
+              name="startDate"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+            {errors.startDate && (
+              <p className="text-red-500 text-sm mt-1">{errors.startDate}</p>
+            )}
+          </div>
+          <div>
+            <DatePicker
+              label="종료일"
+              name="endDate"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+            {errors.endDate && (
+              <p className="text-red-500 text-sm mt-1">{errors.endDate}</p>
+            )}
+          </div>
         </div>
 
         {/* 메모 */}

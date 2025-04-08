@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../store/userSlice";
+import { setUser } from "store/userSlice";
 
-import { signIn } from "../services/auth";
-import { signInWithGoogle } from "../services/auth";
+import { signIn } from "services/auth";
+import { signInWithGoogle } from "services/auth";
 
 export default function AuthForm() {
   const [error, setError] = useState("");

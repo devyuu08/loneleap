@@ -1,4 +1,4 @@
-import ItineraryDetail from "../../components/ItineraryDetail";
+import ItineraryDetail from "components/ItineraryDetail";
 
 export default function ItineraryDetailPage() {
   return <ItineraryDetail />;

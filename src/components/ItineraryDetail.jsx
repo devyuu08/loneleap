@@ -1,12 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useItineraryDetail } from "../services/queries/useItineraryDetail";
 import { useSelector } from "react-redux";
+
+import { useItineraryDetail } from "services/queries/useItineraryDetail";
+import { deleteItinerary } from "services/firestore";
+import { useMutation } from "@tanstack/react-query";
 
 import LoadingSpinner from "./LoadingSpinner";
 import NotFoundMessage from "./NotFoundMessage";
 import DayScheduleList from "./DayScheduleList";
-import { useMutation } from "@tanstack/react-query";
-import { deleteItinerary } from "../services/firestore";
 
 export default function ItineraryDetail() {
   const { id } = useParams();

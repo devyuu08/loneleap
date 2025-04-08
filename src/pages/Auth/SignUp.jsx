@@ -1,9 +1,9 @@
-// src/pages/Auth/SignUp.jsx
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { setUser } from "../../store/userSlice";
-import { signUp } from "../../services/auth";
+import { useDispatch } from "react-redux";
+
+import { setUser } from "store/userSlice";
+import { signUp } from "services/auth";
 
 export default function SignUp() {
   const dispatch = useDispatch();
