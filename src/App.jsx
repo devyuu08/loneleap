@@ -10,11 +10,11 @@ import Header from "components/Header";
 import AuthForm from "components/AuthForm";
 
 import Home from "pages/Home"; // 기본 홈화면
-import SignUp from "pages/Auth/SignUp";
 import CreateItineraryPage from "pages/Itinerary/Create";
 import ItineraryListPage from "pages/Itinerary/List";
 import ItineraryDetailPage from "pages/Itinerary/Detail";
 import EditItineraryPage from "pages/Itinerary/Edit";
+import CreateReviewPage from "./pages/Reviews/Create";
 
 function App() {
   const dispatch = useDispatch();
@@ -49,6 +49,9 @@ function App() {
           <Route path="create" element={<CreateItineraryPage />} />
           <Route path=":id" element={<ItineraryDetailPage />} />
           <Route path="edit/:id" element={<EditItineraryPage />} />
+        </Route>
+        <Route path="/reviews">
+          <Route path="create" element={<CreateReviewPage />} />
         </Route>
       </Routes>
     </>
