@@ -15,7 +15,14 @@ export const signUp = async (email, password, displayName) => {
   const result = await createUserWithEmailAndPassword(auth, email, password);
 
   // displayName 설정
-  await updateProfile(result.user, { displayName });
+  try {
+    if (displayName && displayName.trim() !== "") {
+      await updateProfile(result.user, { displayName });
+    }
+  } catch (error) {
+    console.error("프로필 업데이트 중 오류 발생:", error);
+    // 사용자에게 프로필 업데이트 실패를 알릴 수 있는 방법 고려
+  }
 
   return result;
 };

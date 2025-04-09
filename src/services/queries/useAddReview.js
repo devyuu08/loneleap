@@ -12,9 +12,35 @@ export default function useAddReview() {
 
   return useMutation({
     mutationFn: async ({ title, destination, content, rating, image }) => {
+      // 입력 데이터 검증
+      if (!title || title.trim() === "") {
+        throw new Error("제목을 입력해주세요.");
+      }
+
+      if (!destination || destination.trim() === "") {
+        throw new Error("여행지를 입력해주세요.");
+      }
+
+      if (!content || content.trim() === "") {
+        throw new Error("내용을 입력해주세요.");
+      }
+
+      // if (rating < 1 || rating > 5 || !Number.isInteger(rating)) {
+      //   throw new Error("평점은 1-5 사이의 정수여야 합니다.");
+      // }
       let imageUrl = "";
 
       if (image) {
+        const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+        const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+
+        if (image.size > maxSizeInBytes) {
+          throw new Error("이미지 크기는 5MB 이하이어야 합니다.");
+        }
+
+        if (!allowedTypes.includes(image.type)) {
+          throw new Error("지원되는 이미지 형식은 JPEG, PNG, GIF입니다.");
+        }
         const imageRef = ref(storage, `reviews/${Date.now()}_${image.name}`);
         const snapshot = await uploadBytes(imageRef, image);
         imageUrl = await getDownloadURL(snapshot.ref);
