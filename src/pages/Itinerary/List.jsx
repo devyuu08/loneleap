@@ -12,7 +12,14 @@ export default function ItineraryListPage() {
   if (isLoading) return <LoadingSpinner />;
   if (isError)
     return <p className="text-center text-red-500 py-10">일정 불러오기 실패</p>;
-  if (!data || data.length === 0) return <EmptyState />;
+  if (!data || data.length === 0)
+    return (
+      <EmptyState
+        icon="📝"
+        title="아직 등록된 리뷰가 없습니다"
+        description="다녀온 여행의 후기를 남겨보세요!"
+      />
+    );
 
   return (
     <div className="max-w-3xl mx-auto px-4 mt-10">

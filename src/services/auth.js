@@ -6,12 +6,18 @@ import {
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "./firebase";
 
 // 회원가입
-export const signUp = async (email, password) => {
-  return await createUserWithEmailAndPassword(auth, email, password);
+export const signUp = async (email, password, displayName) => {
+  const result = await createUserWithEmailAndPassword(auth, email, password);
+
+  // displayName 설정
+  await updateProfile(result.user, { displayName });
+
+  return result;
 };
 
 // 로그인
