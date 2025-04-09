@@ -15,6 +15,7 @@ import ItineraryListPage from "pages/Itinerary/List";
 import ItineraryDetailPage from "pages/Itinerary/Detail";
 import EditItineraryPage from "pages/Itinerary/Edit";
 import CreateReviewPage from "./pages/Reviews/Create";
+import SignUp from "./pages/Auth/SignUp";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<AuthForm />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/itinerary">
           <Route index element={<ItineraryListPage />} />
           <Route path="create" element={<CreateItineraryPage />} />

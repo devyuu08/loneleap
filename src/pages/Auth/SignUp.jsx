@@ -14,6 +14,7 @@ export default function SignUp() {
   const [passwordConfirm, setPasswordConfirm] = useState(""); // Added state for password confirmation
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [nickname, setNickname] = useState("");
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -24,6 +25,11 @@ export default function SignUp() {
     // 클라이언트 측 유효성 검사
     if (!trimmedEmail || !trimmedEmail.includes("@")) {
       setError("유효한 이메일 주소를 입력해주세요.");
+      return;
+    }
+
+    if (!nickname.trim()) {
+      setError("닉네임을 입력해주세요.");
       return;
     }
 
@@ -42,7 +48,11 @@ export default function SignUp() {
     setLoading(true);
 
     try {
-      const result = await signUp(trimmedEmail, trimmedPassword);
+      const result = await signUp(
+        trimmedEmail,
+        trimmedPassword,
+        nickname.trim()
+      );
       dispatch(
         setUser({
           uid: result.user.uid,
@@ -86,6 +96,21 @@ export default function SignUp() {
               placeholder="your@email.com"
               className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
               onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="nickname" className="block text-sm font-medium">
+              닉네임
+            </label>
+            <input
+              id="nickname"
+              type="text"
+              placeholder="닉네임을 입력하세요"
+              className="w-full border border-gray-300 rounded px-3 py-2 mt-1"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
               required
             />
           </div>
