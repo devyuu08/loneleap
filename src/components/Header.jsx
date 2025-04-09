@@ -30,7 +30,7 @@ export default function Header() {
           <span>{user.email}</span>
           <button onClick={handleLogout}>로그아웃</button>
           <Link to="/itinerary">내 일정</Link>
-          <Link to="/reviews">내 리뷰</Link>
+          <Link to="/reviews">여행 리뷰</Link>
         </div>
       ) : (
         <div className="flex gap-4">

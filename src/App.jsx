@@ -16,6 +16,7 @@ import ItineraryDetailPage from "pages/Itinerary/Detail";
 import EditItineraryPage from "pages/Itinerary/Edit";
 import CreateReviewPage from "./pages/Reviews/Create";
 import SignUp from "./pages/Auth/SignUp";
+import ReviewListPage from "./pages/Reviews/List";
 
 function App() {
   const dispatch = useDispatch();
@@ -53,6 +54,7 @@ function App() {
           <Route path="edit/:id" element={<EditItineraryPage />} />
         </Route>
         <Route path="/reviews">
+          <Route index element={<ReviewListPage />} />
           <Route path="create" element={<CreateReviewPage />} />
         </Route>
       </Routes>
