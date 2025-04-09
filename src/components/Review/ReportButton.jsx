@@ -1,4 +1,6 @@
 // src/components/Review/ReportButton.jsx
+
+import PropTypes from "prop-types";
 import { useReportReview } from "services/queries/useReportReview";
 
 export default function ReportButton({ reviewId }) {
@@ -21,3 +23,7 @@ export default function ReportButton({ reviewId }) {
     </button>
   );
 }
+
+ReportButton.propTypes = {
+  reviewId: PropTypes.string.isRequired,
+};
