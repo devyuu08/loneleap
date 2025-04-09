@@ -38,10 +38,10 @@ export default function ItineraryDetail() {
       {/* 상단 제목 + 날짜 */}
       <div className="mb-8">
         <button
-          onClick={() => navigate(-1)}
-          className="text-sm text-gray-500 mb-2"
+          onClick={() => navigate("/itinerary")}
+          className="text-sm text-gray-500 mb-2 hover:underline "
         >
-          ← 뒤로가기
+          ← 목록으로 돌아가기
         </button>
         <h1 className="text-3xl font-bold mb-2">{title}</h1>
 

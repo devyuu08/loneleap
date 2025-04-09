@@ -1,5 +1,5 @@
 // src/pages/Reviews/Detail.jsx
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useReviewDetail } from "services/queries/useReviewDetail";
 import LoadingSpinner from "components/LoadingSpinner";
 import NotFoundMessage from "components/NotFoundMessage";
@@ -8,6 +8,8 @@ import ReportButton from "components/Review/ReportButton";
 export default function ReviewDetailPage() {
   const { id } = useParams();
   const { data, isLoading, isError } = useReviewDetail(id);
+
+  const navigate = useNavigate();
 
   if (isLoading) return <LoadingSpinner />;
   if (isError || !data)
@@ -24,20 +26,38 @@ export default function ReviewDetailPage() {
   } = data;
 
   return (
-    <div className="max-w-3xl mx-auto py-10 px-4 bg-white rounded-lg shadow-sm">
-      <h1 className="text-2xl font-bold mb-2">{title}</h1>
-      <p className="text-gray-500 text-sm mb-4">
-        {destination} · ⭐ {rating} · {authorName}
-      </p>
-      <p className="text-gray-400 text-xs mb-6">
-        {createdAt?.toDate?.().toLocaleString() || "날짜 없음"}
-      </p>
+    <article className="max-w-3xl mx-auto py-10 px-4 bg-white rounded-lg shadow-sm">
+      <header>
+        <div className="mb-2">
+          <button
+            onClick={() => navigate("/itinerary")}
+            className="text-sm text-gray-500 mb-2 hover:underline "
+          >
+            ← 목록으로 돌아가기
+          </button>
+        </div>
+        <h1 className="text-2xl font-bold mb-2">{title}</h1>
+        <p className="text-gray-500 text-sm mb-4">
+          {destination} ·{" "}
+          <span aria-label={`평점 ${rating}점`}>⭐ {rating}</span> ·{" "}
+          {authorName}
+        </p>
+        <p className="text-gray-400 text-xs mb-6">
+          {createdAt && typeof createdAt.toDate === "function"
+            ? createdAt.toDate().toLocaleString()
+            : "날짜 없음"}
+        </p>
+      </header>
 
       {imageUrl && (
         <div className="mb-6">
           <img
             src={imageUrl}
             alt="리뷰 이미지"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/path/to/fallback-image.jpg";
+            }}
             className="w-full max-h-[400px] object-cover rounded-lg"
           />
         </div>
@@ -50,6 +70,6 @@ export default function ReviewDetailPage() {
       <div className="flex justify-end">
         <ReportButton reviewId={id} />
       </div>
-    </div>
+    </article>
   );
 }

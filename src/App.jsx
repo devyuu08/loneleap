@@ -51,8 +51,8 @@ function App() {
         <Route path="/itinerary">
           <Route index element={<ItineraryListPage />} />
           <Route path="create" element={<CreateItineraryPage />} />
-          <Route path=":id" element={<ItineraryDetailPage />} />
           <Route path="edit/:id" element={<EditItineraryPage />} />
+          <Route path=":id" element={<ItineraryDetailPage />} />
         </Route>
         <Route path="/reviews">
           <Route index element={<ReviewListPage />} />
