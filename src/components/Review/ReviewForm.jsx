@@ -24,7 +24,7 @@ export default function ReviewForm({ onSubmit, isLoading }) {
   return (
     <form
       onSubmit={handleReviewFormSubmit}
-      className="bg-white p-8 rounded-2xl shadow-md border max-w-2xl mx-auto"
+      className="bg-white p-8 rounded-2xl shadow-md border max-w-4xl mx-auto"
     >
       <h2 className="text-2xl font-bold mb-6">리뷰 작성하기</h2>
 
