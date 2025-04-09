@@ -1,6 +1,6 @@
 export default function ReviewSortButtons({ sort, onChange }) {
   return (
-    <div className="flex justify-end mb-6 space-x-2">
+    <div className="flex justify-start mb-6 ml-5 space-x-2">
       <button
         className={`px-4 py-2 rounded-full text-sm font-medium border transition ${
           sort === "latest"
