@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 export default function ItineraryCard({ itinerary }) {
@@ -11,6 +12,9 @@ export default function ItineraryCard({ itinerary }) {
     endDate,
     userId, // 작성자 정보 (현재는 '나'만 표시)
   } = itinerary;
+
+  const currentUserId = "사용자 ID 가져오기"; // TODO: 추후 연동 필요
+  const authorName = itinerary.authorName || "";
 
   return !itinerary || !id ? (
     // fallback UI
@@ -43,12 +47,16 @@ export default function ItineraryCard({ itinerary }) {
       {/* 본문 영역 */}
       <div className="p-4">
         <div className="text-sm text-gray-500">
-          {startDate} - {endDate}
+          {startDate ? startDate : "날짜 미정"} {endDate ? ` ~ ${endDate}` : ""}
         </div>
-        <h3 className="font-semibold text-lg mt-1">{title}</h3>
+        <h3 className="font-semibold text-lg mt-1">{title || "제목 없음"}</h3>
 
         <div className="mt-3 text-sm flex justify-between items-center">
-          <span className="text-gray-400">by 나</span>
+          <span className="text-gray-400">
+            {userId === currentUserId
+              ? "by 나"
+              : `by ${authorName || "사용자"}`}
+          </span>
           <button
             onClick={() => navigate(`/itinerary/${id}`)}
             className="border border-gray-500 text-sm px-3 py-1 rounded hover:bg-gray-100 transition"
@@ -60,3 +68,17 @@ export default function ItineraryCard({ itinerary }) {
     </div>
   );
 }
+
+// 타입 검증
+ItineraryCard.propTypes = {
+  itinerary: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string,
+    authorName: PropTypes.string,
+  }).isRequired,
+};
