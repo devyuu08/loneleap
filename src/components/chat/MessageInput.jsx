@@ -6,11 +6,13 @@ import { useSelector } from "react-redux";
 
 export default function MessageInput({ roomId }) {
   const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false); // 중복 방지
   const user = useSelector((state) => state.user.user);
 
   const handleSend = async () => {
-    if (!message.trim()) return;
-    if (!user) return;
+    if (!message.trim() || !user || isSending) return;
+
+    setIsSending(true);
 
     try {
       await addDoc(collection(db, "chatMessages"), {
@@ -24,6 +26,8 @@ export default function MessageInput({ roomId }) {
     } catch (error) {
       console.error("메시지 전송 오류:", error);
       alert("메시지 전송에 실패했습니다.");
+    } finally {
+      setIsSending(false); // 전송 끝
     }
   };
 
