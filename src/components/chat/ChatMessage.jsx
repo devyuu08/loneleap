@@ -34,13 +34,15 @@ export default function ChatMessage({ message }) {
 
         {/* 신고 버튼 (본인 제외) */}
         {!isMine && (
-          <button
-            onClick={() => setOpenReportModal(true)}
-            className="text-xs text-gray-500 mt-1 hover:underline"
-            aria-label="이 메시지 신고하기"
-          >
-            신고
-          </button>
+          <div className="group relative">
+            <button
+              onClick={() => setOpenReportModal(true)}
+              className="text-xs text-gray-500 mt-1 hover:underline opacity-0 group-hover:opacity-100 transition-opacity"
+              aria-label="이 메시지 신고하기"
+            >
+              신고
+            </button>
+          </div>
         )}
 
         {/* 시간 표시 */}

@@ -107,7 +107,14 @@ export default function ChatRoomForm() {
           disabled={isPending || !user}
           className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-md"
         >
-          {isPending ? "생성 중..." : "채팅방 만들기"}
+          {isPending ? (
+            <span className="flex items-center justify-center">
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+              생성 중...
+            </span>
+          ) : (
+            "채팅방 만들기"
+          )}
         </button>
       </form>
     </div>
