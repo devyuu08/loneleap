@@ -51,7 +51,7 @@ export default function ChatMessage({ message }) {
             ? formatRelative(message.createdAt.toDate(), new Date(), {
                 locale: ko,
               })
-            : ""}
+            : "시간 정보 없음"}
         </p>
 
         {/* 신고 모달 조건부 렌더링 */}
