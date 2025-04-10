@@ -23,7 +23,11 @@ export default function ChatRoomList() {
       </div>
 
       {rooms?.length === 0 ? (
-        <EmptyState message="아직 생성된 채팅방이 없습니다." />
+        <EmptyState
+          icon="💬"
+          title="아직 생성된 채팅방이 없습니다."
+          description="지금 바로 새 채팅방을 만들어보세요!"
+        />
       ) : (
         <div className="space-y-4">
           {rooms.map((room) => (
