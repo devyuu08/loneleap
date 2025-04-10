@@ -10,7 +10,7 @@ export const useReportMessage = () => {
     mutationFn: async ({ messageId, roomId, reason }) => {
       if (!user) throw new Error("로그인 정보가 없습니다");
 
-      await addDoc(collection(db, "reports/chats"), {
+      await addDoc(collection(db, "chatReports"), {
         messageId,
         roomId,
         reporterId: user.uid,
