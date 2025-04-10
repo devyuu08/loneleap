@@ -19,6 +19,7 @@ import SignUp from "./pages/Auth/SignUp";
 import ReviewListPage from "./pages/Reviews/List";
 import ReviewDetailPage from "./pages/Reviews/Detail";
 import CreateChatRoomPage from "./pages/Chat/Create";
+import ChatRoomListPage from "./pages/Chat/List";
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ function App() {
           <Route path=":id" element={<ReviewDetailPage />} />
         </Route>
         <Route path="/chat">
+          <Route index element={<ChatRoomListPage />} />
           <Route path="create" element={<CreateChatRoomPage />}></Route>
         </Route>
       </Routes>
