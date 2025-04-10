@@ -1,7 +1,5 @@
 // src/components/EmptyState.jsx
 
-import React from "react";
-
 export default function EmptyState({
   icon = "📭",
   title = "데이터가 없습니다",
