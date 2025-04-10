@@ -2,18 +2,22 @@
 import { useSelector } from "react-redux";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
+import { useState } from "react";
+import ReportModal from "../ReportModal";
 
 export default function ChatMessage({ message }) {
   const user = useSelector((state) => state.user.user);
   const isMine = message.senderId === user?.uid;
+  const [openReportModal, setOpenReportModal] = useState(false);
 
   return (
     <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
+        {/* 상대방 이름 표시 */}
         {!isMine && (
           <p className="text-xs text-gray-500 mb-1">{message.senderName}</p>
         )}
-
+        {/* 말풍선 */}
         <div
           className={`px-4 py-2 rounded-xl text-sm ${
             isMine
@@ -24,6 +28,17 @@ export default function ChatMessage({ message }) {
           {message.message}
         </div>
 
+        {/* 신고 버튼 (본인 제외) */}
+        {!isMine && (
+          <button
+            onClick={() => setOpenReportModal(true)}
+            className="text-xs text-gray-500 mt-1 hover:underline"
+          >
+            신고
+          </button>
+        )}
+
+        {/* 시간 표시 */}
         <p className="text-[10px] text-gray-400 mt-1 text-right">
           {message.createdAt?.toDate
             ? formatRelative(message.createdAt.toDate(), new Date(), {
@@ -31,6 +46,15 @@ export default function ChatMessage({ message }) {
               })
             : ""}
         </p>
+
+        {/* 신고 모달 조건부 렌더링 */}
+        {openReportModal && (
+          <ReportModal
+            messageId={message.id}
+            roomId={message.roomId}
+            onClose={() => setOpenReportModal(false)}
+          />
+        )}
       </div>
     </div>
   );
