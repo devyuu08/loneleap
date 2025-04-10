@@ -1,4 +1,6 @@
 // src/components/Review/RatingInput.jsx
+import PropTypes from "prop-types";
+
 export default function RatingInput({ value = 0, onChange = () => {} }) {
   const stars = [1, 2, 3, 4, 5];
 
@@ -26,3 +28,8 @@ export default function RatingInput({ value = 0, onChange = () => {} }) {
     </div>
   );
 }
+
+RatingInput.propTypes = {
+  value: PropTypes.number,
+  onChange: PropTypes.func,
+};

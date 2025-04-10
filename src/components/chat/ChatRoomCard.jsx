@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -5,9 +6,9 @@ import { ko } from "date-fns/locale";
 export default function ChatRoomCard({ room }) {
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     navigate(`/chat/${room.id}`);
-  };
+  }, [navigate, room.id]);
 
   return (
     <article

@@ -15,11 +15,22 @@ const requiredEnvVars = [
 ];
 
 // 누락된 변수 검사
+let missingVars = [];
 requiredEnvVars.forEach((varName) => {
   if (!import.meta.env[varName]) {
     console.error(`필수 환경 변수 ${varName}이(가) 누락되었습니다.`);
+    missingVars.push(varName);
   }
 });
+
+// 누락된 변수가 있으면 개발 환경에서는 실행을 중단
+if (missingVars.length > 0 && import.meta.env.DEV) {
+  throw new Error(
+    `Firebase 초기화를 위한 필수 환경 변수가 누락되었습니다: ${missingVars.join(
+      ", "
+    )}`
+  );
+}
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -38,6 +49,9 @@ try {
   console.log("Firebase가 정상적으로 초기화되었습니다.");
 } catch (error) {
   console.error("Firebase 초기화 중 오류가 발생했습니다:", error);
+  // 전역 에러 상태 설정 또는 오류 화면으로 리디렉션
+  // 예: window.location.href = '/error?type=firebase_init';
+  // 또는 Redux/상태 관리에 오류 상태 저장
 }
 
 export const auth = getAuth(app); // 인증 객체

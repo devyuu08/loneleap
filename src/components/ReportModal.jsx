@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useReportMessage } from "services/queries/useReportMessage";
+import PropTypes from "prop-types";
 
 export default function ReportModal({ messageId, roomId, onClose }) {
   const [reason, setReason] = useState("");
   const { mutateAsync, isPending } = useReportMessage();
+
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, []);
 
   const handleReportModalSubmit = async () => {
     if (!reason.trim()) {
@@ -34,6 +43,7 @@ export default function ReportModal({ messageId, roomId, onClose }) {
         </h3>
 
         <textarea
+          ref={textareaRef}
           rows={3}
           value={reason}
           onChange={(e) => setReason(e.target.value)}
@@ -62,3 +72,9 @@ export default function ReportModal({ messageId, roomId, onClose }) {
     </div>
   );
 }
+
+ReportModal.propTypes = {
+  messageId: PropTypes.string.isRequired,
+  roomId: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

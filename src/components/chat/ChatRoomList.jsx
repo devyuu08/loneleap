@@ -31,7 +31,7 @@ export default function ChatRoomList() {
         />
       ) : (
         <div className="space-y-4">
-          {rooms.map((room) => (
+          {rooms?.map((room) => (
             <ChatRoomCard key={room.id} room={room} />
           ))}
         </div>
