@@ -83,7 +83,7 @@ export default function SignUp() {
         setError("비밀번호는 최소 6자 이상이어야 합니다.");
       } else {
         setError("회원가입에 실패했습니다.");
-        console.error("회원가입 오류:", err);
+        console.error("회원가입 오류:", err.code, err.message);
       }
     } finally {
       setLoading(false);

@@ -130,6 +130,7 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="여행 후기를 자세히 작성해주세요 :)"
+          maxLength={1000}
           rows="6"
           aria-invalid={errors.content ? "true" : "false"}
           className={`w-full border ${
@@ -138,6 +139,11 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
         />
         {errors.content && (
           <p className="mt-1 text-sm text-red-500">{errors.content}</p>
+        )}
+        {content && (
+          <p className="mt-1 text-xs text-gray-500 text-right">
+            {content.length}/1000
+          </p>
         )}
       </div>
 

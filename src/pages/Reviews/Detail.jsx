@@ -45,7 +45,13 @@ export default function ReviewDetailPage() {
         </p>
         <p className="text-gray-400 text-xs mb-6">
           {createdAt && typeof createdAt.toDate === "function"
-            ? createdAt.toDate().toLocaleString()
+            ? createdAt.toDate().toLocaleString("ko-KR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })
             : "날짜 없음"}
         </p>
       </header>

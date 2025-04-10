@@ -20,6 +20,11 @@ export default function ReportModal({ messageId, roomId, onClose }) {
       return;
     }
 
+    if (reason.trim().length < 5) {
+      alert("신고 사유는 최소 5자 이상 입력해주세요.");
+      return;
+    }
+
     try {
       await mutateAsync({ messageId, roomId, reason });
       alert("신고가 접수되었습니다.");

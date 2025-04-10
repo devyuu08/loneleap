@@ -34,14 +34,24 @@ export const useReportMessage = () => {
 +     */
     mutationFn: async ({ messageId, roomId, reason }) => {
       if (!user) throw new Error("로그인 정보가 없습니다");
+      // 입력 매개변수 검증
+      if (!messageId) throw new Error("메시지 ID가 필요합니다");
+      if (!roomId) throw new Error("채팅방 ID가 필요합니다");
+      if (!reason || reason.trim() === "")
+        throw new Error("신고 사유를 입력해주세요");
 
-      await addDoc(collection(db, "chatReports"), {
-        messageId,
-        roomId,
-        reporterId: user.uid,
-        reason,
-        reportedAt: serverTimestamp(),
-      });
+      try {
+        await addDoc(collection(db, "chatReports"), {
+          messageId,
+          roomId,
+          reporterId: user.uid,
+          reason,
+          reportedAt: serverTimestamp(),
+        });
+      } catch (error) {
+        console.error("메시지 신고 중 오류 발생:", error);
+        throw new Error("메시지 신고에 실패했습니다. 다시 시도해주세요.");
+      }
     },
   });
 };

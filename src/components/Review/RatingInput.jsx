@@ -1,7 +1,9 @@
 // src/components/Review/RatingInput.jsx
+import React from "react";
+
 import PropTypes from "prop-types";
 
-export default function RatingInput({ value = 0, onChange = () => {} }) {
+function RatingInput({ value = 0, onChange = () => {} }) {
   const stars = [1, 2, 3, 4, 5];
 
   return (
@@ -11,7 +13,7 @@ export default function RatingInput({ value = 0, onChange = () => {} }) {
         <button
           type="button"
           key={star}
-          onClick={() => onChange(star)}
+          onClick={() => onChange(value === star ? 0 : star)}
           className="text-2xl focus:outline-none hover:scale-110 transition-transform"
           aria-label={`${star}점`}
           aria-pressed={star <= value}
@@ -33,3 +35,5 @@ RatingInput.propTypes = {
   value: PropTypes.number,
   onChange: PropTypes.func,
 };
+
+export default React.memo(RatingInput);

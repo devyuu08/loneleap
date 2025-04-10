@@ -7,7 +7,7 @@ import EmptyState from "components/EmptyState";
 import ItineraryList from "components/ItineraryList";
 
 export default function ItineraryListPage() {
-  const { data, isLoading, isError } = useMyItineraries();
+  const { data, isLoading, isError, refetch } = useMyItineraries();
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -17,7 +17,7 @@ export default function ItineraryListPage() {
         <p className="text-red-500 font-medium">일정 불러오기 실패</p>
         <p className="text-sm text-gray-500 mt-2">나중에 다시 시도해주세요.</p>
         <button
-          onClick={() => window.location.reload()}
+          onClick={() => refetch()}
           className="mt-4 px-4 py-2 bg-gray-200 rounded text-sm hover:bg-gray-300 transition"
         >
           새로고침
