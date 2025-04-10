@@ -35,7 +35,7 @@ export default function ChatRoomDetail({ roomId }) {
       {/* 상단 제목 영역 */}
       <div className="mb-4" role="heading" aria-level="1">
         <h2 className="text-xl font-bold">채팅방</h2>
-        {/* 추후: Firestore에서 room 정보(title) 가져오기 */}
+        {/* TODO: Firestore에서 room 정보(title) 가져오기 - 채팅방 문서에서 title 필드 조회 */}
       </div>
 
       {/* 메시지 리스트 영역 */}
