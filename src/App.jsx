@@ -14,12 +14,13 @@ import CreateItineraryPage from "pages/Itinerary/Create";
 import ItineraryListPage from "pages/Itinerary/List";
 import ItineraryDetailPage from "pages/Itinerary/Detail";
 import EditItineraryPage from "pages/Itinerary/Edit";
-import CreateReviewPage from "./pages/Reviews/Create";
-import SignUp from "./pages/Auth/SignUp";
-import ReviewListPage from "./pages/Reviews/List";
-import ReviewDetailPage from "./pages/Reviews/Detail";
-import CreateChatRoomPage from "./pages/Chat/Create";
-import ChatRoomListPage from "./pages/Chat/List";
+import CreateReviewPage from "pages/Reviews/Create";
+import SignUp from "pages/Auth/SignUp";
+import ReviewListPage from "pages/Reviews/List";
+import ReviewDetailPage from "pages/Reviews/Detail";
+import CreateChatRoomPage from "pages/Chat/Create";
+import ChatRoomListPage from "pages/Chat/List";
+import ChatRoomDetailPage from "pages/Chat/Detail";
 
 function App() {
   const dispatch = useDispatch();
@@ -64,6 +65,7 @@ function App() {
         <Route path="/chat">
           <Route index element={<ChatRoomListPage />} />
           <Route path="create" element={<CreateChatRoomPage />}></Route>
+          <Route path=":id" element={<ChatRoomDetailPage />} />
         </Route>
       </Routes>
     </>
