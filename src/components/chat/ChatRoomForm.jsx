@@ -58,31 +58,43 @@ export default function ChatRoomForm() {
       <form onSubmit={handleChatRoomFormSubmit} className="space-y-4">
         {/* 제목 */}
         <div>
-          <label className="text-sm font-medium text-gray-700 mb-1 block">
+          <label
+            htmlFor="title"
+            className="text-sm font-medium text-gray-700 mb-1 block"
+          >
             제목
           </label>
           <input
             type="text"
             name="title"
+            id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            aria-required="true"
             className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             placeholder="예: 4월 제주 혼행 동행 구함"
           />
           {errors.title && (
-            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+            <p className="text-red-500 text-sm mt-1" aria-live="polite">
+              {errors.title}
+            </p>
           )}
         </div>
 
         {/* 설명 */}
         <div>
-          <label className="text-sm font-medium text-gray-700 mb-1 block">
+          <label
+            htmlFor="description"
+            className="text-sm font-medium text-gray-700 mb-1 block"
+          >
             설명
           </label>
           <textarea
             name="description"
+            id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            aria-required="true"
             rows={3}
             className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             placeholder="예: 4/15~4/17 제주도 일정 함께할 사람 구해요 :)"

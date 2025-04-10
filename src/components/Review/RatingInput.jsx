@@ -13,6 +13,10 @@ export default function RatingInput({ value = 0, onChange = () => {} }) {
           className="text-2xl focus:outline-none hover:scale-110 transition-transform"
           aria-label={`${star}점`}
           aria-pressed={star <= value}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft" && star > 1) onChange(star - 1);
+            if (e.key === "ArrowRight" && star < 5) onChange(star + 1);
+          }}
         >
           <span className={star <= value ? "text-yellow-400" : "text-gray-300"}>
             ★

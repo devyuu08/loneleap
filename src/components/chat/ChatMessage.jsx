@@ -11,7 +11,11 @@ export default function ChatMessage({ message }) {
   const [openReportModal, setOpenReportModal] = useState(false);
 
   return (
-    <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+    <div
+      className={`flex ${isMine ? "justify-end" : "justify-start"}`}
+      role="log"
+      aria-live="polite"
+    >
       <div className="max-w-xs">
         {/* 상대방 이름 표시 */}
         {!isMine && (
@@ -33,6 +37,7 @@ export default function ChatMessage({ message }) {
           <button
             onClick={() => setOpenReportModal(true)}
             className="text-xs text-gray-500 mt-1 hover:underline"
+            aria-label="이 메시지 신고하기"
           >
             신고
           </button>

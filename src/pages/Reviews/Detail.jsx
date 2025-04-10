@@ -31,7 +31,8 @@ export default function ReviewDetailPage() {
         <div className="mb-2">
           <button
             onClick={() => navigate("/reviews")}
-            className="text-sm text-gray-500 mb-2 hover:underline "
+            className="text-sm text-gray-500 mb-2 hover:underline"
+            aria-label="리뷰 목록으로 돌아가기"
           >
             ← 목록으로 돌아가기
           </button>

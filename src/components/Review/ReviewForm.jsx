@@ -81,6 +81,7 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="예: 제주도 혼행 후기"
+          aria-invalid={errors.title ? "true" : "false"}
           className={`w-full border ${
             errors.title ? "border-red-500" : "border-gray-300"
           } rounded-md px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500`}
@@ -129,6 +130,8 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="여행 후기를 자세히 작성해주세요 :)"
+          rows="6"
+          aria-invalid={errors.content ? "true" : "false"}
           className={`w-full border ${
             errors.content ? "border-red-500" : "border-gray-300"
           } rounded-md px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500`}

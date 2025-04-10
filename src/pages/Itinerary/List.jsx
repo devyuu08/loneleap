@@ -36,7 +36,9 @@ export default function ItineraryListPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 mt-10">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">내 여행 일정</h1>
+        <h1 className="text-2xl font-bold" tabIndex="0">
+          내 여행 일정
+        </h1>
 
         <div className="flex items-center gap-2">
           <input
@@ -53,7 +55,9 @@ export default function ItineraryListPage() {
         </div>
       </div>
 
-      <ItineraryList itineraries={data} />
+      <main role="main">
+        <ItineraryList itineraries={data} />
+      </main>
     </div>
   );
 }

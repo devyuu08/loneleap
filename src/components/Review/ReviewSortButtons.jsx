@@ -7,9 +7,14 @@ export default function ReviewSortButtons({ sort, onChange }) {
   const inactiveStyle = "bg-white text-gray-700 border-gray-300";
 
   return (
-    <div className="flex justify-start mb-6 ml-5 space-x-2">
+    <div
+      className="flex justify-start mb-6 ml-5 space-x-2"
+      role="group"
+      aria-label="리뷰 정렬 옵션"
+    >
       <button
         type="button"
+        aria-pressed={sort === "latest"}
         className={`${baseButtonStyle} ${
           sort === "latest" ? activeStyle : inactiveStyle
         }`}
@@ -19,6 +24,7 @@ export default function ReviewSortButtons({ sort, onChange }) {
       </button>
       <button
         type="button"
+        aria-pressed={sort === "rating"}
         className={`${baseButtonStyle} ${
           sort === "rating" ? activeStyle : inactiveStyle
         }`}

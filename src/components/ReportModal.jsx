@@ -22,9 +22,16 @@ export default function ReportModal({ messageId, roomId, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="report-modal-title"
+    >
       <div className="bg-white rounded-lg p-6 w-full max-w-sm shadow-lg">
-        <h3 className="text-lg font-semibold mb-4">메시지 신고하기</h3>
+        <h3 id="report-modal-title" className="text-lg font-semibold mb-4">
+          메시지 신고하기
+        </h3>
 
         <textarea
           rows={3}
@@ -32,6 +39,8 @@ export default function ReportModal({ messageId, roomId, onClose }) {
           onChange={(e) => setReason(e.target.value)}
           className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
           placeholder="신고 사유를 입력해주세요"
+          aria-label="신고 사유"
+          aria-required="true"
         />
 
         <div className="mt-4 flex justify-end gap-2">
