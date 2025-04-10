@@ -6,7 +6,7 @@ import ChatMessage from "./ChatMessage";
 import LoadingSpinner from "../LoadingSpinner";
 
 export default function ChatRoomDetail({ roomId }) {
-  const messages = useChatMessages(roomId);
+  const { messages, loading } = useChatMessages(roomId);
   const scrollRef = useRef(null);
 
   // 메시지가 바뀔 때마다 스크롤 아래로
@@ -16,13 +16,19 @@ export default function ChatRoomDetail({ roomId }) {
     }
   }, [messages]);
 
-  if (!messages) {
+  if (!roomId) {
+    return (
+      <div className="text-center text-gray-500">채팅방 ID가 없습니다.</div>
+    );
+  }
+
+  if (loading) {
     return <LoadingSpinner />;
   }
 
   return (
     <div
-      className="max-w-4xl mx-auto px-4 py-8 flex flex-col h-[calc(100vh-80px)]"
+      className="max-w-4xl mx-auto px-4 py-8 flex flex-col h-[calc(100vh-var(--header-height,80px))]"
       role="main"
       aria-label="채팅방"
     >
