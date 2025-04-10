@@ -1,18 +1,43 @@
 // src/components/chat/ChatRoomForm.jsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useCreateChatRoom } from "services/queries/useCreateChatRoom";
+import LoadingSpinner from "../LoadingSpinner";
 
 export default function ChatRoomForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const user = useSelector((state) => state.user.user);
+  const isLoading = useSelector((state) => state.user.isLoading);
+
   const navigate = useNavigate();
   const { mutateAsync, isPending } = useCreateChatRoom();
 
+  const [errors, setErrors] = useState({});
+  const [didAlert, setDidAlert] = useState(false);
+
+  useEffect(() => {
+    // 로딩이 끝났고, 로그인하지 않은 경우에만 실행
+    if (!isLoading && !user && !didAlert) {
+      alert("로그인이 필요합니다.");
+      setDidAlert(true);
+      navigate("/login");
+    }
+  }, [user, isLoading, navigate, didAlert]);
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!title.trim()) newErrors.title = "제목을 입력해주세요.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleChatRoomFormSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     if (!title || !description || !user) return;
 
     try {
@@ -23,6 +48,8 @@ export default function ChatRoomForm() {
       alert("채팅방 생성 중 오류가 발생했어요.");
     }
   };
+
+  if (isLoading || !user) return <LoadingSpinner />;
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
@@ -42,6 +69,9 @@ export default function ChatRoomForm() {
             className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             placeholder="예: 4월 제주 혼행 동행 구함"
           />
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+          )}
         </div>
 
         {/* 설명 */}
@@ -62,7 +92,7 @@ export default function ChatRoomForm() {
         {/* 제출 버튼 */}
         <button
           type="submit"
-          disabled={isPending || !title || !description || !user}
+          disabled={isPending || !user}
           className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-md"
         >
           {isPending ? "생성 중..." : "채팅방 만들기"}
