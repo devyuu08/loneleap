@@ -1,36 +1,31 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+# Node modules
+node_modules/
+**/node_modules/
 
 # Build outputs
 dist/
-dist-ssr/
+.next/
+out/
+build/
 
-# Firebase 관련
-.firebase/
-.firebaserc
-.env.local
-.env.development
-.env.production
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# dotenv
 .env
 .env.*.local
 
-# Dependency directories
-node_modules/
+# Firebase emulators
+firebase-debug.log
+firestore.indexes.json
+firestore.rules.bak
+firebase.json.bak
 
-# Vite cache
-.vite/
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea/
+# OS
 .DS_Store
+<<<<<<< HEAD
 *.suo
 *.ntvs*
 *.njsproj
@@ -38,4 +33,6 @@ node_modules/
 *.sw?
 
 # macOS/OS-specific
-Thumbs.dbloneleap-admin/
+Thumbs.db
+loneleap-admin/
+>>>>>>> dev
