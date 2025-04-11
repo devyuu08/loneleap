@@ -14,15 +14,19 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
   useEffect(() => {
+    let objectUrl;
     if (image) {
       try {
         const url = URL.createObjectURL(image);
+        objectUrl = url;
         setImagePreviewUrl(url);
-        return () => URL.revokeObjectURL(url);
       } catch (error) {
         console.error("이미지 미리보기 생성 오류:", error);
       }
     }
+    return () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
   }, [image]);
 
   const handleImageChange = useCallback((e) => {
@@ -158,18 +162,20 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           onChange={handleImageChange}
           className="text-sm text-gray-600"
         />
-        {image && (
-          <div className="mt-3">
-            <img
-              src={imagePreviewUrl}
-              alt="미리보기"
-              className="w-32 h-32 object-cover rounded-lg border"
-              onError={(e) => {
-                console.error("이미지 로딩 오류");
-                e.target.src = "기본 이미지 경로"; // 기본 이미지로 대체
-              }}
-            />
-          </div>
+        {imagePreviewUrl ? (
+          <img
+            src={imagePreviewUrl}
+            alt="미리보기"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/free-icon-no-pictures-3875148.png";
+            }}
+            className="w-32 h-32 object-cover rounded-lg border"
+          />
+        ) : (
+          <p className="text-sm text-gray-400">
+            이미지 미리보기를 불러올 수 없습니다.
+          </p>
         )}
       </div>
 
