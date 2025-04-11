@@ -1,16 +1,18 @@
 // src/pages/Reviews/Create.jsx
 import { useState } from "react";
-
 import ReviewForm from "components/Review/ReviewForm";
 import useAddReview from "services/queries/useAddReview";
 
 export default function CreateReviewPage() {
   const [error, setError] = useState(null);
-  const { mutate, isLoading } = useAddReview({
+
+  const { addReview, isLoading } = useAddReview({
     onError: (err) => {
       console.error(err);
       setError("리뷰 등록 중 오류가 발생했습니다. 다시 시도해 주세요.");
     },
+    // 선택적으로 onSuccess도 커스터마이징 가능
+    // onSuccess: () => { ... }
   });
 
   const handleCreateReviewSubmit = ({
@@ -21,7 +23,7 @@ export default function CreateReviewPage() {
     image,
   }) => {
     setError(null);
-    mutate({ title, destination, content, rating, image });
+    addReview({ title, destination, content, rating, image });
   };
 
   return (

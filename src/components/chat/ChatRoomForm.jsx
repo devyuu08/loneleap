@@ -36,9 +36,8 @@ export default function ChatRoomForm() {
 
   const handleChatRoomFormSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
 
-    if (!title || !description || !user) return;
+    if (!validateForm()) return;
 
     try {
       await mutateAsync({ title, description, uid: user.uid });

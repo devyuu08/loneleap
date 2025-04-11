@@ -1,13 +1,17 @@
+import PropTypes from "prop-types";
+
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
 
-export default function ChatRoomCard({ room }) {
+export default function ChatRoomCard({ room = {} }) {
   const navigate = useNavigate();
 
   const handleClick = useCallback(() => {
-    navigate(`/chat/${room.id}`);
+    if (room?.id) {
+      navigate(`/chat/${room.id}`);
+    }
   }, [navigate, room.id]);
 
   return (
@@ -41,3 +45,12 @@ export default function ChatRoomCard({ room }) {
     </article>
   );
 }
+
+ChatRoomCard.propTypes = {
+  room: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    createdAt: PropTypes.object,
+  }).isRequired,
+};

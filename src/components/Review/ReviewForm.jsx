@@ -14,15 +14,19 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
   useEffect(() => {
+    let objectUrl;
     if (image) {
       try {
         const url = URL.createObjectURL(image);
+        objectUrl = url;
         setImagePreviewUrl(url);
-        return () => URL.revokeObjectURL(url);
       } catch (error) {
         console.error("이미지 미리보기 생성 오류:", error);
       }
     }
+    return () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
   }, [image]);
 
   const handleImageChange = useCallback((e) => {
