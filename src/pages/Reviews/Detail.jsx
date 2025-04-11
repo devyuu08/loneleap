@@ -56,19 +56,17 @@ export default function ReviewDetailPage() {
         </p>
       </header>
 
-      {imageUrl && (
-        <div className="mb-6">
-          <img
-            src={imageUrl}
-            alt="리뷰 이미지"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "/path/to/fallback-image.jpg";
-            }}
-            className="w-full max-h-[400px] object-cover rounded-lg"
-          />
-        </div>
-      )}
+      <div className="mb-6">
+        <img
+          src={imageUrl || "/free-icon-no-pictures-3875148.png"}
+          alt="리뷰 이미지"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "/free-icon-no-pictures-3875148.png";
+          }}
+          className="w-full max-h-[400px] object-cover rounded-lg"
+        />
+      </div>
 
       <div className="text-gray-800 leading-relaxed mb-6 whitespace-pre-line">
         {content}

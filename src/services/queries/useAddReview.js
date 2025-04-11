@@ -35,8 +35,13 @@ export default function useAddReview() {
         }
 
         const imageRef = ref(storage, `reviews/${Date.now()}_${image.name}`);
-        const snapshot = await uploadBytes(imageRef, image);
-        imageUrl = await getDownloadURL(snapshot.ref);
+        try {
+          const snapshot = await uploadBytes(imageRef, image);
+          imageUrl = await getDownloadURL(snapshot.ref);
+        } catch (error) {
+          console.error("이미지 업로드 중 오류 발생:", error);
+          throw new Error("이미지 업로드에 실패했습니다. 다시 시도해 주세요.");
+        }
       }
 
       await addDoc(collection(db, "reviews"), {
