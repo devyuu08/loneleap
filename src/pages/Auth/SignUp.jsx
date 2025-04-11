@@ -80,7 +80,9 @@ export default function SignUp() {
       if (err.code === "auth/email-already-in-use") {
         setError("이미 사용 중인 이메일입니다.");
       } else if (err.code === "auth/weak-password") {
-        setError("비밀번호는 최소 6자 이상이어야 합니다.");
+        +setError(
+          "비밀번호는 최소 8자 이상이며, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다."
+        );
       } else {
         setError("회원가입에 실패했습니다.");
         console.error("회원가입 오류:", err.code, err.message);
