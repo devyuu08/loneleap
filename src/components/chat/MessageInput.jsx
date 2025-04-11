@@ -71,12 +71,16 @@ export default function MessageInput({ roomId }) {
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
         maxLength={500}
+        disabled={isSubmitting}
       />
       <button
         onClick={handleSend}
-        className="bg-gray-900 text-white px-4 rounded-md"
+        className={`bg-gray-900 text-white px-4 rounded-md ${
+          isSending ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+        disabled={isSubmitting}
       >
-        전송
+        {isSubmitting ? "전송 중..." : "전송"}
       </button>
     </div>
   );
