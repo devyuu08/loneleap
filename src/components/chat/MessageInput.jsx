@@ -1,10 +1,18 @@
 // src/components/chat/MessageInput.jsx
+import PropTypes from "prop-types";
+
 import { useState } from "react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "services/firebase";
 import { useSelector } from "react-redux";
 
 export default function MessageInput({ roomId }) {
+  // roomId가 유효한지 확인
+  if (!roomId) {
+    console.error("MessageInput: roomId가 제공되지 않았습니다.");
+    return <div className="text-red-500">채팅방 ID 오류</div>;
+  }
+
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false); // 메시지 전송 중복 방지
   const user = useSelector((state) => state.user.user);
@@ -73,3 +81,7 @@ export default function MessageInput({ roomId }) {
     </div>
   );
 }
+
+MessageInput.propTypes = {
+  roomId: PropTypes.string.isRequired,
+};
