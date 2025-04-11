@@ -25,4 +25,14 @@ firebase.json.bak
 
 # OS
 .DS_Store
+<<<<<<< HEAD
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# macOS/OS-specific
 Thumbs.db
+loneleap-admin/
+>>>>>>> dev

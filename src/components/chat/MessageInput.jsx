@@ -6,13 +6,24 @@ import { useSelector } from "react-redux";
 
 export default function MessageInput({ roomId }) {
   const [message, setMessage] = useState("");
-  const [isSending, setIsSending] = useState(false); // 중복 방지
+  const [isSubmitting, setIsSubmitting] = useState(false); // 메시지 전송 중복 방지
   const user = useSelector((state) => state.user.user);
 
   const handleSend = async () => {
-    if (!message.trim() || !user || isSending) return;
+    if (!message.trim()) {
+      return; // 빈 메시지는 전송하지 않음
+    }
 
-    setIsSending(true);
+    if (!user) {
+      alert("로그인이 필요한 기능입니다.");
+      return;
+    }
+
+    if (isSubmitting) {
+      return; // 이미 전송 중인 경우 중복 전송 방지
+    }
+
+    setIsSubmitting(true);
 
     try {
       await addDoc(collection(db, "chatMessages"), {
@@ -25,9 +36,13 @@ export default function MessageInput({ roomId }) {
       setMessage(""); // 전송 후 초기화
     } catch (error) {
       console.error("메시지 전송 오류:", error);
-      alert("메시지 전송에 실패했습니다.");
+      const errorMessage =
+        error.code === "permission-denied"
+          ? "권한이 없습니다. 로그인 상태를 확인해주세요."
+          : "메시지 전송에 실패했습니다. 잠시 후 다시 시도해주세요.";
+      alert(errorMessage);
     } finally {
-      setIsSending(false); // 전송 끝
+      setIsSubmitting(false); // 전송 끝
     }
   };
 
@@ -47,6 +62,7 @@ export default function MessageInput({ roomId }) {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
+        maxLength={500}
       />
       <button
         onClick={handleSend}

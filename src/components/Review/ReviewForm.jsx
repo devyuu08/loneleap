@@ -81,6 +81,7 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="예: 제주도 혼행 후기"
+          aria-invalid={errors.title ? "true" : "false"}
           className={`w-full border ${
             errors.title ? "border-red-500" : "border-gray-300"
           } rounded-md px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500`}
@@ -129,12 +130,20 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="여행 후기를 자세히 작성해주세요 :)"
+          maxLength={1000}
+          rows="6"
+          aria-invalid={errors.content ? "true" : "false"}
           className={`w-full border ${
             errors.content ? "border-red-500" : "border-gray-300"
           } rounded-md px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500`}
         />
         {errors.content && (
           <p className="mt-1 text-sm text-red-500">{errors.content}</p>
+        )}
+        {content && (
+          <p className="mt-1 text-xs text-gray-500 text-right">
+            {content.length}/1000
+          </p>
         )}
       </div>
 
@@ -164,40 +173,54 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
         )}
       </div>
 
-      {/* 등록 버튼 */}
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full bg-[#0F172A] text-white font-semibold py-3 rounded-md hover:bg-[#1E293B] transition disabled:opacity-50"
-      >
-        {isLoading ? (
-          <div className="flex items-center justify-center">
-            <svg
-              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            등록 중...
-          </div>
-        ) : (
-          "리뷰 등록하기"
-        )}
-      </button>
+      {/* 버튼 영역 */}
+      <div className="flex gap-4">
+        <button
+          type="button"
+          onClick={() => {
+            // 취소 로직 (예: 이전 페이지로 돌아가기)
+            window.history.back();
+          }}
+          className="w-1/3 bg-gray-200 text-gray-800 font-semibold py-3 rounded-md hover:bg-gray-300 transition"
+        >
+          취소
+        </button>
+
+        {/* 등록 버튼 */}
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-2/3 bg-[#0F172A] text-white font-semibold py-3 rounded-md hover:bg-[#1E293B] transition disabled:opacity-50"
+        >
+          {isLoading ? (
+            <div className="flex items-center justify-center">
+              <svg
+                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              등록 중...
+            </div>
+          ) : (
+            "리뷰 등록하기"
+          )}
+        </button>
+      </div>
     </form>
   );
 }

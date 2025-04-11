@@ -17,6 +17,7 @@ export default function ChatRoomList() {
         <button
           className="bg-gray-900 text-white px-4 py-2 rounded-md"
           onClick={() => navigate("/chat/create")}
+          aria-label="새 채팅방 만들기"
         >
           + 새 채팅방
         </button>
@@ -30,7 +31,7 @@ export default function ChatRoomList() {
         />
       ) : (
         <div className="space-y-4">
-          {rooms.map((room) => (
+          {rooms?.map((room) => (
             <ChatRoomCard key={room.id} room={room} />
           ))}
         </div>

@@ -11,7 +11,11 @@ export default function ChatMessage({ message }) {
   const [openReportModal, setOpenReportModal] = useState(false);
 
   return (
-    <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+    <div
+      className={`flex ${isMine ? "justify-end" : "justify-start"}`}
+      role="log"
+      aria-live="polite"
+    >
       <div className="max-w-xs">
         {/* 상대방 이름 표시 */}
         {!isMine && (
@@ -30,12 +34,15 @@ export default function ChatMessage({ message }) {
 
         {/* 신고 버튼 (본인 제외) */}
         {!isMine && (
-          <button
-            onClick={() => setOpenReportModal(true)}
-            className="text-xs text-gray-500 mt-1 hover:underline"
-          >
-            신고
-          </button>
+          <div className="group relative">
+            <button
+              onClick={() => setOpenReportModal(true)}
+              className="text-xs text-gray-500 mt-1 hover:underline opacity-0 group-hover:opacity-100 transition-opacity"
+              aria-label="이 메시지 신고하기"
+            >
+              신고
+            </button>
+          </div>
         )}
 
         {/* 시간 표시 */}
@@ -44,7 +51,7 @@ export default function ChatMessage({ message }) {
             ? formatRelative(message.createdAt.toDate(), new Date(), {
                 locale: ko,
               })
-            : ""}
+            : "시간 정보 없음"}
         </p>
 
         {/* 신고 모달 조건부 렌더링 */}

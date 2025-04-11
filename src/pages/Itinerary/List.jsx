@@ -7,7 +7,7 @@ import EmptyState from "components/EmptyState";
 import ItineraryList from "components/ItineraryList";
 
 export default function ItineraryListPage() {
-  const { data, isLoading, isError } = useMyItineraries();
+  const { data, isLoading, isError, refetch } = useMyItineraries();
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -17,7 +17,7 @@ export default function ItineraryListPage() {
         <p className="text-red-500 font-medium">일정 불러오기 실패</p>
         <p className="text-sm text-gray-500 mt-2">나중에 다시 시도해주세요.</p>
         <button
-          onClick={() => window.location.reload()}
+          onClick={() => refetch()}
           className="mt-4 px-4 py-2 bg-gray-200 rounded text-sm hover:bg-gray-300 transition"
         >
           새로고침
@@ -36,7 +36,9 @@ export default function ItineraryListPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 mt-10">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">내 여행 일정</h1>
+        <h1 className="text-2xl font-bold" tabIndex="0">
+          내 여행 일정
+        </h1>
 
         <div className="flex items-center gap-2">
           <input
@@ -53,7 +55,9 @@ export default function ItineraryListPage() {
         </div>
       </div>
 
-      <ItineraryList itineraries={data} />
+      <main role="main">
+        <ItineraryList itineraries={data} />
+      </main>
     </div>
   );
 }
