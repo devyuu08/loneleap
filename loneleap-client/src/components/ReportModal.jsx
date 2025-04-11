@@ -38,6 +38,8 @@ export default function ReportModal({ messageId, roomId, onClose }) {
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+      onKeyDown={(e) => e.key === "Escape" && onClose()}
       role="dialog"
       aria-modal="true"
       aria-labelledby="report-modal-title"

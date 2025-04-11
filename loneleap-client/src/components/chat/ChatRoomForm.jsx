@@ -29,6 +29,8 @@ export default function ChatRoomForm() {
   const validateForm = () => {
     const newErrors = {};
     if (!title.trim()) newErrors.title = "제목을 입력해주세요.";
+    if (!description.trim()) newErrors.description = "설명을 입력해주세요.";
+    if (!user) newErrors.user = "로그인이 필요합니다.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -36,9 +38,8 @@ export default function ChatRoomForm() {
 
   const handleChatRoomFormSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
 
-    if (!title || !description || !user) return;
+    if (!validateForm()) return;
 
     try {
       await mutateAsync({ title, description, uid: user.uid });
@@ -99,6 +100,9 @@ export default function ChatRoomForm() {
             className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             placeholder="예: 4/15~4/17 제주도 일정 함께할 사람 구해요 :)"
           />
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+          )}
         </div>
 
         {/* 제출 버튼 */}
