@@ -15,6 +15,21 @@ export default function AdminUsersPage() {
             <br /> 사용자 목록, 신고 이력 확인, 계정 정지 기능이 제공될
             예정이에요.
           </p>
+          <p className="text-gray-500 mt-2">예상 출시일: 2025년 5월</p>
+          <div className="mt-6">
+            <a
+              href="/admin/dashboard"
+              className="text-blue-500 hover:underline mx-2"
+            >
+              대시보드로 돌아가기
+            </a>
+            <a
+              href="/admin/reports/reviews"
+              className="text-blue-500 hover:underline mx-2"
+            >
+              리뷰 신고 관리
+            </a>
+          </div>
         </div>
       </AdminLayout>
     </AdminProtectedRoute>

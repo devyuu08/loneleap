@@ -10,17 +10,26 @@ export default function AdminProtectedRoute({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      const isAdmin = user && adminEmails.includes(user.email);
-      if (!isAdmin) {
-        router.replace("/admin/login");
-      } else {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        const isAdmin = user && adminEmails.includes(user.email);
+        if (!isAdmin) {
+          setLoading(false);
+          router.replace("/admin/login");
+        } else {
+          setLoading(false);
+        }
+      },
+      (error) => {
+        console.error("인증 상태 확인 중 오류 발생:", error);
         setLoading(false);
+        router.replace("/admin/login");
       }
-    });
+    );
 
     return () => unsubscribe();
-  }, []);
+  }, [router]);
 
   if (loading) {
     return (

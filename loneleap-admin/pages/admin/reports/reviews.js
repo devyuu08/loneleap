@@ -2,6 +2,11 @@
 import AdminProtectedRoute from "@/components/auth/AdminProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
 
+/**
+ * @description 관리자가 사용자들이 신고한 리뷰를 확인하고 처리할 수 있는 페이지
+ * @returns {JSX.Element} 리뷰 신고 관리 페이지 컴포넌트
+ */
+
 export default function AdminReviewReportsPage() {
   return (
     <AdminProtectedRoute>
@@ -14,9 +19,21 @@ export default function AdminReviewReportsPage() {
 
           {/* 신고 목록 테이블 자리 */}
           <div className="bg-white p-6 rounded-xl shadow">
-            <div className="text-sm text-gray-400">
-              신고된 리뷰 데이터 로딩 예정...
+            +{" "}
+            <div className="flex items-center justify-center py-8">
+              +{" "}
+              <div className="animate-pulse flex flex-col items-center">
+                +{" "}
+                <div className="h-8 w-8 rounded-full border-2 border-gray-300 border-t-blue-500 animate-spin mb-2"></div>
+                +{" "}
+                <p className="text-sm text-gray-400">
+                  신고된 리뷰 데이터를 불러오는 중...(예정)
+                </p>
+                +{" "}
+              </div>
+              +{" "}
             </div>
+            +{" "}
           </div>
         </div>
       </AdminLayout>
