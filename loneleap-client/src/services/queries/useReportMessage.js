@@ -36,9 +36,20 @@ export const useReportMessage = () => {
       if (!user) throw new Error("로그인 정보가 없습니다");
       // 입력 매개변수 검증
       if (!messageId) throw new Error("메시지 ID가 필요합니다");
+      // messageId 형식 검증 (예: Firebase ID는 보통 20자 이상)
+      if (typeof messageId !== "string" || messageId.length < 10)
+        throw new Error("유효하지 않은 메시지 ID 형식입니다");
+
       if (!roomId) throw new Error("채팅방 ID가 필요합니다");
+      // roomId 형식 검증
+      if (typeof roomId !== "string" || roomId.length < 10)
+        throw new Error("유효하지 않은 채팅방 ID 형식입니다");
+
       if (!reason || reason.trim() === "")
         throw new Error("신고 사유를 입력해주세요");
+      // 신고 사유 길이 제한
+      if (reason.length > 500)
+        throw new Error("신고 사유는 500자 이내로 작성해주세요");
 
       try {
         await addDoc(collection(db, "chatReports"), {

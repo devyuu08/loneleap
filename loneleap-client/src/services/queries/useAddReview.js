@@ -13,6 +13,14 @@ export default function useAddReview({
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
 
+  // 사용자 인증 상태 확인
+  const checkAuth = () => {
+    if (!user) {
+      navigate("/login", { state: { from: "/reviews/create" } });
+      throw new Error("로그인이 필요한 서비스입니다.");
+    }
+  };
+
   const {
     mutate: addReview, // mutate → addReview로 이름 변경
     isLoading, // 외부에서 로딩 상태 사용할 수 있도록 반환
@@ -20,6 +28,7 @@ export default function useAddReview({
     error,
   } = useMutation({
     mutationFn: async ({ title, destination, content, rating, image }) => {
+      checkAuth();
       if (!title?.trim()) throw new Error("제목을 입력해주세요.");
       if (!destination?.trim()) throw new Error("여행지를 입력해주세요.");
       if (!content?.trim()) throw new Error("내용을 입력해주세요.");
