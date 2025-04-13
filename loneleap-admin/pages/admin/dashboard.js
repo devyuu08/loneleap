@@ -3,6 +3,9 @@ import AdminProtectedRoute from "@/components/auth/AdminProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
 import Link from "next/link";
 
+// import { Line, Bar } from 'recharts'; // 또는 다른 차트 라이브러리
+// 차트 데이터 상태와 API 호출 로직 추가
+
 export default function AdminDashboard() {
   return (
     <AdminProtectedRoute>
@@ -28,10 +31,14 @@ export default function AdminDashboard() {
           {/* 차트 박스 영역 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="bg-white p-6 h-60 rounded-xl shadow flex items-center justify-center text-gray-400">
-              라인 차트 영역
+              {/* TODO: 라인 차트 구현 */}
+              {/* <LineChart data={lineChartData} /> */}
+              <p>라인 차트 영역 (구현 예정)</p>
             </div>
             <div className="bg-white p-6 h-60 rounded-xl shadow flex items-center justify-center text-gray-400">
-              바 차트 영역
+              {/* TODO: 바 차트 구현 */}
+              {/* <BarChart data={barChartData} /> */}
+              <p>바 차트 영역 (구현 예정)</p>
             </div>
           </div>
 
