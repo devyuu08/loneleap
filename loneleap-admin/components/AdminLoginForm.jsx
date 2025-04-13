@@ -99,7 +99,10 @@ export default function AdminLoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+    <form
+      onSubmit={handleAdminLogin}
+      className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg"
+    >
       <div className="flex flex-col items-center mb-6">
         <div className="text-3xl">🔐</div>
         <h2 className="text-xl font-bold mt-2">관리자 로그인</h2>
@@ -107,12 +110,12 @@ export default function AdminLoginForm() {
           리뷰와 오픈채팅, LoneLeap의 소중한 공간을 지켜주세요.
         </p>
       </div>
-
       <div className="space-y-4">
         <div className="relative">
           <input
             type="email"
             placeholder="이메일"
+            required
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-600"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -143,11 +146,15 @@ export default function AdminLoginForm() {
         </div>
 
         <button
-          onClick={handleAdminLogin}
+          type="submit"
           disabled={loading}
           className="w-full h-11 bg-gray-900 text-white py-2 rounded-md font-semibold hover:bg-gray-800 flex items-center justify-center"
         >
-          {loading ? <LoadingSpinner /> : "로그인"}
+          {loading ? (
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          ) : (
+            "로그인"
+          )}
         </button>
 
         <div className="text-center text-sm text-gray-400">또는</div>
@@ -161,13 +168,21 @@ export default function AdminLoginForm() {
           Google 계정으로 로그인
         </button>
       </div>
-
       {passwordMatchError && <ErrorMessage message={passwordMatchError} />}
       {error && <ErrorMessage message={error} />}
-
       <div className="mt-6 text-center text-sm text-gray-400">
         비밀번호를 잊으셨나요?
       </div>
-    </div>
+      {/* 비밀번호 재설정 기능이 구현되면 아래 코드로 대체 */}{" "}
+      {/* <div className="mt-6 text-center text-sm">
++       <button 
++         type="button"
++         onClick={handlePasswordReset}
++         className="text-gray-500 hover:text-gray-700"
++       >
++         비밀번호를 잊으셨나요?
++       </button>
++     </div> */}
+    </form>
   );
 }

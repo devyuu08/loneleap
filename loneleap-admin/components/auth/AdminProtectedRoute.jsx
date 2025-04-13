@@ -15,6 +15,7 @@ export default function AdminProtectedRoute({ children }) {
       (user) => {
         const isAdmin = user && adminEmails.includes(user.email);
         if (!isAdmin) {
+          setLoading(false);
           router.replace("/admin/login");
         } else {
           setLoading(false);

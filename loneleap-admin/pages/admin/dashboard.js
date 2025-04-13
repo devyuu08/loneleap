@@ -1,4 +1,5 @@
 // 📁 loneleap-admin/pages/admin/dashboard.js
+import { useState, useEffect } from "react";
 import AdminProtectedRoute from "@/components/auth/AdminProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
 import Link from "next/link";
@@ -7,24 +8,46 @@ import Link from "next/link";
 // 차트 데이터 상태와 API 호출 로직 추가
 
 export default function AdminDashboard() {
+  const [stats, setStats] = useState({
+    reviewReports: 0,
+    chatReports: 0,
+    activeUsers: 0,
+  });
+
+  // 상태와 API 호출 로직 추가
+  const [recentReports, setRecentReports] = useState([]);
+
+  useEffect(() => {
+    // API 호출하여 실제 통계 데이터 가져오기
+    // 예: fetchDashboardStats().then(data => setStats(data));
+  }, []);
+
   return (
     <AdminProtectedRoute>
       <AdminLayout>
         <div className="p-6">
           {/* 상단 환영 메시지 */}
           <h1 className="text-2xl font-bold mb-2">안녕하세요, 관리자님</h1>
-          <p className="text-gray-500 mb-6">2025년 4월 11일 금요일</p>
+          <p className="text-gray-500 mb-6">
+            {new Date().toLocaleDateString("ko-KR", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              weekday: "long",
+            })}
+          </p>
 
           {/* 통계 카드 영역 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="bg-white p-4 rounded-xl shadow">
-              신고된 리뷰: <strong>32</strong>
+              신고된 리뷰: <strong>{stats.reviewReports}</strong>
             </div>
             <div className="bg-white p-4 rounded-xl shadow">
-              신고된 채팅: <strong>18</strong>
+              신고된 채팅: <strong>{stats.chatReports}</strong>
             </div>
             <div className="bg-white p-4 rounded-xl shadow">
-              활성 사용자: <strong>2,847명</strong>
+              활성 사용자:{" "}
+              <strong>{stats.activeUsers.toLocaleString()}명</strong>
             </div>
           </div>
 
@@ -75,28 +98,38 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b">
-                  <td className="py-2">리뷰</td>
-                  <td className="py-2">부적절한 내용 포함</td>
-                  <td className="py-2">김철수</td>
-                  <td className="py-2">
-                    <span className="bg-gray-200 text-gray-600 px-2 py-1 rounded-full text-xs">
-                      처리중
-                    </span>
-                  </td>
-                  <td className="py-2">10분 전</td>
-                </tr>
-                <tr>
-                  <td className="py-2">채팅</td>
-                  <td className="py-2">스팸 메시지</td>
-                  <td className="py-2">이영희</td>
-                  <td className="py-2">
-                    <span className="bg-gray-100 text-gray-500 px-2 py-1 rounded-full text-xs">
-                      완료
-                    </span>
-                  </td>
-                  <td className="py-2">25분 전</td>
-                </tr>
+                {recentReports.length === 0 ? (
+                  <tr>
+                    <td colSpan="5" className="py-4 text-center text-gray-500">
+                      신고 내역이 없습니다.
+                    </td>
+                  </tr>
+                ) : (
+                  recentReports.map((report, index) => (
+                    <tr
+                      key={report.id || index}
+                      className={
+                        index < recentReports.length - 1 ? "border-b" : ""
+                      }
+                    >
+                      <td className="py-2">{report.type}</td>
+                      <td className="py-2">{report.content}</td>
+                      <td className="py-2">{report.reporter}</td>
+                      <td className="py-2">
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs ${
+                            report.status === "처리중"
+                              ? "bg-gray-200 text-gray-600"
+                              : "bg-gray-100 text-gray-500"
+                          }`}
+                        >
+                          {report.status}
+                        </span>
+                      </td>
+                      <td className="py-2">{report.time}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
