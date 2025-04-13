@@ -43,14 +43,28 @@ export default function AdminDashboard() {
                 전체보기 →
               </Link>
             </div>
-            <table className="w-full text-sm text-left">
+            <table
+              className="w-full text-sm text-left"
+              aria-label="최근 신고 내역 테이블"
+            >
+              <caption className="sr-only">최근 신고 내역</caption>
               <thead>
                 <tr className="text-gray-500 border-b">
-                  <th className="py-2">유형</th>
-                  <th className="py-2">내용</th>
-                  <th className="py-2">신고자</th>
-                  <th className="py-2">상태</th>
-                  <th className="py-2">시간</th>
+                  <th scope="col" className="py-2">
+                    유형
+                  </th>
+                  <th scope="col" className="py-2">
+                    내용
+                  </th>
+                  <th scope="col" className="py-2">
+                    신고자
+                  </th>
+                  <th scope="col" className="py-2">
+                    상태
+                  </th>
+                  <th scope="col" className="py-2">
+                    시간
+                  </th>
                 </tr>
               </thead>
               <tbody>

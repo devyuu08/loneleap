@@ -88,6 +88,7 @@ export default function AdminLayout({ children }) {
           <button
             onClick={handleLogout}
             className="w-full text-sm text-gray-500 hover:text-red-500 border px-3 py-2 rounded"
+            aria-label="로그아웃"
           >
             로그아웃
           </button>

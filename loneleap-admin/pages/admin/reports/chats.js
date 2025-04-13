@@ -6,8 +6,10 @@ export default function AdminChatReportsPage() {
   return (
     <AdminProtectedRoute>
       <AdminLayout>
-        <div>
-          <h1 className="text-2xl font-bold mb-4">채팅 신고 목록</h1>
+        <section aria-labelledby="page-heading">
+          <h1 id="page-heading" className="text-2xl font-bold mb-4">
+            채팅 신고 목록
+          </h1>
           <p className="text-gray-600 mb-6">
             사용자들이 신고한 채팅방 내용을 확인하고 처리할 수 있습니다.
           </p>
@@ -30,7 +32,7 @@ export default function AdminChatReportsPage() {
             </div>
             +{" "}
           </div>
-        </div>
+        </section>
       </AdminLayout>
     </AdminProtectedRoute>
   );
