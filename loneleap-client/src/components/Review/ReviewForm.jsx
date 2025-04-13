@@ -184,8 +184,8 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
         <button
           type="button"
           onClick={() => {
-            // 취소 로직 (예: 이전 페이지로 돌아가기)
-            window.history.back();
+            // 라우터 사용 예시
+            window.location.href = "/reviews"; // 또는 React Router의 navigate 사용
           }}
           className="w-1/3 bg-gray-200 text-gray-800 font-semibold py-3 rounded-md hover:bg-gray-300 transition"
         >

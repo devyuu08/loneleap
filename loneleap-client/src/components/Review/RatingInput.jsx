@@ -18,8 +18,8 @@ function RatingInput({ value = 0, onChange = () => {} }) {
           aria-label={`${star}점`}
           aria-pressed={star <= value}
           onKeyDown={(e) => {
-            if (e.key === "ArrowLeft" && star > 1) onChange(star - 1);
-            if (e.key === "ArrowRight" && star < 5) onChange(star + 1);
+            if (e.key === "ArrowLeft" && value > 1) onChange(value - 1);
+            if (e.key === "ArrowRight" && value < 5) onChange(value + 1);
           }}
         >
           <span className={star <= value ? "text-yellow-400" : "text-gray-300"}>

@@ -17,11 +17,14 @@ export default function ChatRoomCard({ room = {} }) {
   return (
     <article
       onClick={handleClick}
-      className="cursor-pointer p-4 border rounded-lg shadow-sm hover:shadow-md transition"
+      className="cursor-pointer p-4 border rounded-lg shadow-sm hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-300"
       aria-label={`${room.name} 채팅방`}
       role="button"
       tabIndex="0"
-      onKeyDown={(e) => e.key === "Enter" && handleClick()}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") handleClick();
+        if (e.key === "Escape") e.target.blur();
+      }}
     >
       {/* 제목 */}
       <h3 className="text-lg font-semibold text-gray-900 mb-1">{room.name}</h3>

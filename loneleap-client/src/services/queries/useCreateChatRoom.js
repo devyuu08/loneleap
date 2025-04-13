@@ -40,7 +40,11 @@ export const useCreateChatRoom = () => {
         });
         return docRef.id;
       } catch (error) {
-        console.error("채팅방 생성 중 오류 발생:", error);
+        console.error(
+          `채팅방 '${title}' 생성 중 오류 발생:`,
+          error.code,
+          error.message
+        );
         throw error;
       }
     },

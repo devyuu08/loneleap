@@ -50,7 +50,16 @@ export const useReportMessage = () => {
         });
       } catch (error) {
         console.error("메시지 신고 중 오류 발생:", error);
-        throw new Error("메시지 신고에 실패했습니다. 다시 시도해주세요.");
+        // Firebase 오류 코드에 따른 구체적인 메시지 제공
+        if (error.code === "permission-denied") {
+          throw new Error("권한이 없습니다. 관리자에게 문의하세요.");
+        } else if (error.code === "unavailable") {
+          throw new Error(
+            "서버 연결에 실패했습니다. 네트워크 상태를 확인해주세요."
+          );
+        } else {
+          throw new Error("메시지 신고에 실패했습니다. 다시 시도해주세요.");
+        }
       }
     },
   });
