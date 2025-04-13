@@ -1,4 +1,5 @@
 // 📁 loneleap-admin/components/layout/AdminLayout.jsx
+import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/router";
@@ -6,6 +7,7 @@ import Link from "next/link";
 
 export default function AdminLayout({ children }) {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
     if (window.confirm("정말 로그아웃 하시겠습니까?")) {
