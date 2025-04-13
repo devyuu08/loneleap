@@ -8,9 +8,20 @@ export default function AdminLayout({ children }) {
   const router = useRouter();
 
   const handleLogout = async () => {
-    await signOut(auth);
-    router.push("/admin/login");
+    if (window.confirm("정말 로그아웃 하시겠습니까?")) {
+      try {
+        setIsLoading(true); // 로딩 상태 변수 추가 필요
+        await signOut(auth);
+        router.push("/admin/login");
+      } catch (error) {
+        console.error("로그아웃 중 오류가 발생했습니다:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
   };
+
+  const isActive = (path) => router.pathname === path;
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -19,19 +30,54 @@ export default function AdminLayout({ children }) {
         <div>
           <div className="p-6 text-xl font-bold border-b">LoneLeap 관리자</div>
           <nav className="flex flex-col gap-2 px-6 py-4 text-sm text-gray-700">
-            <Link href="/admin/dashboard" className="hover:text-black">
+            <Link
+              href="/admin/dashboard"
+              className={`px-3 py-2 rounded-md transition ${
+                isActive("/admin/dashboard")
+                  ? "bg-gray-900 text-white font-semibold"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
               🏠 대시보드
             </Link>
-            <Link href="/admin/reports/reviews" className="hover:text-black">
+            <Link
+              href="/admin/reports/reviews"
+              className={`px-3 py-2 rounded-md transition ${
+                isActive("/admin/reports/reviews")
+                  ? "bg-gray-900 text-white font-semibold"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
               📝 리뷰 신고
             </Link>
-            <Link href="/admin/reports/chats" className="hover:text-black">
+            <Link
+              href="/admin/reports/chats"
+              className={`px-3 py-2 rounded-md transition ${
+                isActive("/admin/reports/chats")
+                  ? "bg-gray-900 text-white font-semibold"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
               💬 채팅 신고
             </Link>
-            <Link href="/admin/users" className="hover:text-black">
+            <Link
+              href="/admin/users"
+              className={`px-3 py-2 rounded-md transition ${
+                isActive("/admin/users")
+                  ? "bg-gray-900 text-white font-semibold"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
               👤 사용자 관리
             </Link>
-            <Link href="/admin/spots" className="hover:text-black">
+            <Link
+              href="/admin/spots"
+              className={`px-3 py-2 rounded-md transition ${
+                isActive("/admin/spots")
+                  ? "bg-gray-900 text-white font-semibold"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
               📍 추천 여행지 관리
             </Link>
           </nav>
