@@ -2,6 +2,11 @@
 import AdminProtectedRoute from "@/components/auth/AdminProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
 
+/**
+ * @description 관리자가 사용자들이 신고한 리뷰를 확인하고 처리할 수 있는 페이지
+ * @returns {JSX.Element} 리뷰 신고 관리 페이지 컴포넌트
+ */
+
 export default function AdminReviewReportsPage() {
   return (
     <AdminProtectedRoute>
