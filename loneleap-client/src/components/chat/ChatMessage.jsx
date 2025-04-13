@@ -45,7 +45,7 @@ export default function ChatMessage({ message }) {
           <div className="group relative">
             <button
               onClick={() => setOpenReportModal(true)}
-              className="text-xs text-gray-500 mt-1 hover:underline opacity-0 group-hover:opacity-100 transition-opacity"
+              className="text-xs text-gray-500 mt-1 hover:underline opacity-50 group-hover:opacity-100 transition-opacity"
               aria-label="이 메시지 신고하기"
             >
               신고
