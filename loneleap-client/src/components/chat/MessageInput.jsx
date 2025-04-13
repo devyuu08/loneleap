@@ -76,7 +76,7 @@ export default function MessageInput({ roomId }) {
       <button
         onClick={handleSend}
         className={`bg-gray-900 text-white px-4 rounded-md ${
-          isSending ? "opacity-50 cursor-not-allowed" : ""
+          isSubmitting ? "opacity-50 cursor-not-allowed" : ""
         }`}
         disabled={isSubmitting}
       >

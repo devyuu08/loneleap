@@ -9,7 +9,9 @@ export default function CreateReviewPage() {
   const { addReview, isLoading } = useAddReview({
     onError: (err) => {
       console.error(err);
-      setError("리뷰 등록 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      setError(
+        err.message || "리뷰 등록 중 오류가 발생했습니다. 다시 시도해 주세요."
+      );
     },
     // 선택적으로 onSuccess도 커스터마이징 가능
     // onSuccess: () => { ... }
@@ -33,11 +35,7 @@ export default function CreateReviewPage() {
           {error}
         </div>
       )}
-      {isLoading && (
-        <div className="max-w-4xl mx-auto mb-4 p-4 bg-blue-100 text-blue-700 rounded-lg">
-          리뷰를 등록하는 중입니다. 잠시만 기다려주세요...
-        </div>
-      )}
+      {/* 로딩 상태는 내부에서 처리 */}
       <ReviewForm onSubmit={handleCreateReviewSubmit} isLoading={isLoading} />
     </div>
   );

@@ -53,7 +53,8 @@ export default function SignUp() {
     }
 
     // 비밀번호 확인 일치 검사
-    if (trimmedPassword !== passwordConfirm.trim()) {
+    const trimmedPasswordConfirm = passwordConfirm.trim();
+    if (trimmedPassword !== trimmedPasswordConfirm) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
     }
@@ -146,6 +147,7 @@ export default function SignUp() {
               type="button"
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-blue-500 hover:underline"
               onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
             >
               {showPassword ? "숨기기" : "보기"}
             </button>

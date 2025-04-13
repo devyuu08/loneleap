@@ -22,7 +22,7 @@ export default function ChatRoomForm() {
     if (!isLoading && !user && !didAlert) {
       alert("로그인이 필요합니다.");
       setDidAlert(true);
-      navigate("/login");
+      navigate("/login", { state: { from: "/chat/create" } });
     }
   }, [user, isLoading, navigate, didAlert]);
 
@@ -46,7 +46,13 @@ export default function ChatRoomForm() {
       navigate("/chat");
     } catch (err) {
       console.error("채팅방 생성 오류:", err);
-      alert("채팅방 생성 중 오류가 발생했어요.");
+      if (err.message.includes("제목과 사용자 ID는 필수입니다")) {
+        alert("필수 정보가 누락되었습니다. 제목과 로그인 정보를 확인해주세요.");
+      } else if (err.code === "permission-denied") {
+        alert("채팅방 생성 권한이 없습니다. 로그인 상태를 확인해주세요.");
+      } else {
+        alert("채팅방 생성 중 오류가 발생했어요. 잠시 후 다시 시도해주세요.");
+      }
     }
   };
 
@@ -101,7 +107,9 @@ export default function ChatRoomForm() {
             placeholder="예: 4/15~4/17 제주도 일정 함께할 사람 구해요 :)"
           />
           {errors.description && (
-            <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+            <p className="text-red-500 text-sm mt-1" aria-live="polite">
+              {errors.description}
+            </p>
           )}
         </div>
 

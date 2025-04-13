@@ -3,7 +3,7 @@ import { collection, query, orderBy, getDocs, limit } from "firebase/firestore";
 import { db } from "../firebase";
 
 // Firestore에서 채팅방 목록 최신순으로 가져오는 기본 구조
-export const useChatRooms = () => {
+export const useChatRooms = ({ limitCount = 10 } = {}) => {
   return useQuery({
     queryKey: ["chatRooms"],
     refetchInterval: 30000, // 30초마다 자동으로 다시 불러옴
@@ -13,7 +13,7 @@ export const useChatRooms = () => {
         const q = query(
           collection(db, "chatRooms"),
           orderBy("createdAt", "desc"),
-          limit(10) // 한 번에 10개만 로드
+          limit(limitCount) // 사용자 지정 개수만큼 로드
         );
         const snapshot = await getDocs(q);
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
