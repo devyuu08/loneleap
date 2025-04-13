@@ -46,7 +46,7 @@ export default function AdminDashboard() {
           <div className="bg-white p-6 rounded-xl shadow">
             <div className="flex justify-between mb-4">
               <h2 className="text-lg font-semibold">최근 신고 내역</h2>
-              <Link href="#" className="text-sm text-blue-500">
+              <Link href="/admin/reports" className="text-sm text-blue-500">
                 전체보기 →
               </Link>
             </div>

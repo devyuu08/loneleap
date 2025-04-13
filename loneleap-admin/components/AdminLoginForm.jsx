@@ -21,7 +21,19 @@ export default function AdminLoginForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
 
-  const handleAdminLogin = async () => {
+  const handleAdminLogin = async (e) => {
+    if (e) e.preventDefault();
+
+    // 기본 유효성 검사
+    if (!email.trim()) {
+      setError("이메일을 입력해주세요.");
+      return;
+    }
+
+    if (!password) {
+      setError("비밀번호를 입력해주세요.");
+      return;
+    }
     setLoading(true);
     setError("");
     setPasswordMatchError("");
@@ -67,7 +79,20 @@ export default function AdminLoginForm() {
       await signInWithPopup(auth, provider);
       router.push("/admin/dashboard");
     } catch (err) {
-      setError("Google 로그인 중 오류가 발생했습니다.");
+      const code = err?.code || "";
+      switch (code) {
+        case "auth/popup-closed-by-user":
+          setError("로그인 창이 닫혔습니다. 다시 시도해 주세요.");
+          break;
+        case "auth/cancelled-popup-request":
+          setError("이전 로그인 요청이 진행 중입니다.");
+          break;
+        case "auth/popup-blocked":
+          setError("팝업이 차단되었습니다. 팝업 차단을 해제해 주세요.");
+          break;
+        default:
+          setError("Google 로그인 중 오류가 발생했습니다.");
+      }
     } finally {
       setLoading(false);
     }
