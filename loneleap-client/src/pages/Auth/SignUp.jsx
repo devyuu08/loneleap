@@ -53,7 +53,8 @@ export default function SignUp() {
     }
 
     // 비밀번호 확인 일치 검사
-    if (trimmedPassword !== passwordConfirm.trim()) {
+    const trimmedPasswordConfirm = passwordConfirm.trim();
+    if (trimmedPassword !== trimmedPasswordConfirm) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
     }

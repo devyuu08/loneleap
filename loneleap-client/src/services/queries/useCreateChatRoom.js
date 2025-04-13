@@ -25,10 +25,13 @@ import { useMutation } from "@tanstack/react-query";
 
 export const useCreateChatRoom = () => {
   return useMutation({
-    mutationFn: async ({ title, description, uid }) => {
+    mutationFn: async ({ title, description = "", uid }) => {
+      if (!uid) {
+        throw new Error("인증된 사용자만 채팅방을 생성할 수 있습니다");
+      }
       // 입력 매개변수 유효성 검사
-      if (!title || !uid) {
-        throw new Error("제목과 사용자 ID는 필수입니다");
+      if (!title) {
+        throw new Error("채팅방 제목은 필수입니다");
       }
 
       try {

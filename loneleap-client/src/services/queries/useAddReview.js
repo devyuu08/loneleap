@@ -6,7 +6,10 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export default function useAddReview() {
+export default function useAddReview({
+  onSuccessCallback = () => {},
+  onErrorCallback = () => {},
+} = {}) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
 
@@ -58,10 +61,12 @@ export default function useAddReview() {
     onSuccess: () => {
       alert("리뷰가 성공적으로 등록되었습니다!");
       navigate("/reviews");
+      onSuccessCallback();
     },
     onError: (error) => {
       console.error(error);
       alert(`리뷰 등록 중 오류가 발생했습니다: ${error.message}`);
+      onErrorCallback(error);
     },
   });
 

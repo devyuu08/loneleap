@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import RatingInput from "./RatingInput";
 
+const MAX_CONTENT_LENGTH = 1000;
+
 export default function ReviewForm({ initialData, onSubmit, isLoading }) {
   const [title, setTitle] = useState(initialData?.title || "");
   const [destination, setDestination] = useState(
@@ -134,7 +136,7 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="여행 후기를 자세히 작성해주세요 :)"
-          maxLength={1000}
+          maxLength={MAX_CONTENT_LENGTH}
           rows="6"
           aria-invalid={errors.content ? "true" : "false"}
           className={`w-full border ${
@@ -162,7 +164,7 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           onChange={handleImageChange}
           className="text-sm text-gray-600"
         />
-        {imagePreviewUrl ? (
+        {image ? (
           <img
             src={imagePreviewUrl}
             alt="미리보기"
@@ -174,7 +176,7 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           />
         ) : (
           <p className="text-sm text-gray-400">
-            이미지 미리보기를 불러올 수 없습니다.
+            이미지를 선택하면 여기에 미리보기가 표시됩니다.
           </p>
         )}
       </div>

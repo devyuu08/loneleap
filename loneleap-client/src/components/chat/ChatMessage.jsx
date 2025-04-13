@@ -7,7 +7,15 @@ import ReportModal from "../ReportModal";
 
 export default function ChatMessage({ message }) {
   const user = useSelector((state) => state.user.user);
-  const isMine = message.senderId === user?.uid;
+  const {
+    id,
+    senderId,
+    senderName,
+    message: messageText,
+    roomId,
+    createdAt,
+  } = message;
+  const isMine = senderId === user?.uid;
   const [openReportModal, setOpenReportModal] = useState(false);
 
   return (
@@ -47,10 +55,14 @@ export default function ChatMessage({ message }) {
 
         {/* 시간 표시 */}
         <p className="text-[10px] text-gray-400 mt-1 text-right">
-          {message.createdAt?.toDate
-            ? formatRelative(message.createdAt.toDate(), new Date(), {
-                locale: ko,
-              })
+          {message.createdAt
+            ? typeof message.createdAt.toDate === "function"
+              ? formatRelative(message.createdAt.toDate(), new Date(), {
+                  locale: ko,
+                })
+              : formatRelative(new Date(message.createdAt), new Date(), {
+                  locale: ko,
+                })
             : "시간 정보 없음"}
         </p>
 
