@@ -22,6 +22,13 @@ export default function ReviewReportTable({ reports, onSelect }) {
               key={report.id}
               className="border-b hover:bg-gray-50 cursor-pointer"
               onClick={() => onSelect(report)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  onSelect(report);
+                }
+              }}
             >
               <td className="px-4 py-2 whitespace-nowrap">
                 <div className="max-w-[240px] truncate">

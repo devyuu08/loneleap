@@ -6,7 +6,11 @@ import ActionButtons from "../reports/ActionButtons";
 export default function ReviewReportDetail({ report }) {
   if (!report) {
     return (
-      <div className="p-6 text-sm text-gray-400 text-center">
+      <div
+        className="p-6 text-sm text-gray-400 text-center"
+        role="alert"
+        aria-live="polite"
+      >
         왼쪽 목록에서 신고된 리뷰를 선택하세요.
       </div>
     );
