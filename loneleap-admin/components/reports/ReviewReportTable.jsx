@@ -17,6 +17,13 @@ export default function ReviewReportTable({ reports, onSelect }) {
           </tr>
         </thead>
         <tbody>
+          {reports.length === 0 && (
+            <tr>
+              <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                신고된 리뷰가 없습니다.
+              </td>
+            </tr>
+          )}
           {reports.map((report) => (
             <tr
               key={report.id}

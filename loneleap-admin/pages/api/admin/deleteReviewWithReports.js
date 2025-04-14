@@ -14,21 +14,21 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 1. 리뷰 삭제
-    await db.collection("reviews").doc(reviewId).delete();
-
-    // 2. 신고 삭제
     const reportsRef = db
       .collection("review_reports")
       .where("reviewId", "==", reviewId);
     const snapshot = await reportsRef.get();
 
-    const batch = db.batch();
-    snapshot.docs.forEach((doc) => {
-      batch.delete(doc.ref);
-    });
+    // 트랜잭션으로 리뷰와 신고를 원자적으로 삭제
+    +(await db.runTransaction(async (transaction) => {
+      // 1. 리뷰 삭제
+      transaction.delete(db.collection("reviews").doc(reviewId));
 
-    await batch.commit();
+      // 2. 신고 삭제
+      snapshot.docs.forEach((doc) => {
+        transaction.delete(doc.ref);
+      });
+    }));
 
     return res.status(200).json({ message: "리뷰 및 신고 삭제 완료" });
   } catch (err) {

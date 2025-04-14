@@ -22,7 +22,7 @@ export default function AdminLoginForm() {
   const [passwordMatchError, setPasswordMatchError] = useState("");
 
   const handleAdminLogin = async (e) => {
-    if (e) e.preventDefault();
+    e.preventDefault();
 
     // 기본 유효성 검사
     if (!email.trim()) {
@@ -175,14 +175,14 @@ export default function AdminLoginForm() {
       </div>
       {/* 비밀번호 재설정 기능이 구현되면 아래 코드로 대체 */}{" "}
       {/* <div className="mt-6 text-center text-sm">
-+       <button 
-+         type="button"
-+         onClick={handlePasswordReset}
-+         className="text-gray-500 hover:text-gray-700"
-+       >
-+         비밀번호를 잊으셨나요?
-+       </button>
-+     </div> */}
+        <button 
+          type="button"
+          onClick={handlePasswordReset}
+          className="text-gray-500 hover:text-gray-700"
+        >
+          비밀번호를 잊으셨나요?
+        </button>
+     </div> */}
     </form>
   );
 }

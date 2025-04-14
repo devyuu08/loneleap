@@ -2,6 +2,7 @@
 
 import { format } from "date-fns";
 import ActionButtons from "../reports/ActionButtons";
+import DetailSection from "./DetailSection";
 
 export default function ReviewReportDetail({ report }) {
   if (!report) {
@@ -16,38 +17,39 @@ export default function ReviewReportDetail({ report }) {
     );
   }
 
+  // report가 있지만 유효하지 않은 경우
+  const isValidReport =
+    typeof report === "object" && typeof report.reason === "string";
+
+  if (!isValidReport) {
+    return (
+      <div className="p-6 text-sm text-red-400 text-center" role="alert">
+        유효하지 않은 신고 데이터입니다.
+      </div>
+    );
+  }
+
   const { review, reason, reporterId, reportedAt } = report;
 
   return (
-    <div className="p-6 space-y-4">
-      <div>
-        <h2 className="text-lg font-semibold mb-2">리뷰 원문</h2>
-        <p className="text-gray-800">
-          {review?.content || "삭제된 리뷰입니다."}
-        </p>
-      </div>
+    <div className="p-6 space-y-6">
+      <DetailSection title="리뷰 원문">
+        {review?.content || "삭제된 리뷰입니다."}
+      </DetailSection>
 
-      <div>
-        <h2 className="text-lg font-semibold mb-2">신고 사유</h2>
-        <p className="text-gray-700">{reason}</p>
-      </div>
+      <DetailSection title="신고 사유">{reason}</DetailSection>
 
-      <div>
-        <h2 className="text-lg font-semibold mb-2">신고자</h2>
-        <p className="text-gray-600">{reporterId}</p>
-      </div>
+      <DetailSection title="신고자">{reporterId || "-"}</DetailSection>
 
-      <div>
-        <h2 className="text-lg font-semibold mb-2">신고일자</h2>
-        <p className="text-gray-500">
-          {reportedAt?.toDate
-            ? format(reportedAt.toDate(), "yyyy.MM.dd HH:mm")
-            : "날짜 없음"}
-        </p>
-      </div>
+      <DetailSection title="신고일자">
+        {reportedAt?.toDate && !isNaN(reportedAt.toDate())
+          ? format(reportedAt.toDate(), "yyyy.MM.dd HH:mm")
+          : "날짜 없음"}
+      </DetailSection>
 
-      {/* 리뷰 삭제 / 신고 무시 버튼 */}
-      <ActionButtons report={report} />
+      <div className="pt-4 border-t">
+        <ActionButtons report={report} />
+      </div>
     </div>
   );
 }

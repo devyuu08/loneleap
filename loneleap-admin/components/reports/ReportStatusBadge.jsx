@@ -1,8 +1,12 @@
 // loneleap-admin/components/reports/ReportStatusBadge.jsx
 
+const STATUS = {
+  COMPLETED: "처리완료",
+};
+
 export default function ReportStatusBadge({ status }) {
   const style =
-    status === "처리완료"
+    status === STATUS.COMPLETED
       ? "bg-green-100 text-green-700"
       : "bg-gray-100 text-gray-700";
 
