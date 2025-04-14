@@ -42,8 +42,8 @@ export default function ReviewReportDetail({ report }) {
       <DetailSection title="신고자">{reporterId || "-"}</DetailSection>
 
       <DetailSection title="신고일자">
-        {reportedAt?.toDate && !isNaN(reportedAt.toDate())
-          ? format(reportedAt.toDate(), "yyyy.MM.dd HH:mm")
+        {reportedAt
+          ? format(new Date(reportedAt), "yyyy.MM.dd HH:mm")
           : "날짜 없음"}
       </DetailSection>
 

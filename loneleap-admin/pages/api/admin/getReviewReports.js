@@ -33,6 +33,7 @@ export default async function handler(req, res) {
         return {
           id: docSnap.id,
           ...report,
+          reportedAt: report.reportedAt?.toDate?.().toISOString() || null, // 여기서 변환!
           review: reviewSnap.exists ? reviewSnap.data() : null,
         };
       })

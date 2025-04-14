@@ -2,6 +2,11 @@
 import { format } from "date-fns";
 import ReportStatusBadge from "./ReportStatusBadge";
 
+const STATUS_LABELS = {
+  pending: "미처리",
+  completed: "처리완료",
+};
+
 export default function ReviewReportTable({ reports = [], onSelect }) {
   const isEmpty = !Array.isArray(reports) || reports.length === 0;
 
@@ -51,15 +56,19 @@ export default function ReviewReportTable({ reports = [], onSelect }) {
                   <div className="max-w-[160px] truncate">{report.reason}</div>
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap">
-                  {report.review?.userName || report.review?.userId || "-"}
+                  {report.review?.authorName ||
+                    report.review?.authorId ||
+                    "작성자 없음"}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap">
-                  {report.reportedAt?.toDate
-                    ? format(report.reportedAt.toDate(), "yyyy.MM.dd")
+                  {report.reportedAt
+                    ? format(new Date(report.reportedAt), "yyyy.MM.dd")
                     : "날짜 없음"}
                 </td>
                 <td className="px-4 py-2">
-                  <ReportStatusBadge status={report.status || "미처리"} />
+                  <ReportStatusBadge
+                    status={STATUS_LABELS[report.status] || "미처리"}
+                  />
                 </td>
               </tr>
             ))}
