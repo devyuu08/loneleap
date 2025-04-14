@@ -1,4 +1,4 @@
-// lib/firebase-admin.js
+// lib/firebaseAdmin.js
 import admin from "firebase-admin";
 
 if (!admin.apps.length) {
