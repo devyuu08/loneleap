@@ -1,6 +1,6 @@
 // loneleap-admin/components/reports/ActionButtons.jsx
 import { useState } from "react";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 export default function ActionButtons({ report }) {
   const [deleting, setDeleting] = useState(false);

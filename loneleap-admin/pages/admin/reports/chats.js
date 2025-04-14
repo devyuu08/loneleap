@@ -1,7 +1,7 @@
-// 📁 loneleap-admin/pages/admin/reports/chats.js
+// loneleap-admin/pages/admin/reports/chats.js
 import AdminProtectedRoute from "@/components/auth/AdminProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function AdminChatReportsPage() {
   return (

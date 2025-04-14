@@ -6,7 +6,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import LoadingSpinner from "./LoadingSpinner";
+// import LoadingSpinner from "./common/LoadingSpinner";
 import ErrorMessage from "./ErrorMessage";
 import { FcGoogle } from "react-icons/fc";
 import { FiMail, FiLock } from "react-icons/fi";

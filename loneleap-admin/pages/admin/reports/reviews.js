@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import AdminProtectedRoute from "@/components/auth/AdminProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
-// import ReportReviewList from "@/components/reports/ReportReviewList"; // 리스트 컴포넌트
 import LoadingSpinner from "@/components/common/LoadingSpinner"; // 로딩 컴포넌트 분리 시
 import ReviewReportTable from "@/components/reports/ReviewReportTable";
 import ReviewReportDetail from "@/components/reports/ReviewReportDetail";
