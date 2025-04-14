@@ -21,17 +21,3 @@ export default function ReportStatusBadge({ status }) {
 ReportStatusBadge.propTypes = {
   status: PropTypes.string,
 };
-
-ReportStatusBadge.defaultProps = {
-  status: "",
-};
-
-//props 타입 정의
-ReportStatusBadge.propTypes = {
-  status: PropTypes.string,
-};
-
-//기본값 설정
-ReportStatusBadge.defaultProps = {
-  status: "",
-};
