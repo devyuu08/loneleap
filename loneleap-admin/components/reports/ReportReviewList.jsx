@@ -1,4 +1,5 @@
 // loneleap-admin/components/reports/ReportReviewList.jsx
+import EmptyState from "../common/EmptyState";
 import ReportReviewItem from "./ReportReviewItem";
 
 export default function ReportReviewList({ reports }) {
@@ -11,9 +12,7 @@ export default function ReportReviewList({ reports }) {
   }
 
   if (reports.length === 0) {
-    return (
-      <p className="text-gray-500 text-center py-4">신고된 리뷰가 없습니다.</p>
-    );
+    return <EmptyState message="신고된 리뷰가 없습니다." />;
   }
 
   return (
