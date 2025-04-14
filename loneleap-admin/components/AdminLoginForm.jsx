@@ -150,7 +150,11 @@ export default function AdminLoginForm() {
           disabled={loading}
           className="w-full h-11 bg-gray-900 text-white py-2 rounded-md font-semibold hover:bg-gray-800 flex items-center justify-center"
         >
-          {loading ? <LoadingSpinner size="sm" color="white" /> : "로그인"}
+          {loading ? (
+            <LoadingSpinner text="로그인 중..." size="sm" color="white" />
+          ) : (
+            "로그인"
+          )}
         </button>
 
         <div className="text-center text-sm text-gray-400">또는</div>

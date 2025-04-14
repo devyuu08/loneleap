@@ -2,10 +2,11 @@
 import { useEffect, useState } from "react";
 import AdminProtectedRoute from "@/components/auth/AdminProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
-import LoadingSpinner from "@/components/common/LoadingSpinner"; // 로딩 컴포넌트 분리 시
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ReviewReportTable from "@/components/reports/ReviewReportTable";
 import ReviewReportDetail from "@/components/reports/ReviewReportDetail";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/router";
 
 /**
  * @description 관리자가 사용자들이 신고한 리뷰를 확인하고 처리할 수 있는 페이지
@@ -16,36 +17,41 @@ export default function AdminReviewReportsPage() {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedReport, setSelectedReport] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchReports = async () => {
+    const auth = getAuth();
+
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        router.push("/admin/login");
+        return;
+      }
+
       try {
-        const auth = getAuth();
-
-        onAuthStateChanged(auth, async (user) => {
-          if (!user) {
-            throw new Error("로그인된 사용자 없음");
-          }
-
-          const token = await user.getIdToken(); // 새로 발급
-          const res = await fetch("/api/admin/getReviewReports", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          const data = await res.json();
-          setReports(data);
-          setLoading(false);
+        const token = await user.getIdToken();
+        const res = await fetch("/api/admin/getReviewReports", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
+
+        const data = await res.json();
+        setReports(data);
       } catch (error) {
-        console.error("관리자 인증 실패:", error);
+        console.error("신고 리뷰 불러오기 실패:", error);
+      } finally {
         setLoading(false);
       }
-    };
+    });
 
-    fetchReports();
-  }, []);
+    return () => unsubscribe();
+  }, [router]);
+
+  // 로딩 시 렌더링 대체
+  if (loading) {
+    return <LoadingSpinner text="신고된 리뷰를 불러오는 중..." />;
+  }
 
   return (
     <AdminProtectedRoute>
