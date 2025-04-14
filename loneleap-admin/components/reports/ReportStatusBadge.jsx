@@ -1,4 +1,5 @@
 // loneleap-admin/components/reports/ReportStatusBadge.jsx
+import PropTypes from "prop-types";
 
 const STATUS = {
   COMPLETED: "처리완료",
@@ -12,7 +13,25 @@ export default function ReportStatusBadge({ status }) {
 
   return (
     <span className={`px-2 py-1 rounded-full text-xs font-medium ${style}`}>
-      {status}
+      {status || ""}
     </span>
   );
 }
+
+ReportStatusBadge.propTypes = {
+  status: PropTypes.string,
+};
+
+ReportStatusBadge.defaultProps = {
+  status: "",
+};
+
+//props 타입 정의
+ReportStatusBadge.propTypes = {
+  status: PropTypes.string,
+};
+
+//기본값 설정
+ReportStatusBadge.defaultProps = {
+  status: "",
+};
