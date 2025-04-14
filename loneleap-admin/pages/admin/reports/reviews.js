@@ -1,6 +1,11 @@
-// 📁 loneleap-admin/pages/admin/reports/reviews.js
+// loneleap-admin/pages/admin/reports/reviews.js
+import { useEffect, useState } from "react";
 import AdminProtectedRoute from "@/components/auth/AdminProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
+// import ReportReviewList from "@/components/reports/ReportReviewList"; // 리스트 컴포넌트
+import LoadingSpinner from "@/components/common/LoadingSpinner"; // 로딩 컴포넌트 분리 시
+import ReviewReportTable from "@/components/reports/ReviewReportTable";
+import ReviewReportDetail from "@/components/reports/ReviewReportDetail";
 
 /**
  * @description 관리자가 사용자들이 신고한 리뷰를 확인하고 처리할 수 있는 페이지
@@ -8,32 +13,52 @@ import AdminLayout from "@/components/layout/AdminLayout";
  */
 
 export default function AdminReviewReportsPage() {
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedReport, setSelectedReport] = useState(null);
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      try {
+        const res = await fetch("/api/admin/getReviewReports");
+        const data = await res.json();
+        setReports(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("신고 리뷰 불러오기 실패:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchReports();
+  }, []);
+
   return (
     <AdminProtectedRoute>
-      <AdminLayout>
-        <div>
-          <h1 className="text-2xl font-bold mb-4">리뷰 신고 목록</h1>
-          <p className="text-gray-600 mb-6">
-            사용자들이 신고한 리뷰를 확인하고 처리할 수 있습니다.
+      <AdminLayout title="리뷰 신고 관리">
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold">리뷰 신고 목록</h2>
+          <p className="text-gray-600 text-sm mt-1">
+            총 <strong>{reports.length}</strong>개의 신고가 접수되었습니다.
           </p>
+        </div>
 
-          {/* 신고 목록 테이블 자리 */}
-          <div className="bg-white p-6 rounded-xl shadow">
-            +{" "}
-            <div className="flex items-center justify-center py-8">
-              +{" "}
-              <div className="animate-pulse flex flex-col items-center">
-                +{" "}
-                <div className="h-8 w-8 rounded-full border-2 border-gray-300 border-t-blue-500 animate-spin mb-2"></div>
-                +{" "}
-                <p className="text-sm text-gray-400">
-                  신고된 리뷰 데이터를 불러오는 중...(예정)
-                </p>
-                +{" "}
-              </div>
-              +{" "}
-            </div>
-            +{" "}
+        <div className="flex gap-6">
+          {/* 좌측 */}
+          <div className="w-1/2 bg-white p-6 rounded-xl shadow">
+            {loading ? (
+              <LoadingSpinner text="신고된 리뷰 데이터를 불러오는 중..." />
+            ) : (
+              <ReviewReportTable
+                reports={reports}
+                onSelect={setSelectedReport}
+              />
+            )}
+          </div>
+
+          {/* 우측 */}
+          <div className="w-1/2 bg-white p-6 rounded-xl shadow min-h-[300px]">
+            <ReviewReportDetail report={selectedReport} />
           </div>
         </div>
       </AdminLayout>
