@@ -13,7 +13,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    await db.collection("review_reports").doc(reportId).delete();
+    const docRef = db.collection("review_reports").doc(reportId);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ error: "해당 신고를 찾을 수 없습니다." });
+    }
+
+    await docRef.delete();
     return res.status(200).json({ message: "신고 삭제 완료" });
   } catch (err) {
     console.error("신고 삭제 오류:", err);

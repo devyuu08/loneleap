@@ -1,6 +1,7 @@
-// 📁 loneleap-admin/pages/admin/reports/chats.js
+// loneleap-admin/pages/admin/reports/chats.js
 import AdminProtectedRoute from "@/components/auth/AdminProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function AdminChatReportsPage() {
   return (
@@ -16,21 +17,9 @@ export default function AdminChatReportsPage() {
 
           {/* 신고 목록 테이블 자리 */}
           <div className="bg-white p-6 rounded-xl shadow">
-            +{" "}
             <div className="flex items-center justify-center py-8">
-              +{" "}
-              <div className="animate-pulse flex flex-col items-center">
-                +{" "}
-                <div className="h-8 w-8 rounded-full border-2 border-gray-300 border-t-blue-500 animate-spin mb-2"></div>
-                +{" "}
-                <p className="text-sm text-gray-400">
-                  신고된 채팅 데이터를 불러오는 중...(예정)
-                </p>
-                +{" "}
-              </div>
-              +{" "}
+              <LoadingSpinner text="신고된 채팅 데이터를 불러오는 중...(예정)" />
             </div>
-            +{" "}
           </div>
         </section>
       </AdminLayout>

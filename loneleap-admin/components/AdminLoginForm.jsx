@@ -6,7 +6,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "./common/LoadingSpinner";
 import ErrorMessage from "./ErrorMessage";
 import { FcGoogle } from "react-icons/fc";
 import { FiMail, FiLock } from "react-icons/fi";
@@ -22,7 +22,7 @@ export default function AdminLoginForm() {
   const [passwordMatchError, setPasswordMatchError] = useState("");
 
   const handleAdminLogin = async (e) => {
-    if (e) e.preventDefault();
+    e.preventDefault();
 
     // 기본 유효성 검사
     if (!email.trim()) {
@@ -151,7 +151,7 @@ export default function AdminLoginForm() {
           className="w-full h-11 bg-gray-900 text-white py-2 rounded-md font-semibold hover:bg-gray-800 flex items-center justify-center"
         >
           {loading ? (
-            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <LoadingSpinner text="로그인 중..." size="sm" color="white" />
           ) : (
             "로그인"
           )}
@@ -175,14 +175,14 @@ export default function AdminLoginForm() {
       </div>
       {/* 비밀번호 재설정 기능이 구현되면 아래 코드로 대체 */}{" "}
       {/* <div className="mt-6 text-center text-sm">
-+       <button 
-+         type="button"
-+         onClick={handlePasswordReset}
-+         className="text-gray-500 hover:text-gray-700"
-+       >
-+         비밀번호를 잊으셨나요?
-+       </button>
-+     </div> */}
+        <button 
+          type="button"
+          onClick={handlePasswordReset}
+          className="text-gray-500 hover:text-gray-700"
+        >
+          비밀번호를 잊으셨나요?
+        </button>
+     </div> */}
     </form>
   );
 }
