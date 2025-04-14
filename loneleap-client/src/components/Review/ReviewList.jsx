@@ -36,7 +36,7 @@ export default function ReviewList() {
   const sortReviews = (reviews, sortType) => {
     if (sortType === "latest") {
       return [...reviews].sort(
-        (a, b) => b.createdAt?.toDate?.() - a.createdAt?.toDate?.()
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
     } else if (sortType === "rating") {
       return [...reviews].sort((a, b) => b.rating - a.rating);

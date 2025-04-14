@@ -52,6 +52,13 @@ try {
   // 전역 에러 상태 설정 또는 오류 화면으로 리디렉션
   // 예: window.location.href = '/error?type=firebase_init';
   // 또는 Redux/상태 관리에 오류 상태 저장
+  if (!import.meta.env.DEV) {
+    // 프로덕션 환경에서 사용자에게 오류 표시 또는 재시도 기회 제공
+    const fallbackElement = document.getElementById("firebase-error-fallback");
+    if (fallbackElement) {
+      fallbackElement.style.display = "block";
+    }
+  }
 }
 
 export const auth = getAuth(app); // 인증 객체

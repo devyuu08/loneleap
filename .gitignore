@@ -1,0 +1,39 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+.next/
+out/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# dotenv
+.env
+.env.*.local
+
+# Firebase emulators
+firebase-debug.log
+firestore.indexes.json
+firestore.rules.bak
+firebase.json.bak
+
+# OS
+.DS_Store
+<<<<<<< HEAD
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# macOS/OS-specific
+Thumbs.db
+>>>>>>> dev
+src/
+

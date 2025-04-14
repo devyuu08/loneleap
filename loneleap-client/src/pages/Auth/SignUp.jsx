@@ -53,7 +53,8 @@ export default function SignUp() {
     }
 
     // 비밀번호 확인 일치 검사
-    if (trimmedPassword !== passwordConfirm.trim()) {
+    const trimmedPasswordConfirm = passwordConfirm.trim();
+    if (trimmedPassword !== trimmedPasswordConfirm) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
     }
@@ -80,7 +81,9 @@ export default function SignUp() {
       if (err.code === "auth/email-already-in-use") {
         setError("이미 사용 중인 이메일입니다.");
       } else if (err.code === "auth/weak-password") {
-        setError("비밀번호는 최소 6자 이상이어야 합니다.");
+        +setError(
+          "비밀번호는 최소 8자 이상이며, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다."
+        );
       } else {
         setError("회원가입에 실패했습니다.");
         console.error("회원가입 오류:", err.code, err.message);
@@ -144,6 +147,7 @@ export default function SignUp() {
               type="button"
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-blue-500 hover:underline"
               onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
             >
               {showPassword ? "숨기기" : "보기"}
             </button>

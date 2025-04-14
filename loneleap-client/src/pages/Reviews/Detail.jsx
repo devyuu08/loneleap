@@ -44,34 +44,66 @@ export default function ReviewDetailPage() {
           {authorName}
         </p>
         <p className="text-gray-400 text-xs mb-6">
-          {createdAt && typeof createdAt.toDate === "function"
-            ? createdAt.toDate().toLocaleString("ko-KR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            : "날짜 없음"}
+          {(() => {
+            if (!createdAt) return "날짜 없음";
+
+            try {
+              // Firestore Timestamp 처리
+              if (typeof createdAt.toDate === "function") {
+                return createdAt.toDate().toLocaleString("ko-KR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+              }
+
+              // Date 객체 처리
+              if (createdAt instanceof Date) {
+                return createdAt.toLocaleString("ko-KR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+              }
+
+              // ISO 문자열 처리
+              if (typeof createdAt === "string") {
+                return new Date(createdAt).toLocaleString("ko-KR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+              }
+
+              return "날짜 형식 오류";
+            } catch (error) {
+              console.error("날짜 형식 변환 오류:", error);
+              return "날짜 변환 오류";
+            }
+          })()}
         </p>
       </header>
 
-      {imageUrl && (
-        <div className="mb-6">
-          <img
-            src={imageUrl}
-            alt="리뷰 이미지"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "/path/to/fallback-image.jpg";
-            }}
-            className="w-full max-h-[400px] object-cover rounded-lg"
-          />
-        </div>
-      )}
+      <div className="mb-6">
+        <img
+          src={imageUrl || "/free-icon-no-pictures-3875148.png"}
+          alt="리뷰 이미지"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "/free-icon-no-pictures-3875148.png";
+          }}
+          className="w-full max-h-[400px] object-cover rounded-lg"
+        />
+      </div>
 
       <div className="text-gray-800 leading-relaxed mb-6 whitespace-pre-line">
-        {content}
+        {content || "리뷰 내용이 없습니다."}
       </div>
 
       <div className="flex justify-end">

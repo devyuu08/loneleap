@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import RatingInput from "./RatingInput";
 
+const MAX_CONTENT_LENGTH = 1000;
+
 export default function ReviewForm({ initialData, onSubmit, isLoading }) {
   const [title, setTitle] = useState(initialData?.title || "");
   const [destination, setDestination] = useState(
@@ -14,15 +16,19 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
 
   useEffect(() => {
+    let objectUrl;
     if (image) {
       try {
         const url = URL.createObjectURL(image);
+        objectUrl = url;
         setImagePreviewUrl(url);
-        return () => URL.revokeObjectURL(url);
       } catch (error) {
         console.error("이미지 미리보기 생성 오류:", error);
       }
     }
+    return () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
   }, [image]);
 
   const handleImageChange = useCallback((e) => {
@@ -130,7 +136,7 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="여행 후기를 자세히 작성해주세요 :)"
-          maxLength={1000}
+          maxLength={MAX_CONTENT_LENGTH}
           rows="6"
           aria-invalid={errors.content ? "true" : "false"}
           className={`w-full border ${
@@ -158,18 +164,20 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           onChange={handleImageChange}
           className="text-sm text-gray-600"
         />
-        {image && (
-          <div className="mt-3">
-            <img
-              src={imagePreviewUrl}
-              alt="미리보기"
-              className="w-32 h-32 object-cover rounded-lg border"
-              onError={(e) => {
-                console.error("이미지 로딩 오류");
-                e.target.src = "기본 이미지 경로"; // 기본 이미지로 대체
-              }}
-            />
-          </div>
+        {image ? (
+          <img
+            src={imagePreviewUrl}
+            alt="미리보기"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/free-icon-no-pictures-3875148.png";
+            }}
+            className="w-32 h-32 object-cover rounded-lg border"
+          />
+        ) : (
+          <p className="text-sm text-gray-400">
+            이미지를 선택하면 여기에 미리보기가 표시됩니다.
+          </p>
         )}
       </div>
 
@@ -178,8 +186,8 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
         <button
           type="button"
           onClick={() => {
-            // 취소 로직 (예: 이전 페이지로 돌아가기)
-            window.history.back();
+            // 라우터 사용 예시
+            window.location.href = "/reviews"; // 또는 React Router의 navigate 사용
           }}
           className="w-1/3 bg-gray-200 text-gray-800 font-semibold py-3 rounded-md hover:bg-gray-300 transition"
         >
