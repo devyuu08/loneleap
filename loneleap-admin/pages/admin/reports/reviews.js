@@ -20,7 +20,7 @@ export default function AdminReviewReportsPage() {
         const res = await fetch("/api/admin/getReviewReports");
         const data = await res.json();
         setReports(data);
-        console.log("받은 데이터:", data); // 배열인지 확인
+        // console.log("받은 데이터:", data); // 배열인지 확인
         setLoading(false);
       } catch (error) {
         console.error("신고 리뷰 불러오기 실패:", error);
