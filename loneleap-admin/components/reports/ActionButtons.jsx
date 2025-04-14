@@ -3,7 +3,8 @@ import { useState } from "react";
 
 export default function ActionButtons({ report }) {
   const [deleting, setDeleting] = useState(false);
-  const { reviewId } = report;
+  const [dismissing, setDismissing] = useState(false);
+  const { reviewId, id: reportId } = report;
 
   const handleDelete = async () => {
     // console.log("삭제 버튼 클릭됨!");
@@ -38,6 +39,36 @@ export default function ActionButtons({ report }) {
     }
   };
 
+  const handleDismiss = async () => {
+    const confirm = window.confirm("해당 신고를 무시하시겠습니까?");
+    if (!confirm) return;
+
+    setDismissing(true);
+    try {
+      const res = await fetch("/api/admin/dismissReport", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ reportId }),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        alert("신고가 삭제되었습니다.");
+        window.location.reload();
+      } else {
+        alert("삭제 실패: " + result.error);
+      }
+    } catch (err) {
+      console.error("신고 삭제 오류:", err);
+      alert("삭제 중 오류가 발생했습니다.");
+    } finally {
+      setDismissing(false);
+    }
+  };
+
   return (
     <div className="flex gap-2 mt-4">
       <button
@@ -48,10 +79,11 @@ export default function ActionButtons({ report }) {
         {deleting ? "삭제 중..." : "리뷰 삭제"}
       </button>
       <button
+        onClick={handleDismiss}
         className="px-4 py-2 text-sm rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
-        disabled
+        disabled={dismissing}
       >
-        신고 무시
+        {dismissing ? "무시중..." : "신고 무시"}
       </button>
     </div>
   );
