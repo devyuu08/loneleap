@@ -5,6 +5,7 @@ import AdminLayout from "@/components/layout/AdminLayout";
 import LoadingSpinner from "@/components/common/LoadingSpinner"; // 로딩 컴포넌트 분리 시
 import ReviewReportTable from "@/components/reports/ReviewReportTable";
 import ReviewReportDetail from "@/components/reports/ReviewReportDetail";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 /**
  * @description 관리자가 사용자들이 신고한 리뷰를 확인하고 처리할 수 있는 페이지
@@ -19,12 +20,26 @@ export default function AdminReviewReportsPage() {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const res = await fetch("/api/admin/getReviewReports");
-        const data = await res.json();
-        setReports(data);
-        setLoading(false);
+        const auth = getAuth();
+
+        onAuthStateChanged(auth, async (user) => {
+          if (!user) {
+            throw new Error("로그인된 사용자 없음");
+          }
+
+          const token = await user.getIdToken(); // 새로 발급
+          const res = await fetch("/api/admin/getReviewReports", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const data = await res.json();
+          setReports(data);
+          setLoading(false);
+        });
       } catch (error) {
-        console.error("신고 리뷰 불러오기 실패:", error);
+        console.error("관리자 인증 실패:", error);
         setLoading(false);
       }
     };
