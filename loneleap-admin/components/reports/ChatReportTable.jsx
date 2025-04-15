@@ -1,13 +1,14 @@
 // loneleap-admin/components/reports/ChatReportTable.jsx
 import { format } from "date-fns";
 import ReportStatusBadge from "./ReportStatusBadge";
+import PropTypes from "prop-types";
 
 const STATUS_LABELS = {
   pending: "미처리",
   completed: "처리완료",
 };
 
-export default function ChatReportTable({ reports = [], onSelect }) {
+export default function ChatReportTable({ reports = [], onSelect = () => {} }) {
   const isEmpty = !Array.isArray(reports) || reports.length === 0;
 
   return (
@@ -83,3 +84,8 @@ export default function ChatReportTable({ reports = [], onSelect }) {
     </div>
   );
 }
+
+ChatReportTable.propTypes = {
+  reports: PropTypes.array,
+  onSelect: PropTypes.func.isRequired,
+};
