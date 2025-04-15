@@ -48,7 +48,10 @@ export default function ChatReportDetail({ report, onSuccess }) {
       </DetailSection>
 
       <div className="pt-4 border-t">
-        <ActionButtons report={report} onSuccess={onSuccess} />
+        <ActionButtons
+          report={report}
+          onSuccess={typeof onSuccess === "function" ? onSuccess : () => {}}
+        />
       </div>
     </div>
   );
