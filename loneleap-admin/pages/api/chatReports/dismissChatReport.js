@@ -35,6 +35,9 @@ export default async function dismissChatReport(req, res) {
     return res.status(200).json({ message: "신고 삭제 완료" });
   } catch (err) {
     console.error("신고 삭제 오류:", err);
-    return res.status(500).json({ error: "서버 오류로 삭제 실패" });
+    return res.status(500).json({
+      error: "서버 오류로 삭제 실패",
+      details: process.env.NODE_ENV === "development" ? err.message : undefined,
+    });
   }
 }
