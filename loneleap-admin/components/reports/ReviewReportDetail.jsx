@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import ActionButtons from "../reports/ActionButtons";
 import DetailSection from "./DetailSection";
 
-export default function ReviewReportDetail({ report }) {
+export default function ReviewReportDetail({ report, onSuccess }) {
   if (!report) {
     return (
       <div
@@ -48,7 +48,7 @@ export default function ReviewReportDetail({ report }) {
       </DetailSection>
 
       <div className="pt-4 border-t">
-        <ActionButtons report={report} />
+        <ActionButtons report={report} onSuccess={onSuccess} />
       </div>
     </div>
   );

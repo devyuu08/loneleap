@@ -1,4 +1,4 @@
-// loneleap-admin/pages/api/admin/dismissReport.js
+// loneleap-admin/pages/api/reviewReports/dismissReport.js
 import { db } from "@/lib/firebaseAdmin";
 
 export default async function handler(req, res) {

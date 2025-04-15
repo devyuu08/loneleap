@@ -151,7 +151,7 @@ export default function AdminLoginForm() {
           className="w-full h-11 bg-gray-900 text-white py-2 rounded-md font-semibold hover:bg-gray-800 flex items-center justify-center"
         >
           {loading ? (
-            <LoadingSpinner text="로그인 중..." size="sm" color="white" />
+            <LoadingSpinner text="로그인 중..." size="sm" />
           ) : (
             "로그인"
           )}
