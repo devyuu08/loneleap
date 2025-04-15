@@ -70,7 +70,9 @@ export default function ChatReportTable({ reports = [], onSelect }) {
                 </td>
                 <td className="px-4 py-2">
                   <ReportStatusBadge
-                    status={STATUS_LABELS[report.status] || "미처리"}
+                    status={report.status}
+                    statusLabels={STATUS_LABELS}
+                    defaultLabel="미처리"
                   />
                 </td>
               </tr>
