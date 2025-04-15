@@ -30,7 +30,7 @@ export default function AdminReviewReportsPage() {
 
       try {
         const token = await user.getIdToken();
-        const res = await fetch("/api/admin/getReviewReports", {
+        const res = await fetch("/api/reviewReports/getReviewReports", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
