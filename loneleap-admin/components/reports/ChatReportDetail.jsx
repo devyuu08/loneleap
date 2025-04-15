@@ -19,7 +19,14 @@ export default function ChatReportDetail({ report, onSuccess }) {
 
   // report가 있지만 유효하지 않은 경우
   const isValidReport =
-    typeof report === "object" && typeof report.reason === "string";
+    typeof report === "object" &&
+    report !== null &&
+    typeof report.reason === "string" &&
+    (report.messageText === undefined ||
+      typeof report.messageText === "string") &&
+    (report.reporterId === undefined ||
+      typeof report.reporterId === "string") &&
+    (report.reportedAt === undefined || typeof report.reportedAt === "string");
 
   if (!isValidReport) {
     return (
