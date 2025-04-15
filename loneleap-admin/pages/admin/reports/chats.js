@@ -71,7 +71,15 @@ export default function AdminChatReportsPage() {
 
           {/* 우측 - 상세 */}
           <div className="w-1/2 bg-white p-6 rounded-xl shadow min-h-[300px]">
-            <ChatReportDetail report={selectedReport} />
+            <ChatReportDetail
+              report={selectedReport}
+              onSuccess={(deletedReport) => {
+                setReports((prev) =>
+                  prev.filter((r) => r.id !== deletedReport.id)
+                );
+                setSelectedReport(null);
+              }}
+            />
           </div>
         </div>
       </AdminLayout>

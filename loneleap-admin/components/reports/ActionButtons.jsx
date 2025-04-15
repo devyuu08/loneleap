@@ -1,5 +1,5 @@
-// loneleap-admin/components/reports/ActionButtons.jsx
 import { useState } from "react";
+import { getAuth } from "firebase/auth";
 import LoadingSpinner from "../common/LoadingSpinner";
 
 export default function ActionButtons({ report, onSuccess }) {
@@ -18,13 +18,18 @@ export default function ActionButtons({ report, onSuccess }) {
 
     setDeleting(true);
     try {
+      const token = await getAuth().currentUser?.getIdToken();
+
       const res = await fetch(
         isChat
           ? "/api/chatReports/deleteMessageWithReports"
           : "/api/reviewReports/deleteReviewWithReports",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify(isChat ? { roomId, messageId } : { reviewId }),
         }
       );
@@ -36,7 +41,7 @@ export default function ActionButtons({ report, onSuccess }) {
             ? "메시지와 신고가 삭제되었습니다."
             : "리뷰와 신고가 삭제되었습니다."
         );
-        onSuccess && onSuccess();
+        onSuccess?.(report); // 전체 report 전달
       } else {
         alert("삭제 실패: " + result.error);
       }
@@ -68,7 +73,7 @@ export default function ActionButtons({ report, onSuccess }) {
       const result = await res.json();
       if (res.ok) {
         alert("신고가 삭제되었습니다.");
-        onSuccess && onSuccess();
+        onSuccess?.(report); // 전체 report 전달
       } else {
         alert("삭제 실패: " + result.error);
       }
@@ -88,9 +93,7 @@ export default function ActionButtons({ report, onSuccess }) {
         disabled={deleting}
       >
         {deleting ? (
-          <>
-            <LoadingSpinner size="sm" color="white" /> 삭제 중...
-          </>
+          <LoadingSpinner size="sm" color="white" text="삭제 중..." />
         ) : isChat ? (
           "메시지 삭제"
         ) : (
@@ -104,9 +107,7 @@ export default function ActionButtons({ report, onSuccess }) {
         disabled={dismissing}
       >
         {dismissing ? (
-          <>
-            <LoadingSpinner size="sm" color="gray" /> 무시중...
-          </>
+          <LoadingSpinner size="sm" color="gray" text="무시중..." />
         ) : (
           "신고 무시"
         )}
