@@ -99,6 +99,12 @@ export default function AdminChatReportsPage() {
     }
   };
 
+  // 삭제 성공 후 상태 업데이트 처리
+  const handleReportSuccess = (deletedReport) => {
+    setReports((prev) => prev.filter((r) => r.id !== deletedReport.id));
+    setSelectedReport(null);
+  };
+
   // 로딩 중
   if (loading) {
     return <LoadingSpinner text="신고된 채팅 메시지를 불러오는 중..." />;
@@ -143,10 +149,7 @@ export default function AdminChatReportsPage() {
             {selectedReport ? (
               <ChatReportDetail
                 report={selectedReport}
-                onSuccess={(deletedId) => {
-                  setReports((prev) => prev.filter((r) => r.id !== deletedId));
-                  setSelectedReport(null);
-                }}
+                onSuccess={handleReportSuccess}
               />
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-gray-500">

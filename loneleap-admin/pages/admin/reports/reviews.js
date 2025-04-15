@@ -93,6 +93,12 @@ export default function AdminReviewReportsPage() {
     }
   };
 
+  // 삭제 성공 후 상태 업데이트 처리
+  const handleReportSuccess = (deletedReport) => {
+    setReports((prev) => prev.filter((r) => r.id !== deletedReport.id));
+    setSelectedReport(null);
+  };
+
   if (loading) return <LoadingSpinner text="신고된 리뷰를 불러오는 중..." />;
 
   return (
@@ -136,10 +142,7 @@ export default function AdminReviewReportsPage() {
           <div className="w-1/2 bg-white p-6 rounded-xl shadow min-h-[300px]">
             <ReviewReportDetail
               report={selectedReport}
-              onSuccess={(deletedId) => {
-                setReports((prev) => prev.filter((r) => r.id !== deletedId));
-                setSelectedReport(null);
-              }}
+              onSuccess={handleReportSuccess}
             />
           </div>
         </div>
