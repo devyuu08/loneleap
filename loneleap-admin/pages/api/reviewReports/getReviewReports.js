@@ -2,7 +2,7 @@
 import { db } from "@/lib/firebaseAdmin";
 import { verifyAdminToken } from "@/lib/auth"; // 인증 미들웨어 가정
 
-export default async function handler(req, res) {
+export default async function getReviewReportsHandler(req, res) {
   // 관리자 권한 검증
   try {
     await verifyAdminToken(req, res);
@@ -15,12 +15,27 @@ export default async function handler(req, res) {
   }
 
   try {
-    const limit = 50; // 적절한 제한 설정
-    const snapshot = await db
+    const parsedLimit = parseInt(req.query.limit);
+    const limit = Number.isNaN(parsedLimit) ? 50 : parsedLimit;
+    const lastDoc = req.query.lastDoc || null;
+
+    let query = db
       .collection("review_reports")
-      .orderBy("reportedAt", "desc") // 생성 시간 기준 정렬 (필드명 확인 필요)
-      .limit(limit)
-      .get();
+      .orderBy("reportedAt", "desc")
+      .limit(limit);
+
+    // 페이지네이션을 위한 시작점 설정
+    if (lastDoc) {
+      const lastSnapshot = await db
+        .collection("review_reports")
+        .doc(lastDoc)
+        .get();
+      if (lastSnapshot.exists) {
+        query = query.startAfter(lastSnapshot);
+      }
+    }
+
+    const snapshot = await query.get();
 
     const data = await Promise.all(
       snapshot.docs.map(async (docSnap) => {

@@ -17,6 +17,7 @@ export default function AdminReviewReportsPage() {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedReport, setSelectedReport] = useState(null);
+  const [error, setError] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function AdminReviewReportsPage() {
       }
 
       try {
+        setError(null);
         const token = await user.getIdToken();
         const res = await fetch("/api/reviewReports/getReviewReports", {
           headers: {
@@ -36,10 +38,18 @@ export default function AdminReviewReportsPage() {
           },
         });
 
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(
+            errorData.error || "데이터를 불러오는데 실패했습니다"
+          );
+        }
+
         const data = await res.json();
         setReports(data);
       } catch (error) {
         console.error("신고 리뷰 불러오기 실패:", error);
+        setError(error.message || "데이터를 불러오는데 실패했습니다");
       } finally {
         setLoading(false);
       }
@@ -68,6 +78,17 @@ export default function AdminReviewReportsPage() {
           <div className="w-1/2 bg-white p-6 rounded-xl shadow">
             {loading ? (
               <LoadingSpinner text="신고된 리뷰 데이터를 불러오는 중..." />
+            ) : error ? (
+              <div className="text-red-500 p-4 text-center">
+                <p className="font-semibold mb-2">오류 발생</p>
+                <p>{error}</p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="mt-3 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                >
+                  다시 시도
+                </button>
+              </div>
             ) : (
               <ReviewReportTable
                 reports={reports}
