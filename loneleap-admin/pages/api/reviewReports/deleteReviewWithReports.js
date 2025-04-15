@@ -1,4 +1,4 @@
-// loneleap-admin/pages/api/admin/deleteReviewWithReports.js
+// loneleap-admin/pages/api/reviewReports/deleteReviewWithReports.js
 
 import { db } from "@/lib/firebaseAdmin";
 import { verifyAdminSession } from "@/lib/auth";

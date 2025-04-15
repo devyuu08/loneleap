@@ -1,7 +1,8 @@
-// loneleap-admin/pages/api/admin/dismissReport.js
+// loneleap-admin/pages/api/chatReports/dismissChatReport.js
+
 import { db } from "@/lib/firebaseAdmin";
 
-export default async function handler(req, res) {
+export default async function dismissChatReport(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "허용되지 않은 요청 방식입니다." });
   }
@@ -13,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const docRef = db.collection("review_reports").doc(reportId);
+    const docRef = db.collection("chatReports").doc(reportId);
     const doc = await docRef.get();
 
     if (!doc.exists) {
@@ -21,6 +22,7 @@ export default async function handler(req, res) {
     }
 
     await docRef.delete();
+
     return res.status(200).json({ message: "신고 삭제 완료" });
   } catch (err) {
     console.error("신고 삭제 오류:", err);
