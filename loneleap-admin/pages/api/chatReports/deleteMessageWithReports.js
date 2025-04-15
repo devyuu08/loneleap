@@ -34,11 +34,7 @@ export default async function deleteMessageWithReports(req, res) {
 
     // 트랜잭션: 메시지 + 신고 일괄 삭제
     await db.runTransaction(async (transaction) => {
-      const messageRef = db
-        .collection("chatRooms")
-        .doc(roomId)
-        .collection("messages")
-        .doc(messageId);
+      const messageRef = db.collection("chatMessages").doc(messageId);
 
       const messageSnap = await transaction.get(messageRef);
       if (!messageSnap.exists) {
