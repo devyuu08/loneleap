@@ -43,7 +43,12 @@ export default function ChatReportDetail({ report, onSuccess }) {
 
       <DetailSection title="신고일자">
         {reportedAt
-          ? format(new Date(reportedAt), "yyyy.MM.dd HH:mm")
+          ? (() => {
+              const date = new Date(reportedAt);
+              return !isNaN(date.getTime())
+                ? format(date, "yyyy.MM.dd HH:mm")
+                : "유효하지 않은 날짜";
+            })()
           : "날짜 없음"}
       </DetailSection>
 
