@@ -16,13 +16,47 @@ import { useRouter } from "next/router";
 export default function AdminReviewReportsPage() {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [selectedReport, setSelectedReport] = useState(null);
   const [error, setError] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [lastDoc, setLastDoc] = useState(null);
+
   const router = useRouter();
+
+  const fetchReports = async (isLoadMore = false) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const token = await user.getIdToken();
+
+    const query = new URLSearchParams();
+    query.append("limit", 50);
+    if (isLoadMore && lastDoc) query.append("lastDoc", lastDoc);
+
+    const res = await fetch(`/api/reviewReports/getReviewReports?${query}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "데이터를 불러오는데 실패했습니다");
+    }
+
+    const data = await res.json();
+    if (data.length < 50) setHasMore(false); // 다음 페이지 없음
+    if (data.length > 0) setLastDoc(data[data.length - 1].id);
+
+    if (isLoadMore) {
+      setReports((prev) => [...prev, ...data]);
+    } else {
+      setReports(data);
+    }
+  };
 
   useEffect(() => {
     const auth = getAuth();
-
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         router.push("/admin/login");
@@ -31,25 +65,10 @@ export default function AdminReviewReportsPage() {
 
       try {
         setError(null);
-        const token = await user.getIdToken();
-        const res = await fetch("/api/reviewReports/getReviewReports", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(
-            errorData.error || "데이터를 불러오는데 실패했습니다"
-          );
-        }
-
-        const data = await res.json();
-        setReports(data);
-      } catch (error) {
-        console.error("신고 리뷰 불러오기 실패:", error);
-        setError(error.message || "데이터를 불러오는데 실패했습니다");
+        setLoading(true);
+        await fetchReports();
+      } catch (err) {
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -58,10 +77,19 @@ export default function AdminReviewReportsPage() {
     return () => unsubscribe();
   }, [router]);
 
-  // 로딩 시 렌더링 대체
-  if (loading) {
-    return <LoadingSpinner text="신고된 리뷰를 불러오는 중..." />;
-  }
+  const handleLoadMore = async () => {
+    setLoadingMore(true);
+    try {
+      await fetchReports(true);
+    } catch (err) {
+      console.error("더 불러오기 실패:", err);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
+  // 렌더링
+  if (loading) return <LoadingSpinner text="신고된 리뷰를 불러오는 중..." />;
 
   return (
     <AdminProtectedRoute>
@@ -76,25 +104,28 @@ export default function AdminReviewReportsPage() {
         <div className="flex gap-6">
           {/* 좌측 */}
           <div className="w-1/2 bg-white p-6 rounded-xl shadow">
-            {loading ? (
-              <LoadingSpinner text="신고된 리뷰 데이터를 불러오는 중..." />
-            ) : error ? (
-              <div className="text-red-500 p-4 text-center">
-                <p className="font-semibold mb-2">오류 발생</p>
-                <p>{error}</p>
-                <button
-                  onClick={() => window.location.reload()}
-                  className="mt-3 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
-                >
-                  다시 시도
-                </button>
-              </div>
+            {error ? (
+              <div className="text-red-500 text-center">{error}</div>
             ) : (
-              <ReviewReportTable
-                reports={reports}
-                onSelect={setSelectedReport}
-                selectedReportId={selectedReport?.id}
-              />
+              <>
+                <ReviewReportTable
+                  reports={reports}
+                  onSelect={setSelectedReport}
+                  selectedReportId={selectedReport?.id}
+                />
+
+                {hasMore && (
+                  <div className="mt-4 text-center">
+                    <button
+                      onClick={handleLoadMore}
+                      className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-sm"
+                      disabled={loadingMore}
+                    >
+                      {loadingMore ? "불러오는 중..." : "더 보기"}
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
 
@@ -102,10 +133,8 @@ export default function AdminReviewReportsPage() {
           <div className="w-1/2 bg-white p-6 rounded-xl shadow min-h-[300px]">
             <ReviewReportDetail
               report={selectedReport}
-              onSuccess={(deletedReport) => {
-                setReports((prev) =>
-                  prev.filter((r) => r.id !== deletedReport.id)
-                );
+              onSuccess={(deletedId) => {
+                setReports((prev) => prev.filter((r) => r.id !== deletedId));
                 setSelectedReport(null);
               }}
             />
