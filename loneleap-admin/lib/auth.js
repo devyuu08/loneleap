@@ -12,7 +12,9 @@ export async function verifyAdminToken(req, res) {
     const decoded = await getAuth().verifyIdToken(token);
 
     // 관리자 이메일 리스트 체크
-    const adminEmails = ["admin@gmail.com"];
+    const adminEmails = process.env.ADMIN_EMAILS
+      ? process.env.ADMIN_EMAILS.split(",")
+      : [];
     if (!adminEmails.includes(decoded.email)) {
       console.log("[auth] 관리자 아님:", decoded.email);
       throw new Error("관리자 권한이 없습니다.");

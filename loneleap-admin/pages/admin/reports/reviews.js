@@ -14,23 +14,50 @@ import { useRouter } from "next/router";
  */
 
 export default function AdminReviewReportsPage() {
+  const [authUser, setAuthUser] = useState(null);
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [selectedReport, setSelectedReport] = useState(null);
-  const [error, setError] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [lastDoc, setLastDoc] = useState(null);
-
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [error, setError] = useState(null);
   const router = useRouter();
 
-  const fetchReports = async (isLoadMore = false) => {
+  // 인증 처리
+  useEffect(() => {
     const auth = getAuth();
-    const user = auth.currentUser;
-    if (!user) return;
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.push("/admin/login");
+      } else {
+        setAuthUser(user);
+      }
+    });
+    return () => unsubscribe();
+  }, [router]);
 
-    const token = await user.getIdToken();
+  // 인증 후 데이터 불러오기
+  useEffect(() => {
+    if (!authUser) return;
 
+    const fetchInitialReports = async () => {
+      try {
+        setError(null);
+        setLoading(true);
+        await fetchReports();
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInitialReports();
+  }, [authUser]);
+
+  const fetchReports = async (isLoadMore = false) => {
+    const token = await authUser.getIdToken();
     const query = new URLSearchParams();
     query.append("limit", 50);
     if (isLoadMore && lastDoc) query.append("lastDoc", lastDoc);
@@ -45,7 +72,7 @@ export default function AdminReviewReportsPage() {
     }
 
     const data = await res.json();
-    if (data.length < 50) setHasMore(false); // 다음 페이지 없음
+    if (data.length < 50) setHasMore(false);
     if (data.length > 0) setLastDoc(data[data.length - 1].id);
 
     if (isLoadMore) {
@@ -54,28 +81,6 @@ export default function AdminReviewReportsPage() {
       setReports(data);
     }
   };
-
-  useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        router.push("/admin/login");
-        return;
-      }
-
-      try {
-        setError(null);
-        setLoading(true);
-        await fetchReports();
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [router]);
 
   const handleLoadMore = async () => {
     setLoadingMore(true);
@@ -88,7 +93,12 @@ export default function AdminReviewReportsPage() {
     }
   };
 
-  // 렌더링
+  // 삭제 성공 후 상태 업데이트 처리
+  const handleReportSuccess = (deletedReport) => {
+    setReports((prev) => prev.filter((r) => r.id !== deletedReport.id));
+    setSelectedReport(null);
+  };
+
   if (loading) return <LoadingSpinner text="신고된 리뷰를 불러오는 중..." />;
 
   return (
@@ -113,7 +123,6 @@ export default function AdminReviewReportsPage() {
                   onSelect={setSelectedReport}
                   selectedReportId={selectedReport?.id}
                 />
-
                 {hasMore && (
                   <div className="mt-4 text-center">
                     <button
@@ -133,10 +142,7 @@ export default function AdminReviewReportsPage() {
           <div className="w-1/2 bg-white p-6 rounded-xl shadow min-h-[300px]">
             <ReviewReportDetail
               report={selectedReport}
-              onSuccess={(deletedId) => {
-                setReports((prev) => prev.filter((r) => r.id !== deletedId));
-                setSelectedReport(null);
-              }}
+              onSuccess={handleReportSuccess}
             />
           </div>
         </div>

@@ -46,7 +46,10 @@ export default async function handler(req, res) {
       });
     });
 
-    return res.status(200).json({ message: "리뷰 및 신고 삭제 완료" });
+    return res.status(200).json({
+      message: "리뷰 및 신고 삭제 완료",
+      deletedReportsCount: snapshot.docs.length,
+    });
   } catch (err) {
     console.error("리뷰 삭제 오류:", err);
 

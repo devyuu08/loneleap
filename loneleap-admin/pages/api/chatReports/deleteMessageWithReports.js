@@ -35,6 +35,11 @@ export default async function deleteMessageWithReports(req, res) {
 
     const snapshot = await reportsRef.get();
 
+    // 관련 신고가 없는 경우도 처리
+    if (snapshot.empty) {
+      console.log("관련 신고가 없는 메시지입니다. 메시지만 삭제합니다.");
+    }
+
     // 트랜잭션: 메시지 + 신고 일괄 삭제
     await db.runTransaction(async (transaction) => {
       const messageRef = db.collection("chatMessages").doc(messageId);
