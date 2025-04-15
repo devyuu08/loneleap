@@ -28,9 +28,19 @@ export default async function handler(req, res) {
       .where("reviewId", "==", reviewId);
     const snapshot = await reportsRef.get();
 
+    // 리뷰 문서 존재 여부 확인
+    const reviewRef = db.collection("reviews").doc(reviewId);
+    const reviewDoc = await reviewRef.get();
+
+    if (!reviewDoc.exists) {
+      return res
+        .status(404)
+        .json({ error: "삭제할 리뷰가 존재하지 않습니다." });
+    }
+
     // 5. 트랜잭션으로 리뷰 + 신고 일괄 삭제
     await db.runTransaction(async (transaction) => {
-      transaction.delete(db.collection("reviews").doc(reviewId));
+      transaction.delete(reviewRef);
       snapshot.docs.forEach((doc) => {
         transaction.delete(doc.ref);
       });
