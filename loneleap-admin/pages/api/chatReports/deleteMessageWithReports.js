@@ -41,7 +41,9 @@ export default async function deleteMessageWithReports(req, res) {
 
       const messageSnap = await transaction.get(messageRef);
       if (!messageSnap.exists) {
-        throw new Error("삭제할 메시지가 존재하지 않습니다.");
+        const error = new Error("삭제할 메시지가 존재하지 않습니다.");
+        error.code = "not-found";
+        throw error;
       }
 
       transaction.delete(messageRef);
