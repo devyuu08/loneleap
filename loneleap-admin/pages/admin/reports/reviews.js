@@ -72,6 +72,7 @@ export default function AdminReviewReportsPage() {
               <ReviewReportTable
                 reports={reports}
                 onSelect={setSelectedReport}
+                selectedReportId={selectedReport?.id}
               />
             )}
           </div>
