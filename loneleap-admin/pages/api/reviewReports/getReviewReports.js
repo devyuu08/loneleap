@@ -1,9 +1,9 @@
 // loneleap-admin/pages/api/reviewReports/getReviewReports.js
 import { db } from "@/lib/firebaseAdmin";
-import { verifyAdminToken } from "@/lib/auth"; // 인증 미들웨어 가정
+import { verifyAdminToken } from "@/lib/auth";
 
 export default async function getReviewReportsHandler(req, res) {
-  // 관리자 권한 검증
+  // 관리자 인증
   try {
     await verifyAdminToken(req, res);
   } catch (error) {
@@ -37,29 +37,47 @@ export default async function getReviewReportsHandler(req, res) {
 
     const snapshot = await query.get();
 
-    const data = await Promise.all(
-      snapshot.docs.map(async (docSnap) => {
-        const report = docSnap.data();
-        const reviewSnap = await db
-          .collection("reviews")
-          .doc(report.reviewId)
-          .get();
+    // 1. ✅ 신고 데이터만 먼저 추출
+    const reports = snapshot.docs.map((docSnap) => {
+      const report = docSnap.data();
+      return {
+        id: docSnap.id,
+        ...report,
+        reportedAt: report.reportedAt?.toDate?.().toISOString() || null,
+        review: null, // 이후 연결
+      };
+    });
 
-        return {
-          id: docSnap.id,
-          ...report,
-          reportedAt: report.reportedAt?.toDate?.().toISOString() || null, // 여기서 변환!
-          review: reviewSnap.exists ? reviewSnap.data() : null,
-        };
-      })
+    // 2. 리뷰 ID 수집
+    const reviewIds = [...new Set(reports.map((r) => r.reviewId))];
+
+    // 3. 일괄 리뷰 조회 (Promise.all)
+    const reviewSnaps = await Promise.all(
+      reviewIds.map((id) => db.collection("reviews").doc(id).get())
     );
 
-    res.status(200).json(data);
+    const reviewsMap = {};
+    reviewSnaps.forEach((snap) => {
+      if (snap.exists) {
+        reviewsMap[snap.id] = snap.data();
+      }
+    });
+
+    // 4. 신고 데이터에 리뷰 정보 연결
+    const data = reports.map((report) => ({
+      ...report,
+      review: reviewsMap[report.reviewId] || null,
+    }));
+
+    return res.status(200).json(data);
   } catch (error) {
     console.error("리뷰 신고 데이터 불러오기 오류:", error);
     res.status(500).json({
       error: "리뷰 신고 데이터를 불러오는 중 서버 오류가 발생했습니다",
-      message: error.message,
+      ...(process.env.NODE_ENV === "development" && {
+        message: error.message,
+        stack: error.stack,
+      }),
     });
   }
 }

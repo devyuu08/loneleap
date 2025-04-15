@@ -3,6 +3,7 @@
 import { format } from "date-fns";
 import ActionButtons from "../reports/ActionButtons";
 import DetailSection from "./DetailSection";
+import PropTypes from "prop-types";
 
 export default function ChatReportDetail({ report, onSuccess }) {
   if (!report) {
@@ -68,3 +69,15 @@ export default function ChatReportDetail({ report, onSuccess }) {
     </div>
   );
 }
+
+ChatReportDetail.propTypes = {
+  report: PropTypes.shape({
+    id: PropTypes.string,
+    messageText: PropTypes.string,
+    reason: PropTypes.string.isRequired,
+    reporterId: PropTypes.string,
+    reportedAt: PropTypes.string,
+    status: PropTypes.string,
+  }),
+  onSuccess: PropTypes.func,
+};

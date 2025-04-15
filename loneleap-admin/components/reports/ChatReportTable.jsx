@@ -44,6 +44,7 @@ export default function ChatReportTable({ reports = [], onSelect = () => {} }) {
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
                     onSelect(report);
                   }
                 }}

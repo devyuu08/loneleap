@@ -47,7 +47,7 @@ export default function ActionButtons({ report, onSuccess }) {
       }
     } catch (err) {
       console.error("삭제 오류:", err);
-      alert("삭제 중 오류가 발생했습니다.");
+      alert("신고 삭제 중 오류가 발생했습니다.");
     } finally {
       setDeleting(false);
     }
