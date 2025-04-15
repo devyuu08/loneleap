@@ -30,7 +30,7 @@ export default function AdminReviewReportsPage() {
 
       try {
         const token = await user.getIdToken();
-        const res = await fetch("/api/admin/getReviewReports", {
+        const res = await fetch("/api/reviewReports/getReviewReports", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -78,7 +78,15 @@ export default function AdminReviewReportsPage() {
 
           {/* 우측 */}
           <div className="w-1/2 bg-white p-6 rounded-xl shadow min-h-[300px]">
-            <ReviewReportDetail report={selectedReport} />
+            <ReviewReportDetail
+              report={selectedReport}
+              onSuccess={(deletedReport) => {
+                setReports((prev) =>
+                  prev.filter((r) => r.id !== deletedReport.id)
+                );
+                setSelectedReport(null);
+              }}
+            />
           </div>
         </div>
       </AdminLayout>

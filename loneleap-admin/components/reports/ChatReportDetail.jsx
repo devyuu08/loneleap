@@ -1,10 +1,10 @@
-// loneleap-admin/components/reports/ReviewReportDetail.jsx
+// loneleap-admin/components/reports/ChatReportDetail.jsx
 
 import { format } from "date-fns";
 import ActionButtons from "../reports/ActionButtons";
 import DetailSection from "./DetailSection";
 
-export default function ReviewReportDetail({ report, onSuccess }) {
+export default function ChatReportDetail({ report, onSuccess }) {
   if (!report) {
     return (
       <div
@@ -12,7 +12,7 @@ export default function ReviewReportDetail({ report, onSuccess }) {
         role="alert"
         aria-live="polite"
       >
-        왼쪽 목록에서 신고된 리뷰를 선택하세요.
+        왼쪽 목록에서 신고된 채팅 메시지를 선택하세요.
       </div>
     );
   }
@@ -29,12 +29,12 @@ export default function ReviewReportDetail({ report, onSuccess }) {
     );
   }
 
-  const { review, reason, reporterId, reportedAt } = report;
+  const { messageText, reason, reporterId, reportedAt } = report;
 
   return (
     <div className="p-6 space-y-6">
-      <DetailSection title="리뷰 원문">
-        {review?.content || "삭제된 리뷰입니다."}
+      <DetailSection title="채팅 메시지">
+        {messageText || "삭제된 메시지입니다."}
       </DetailSection>
 
       <DetailSection title="신고 사유">{reason}</DetailSection>

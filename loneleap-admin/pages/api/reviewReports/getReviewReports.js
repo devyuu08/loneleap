@@ -1,4 +1,4 @@
-// loneleap-admin/pages/api/admin/getReviewReports.js
+// loneleap-admin/pages/api/reviewReports/getReviewReports.js
 import { db } from "@/lib/firebaseAdmin";
 import { verifyAdminToken } from "@/lib/auth"; // 인증 미들웨어 가정
 
