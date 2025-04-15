@@ -60,7 +60,12 @@ export default function ChatReportTable({ reports = [], onSelect }) {
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap">
                   {report.reportedAt
-                    ? format(new Date(report.reportedAt), "yyyy.MM.dd")
+                    ? (() => {
+                        const date = new Date(report.reportedAt);
+                        return !isNaN(date.getTime())
+                          ? format(date, "yyyy.MM.dd")
+                          : "유효하지 않은 날짜";
+                      })()
                     : "날짜 없음"}
                 </td>
                 <td className="px-4 py-2">

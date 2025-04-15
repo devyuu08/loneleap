@@ -10,7 +10,10 @@ export default async function deleteMessageWithReports(req, res) {
 
   // 관리자 인증
   try {
-    await verifyAdminToken(req);
+    const adminUser = await verifyAdminToken(req);
+    console.log(
+      `관리자 ${adminUser.email || adminUser.uid}가 메시지 삭제 시도`
+    );
   } catch (error) {
     console.error("관리자 인증 실패:", error.message);
     return res.status(401).json({ error: "관리자 권한이 필요합니다." });
@@ -38,7 +41,9 @@ export default async function deleteMessageWithReports(req, res) {
 
       const messageSnap = await transaction.get(messageRef);
       if (!messageSnap.exists) {
-        throw new Error("삭제할 메시지가 존재하지 않습니다.");
+        const error = new Error("삭제할 메시지가 존재하지 않습니다.");
+        error.code = "not-found";
+        throw error;
       }
 
       transaction.delete(messageRef);
@@ -48,6 +53,9 @@ export default async function deleteMessageWithReports(req, res) {
       });
     });
 
+    console.log(
+      `메시지 ID: ${messageId}, 방 ID: ${roomId}의 메시지 및 관련 신고 ${snapshot.size}개 삭제 완료`
+    );
     return res.status(200).json({ message: "메시지 및 관련 신고 삭제 완료" });
   } catch (err) {
     console.error("채팅 메시지 삭제 오류:", err);
@@ -63,7 +71,7 @@ export default async function deleteMessageWithReports(req, res) {
         error: "서버 오류로 메시지 삭제 실패",
         details: err.message,
         code: err.code,
-        stack: err.stack,
+        stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
       });
     }
   }
