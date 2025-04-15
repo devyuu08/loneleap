@@ -40,6 +40,11 @@ export default async function deleteMessageWithReports(req, res) {
         .collection("messages")
         .doc(messageId);
 
+      const messageSnap = await transaction.get(messageRef);
+      if (!messageSnap.exists) {
+        throw new Error("삭제할 메시지가 존재하지 않습니다.");
+      }
+
       transaction.delete(messageRef);
 
       snapshot.docs.forEach((doc) => {
@@ -61,6 +66,8 @@ export default async function deleteMessageWithReports(req, res) {
       return res.status(500).json({
         error: "서버 오류로 메시지 삭제 실패",
         details: err.message,
+        code: err.code,
+        stack: err.stack,
       });
     }
   }
