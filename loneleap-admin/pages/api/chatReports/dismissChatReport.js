@@ -21,6 +21,15 @@ export default async function dismissChatReport(req, res) {
       return res.status(404).json({ error: "해당 신고를 찾을 수 없습니다." });
     }
 
+    // 감사 로그 추가
+    await db.collection("adminLogs").add({
+      action: "dismissChatReport",
+      adminId: req.session?.user?.id, // 세션에서 관리자 ID 가져오기
+      reportId: reportId,
+      reportData: doc.data(), // 삭제 전 데이터 보존
+      timestamp: new Date(),
+    });
+
     await docRef.delete();
 
     return res.status(200).json({ message: "신고 삭제 완료" });

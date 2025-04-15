@@ -16,12 +16,25 @@ export default async function getChatReports(req, res) {
   }
 
   try {
-    const limit = 50;
-    const snapshot = await db
+    const limit = parseInt(req.query.limit) || 50;
+    const lastDocId = req.query.lastDocId || null;
+
+    let queryRef = db
       .collection("chatReports")
-      .orderBy("reportedAt", "desc") // reportedAt 기준 정렬
-      .limit(limit)
-      .get();
+      .orderBy("reportedAt", "desc")
+      .limit(limit);
+
+    if (lastDocId) {
+      const lastDocSnap = await db
+        .collection("chatReports")
+        .doc(lastDocId)
+        .get();
+      if (lastDocSnap.exists) {
+        queryRef = queryRef.startAfter(lastDocSnap);
+      }
+    }
+
+    const snapshot = await queryRef.get();
 
     const data = await Promise.all(
       snapshot.docs.map(async (docSnap) => {

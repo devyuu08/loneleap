@@ -71,15 +71,24 @@ export default function AdminChatReportsPage() {
 
           {/* 우측 - 상세 */}
           <div className="w-1/2 bg-white p-6 rounded-xl shadow min-h-[300px]">
-            <ChatReportDetail
-              report={selectedReport}
-              onSuccess={(deletedReport) => {
-                setReports((prev) =>
-                  prev.filter((r) => r.id !== deletedReport.id)
-                );
-                setSelectedReport(null);
-              }}
-            />
+            {selectedReport ? (
+              <ChatReportDetail
+                report={selectedReport}
+                onSuccess={(deletedReport) => {
+                  setReports((prev) =>
+                    prev.filter((r) => r.id !== deletedReport.id)
+                  );
+                  setSelectedReport(null);
+                }}
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full text-gray-500">
+                <p>선택된 신고가 없습니다.</p>
+                <p className="text-sm mt-2">
+                  왼쪽 목록에서 신고를 선택해주세요.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </AdminLayout>
