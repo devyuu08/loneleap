@@ -72,7 +72,11 @@ export default async function getChatReports(req, res) {
     console.error("채팅 신고 데이터 불러오기 오류:", error);
     return res.status(500).json({
       error: "채팅 신고 데이터를 불러오는 중 서버 오류가 발생했습니다",
-      message: error.message,
+      // 프로덕션 환경에서는 상세 에러 메시지 제외
+      ...(process.env.NODE_ENV === "development" && {
+        message: error.message,
+        stack: error.stack,
+      }),
     });
   }
 }
