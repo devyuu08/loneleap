@@ -1,7 +1,10 @@
 // src/components/mypage/MyChatRoomCard.jsx
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MyChatRoomCard({ room }) {
+  const navigate = useNavigate(); // 훅 초기화
+
   return (
     <div className="bg-[#1f222c] rounded-2xl text-white shadow mb-6 p-6">
       {/* 상단: 제목 + 생성일 */}
@@ -30,7 +33,10 @@ export default function MyChatRoomCard({ room }) {
 
       {/* 하단 버튼 */}
       <div className="flex justify-between items-center pt-4 border-t border-gray-700">
-        <button className="text-sm text-gray-300 hover:text-white transition">
+        <button
+          onClick={() => navigate(`/chat/${room.id}`)} // 라우팅 연결
+          className="text-sm text-gray-300 hover:text-white transition"
+        >
           참여하기
         </button>
         <button className="text-sm text-gray-300 hover:text-white transition">

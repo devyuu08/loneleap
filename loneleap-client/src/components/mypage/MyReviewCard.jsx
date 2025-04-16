@@ -1,7 +1,10 @@
 // src/components/mypage/MyReviewCard.jsx
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MyReviewCard({ review }) {
+  const navigate = useNavigate(); // 훅 사용
+
   return (
     <div className="bg-[#1f222c] rounded-2xl overflow-hidden text-white shadow mb-6">
       {/* 제목 + 날짜 */}
@@ -23,7 +26,7 @@ export default function MyReviewCard({ review }) {
         </div>
       </div>
 
-      {/* 이미지 영역 - 카드 중앙 위치 */}
+      {/* 이미지 */}
       <div className="bg-[#2f3340] h-48 flex items-center justify-center mx-6 rounded-lg mb-4">
         {review.imageUrl ? (
           <img
@@ -36,7 +39,7 @@ export default function MyReviewCard({ review }) {
         )}
       </div>
 
-      {/* 본문 내용 */}
+      {/* 본문 */}
       <div className="px-6 text-sm text-gray-300 leading-relaxed mb-4 whitespace-pre-wrap">
         {review.content}
         {review.reported && (
@@ -48,7 +51,10 @@ export default function MyReviewCard({ review }) {
 
       {/* 하단 버튼 */}
       <div className="flex justify-between items-center px-6 py-4 border-t border-gray-700">
-        <button className="text-sm text-gray-300 hover:text-white transition">
+        <button
+          onClick={() => navigate(`/reviews/${review.id}`)} // 상세 페이지로 이동
+          className="text-sm text-gray-300 hover:text-white transition"
+        >
           상세 보기
         </button>
         <button className="text-sm text-gray-300 hover:text-white transition">
