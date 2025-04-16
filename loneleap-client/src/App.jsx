@@ -21,6 +21,7 @@ import ReviewDetailPage from "pages/Reviews/Detail";
 import CreateChatRoomPage from "pages/Chat/Create";
 import ChatRoomListPage from "pages/Chat/List";
 import ChatRoomDetailPage from "pages/Chat/Detail";
+import MyPage from "pages/MyPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -66,6 +67,9 @@ function App() {
           <Route index element={<ChatRoomListPage />} />
           <Route path="create" element={<CreateChatRoomPage />}></Route>
           <Route path=":id" element={<ChatRoomDetailPage />} />
+        </Route>
+        <Route path="/mypage">
+          <Route index element={<MyPage />} />
         </Route>
       </Routes>
     </>
