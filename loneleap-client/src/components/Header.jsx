@@ -39,6 +39,9 @@ export default function Header() {
           <Link to="/chat" className="hover:text-black">
             채팅 목록
           </Link>
+          <Link to="/mypage" className="hover:text-black">
+            마이페이지
+          </Link>
           <button
             onClick={handleLogout}
             className="text-red-500 hover:underline ml-2"
