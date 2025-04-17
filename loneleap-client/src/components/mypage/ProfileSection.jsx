@@ -29,7 +29,7 @@ export default function ProfileSection({ user = null }) {
   return (
     <div className="bg-gradient-to-b from-[#1f2937] to-[#111827] py-12 text-center">
       <img
-        src={user?.photoURL || "/user-avatar.svg"}
+        src={user?.photoURL || "/default_profile.png"}
         alt="프로필 이미지"
         className="w-24 h-24 rounded-full mx-auto border-2 border-white mb-4"
       />
