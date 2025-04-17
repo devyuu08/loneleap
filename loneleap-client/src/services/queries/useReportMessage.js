@@ -2,6 +2,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 import { useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
+import { getDocs, query, where } from "firebase/firestore";
 
 /**
  * 채팅 메시지를 신고하기 위한 커스텀 훅
@@ -25,31 +26,38 @@ export const useReportMessage = () => {
    * @property {string} reason - 신고 사유
    */
 
+  const checkDuplicateReport = async (messageId, reporterId) => {
+    const q = query(
+      collection(db, "chatReports"),
+      where("messageId", "==", messageId),
+      where("reporterId", "==", reporterId)
+    );
+    const snapshot = await getDocs(q);
+    return !snapshot.empty;
+  };
+
   return useMutation({
     /**
-+     * 메시지를 신고하는 함수
-+     * 
-+     * @param {ReportParams} params - 신고에 필요한 매개변수
-+     * @throws {Error} 사용자가 로그인하지 않았거나 Firestore 오류 발생 시
-+     */
+     * 메시지를 신고하는 함수
+     *
+     * @param {ReportParams} params - 신고에 필요한 매개변수
+     * @throws {Error} 사용자가 로그인하지 않았거나 Firestore 오류 발생 시
+     */
     mutationFn: async ({ messageId, roomId, reason }) => {
       if (!user) throw new Error("로그인 정보가 없습니다");
-      // 입력 매개변수 검증
-      if (!messageId) throw new Error("메시지 ID가 필요합니다");
-      // messageId 형식 검증 (예: Firebase ID는 보통 20자 이상)
-      if (typeof messageId !== "string" || messageId.length < 10)
+      if (!messageId || messageId.length < 10)
         throw new Error("유효하지 않은 메시지 ID 형식입니다");
-
-      if (!roomId) throw new Error("채팅방 ID가 필요합니다");
-      // roomId 형식 검증
-      if (typeof roomId !== "string" || roomId.length < 10)
+      if (!roomId || roomId.length < 10)
         throw new Error("유효하지 않은 채팅방 ID 형식입니다");
-
-      if (!reason || reason.trim() === "")
-        throw new Error("신고 사유를 입력해주세요");
-      // 신고 사유 길이 제한
+      if (!reason.trim()) throw new Error("신고 사유를 입력해주세요");
       if (reason.length > 500)
         throw new Error("신고 사유는 500자 이내로 작성해주세요");
+
+      // 중복 신고 방지
+      const alreadyReported = await checkDuplicateReport(messageId, user.uid);
+      if (alreadyReported) {
+        throw new Error("이미 신고한 메시지입니다.");
+      }
 
       try {
         await addDoc(collection(db, "chatReports"), {
@@ -61,7 +69,6 @@ export const useReportMessage = () => {
         });
       } catch (error) {
         console.error("메시지 신고 중 오류 발생:", error);
-        // Firebase 오류 코드에 따른 구체적인 메시지 제공
         if (error.code === "permission-denied") {
           throw new Error("권한이 없습니다. 관리자에게 문의하세요.");
         } else if (error.code === "unavailable") {

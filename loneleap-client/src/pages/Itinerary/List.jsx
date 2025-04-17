@@ -39,14 +39,6 @@ export default function ItineraryListPage() {
       </div>
     );
 
-  if (!data || data.length === 0)
-    return (
-      <EmptyState
-        title="등록된 일정이 없습니다"
-        description="새로운 여행 일정을 작성해보세요!"
-      />
-    );
-
   return (
     <div className="max-w-3xl mx-auto px-4 mt-10">
       <div className="flex justify-between items-center mb-6">
@@ -68,7 +60,14 @@ export default function ItineraryListPage() {
       </div>
 
       <main role="main">
-        <ItineraryList itineraries={data} />
+        {data && data.length > 0 ? (
+          <ItineraryList itineraries={data} />
+        ) : (
+          <EmptyState
+            title="등록된 일정이 없습니다"
+            description="새로운 여행 일정을 작성해보세요!"
+          />
+        )}
       </main>
     </div>
   );
