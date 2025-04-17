@@ -44,13 +44,15 @@ export default function ReviewCard({ review }) {
       }}
       className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 cursor-pointer overflow-hidden"
     >
-      {imageUrl && (
-        <img
-          src={imageUrl}
-          alt={`${title} - ${destination} 리뷰 이미지`}
-          className="w-full h-48 object-cover"
-        />
-      )}
+      <img
+        src={imageUrl || "/images/no_image.png"}
+        alt={`${title} - ${destination} 리뷰 이미지`}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "/images/no_image.png"; // public 폴더 기준 경로
+        }}
+        className="w-full h-48 object-cover bg-gray-100"
+      />
 
       <div className="p-5">
         <h2 className="text-lg font-bold text-gray-800 mb-1">{title}</h2>

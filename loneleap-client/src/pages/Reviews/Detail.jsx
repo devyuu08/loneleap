@@ -49,13 +49,19 @@ export default function ReviewDetailPage() {
 
       <div className="mb-6">
         <img
-          src={imageUrl || "/free-icon-no-pictures-3875148.png"}
+          src={imageUrl || "/images/no_image.png"}
           alt="리뷰 이미지"
           onError={(e) => {
+            // 무한 반복 방지
+            if (e.target.src.includes("no_image.png")) return;
             e.target.onerror = null;
-            e.target.src = "/free-icon-no-pictures-3875148.png";
+            e.target.src = "/images/no_image.png";
           }}
-          className="w-full max-h-[400px] object-cover rounded-lg"
+          className={`w-full rounded-lg bg-gray-100 ${
+            imageUrl
+              ? "object-cover aspect-[4/3]"
+              : "object-contain max-h-[400px]"
+          }`}
         />
       </div>
 
