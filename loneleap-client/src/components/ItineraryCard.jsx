@@ -30,17 +30,19 @@ export default function ItineraryCard({ itinerary }) {
           <img
             src={itinerary.imageUrl}
             alt={`${location} 여행지 대표 이미지`}
-            className="w-full h-full object-cover"
+            className="w-full h-48 object-cover bg-gray-100"
             loading="lazy"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = "/default-destination.jpg"; // 기본 이미지 경로
+              e.target.src = "/no_image.png"; // 기본 이미지 경로
             }}
           />
         ) : (
-          <div className="bg-gray-800 h-full flex items-center justify-center text-white text-sm">
-            [Destination Image]
-          </div>
+          <img
+            src="/images/no_image.png"
+            alt="기본 여행지 이미지"
+            className="w-full h-full object-contain bg-gray-100"
+          />
         )}
       </div>
 
