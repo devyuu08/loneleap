@@ -3,8 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function MyItineraryCard({ itinerary }) {
-  const navigate = useNavigate(); // 훅 초기화
-
+  const navigate = useNavigate();
   return (
     <div className="bg-[#1f222b] text-white rounded-xl p-5 shadow mb-6">
       <div className="flex justify-between items-center mb-2">
@@ -23,7 +22,7 @@ export default function MyItineraryCard({ itinerary }) {
       {/* 버튼 영역 */}
       <div className="flex justify-between items-center mt-4 text-sm">
         <button
-          onClick={() => navigate(`/itinerary/${itinerary.id}`)} // 상세 페이지 이동
+          onClick={() => navigate(`/itinerary/${itinerary.id}`)}
           className="text-gray-300 hover:text-white"
         >
           상세 보기
