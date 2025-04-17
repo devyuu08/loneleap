@@ -2,6 +2,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import { formatDateOnly } from "utils/formatDate";
+
 export default function MyReviewCard({ review = {} }) {
   const navigate = useNavigate();
   // 객체 디스트럭처링 및 기본값 설정
@@ -22,7 +24,7 @@ export default function MyReviewCard({ review = {} }) {
       <div className="flex justify-between items-center px-6 pt-6">
         <h3 className="text-lg font-semibold">{title || "리뷰 제목 없음"}</h3>
         <span className="text-sm text-gray-400">
-          {new Date(createdAt).toLocaleDateString("ko-KR")}
+          {formatDateOnly(createdAt)}
         </span>
       </div>
 

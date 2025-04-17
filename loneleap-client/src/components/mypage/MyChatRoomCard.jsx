@@ -3,6 +3,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import { formatDateOnly } from "utils/formatDate";
+
 export default function MyChatRoomCard({ room }) {
   const navigate = useNavigate();
 
@@ -12,9 +14,7 @@ export default function MyChatRoomCard({ room }) {
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-semibold">{room.name}</h3>
         <span className="text-sm text-gray-400">
-          {room.createdAt?.toDate
-            ? room.createdAt.toDate().toLocaleDateString("ko-KR")
-            : "날짜 없음"}
+          {formatDateOnly(room.createdAt)}
         </span>
       </div>
 

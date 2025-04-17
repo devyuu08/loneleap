@@ -1,6 +1,7 @@
 // src/components/mypage/MyItineraryCard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { formatDateOnly } from "utils/formatDate";
 
 export default function MyItineraryCard({ itinerary }) {
   const navigate = useNavigate();
@@ -14,28 +15,31 @@ export default function MyItineraryCard({ itinerary }) {
           {status}
         </span>
       </div>
+
       <p className="text-sm text-gray-300 mb-3">
-        {startDate} ~ {endDate}
+        {formatDateOnly(startDate)} ~ {formatDateOnly(endDate)}
       </p>
-      <div className="w-full h-40 bg-gray-700 rounded flex items-center justify-center text-sm text-gray-300">
+
+      <div className="w-full h-40 bg-gray-700 rounded flex items-center justify-center text-sm text-gray-300 overflow-hidden">
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={title}
             className="w-full h-full object-cover rounded"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/assets/default-itinerary-image.png";
+            }}
           />
         ) : (
-          <div className="flex items-center justify-center h-full w-full">
-            <span>이미지가 없습니다</span>
-          </div>
+          <span className="text-gray-400">이미지가 없습니다</span>
         )}
       </div>
 
-      {/* 버튼 영역 */}
       <div className="flex justify-between items-center mt-4 text-sm">
         <button
           onClick={() => navigate(`/itinerary/${id}`)}
-          className="text-gray-300 hover:text-white"
+          className="text-gray-300 hover:text-white transition"
         >
           상세 보기
         </button>

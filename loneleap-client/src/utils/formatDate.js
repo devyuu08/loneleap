@@ -1,4 +1,5 @@
 // utils/formatDate.js
+
 export function formatDate(dateValue) {
   if (!dateValue) return "날짜 없음";
 
@@ -31,4 +32,19 @@ export function formatDate(dateValue) {
     console.error("날짜 형식 변환 오류:", error);
     return "날짜 변환 오류";
   }
+}
+
+export function formatDateOnly(dateValue) {
+  if (!dateValue) return "날짜 없음";
+
+  const date =
+    typeof dateValue.toDate === "function"
+      ? dateValue.toDate()
+      : new Date(dateValue);
+
+  return date.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 }

@@ -68,6 +68,14 @@ export const useReportMessage = () => {
           throw new Error(
             "서버 연결에 실패했습니다. 네트워크 상태를 확인해주세요."
           );
+        } else if (error.code === "unauthenticated") {
+          throw new Error("인증이 만료되었습니다. 다시 로그인해주세요.");
+        } else if (error.code === "resource-exhausted") {
+          throw new Error(
+            "요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요."
+          );
+        } else if (error.code === "cancelled") {
+          throw new Error("요청이 취소되었습니다. 다시 시도해주세요.");
         } else {
           throw new Error("메시지 신고에 실패했습니다. 다시 시도해주세요.");
         }
