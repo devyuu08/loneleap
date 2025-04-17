@@ -20,6 +20,7 @@ function RatingInput({ value = 0, onChange = () => {} }) {
           onKeyDown={(e) => {
             if (e.key === "ArrowLeft" && value > 1) onChange(value - 1);
             if (e.key === "ArrowRight" && value < 5) onChange(value + 1);
+            if (e.key === "Escape") onChange(0);
           }}
         >
           <span className={star <= value ? "text-yellow-400" : "text-gray-300"}>
