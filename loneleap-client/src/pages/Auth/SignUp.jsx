@@ -171,6 +171,11 @@ export default function SignUp() {
               type="button"
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-blue-500 hover:underline"
               onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+              aria-label={
+                showPasswordConfirm
+                  ? "비밀번호 확인 숨기기"
+                  : "비밀번호 확인 보기"
+              }
             >
               {showPasswordConfirm ? "숨기기" : "보기"}
             </button>

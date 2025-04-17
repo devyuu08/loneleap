@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function MyChatRoomCard({ room }) {
-  const navigate = useNavigate(); // 훅 초기화
+  const navigate = useNavigate();
 
   return (
     <div className="bg-[#1f222c] rounded-2xl text-white shadow mb-6 p-6">
@@ -34,8 +34,10 @@ export default function MyChatRoomCard({ room }) {
       {/* 하단 버튼 */}
       <div className="flex justify-between items-center pt-4 border-t border-gray-700">
         <button
-          onClick={() => navigate(`/chat/${room.id}`)} // 라우팅 연결
+          onClick={() => navigate(`/chat/${room.id}`)}
           className="text-sm text-gray-300 hover:text-white transition"
+          aria-label="채팅방 참여하기"
+          role="button"
         >
           참여하기
         </button>
