@@ -3,8 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function MyReviewCard({ review }) {
-  const navigate = useNavigate(); // 훅 사용
-
+  const navigate = useNavigate();
   return (
     <div className="bg-[#1f222c] rounded-2xl overflow-hidden text-white shadow mb-6">
       {/* 제목 + 날짜 */}
@@ -52,7 +51,7 @@ export default function MyReviewCard({ review }) {
       {/* 하단 버튼 */}
       <div className="flex justify-between items-center px-6 py-4 border-t border-gray-700">
         <button
-          onClick={() => navigate(`/reviews/${review.id}`)} // 상세 페이지로 이동
+          onClick={() => navigate(`/reviews/${review.id}`)}
           className="text-sm text-gray-300 hover:text-white transition"
         >
           상세 보기

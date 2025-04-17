@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "services/auth";
 import { clearUser } from "store/userSlice";
+import PropTypes from "prop-types";
 
 export default function ProfileSection({ user }) {
   const dispatch = useDispatch();
@@ -50,3 +51,16 @@ export default function ProfileSection({ user }) {
     </div>
   );
 }
+
+ProfileSection.propTypes = {
+  user: PropTypes.shape({
+    displayName: PropTypes.string,
+    email: PropTypes.string,
+    photoURL: PropTypes.string,
+    // 기타 필요한 속성들...
+  }),
+};
+
+ProfileSection.defaultProps = {
+  user: null,
+};

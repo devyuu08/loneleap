@@ -14,7 +14,7 @@ export default function CreateReviewPage() {
       );
     },
     // 선택적으로 onSuccess도 커스터마이징 가능
-    // onSuccess: () => { ... }
+    // onSuccess: () => { /* 성공 시 추가 동작 */ }
   });
 
   const handleCreateReviewSubmit = ({

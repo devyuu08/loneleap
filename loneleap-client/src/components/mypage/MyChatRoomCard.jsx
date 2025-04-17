@@ -1,6 +1,7 @@
 // src/components/mypage/MyChatRoomCard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export default function MyChatRoomCard({ room }) {
   const navigate = useNavigate();
@@ -41,10 +42,17 @@ export default function MyChatRoomCard({ room }) {
         >
           참여하기
         </button>
-        <button className="text-sm text-gray-300 hover:text-white transition">
-          신고
-        </button>
       </div>
     </div>
   );
 }
+
+MyChatRoomCard.propTypes = {
+  room: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    createdAt: PropTypes.object,
+    description: PropTypes.string,
+    participants: PropTypes.array,
+  }).isRequired,
+};
