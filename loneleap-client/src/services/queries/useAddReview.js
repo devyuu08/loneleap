@@ -1,5 +1,5 @@
 // src/services/queries/useAddReview.js
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { db, storage } from "../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -19,6 +19,7 @@ export default function useAddReview({
 } = {}) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
+  const queryClient = useQueryClient();
 
   // 사용자 인증 상태 확인
   const checkAuth = () => {
@@ -75,6 +76,7 @@ export default function useAddReview({
       });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
       alert("리뷰가 성공적으로 등록되었습니다!");
       navigate("/reviews");
       onSuccessCallback();
