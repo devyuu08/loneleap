@@ -8,6 +8,15 @@ import { formatDateOnly } from "utils/formatDate";
 export default function MyChatRoomCard({ room }) {
   const navigate = useNavigate();
 
+  // 필수 속성이 없는 경우 대체 UI 표시
+  if (!room || !room.id || !room.name) {
+    return (
+      <div className="bg-[#1f222c] rounded-2xl text-white shadow mb-6 p-6">
+        <p className="text-red-400">채팅방 정보를 불러올 수 없습니다.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-[#1f222c] rounded-2xl text-white shadow mb-6 p-6">
       {/* 상단: 제목 + 생성일 */}

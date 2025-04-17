@@ -42,10 +42,16 @@ export default function ProfileSection({ user = null }) {
 
       {/* 버튼 그룹 */}
       <div className="flex justify-center gap-4 flex-wrap">
-        <button className="min-w-[100px] px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition">
+        <button
+          onClick={() => alert("준비 중인 기능입니다.")}
+          className="min-w-[100px] px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition"
+        >
           프로필 수정
         </button>
-        <button className="min-w-[100px] px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition">
+        <button
+          onClick={() => alert("준비 중인 기능입니다.")}
+          className="min-w-[100px] px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition"
+        >
           설정
         </button>
         <button

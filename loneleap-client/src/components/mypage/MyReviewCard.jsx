@@ -52,6 +52,10 @@ export default function MyReviewCard({ review = {} }) {
                 src={imageUrl}
                 alt={title}
                 className="w-full h-full object-cover rounded"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/assets/default-review-image.png";
+                }}
               />
             ) : (
               <div className="flex items-center justify-center h-full w-full">
@@ -64,7 +68,7 @@ export default function MyReviewCard({ review = {} }) {
 
       {/* 본문 */}
       <div className="px-6 text-sm text-gray-300 leading-relaxed mb-4 whitespace-pre-wrap">
-        {content}
+        {content || <span className="text-gray-400">내용 없음</span>}
         {reported && (
           <div className="mt-2 text-xs text-red-500 font-medium">
             🚨 신고된 리뷰입니다
@@ -75,7 +79,9 @@ export default function MyReviewCard({ review = {} }) {
       {/* 하단 버튼 */}
       <div className="flex justify-between items-center px-6 py-4 border-t border-gray-700">
         <button
-          onClick={() => navigate(`/reviews/${id}`)}
+          onClick={() =>
+            id ? navigate(`/reviews/${id}`) : alert("리뷰 ID 정보가 없습니다")
+          }
           className="text-sm text-gray-300 hover:text-white transition"
         >
           상세 보기

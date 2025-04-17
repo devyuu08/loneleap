@@ -14,8 +14,13 @@ export default function ItineraryListPage() {
 
   const handleRefetch = async () => {
     setIsRefetching(true);
-    await refetch();
-    setIsRefetching(false);
+    try {
+      await refetch();
+    } catch (error) {
+      console.error("리패치 중 오류 발생:", error);
+    } finally {
+      setIsRefetching(false);
+    }
   };
 
   if (isLoading || isRefetching) return <LoadingSpinner />;

@@ -12,7 +12,7 @@ export default function MyItineraryCard({ itinerary }) {
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-bold">{title}</h3>
         <span className="text-sm bg-green-600 text-white px-2 py-1 rounded">
-          {status}
+          {status || "상태 없음"}
         </span>
       </div>
 
