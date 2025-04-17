@@ -23,7 +23,9 @@ export default function MyPage() {
     isLoading: isItineraryLoading,
     isError: isItineraryError,
     error: itineraryError,
-  } = useMyItineraries(user?.uid);
+  } = useMyItineraries(user?.uid, {
+    enabled: activeTab === "itinerary",
+  });
 
   const {
     data: myReviews,
@@ -33,14 +35,18 @@ export default function MyPage() {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = useMyReviews(user?.uid);
+  } = useMyReviews(user?.uid, {
+    enabled: activeTab === "review",
+  });
 
   const {
     data: myChatRooms = [],
     isLoading: isChatLoading,
     isError: isChatError,
     error: chatError,
-  } = useMyChatRooms(user?.uid);
+  } = useMyChatRooms(user?.uid, {
+    enabled: activeTab === "chat",
+  });
 
   const renderContent = () => {
     const renderTabContent = (

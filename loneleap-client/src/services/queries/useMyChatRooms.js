@@ -10,16 +10,20 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 
-export const useMyChatRooms = (uid) => {
+export const useMyChatRooms = (uid, options = {}) => {
   return useQuery({
     queryKey: ["myChatRooms", uid],
-    enabled: !!uid,
+    enabled: !!uid && options.enabled !== false,
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: true,
+    refetchInterval: 30 * 1000,
+    ...options, // 사용자 정의 옵션 덮어쓰기 가능
     queryFn: async () => {
       const q = query(
         collection(db, "chatRooms"),
         where("participants", "array-contains", uid),
         orderBy("createdAt", "desc"),
-        limit(20) // 한 번에 가져올 최대 문서 수 제한
+        limit(20)
       );
       const snapshot = await getDocs(q);
       if (snapshot.empty) {
