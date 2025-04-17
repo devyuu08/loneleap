@@ -1,0 +1,57 @@
+rules_version = "2";
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 관리자 이메일 목록
+    function isAdmin() {
+      return request.auth.token.email in [
+        "admin@gmail.com", // .env 참고: VITE_FIREBASE_ADMIN_EMAIL
+      ];
+    }
+
+    // 로그인한 사용자
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // 본인 여부 체크
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    match /itineraries/{itineraryId} {
+      allow read, write: if isSignedIn() && isOwner(resource.data.userId);
+      allow create: if isSignedIn();
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isOwner(resource.data.authorId);
+      allow create: if isSignedIn();
+    }
+
+    match /chatRooms/{roomId} {
+      allow read, write: if isSignedIn() && request.auth.uid in resource.data.participants;
+      allow create: if isSignedIn();
+    }
+
+    match /chatMessages/{messageId} {
+    allow read: if isSignedIn(); // 참여자 검사까지 하고 싶으면 join 검증 추가
+    allow create: if isSignedIn() && request.resource.data.senderId == request.auth.uid;
+  }
+
+    match /review_reports/{reportId} {
+      allow create: if isSignedIn(); // 모든 유저가 신고 가능
+      allow read, delete: if isAdmin(); // 관리자만 조회/삭제 가능
+    }
+
+    match /chatReports/{reportId} {
+      allow create: if isSignedIn();
+      allow read, delete: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
