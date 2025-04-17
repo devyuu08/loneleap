@@ -26,7 +26,7 @@ export const useChatMessages = (roomId) => {
     const q = query(
       collection(db, "chatMessages"),
       where("roomId", "==", roomId),
-      orderBy("createdAt", "asc"),
+      orderBy("createdAt", "desc"), // 수정: 내림차순
       limit(messagesPerPage.current)
     );
 
@@ -38,9 +38,7 @@ export const useChatMessages = (roomId) => {
             id: doc.id,
             ...doc.data(),
           }));
-          setMessages(msgs);
-
-          // 페이징 위한 마지막 문서 저장
+          setMessages(msgs.reverse()); // 역순으로 렌더링
           if (snapshot.docs.length > 0) {
             setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
           }
@@ -59,7 +57,7 @@ export const useChatMessages = (roomId) => {
     return () => unsubscribe();
   }, [roomId]);
 
-  // 이전 메시지 불러오기 함수 (수동)
+  // 이전 메시지 불러오기
   const loadMoreMessages = useCallback(async () => {
     if (!roomId || !lastDoc) return;
     setLoading(true);
@@ -68,8 +66,7 @@ export const useChatMessages = (roomId) => {
       const moreQuery = query(
         collection(db, "chatMessages"),
         where("roomId", "==", roomId),
-        orderBy("createdAt", "asc"),
-        startAfter(lastDoc),
+        orderBy("createdAt", "desc"),
         limit(messagesPerPage.current)
       );
 
@@ -79,7 +76,7 @@ export const useChatMessages = (roomId) => {
         ...doc.data(),
       }));
 
-      setMessages((prev) => [...prev, ...moreMessages]);
+      setMessages((prev) => [...prev, ...moreMessages.reverse()]); // 역순으로 추가
 
       if (snapshot.docs.length > 0) {
         setLastDoc(snapshot.docs[snapshot.docs.length - 1]);

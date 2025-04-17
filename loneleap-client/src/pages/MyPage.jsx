@@ -26,10 +26,13 @@ export default function MyPage() {
   } = useMyItineraries(user?.uid);
 
   const {
-    data: myReviews = [],
+    data: myReviews,
     isLoading: isReviewLoading,
     isError: isReviewError,
     error: reviewError,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
   } = useMyReviews(user?.uid);
 
   const {
@@ -85,11 +88,14 @@ export default function MyPage() {
     }
 
     if (activeTab === "review") {
+      const flatReviews =
+        myReviews.pages?.flatMap((page) => page.reviews) || [];
+
       return renderTabContent(
         isReviewLoading,
         isReviewError,
         reviewError,
-        myReviews,
+        flatReviews,
         {
           icon: "📝",
           title: "작성한 리뷰가 없습니다",

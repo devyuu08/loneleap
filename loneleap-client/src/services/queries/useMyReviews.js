@@ -53,6 +53,8 @@ export const useMyReviews = (uid) => {
     getNextPageParam: (lastPage) => lastPage.lastDoc || undefined,
     onError: (error) => {
       console.error("내 리뷰 조회 중 오류:", error);
+      // TODO: 에러 상태를 사용자에게 표시하거나 Toast 알림 등으로 처리
+      // 예: toast.error("리뷰를 불러오는데 실패했습니다. 잠시 후 다시 시도해주세요.");
     },
   });
 };
