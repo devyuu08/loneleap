@@ -16,11 +16,10 @@ export default function ReportModal({ onClose, onSubmit, isPending }) {
 
     try {
       await onSubmit({ reason });
-      alert("신고가 접수되었습니다.");
       onClose();
     } catch (err) {
       console.error("신고 오류:", err);
-      alert("신고 처리 중 오류가 발생했어요.");
+      throw err; // 부모가 catch 하도록 넘김
     }
   };
 

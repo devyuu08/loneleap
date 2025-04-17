@@ -13,7 +13,15 @@ export default function ReportButton({ reviewId }) {
   const handleClose = () => setIsOpen(false);
 
   const handleSubmit = ({ reason }) => {
-    return reportMutation.mutateAsync({ reviewId, reason }).then(handleClose);
+    return reportMutation
+      .mutateAsync({ reviewId, reason })
+      .then(() => {
+        alert("신고가 접수되었습니다.");
+        setIsOpen(false);
+      })
+      .catch((err) => {
+        alert(err?.message || "신고 처리 중 오류가 발생했습니다.");
+      });
   };
 
   return (

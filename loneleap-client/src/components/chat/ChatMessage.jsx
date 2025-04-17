@@ -25,7 +25,13 @@ export default function ChatMessage({ message }) {
   const handleSubmit = ({ reason }) => {
     return reportMutation
       .mutateAsync({ messageId: id, roomId, reason })
-      .then(() => setOpenReportModal(false));
+      .then(() => {
+        alert("신고가 접수되었습니다.");
+        setOpenReportModal(false);
+      })
+      .catch((err) => {
+        alert(err?.message || "신고 처리 중 오류가 발생했습니다.");
+      });
   };
 
   return (
