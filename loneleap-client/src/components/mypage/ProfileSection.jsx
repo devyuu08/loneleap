@@ -6,7 +6,7 @@ import { logout } from "services/auth";
 import { clearUser } from "store/userSlice";
 import PropTypes from "prop-types";
 
-export default function ProfileSection({ user }) {
+export default function ProfileSection({ user = null }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -57,10 +57,5 @@ ProfileSection.propTypes = {
     displayName: PropTypes.string,
     email: PropTypes.string,
     photoURL: PropTypes.string,
-    // 기타 필요한 속성들...
   }),
-};
-
-ProfileSection.defaultProps = {
-  user: null,
 };

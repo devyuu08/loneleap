@@ -26,8 +26,8 @@ export const useMyReviews = (uid) => {
       return snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-        createdAt: doc.data().createdAt?.toDate() || new Date(),
-        updatedAt: doc.data().updatedAt?.toDate() || new Date(),
+        createdAt: doc.data().createdAt ? doc.data().createdAt.toDate() : null,
+        updatedAt: doc.data().updatedAt ? doc.data().updatedAt.toDate() : null,
       }));
     },
     onError: (error) => {

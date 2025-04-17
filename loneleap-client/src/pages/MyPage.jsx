@@ -27,65 +27,80 @@ export default function MyPage() {
   );
 
   const renderContent = () => {
-    if (activeTab === "itinerary") {
-      if (isItineraryLoading) {
+    const renderTabContent = (
+      isLoading,
+      items,
+      EmptyStateProps,
+      renderItems
+    ) => {
+      if (isLoading) {
         return <div className="text-gray-400">불러오는 중...</div>;
       }
 
-      return myItineraries.length === 0 ? (
-        <EmptyState
-          icon="📅"
-          title="작성한 일정이 없습니다"
-          description="새로운 일정을 추가해 LoneLeap 여정을 시작해보세요."
-        />
-      ) : (
-        <div>
-          {myItineraries.map((item) => (
-            <MyItineraryCard key={item.id} itinerary={item} />
-          ))}
-        </div>
+      if (!items || items.length === 0) {
+        return <EmptyState {...EmptyStateProps} />;
+      }
+
+      return renderItems(items);
+    };
+
+    if (activeTab === "itinerary") {
+      return renderTabContent(
+        isItineraryLoading,
+        myItineraries,
+        {
+          icon: "📅",
+          title: "작성한 일정이 없습니다",
+          description: "새로운 일정을 추가해 LoneLeap 여정을 시작해보세요.",
+        },
+        (items) => (
+          <div>
+            {items.map((item) => (
+              <MyItineraryCard key={item.id} itinerary={item} />
+            ))}
+          </div>
+        )
       );
     }
 
     if (activeTab === "review") {
-      if (isReviewLoading) {
-        return <div className="text-gray-400">불러오는 중...</div>;
-      }
-
-      return myReviews.length === 0 ? (
-        <EmptyState
-          icon="📝"
-          title="작성한 리뷰가 없습니다"
-          description="여행지를 다녀오셨다면, 리뷰를 공유해보세요."
-        />
-      ) : (
-        <div>
-          {myReviews.map((review) => (
-            <MyReviewCard key={review.id} review={review} />
-          ))}
-        </div>
+      return renderTabContent(
+        isReviewLoading,
+        myReviews,
+        {
+          icon: "📝",
+          title: "작성한 리뷰가 없습니다",
+          description: "여행지를 다녀오셨다면, 리뷰를 공유해보세요.",
+        },
+        (reviews) => (
+          <div>
+            {reviews.map((review) => (
+              <MyReviewCard key={review.id} review={review} />
+            ))}
+          </div>
+        )
       );
     }
 
     if (activeTab === "chat") {
-      if (isChatLoading) {
-        return <div className="text-gray-400">불러오는 중...</div>;
-      }
-
-      return myChatRooms.length === 0 ? (
-        <EmptyState
-          icon="💬"
-          title="참여한 채팅방이 없습니다"
-          description="함께 소통할 채팅방에 참여해보세요."
-        />
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {myChatRooms.map((room) => (
-            <MyChatRoomCard key={room.id} room={room} />
-          ))}
-        </div>
+      return renderTabContent(
+        isChatLoading,
+        myChatRooms,
+        {
+          icon: "💬",
+          title: "참여한 채팅방이 없습니다",
+          description: "함께 소통할 채팅방에 참여해보세요.",
+        },
+        (rooms) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {rooms.map((room) => (
+              <MyChatRoomCard key={room.id} room={room} />
+            ))}
+          </div>
+        )
       );
     }
+
     return null;
   };
 

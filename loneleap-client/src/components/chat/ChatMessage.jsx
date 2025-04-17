@@ -15,6 +15,7 @@ export default function ChatMessage({ message }) {
     roomId,
     createdAt,
   } = message;
+
   const isMine = senderId === user?.uid;
   const [openReportModal, setOpenReportModal] = useState(false);
 
@@ -26,9 +27,8 @@ export default function ChatMessage({ message }) {
     >
       <div className="max-w-xs">
         {/* 상대방 이름 표시 */}
-        {!isMine && (
-          <p className="text-xs text-gray-500 mb-1">{message.senderName}</p>
-        )}
+        {!isMine && <p className="text-xs text-gray-500 mb-1">{senderName}</p>}
+
         {/* 말풍선 */}
         <div
           className={`px-4 py-2 rounded-xl text-sm ${
@@ -37,7 +37,7 @@ export default function ChatMessage({ message }) {
               : "bg-gray-100 text-gray-900 rounded-bl-none"
           }`}
         >
-          {message.message}
+          {messageText}
         </div>
 
         {/* 신고 버튼 (본인 제외) */}
@@ -55,22 +55,18 @@ export default function ChatMessage({ message }) {
 
         {/* 시간 표시 */}
         <p className="text-[10px] text-gray-400 mt-1 text-right">
-          {message.createdAt
-            ? typeof message.createdAt.toDate === "function"
-              ? formatRelative(message.createdAt.toDate(), new Date(), {
-                  locale: ko,
-                })
-              : formatRelative(new Date(message.createdAt), new Date(), {
-                  locale: ko,
-                })
+          {createdAt
+            ? typeof createdAt.toDate === "function"
+              ? formatRelative(createdAt.toDate(), new Date(), { locale: ko })
+              : formatRelative(new Date(createdAt), new Date(), { locale: ko })
             : "시간 정보 없음"}
         </p>
 
         {/* 신고 모달 조건부 렌더링 */}
         {openReportModal && (
           <ReportModal
-            messageId={message.id}
-            roomId={message.roomId}
+            messageId={id}
+            roomId={roomId}
             onClose={() => setOpenReportModal(false)}
           />
         )}

@@ -6,6 +6,13 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+/**
++ * 리뷰 추가 기능을 제공하는 커스텀 훅
++ * @param {Object} options - 훅 옵션
++ * @param {Function} options.onSuccessCallback - 리뷰 추가 성공 시 호출되는 콜백 함수
++ * @param {Function} options.onErrorCallback - 리뷰 추가 실패 시 호출되는 콜백 함수(에러 객체를 매개변수로 받음)
++ * @returns {Object} 리뷰 추가 관련 함수와 상태
++ */
 export default function useAddReview({
   onSuccessCallback = () => {},
   onErrorCallback = () => {},
