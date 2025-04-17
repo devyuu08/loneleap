@@ -8,8 +8,18 @@ export default function ReviewPreview() {
   if (isLoading || !reviews) return null;
 
   return (
-    <section className="py-20 px-6 bg-gray-50">
-      <h2 className="text-2xl font-bold text-center mb-10">여행자 리뷰</h2>
+    <section className="py-20 px-6 bg-gray-50 relative">
+      <div className="relative mb-10">
+        <h2 className="text-2xl font-bold text-center">여행자 리뷰</h2>
+
+        <Link
+          to="/reviews"
+          className="absolute right-0 top-1 text-sm text-gray-500 hover:text-gray-800 transition"
+        >
+          더보기 →
+        </Link>
+      </div>
+      {/* 카드 목록 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {reviews.map((review) => (
           <Link
