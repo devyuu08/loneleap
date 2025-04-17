@@ -22,6 +22,7 @@ import CreateChatRoomPage from "pages/Chat/Create";
 import ChatRoomListPage from "pages/Chat/List";
 import ChatRoomDetailPage from "pages/Chat/Detail";
 import MyPage from "pages/MyPage";
+import Footer from "./components/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -72,6 +73,7 @@ function App() {
           <Route index element={<MyPage />} />
         </Route>
       </Routes>
+      <Footer />
     </>
   );
 }
