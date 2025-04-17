@@ -1,17 +1,25 @@
 // src/services/queries/useAddReview.js
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { db, storage } from "../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+/**
++ * 리뷰 추가 기능을 제공하는 커스텀 훅
++ * @param {Object} options - 훅 옵션
++ * @param {Function} options.onSuccessCallback - 리뷰 추가 성공 시 호출되는 콜백 함수
++ * @param {Function} options.onErrorCallback - 리뷰 추가 실패 시 호출되는 콜백 함수(에러 객체를 매개변수로 받음)
++ * @returns {Object} 리뷰 추가 관련 함수와 상태
++ */
 export default function useAddReview({
   onSuccessCallback = () => {},
   onErrorCallback = () => {},
 } = {}) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
+  const queryClient = useQueryClient();
 
   // 사용자 인증 상태 확인
   const checkAuth = () => {
@@ -68,6 +76,7 @@ export default function useAddReview({
       });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
       alert("리뷰가 성공적으로 등록되었습니다!");
       navigate("/reviews");
       onSuccessCallback();

@@ -3,12 +3,13 @@ import { fetchUserItineraries } from "../firestore";
 import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-export const useMyItineraries = () => {
+export const useMyItineraries = (options = {}) => {
   const [user, loading] = useAuthState(auth);
 
   return useQuery({
     queryKey: ["myItineraries", user?.uid],
     queryFn: () => fetchUserItineraries(user.uid),
-    enabled: !loading && !!user?.uid, // 로그인된 경우에만 실행
+    enabled: !loading && !!user?.uid && options.enabled !== false,
+    ...options, // retry, staleTime 등 추가 옵션 받을 수 있게
   });
 };

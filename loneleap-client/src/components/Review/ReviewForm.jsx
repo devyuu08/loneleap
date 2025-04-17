@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import RatingInput from "./RatingInput";
+import { useNavigate } from "react-router-dom";
 
 const MAX_CONTENT_LENGTH = 1000;
 
@@ -14,6 +15,8 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
 
   const [errors, setErrors] = useState({});
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     let objectUrl;
@@ -186,8 +189,7 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
         <button
           type="button"
           onClick={() => {
-            // 라우터 사용 예시
-            window.location.href = "/reviews"; // 또는 React Router의 navigate 사용
+            navigate("/reviews");
           }}
           className="w-1/3 bg-gray-200 text-gray-800 font-semibold py-3 rounded-md hover:bg-gray-300 transition"
         >

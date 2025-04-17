@@ -14,8 +14,13 @@ export default function ItineraryListPage() {
 
   const handleRefetch = async () => {
     setIsRefetching(true);
-    await refetch();
-    setIsRefetching(false);
+    try {
+      await refetch();
+    } catch (error) {
+      console.error("리패치 중 오류 발생:", error);
+    } finally {
+      setIsRefetching(false);
+    }
   };
 
   if (isLoading || isRefetching) return <LoadingSpinner />;
@@ -32,14 +37,6 @@ export default function ItineraryListPage() {
           새로고침
         </button>
       </div>
-    );
-
-  if (!data || data.length === 0)
-    return (
-      <EmptyState
-        title="등록된 일정이 없습니다"
-        description="새로운 여행 일정을 작성해보세요!"
-      />
     );
 
   return (
@@ -63,7 +60,14 @@ export default function ItineraryListPage() {
       </div>
 
       <main role="main">
-        <ItineraryList itineraries={data} />
+        {data && data.length > 0 ? (
+          <ItineraryList itineraries={data} />
+        ) : (
+          <EmptyState
+            title="등록된 일정이 없습니다"
+            description="새로운 여행 일정을 작성해보세요!"
+          />
+        )}
       </main>
     </div>
   );

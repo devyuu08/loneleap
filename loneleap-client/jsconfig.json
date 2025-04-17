@@ -6,7 +6,8 @@
       "pages/*": ["pages/*"],
       "services/*": ["services/*"],
       "store/*": ["store/*"],
-      "hooks/*": ["hooks/*"]
+      "hooks/*": ["hooks/*"],
+      "utils/*": ["utils/*"]
     }
   },
   "include": ["src"]

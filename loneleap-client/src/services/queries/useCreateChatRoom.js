@@ -51,38 +51,26 @@ export const useCreateChatRoom = () => {
         title,
         description,
         uid,
-      }; // 낙관적 업데이트에도 활용 가능
+      };
     },
 
     onSuccess: (newRoom) => {
       // 1. 캐시 무효화 방식: 서버에서 목록 재조회
       queryClient.invalidateQueries({ queryKey: ["chatRooms"] });
 
-      // 2. 낙관적 업데이트 방식
-      /*
+      // 2. 낙관적 업데이트
       queryClient.setQueryData(["chatRooms"], (oldData) => {
-        return oldData
-          ? [
-              ...oldData,
-              {
-                id: newRoom.id,
-                name: newRoom.title,
-                description: newRoom.description,
-                createdBy: newRoom.uid,
-                createdAt: new Date().toISOString(),
-              },
-            ]
-          : [
-              {
-                id: newRoom.id,
-                name: newRoom.title,
-                description: newRoom.description,
-                createdBy: newRoom.uid,
-                createdAt: new Date().toISOString(),
-              },
-            ];
+        const newRoomData = {
+          id: newRoom.id,
+          name: newRoom.title,
+          description: newRoom.description,
+          createdBy: newRoom.uid,
+          createdAt: new Date().toISOString(), // 낙관적 예상값
+          participants: [newRoom.uid],
+          isActive: true,
+        };
+        return oldData ? [...oldData, newRoomData] : [newRoomData];
       });
-      */
     },
   });
 };

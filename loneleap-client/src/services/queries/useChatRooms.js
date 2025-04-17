@@ -1,20 +1,39 @@
 import { useQuery } from "@tanstack/react-query";
-import { collection, query, orderBy, getDocs, limit } from "firebase/firestore";
+import {
+  collection,
+  query,
+  orderBy,
+  getDocs,
+  limit,
+  where,
+} from "firebase/firestore";
 import { db } from "../firebase";
 
 // Firestore에서 채팅방 목록 최신순으로 가져오는 기본 구조
-export const useChatRooms = ({ limitCount = 10 } = {}) => {
+// limitCount: 가져올 채팅방의 수 (기본값: 10)
+export const useChatRooms = ({
+  limitCount = 10,
+  orderDirection = "desc",
+  filterBy = null,
+} = {}) => {
   return useQuery({
-    queryKey: ["chatRooms"],
-    refetchInterval: 30000, // 30초마다 자동으로 다시 불러옴
-    staleTime: 10000, // 10초 동안은 데이터를 최신 상태로 유지
+    queryKey: ["chatRooms", limitCount, orderDirection, filterBy],
+    refetchInterval: 30000,
+    staleTime: 10000,
     queryFn: async () => {
       try {
-        const q = query(
-          collection(db, "chatRooms"),
-          orderBy("createdAt", "desc"),
-          limit(limitCount) // 사용자 지정 개수만큼 로드
-        );
+        const constraints = [
+          orderBy("createdAt", orderDirection),
+          limit(limitCount),
+        ];
+
+        if (filterBy) {
+          constraints.unshift(
+            where(filterBy.field, filterBy.operator, filterBy.value)
+          );
+        }
+
+        const q = query(collection(db, "chatRooms"), ...constraints);
         const snapshot = await getDocs(q);
         return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       } catch (error) {

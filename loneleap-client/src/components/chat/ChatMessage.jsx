@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useState } from "react";
+import { useReportMessage } from "services/queries/useReportMessage";
 import ReportModal from "../ReportModal";
 
 export default function ChatMessage({ message }) {
@@ -15,21 +16,29 @@ export default function ChatMessage({ message }) {
     roomId,
     createdAt,
   } = message;
+
   const isMine = senderId === user?.uid;
   const [openReportModal, setOpenReportModal] = useState(false);
 
+  const reportMutation = useReportMessage();
+
+  const handleSubmit = ({ reason }) => {
+    return reportMutation
+      .mutateAsync({ messageId: id, roomId, reason })
+      .then(() => {
+        alert("신고가 접수되었습니다.");
+        setOpenReportModal(false);
+      })
+      .catch((err) => {
+        alert(err?.message || "신고 처리 중 오류가 발생했습니다.");
+      });
+  };
+
   return (
-    <div
-      className={`flex ${isMine ? "justify-end" : "justify-start"}`}
-      role="log"
-      aria-live="polite"
-    >
+    <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
-        {/* 상대방 이름 표시 */}
-        {!isMine && (
-          <p className="text-xs text-gray-500 mb-1">{message.senderName}</p>
-        )}
-        {/* 말풍선 */}
+        {!isMine && <p className="text-xs text-gray-500 mb-1">{senderName}</p>}
+
         <div
           className={`px-4 py-2 rounded-xl text-sm ${
             isMine
@@ -37,10 +46,9 @@ export default function ChatMessage({ message }) {
               : "bg-gray-100 text-gray-900 rounded-bl-none"
           }`}
         >
-          {message.message}
+          {messageText}
         </div>
 
-        {/* 신고 버튼 (본인 제외) */}
         {!isMine && (
           <div className="group relative">
             <button
@@ -53,25 +61,20 @@ export default function ChatMessage({ message }) {
           </div>
         )}
 
-        {/* 시간 표시 */}
         <p className="text-[10px] text-gray-400 mt-1 text-right">
-          {message.createdAt
-            ? typeof message.createdAt.toDate === "function"
-              ? formatRelative(message.createdAt.toDate(), new Date(), {
-                  locale: ko,
-                })
-              : formatRelative(new Date(message.createdAt), new Date(), {
-                  locale: ko,
-                })
+          {createdAt
+            ? typeof createdAt.toDate === "function"
+              ? formatRelative(createdAt.toDate(), new Date(), { locale: ko })
+              : formatRelative(new Date(createdAt), new Date(), { locale: ko })
             : "시간 정보 없음"}
         </p>
 
-        {/* 신고 모달 조건부 렌더링 */}
+        {/* 공통 신고 모달 */}
         {openReportModal && (
           <ReportModal
-            messageId={message.id}
-            roomId={message.roomId}
             onClose={() => setOpenReportModal(false)}
+            onSubmit={handleSubmit}
+            isPending={reportMutation.isPending}
           />
         )}
       </div>
