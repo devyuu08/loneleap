@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { formatDateOnly } from "utils/formatDate";
 
-export default function MyReviewCard({ review = {} }) {
+function MyReviewCard({ review = {} }) {
   const navigate = useNavigate();
   // 객체 디스트럭처링 및 기본값 설정
   const {
@@ -90,3 +90,5 @@ export default function MyReviewCard({ review = {} }) {
     </div>
   );
 }
+
+export default React.memo(MyReviewCard);
