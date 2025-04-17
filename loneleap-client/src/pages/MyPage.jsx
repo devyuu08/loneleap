@@ -95,7 +95,7 @@ export default function MyPage() {
 
     if (activeTab === "review") {
       const flatReviews =
-        myReviews.pages?.flatMap((page) => page.reviews) || [];
+        myReviews?.pages?.flatMap((page) => page.reviews) || [];
 
       return renderTabContent(
         isReviewLoading,
