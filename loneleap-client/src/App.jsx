@@ -22,6 +22,8 @@ import CreateChatRoomPage from "pages/Chat/Create";
 import ChatRoomListPage from "pages/Chat/List";
 import ChatRoomDetailPage from "pages/Chat/Detail";
 import MyPage from "pages/MyPage";
+import Footer from "./components/Footer";
+import FutureRecommendationPage from "./pages/Recommendations/Preview";
 
 function App() {
   const dispatch = useDispatch();
@@ -71,7 +73,12 @@ function App() {
         <Route path="/mypage">
           <Route index element={<MyPage />} />
         </Route>
+        <Route
+          path="/recommendations/preview"
+          element={<FutureRecommendationPage />}
+        />
       </Routes>
+      <Footer />
     </>
   );
 }

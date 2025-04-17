@@ -64,3 +64,4 @@ try {
 export const auth = getAuth(app); // 인증 객체
 export const db = getFirestore(app); // Firestore
 export const storage = getStorage(app); // Storage
+export { app };
