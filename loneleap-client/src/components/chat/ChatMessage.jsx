@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useState } from "react";
+import { useReportMessage } from "services/queries/useReportMessage";
 import ReportModal from "../ReportModal";
 
 export default function ChatMessage({ message }) {
@@ -19,17 +20,19 @@ export default function ChatMessage({ message }) {
   const isMine = senderId === user?.uid;
   const [openReportModal, setOpenReportModal] = useState(false);
 
+  const reportMutation = useReportMessage();
+
+  const handleSubmit = ({ reason }) => {
+    return reportMutation
+      .mutateAsync({ messageId: id, roomId, reason })
+      .then(() => setOpenReportModal(false));
+  };
+
   return (
-    <div
-      className={`flex ${isMine ? "justify-end" : "justify-start"}`}
-      role="log"
-      aria-live="polite"
-    >
+    <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
-        {/* 상대방 이름 표시 */}
         {!isMine && <p className="text-xs text-gray-500 mb-1">{senderName}</p>}
 
-        {/* 말풍선 */}
         <div
           className={`px-4 py-2 rounded-xl text-sm ${
             isMine
@@ -40,7 +43,6 @@ export default function ChatMessage({ message }) {
           {messageText}
         </div>
 
-        {/* 신고 버튼 (본인 제외) */}
         {!isMine && (
           <div className="group relative">
             <button
@@ -53,7 +55,6 @@ export default function ChatMessage({ message }) {
           </div>
         )}
 
-        {/* 시간 표시 */}
         <p className="text-[10px] text-gray-400 mt-1 text-right">
           {createdAt
             ? typeof createdAt.toDate === "function"
@@ -62,12 +63,12 @@ export default function ChatMessage({ message }) {
             : "시간 정보 없음"}
         </p>
 
-        {/* 신고 모달 조건부 렌더링 */}
+        {/* 공통 신고 모달 */}
         {openReportModal && (
           <ReportModal
-            messageId={id}
-            roomId={roomId}
             onClose={() => setOpenReportModal(false)}
+            onSubmit={handleSubmit}
+            isPending={reportMutation.isPending}
           />
         )}
       </div>
