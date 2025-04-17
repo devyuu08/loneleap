@@ -13,7 +13,7 @@ export default function Header() {
 
       {user ? (
         <div className="flex items-center gap-5 text-sm text-gray-700">
-          <span className="text-gray-600">{user.email}</span>
+          <span className="text-gray-600">{user.nickname || user.email}</span>
           <Link to="/itinerary" className="hover:text-black">
             내 일정
           </Link>

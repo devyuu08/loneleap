@@ -10,12 +10,14 @@ import LoadingSpinner from "../LoadingSpinner";
 export default function ChatRoomDetail({ roomId }) {
   const { messages, loading } = useChatMessages(roomId);
   const [roomInfo, setRoomInfo] = useState({ title: "채팅방" });
+  const [roomInfoLoading, setRoomInfoLoading] = useState(false);
   const scrollRef = useRef(null);
 
   // Firestore에서 채팅방 정보 불러오기
   useEffect(() => {
     if (!roomId) return;
     const fetchRoomInfo = async () => {
+      setRoomInfoLoading(true);
       try {
         const docRef = doc(db, "chatRooms", roomId);
         const roomDoc = await getDoc(docRef);
@@ -24,6 +26,8 @@ export default function ChatRoomDetail({ roomId }) {
         }
       } catch (err) {
         console.error("채팅방 정보 가져오기 실패:", err);
+      } finally {
+        setRoomInfoLoading(false);
       }
     };
     fetchRoomInfo();

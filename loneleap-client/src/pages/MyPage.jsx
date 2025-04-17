@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import ProfileSection from "components/mypage/ProfileSection";
 import SectionTabs from "components/mypage/SectionTabs";
 import EmptyState from "components/EmptyState";
+import ErrorState from "components/ErrorState";
 
 import MyItineraryCard from "components/mypage/MyItineraryCard";
 import MyReviewCard from "components/mypage/MyReviewCard";
@@ -15,26 +16,44 @@ import { useMyChatRooms } from "services/queries/useMyChatRooms";
 
 export default function MyPage() {
   const user = useSelector((state) => state.user.user);
-  const [activeTab, setActiveTab] = useState("itinerary"); // 기본: 내 일정
+  const [activeTab, setActiveTab] = useState("itinerary");
 
-  const { data: myItineraries = [], isLoading: isItineraryLoading } =
-    useMyItineraries(user?.uid);
-  const { data: myReviews = [], isLoading: isReviewLoading } = useMyReviews(
-    user?.uid
-  );
-  const { data: myChatRooms = [], isLoading: isChatLoading } = useMyChatRooms(
-    user?.uid
-  );
+  const {
+    data: myItineraries = [],
+    isLoading: isItineraryLoading,
+    isError: isItineraryError,
+    error: itineraryError,
+  } = useMyItineraries(user?.uid);
+
+  const {
+    data: myReviews = [],
+    isLoading: isReviewLoading,
+    isError: isReviewError,
+    error: reviewError,
+  } = useMyReviews(user?.uid);
+
+  const {
+    data: myChatRooms = [],
+    isLoading: isChatLoading,
+    isError: isChatError,
+    error: chatError,
+  } = useMyChatRooms(user?.uid);
 
   const renderContent = () => {
     const renderTabContent = (
       isLoading,
+      isError,
+      error,
       items,
       EmptyStateProps,
       renderItems
     ) => {
       if (isLoading) {
         return <div className="text-gray-400">불러오는 중...</div>;
+      }
+
+      if (isError) {
+        return <ErrorState message={error?.message} />;
       }
 
       if (!items || items.length === 0) {
@@ -47,6 +66,8 @@ export default function MyPage() {
     if (activeTab === "itinerary") {
       return renderTabContent(
         isItineraryLoading,
+        isItineraryError,
+        itineraryError,
         myItineraries,
         {
           icon: "📅",
@@ -66,6 +87,8 @@ export default function MyPage() {
     if (activeTab === "review") {
       return renderTabContent(
         isReviewLoading,
+        isReviewError,
+        reviewError,
         myReviews,
         {
           icon: "📝",
@@ -85,6 +108,8 @@ export default function MyPage() {
     if (activeTab === "chat") {
       return renderTabContent(
         isChatLoading,
+        isChatError,
+        chatError,
         myChatRooms,
         {
           icon: "💬",
@@ -106,15 +131,14 @@ export default function MyPage() {
 
   return (
     <div className="min-h-screen bg-white text-black">
-      {/* 상단: 어두운 그라디언트 배경 */}
+      {/* 상단 */}
       <section className="bg-gradient-to-b from-[#1c1f2a] to-[#2d3243] text-white">
         <ProfileSection user={user} />
       </section>
 
-      {/* 탭 + 콘텐츠: 밝은 배경 */}
+      {/* 탭 + 콘텐츠 */}
       <section className="bg-[#f8f9fa] min-h-screen">
         <SectionTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
         <div className="max-w-5xl mx-auto px-6 py-10">{renderContent()}</div>
       </section>
     </div>
