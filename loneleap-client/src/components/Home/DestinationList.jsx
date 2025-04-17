@@ -1,4 +1,5 @@
 // src/components/Home/DestinationList.jsx
+import { Link } from "react-router-dom";
 
 const destinations = [
   {
@@ -21,29 +22,41 @@ const destinations = [
 export default function DestinationList() {
   return (
     <section className="py-20 px-6 bg-white">
-      <h2 className="text-2xl font-bold text-center mb-10">추천 여행지</h2>
+      {/* 타이틀 + 링크 */}
+      <div className="relative mb-10">
+        <h2 className="text-2xl font-bold text-center">추천 여행지</h2>
+        <Link
+          to="/recommendations/preview"
+          className="absolute right-0 top-1 text-sm text-gray-500 hover:text-gray-800 transition"
+        >
+          더보기 →
+        </Link>
+      </div>
+
+      {/* 카드 리스트 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {destinations.map((dest, idx) => (
-          <div
+        {destinations.map((d, idx) => (
+          <Link
+            to="/recommendations/preview" // 클릭 시 안내 페이지로 이동
             key={idx}
-            className="rounded-lg overflow-hidden shadow hover:shadow-lg transition"
+            className="text-center rounded-lg overflow-hidden shadow hover:shadow-lg transition block"
           >
             <img
-              src={dest.image}
-              alt={dest.name}
+              src={d.image}
+              alt={d.name}
               onError={(e) => {
                 if (!e.target.dataset.fallback) {
-                  e.target.src = "/images/free-icon-no-pictures-3875148.png";
-                  e.target.dataset.fallback = "true"; // 재귀 방지
+                  e.target.src = "/images/placeholder.jpg";
+                  e.target.dataset.fallback = "true";
                 }
               }}
               className="w-full h-48 object-cover bg-gray-200"
             />
             <div className="p-4">
-              <h3 className="text-lg font-semibold">{dest.name}</h3>
-              <p className="text-sm text-gray-600 mt-1">{dest.desc}</p>
+              <h3 className="font-semibold text-lg">{d.name}</h3>
+              <p className="text-sm text-gray-600">{d.desc}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>
