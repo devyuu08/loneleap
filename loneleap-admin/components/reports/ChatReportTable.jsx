@@ -56,9 +56,7 @@ export default function ChatReportTable({ reports = [], onSelect = () => {} }) {
                   {report.reason}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap">
-                  {report.reporterId
-                    ? `${report.reporterId.slice(0, 6)}...`
-                    : "알 수 없음"}
+                  {report.reporterEmail || "(탈퇴한 사용자)"}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap">
                   {report.reportedAt

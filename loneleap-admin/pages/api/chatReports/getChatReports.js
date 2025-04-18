@@ -80,7 +80,26 @@ export default async function getChatReports(req, res) {
       };
     });
 
-    return res.status(200).json(data);
+    // 5단계: 사용자 ID → 이메일 조회
+    const reporterIds = [...new Set(data.map((r) => r.reporterId))];
+    const userSnaps = await Promise.all(
+      reporterIds.map((uid) => db.collection("users").doc(uid).get())
+    );
+    const userMap = {};
+    userSnaps.forEach((snap) => {
+      if (snap.exists) {
+        const userData = snap.data();
+        userMap[snap.id] = userData.email || "(이메일 없음)";
+      }
+    });
+
+    // 6단계: reporterEmail 추가
+    const enrichedData = data.map((report) => ({
+      ...report,
+      reporterEmail: userMap[report.reporterId] || "(탈퇴한 사용자)",
+    }));
+
+    return res.status(200).json(enrichedData);
   } catch (error) {
     console.error("채팅 신고 데이터 불러오기 오류:", error);
     return res.status(500).json({
