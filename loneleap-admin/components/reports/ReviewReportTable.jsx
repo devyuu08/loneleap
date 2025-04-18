@@ -56,9 +56,7 @@ export default function ReviewReportTable({ reports = [], onSelect }) {
                   <div className="max-w-[160px] truncate">{report.reason}</div>
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap">
-                  {report.review?.authorName ||
-                    report.review?.authorId ||
-                    "작성자 없음"}
+                  {report.reporterEmail || "(탈퇴한 사용자)"}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap">
                   {report.reportedAt

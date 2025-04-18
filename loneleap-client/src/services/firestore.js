@@ -130,3 +130,5 @@ export const deleteItinerary = async (id) => {
     throw error;
   }
 };
+
+export { db };

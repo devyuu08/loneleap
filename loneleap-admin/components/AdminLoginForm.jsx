@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
   signInWithEmailAndPassword,
@@ -6,12 +6,12 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import LoadingSpinner from "./common/LoadingSpinner";
 import ErrorMessage from "./ErrorMessage";
 import { FcGoogle } from "react-icons/fc";
 import { FiMail, FiLock } from "react-icons/fi";
+import InlineSpinner from "./common/InlineSpinner";
 
-export default function AdminLoginForm() {
+export default function AdminLoginForm({ errorMessage }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,50 +21,50 @@ export default function AdminLoginForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
 
+  useEffect(() => {
+    if (errorMessage) {
+      setError(errorMessage);
+    }
+  }, [errorMessage]);
+
   const handleAdminLogin = async (e) => {
     e.preventDefault();
 
     // 기본 유효성 검사
-    if (!email.trim()) {
-      setError("이메일을 입력해주세요.");
+    if (!email.trim()) return setError("이메일을 입력해주세요.");
+    if (!password) return setError("비밀번호를 입력해주세요.");
+    if (password !== confirmPassword) {
+      setPasswordMatchError("비밀번호가 일치하지 않습니다.");
       return;
     }
 
-    if (!password) {
-      setError("비밀번호를 입력해주세요.");
-      return;
-    }
     setLoading(true);
     setError("");
     setPasswordMatchError("");
-
-    // 비밀번호 확인 검사
-    if (password !== confirmPassword) {
-      setPasswordMatchError("비밀번호가 일치하지 않습니다.");
-      setLoading(false);
-      return;
-    }
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/admin/dashboard");
     } catch (err) {
-      const code = err?.code || "";
-      switch (code) {
-        case "auth/user-not-found":
-          setError("해당 계정이 존재하지 않습니다.");
-          break;
-        case "auth/wrong-password":
-          setError("비밀번호가 올바르지 않습니다.");
-          break;
-        case "auth/invalid-email":
-          setError("올바른 이메일 형식이 아닙니다.");
-          break;
-        case "auth/invalid-credential":
-          setError("입력하신 계정 정보가 올바르지 않습니다.");
-          break;
-        default:
-          setError("로그인 중 오류가 발생했습니다.");
+      // 외부 errorMessage가 없을 때만 setError 실행
+      if (!errorMessage) {
+        const code = err?.code || "";
+        switch (code) {
+          case "auth/user-not-found":
+            setError("해당 계정이 존재하지 않습니다.");
+            break;
+          case "auth/wrong-password":
+            setError("비밀번호가 올바르지 않습니다.");
+            break;
+          case "auth/invalid-email":
+            setError("올바른 이메일 형식이 아닙니다.");
+            break;
+          case "auth/invalid-credential":
+            setError("입력하신 계정 정보가 올바르지 않습니다.");
+            break;
+          default:
+            setError("로그인 중 오류가 발생했습니다.");
+        }
       }
     } finally {
       setLoading(false);
@@ -148,10 +148,13 @@ export default function AdminLoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-11 bg-gray-900 text-white py-2 rounded-md font-semibold hover:bg-gray-800 flex items-center justify-center"
+          className="w-full h-11 bg-gray-900 text-white py-2 rounded-md font-semibold hover:bg-gray-800 flex items-center justify-center gap-2"
         >
           {loading ? (
-            <LoadingSpinner text="로그인 중..." size="sm" />
+            <>
+              로그인 중...
+              <InlineSpinner size="sm" color="white" />
+            </>
           ) : (
             "로그인"
           )}
@@ -162,10 +165,17 @@ export default function AdminLoginForm() {
         <button
           onClick={handleGoogleLogin}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 border py-2 rounded-md hover:bg-gray-50"
+          className="w-full flex items-center justify-center gap-2 border py-2 rounded-md hover:bg-gray-50 text-sm"
         >
           <FcGoogle className="text-xl" />
-          Google 계정으로 로그인
+          {loading ? (
+            <>
+              로그인 중...
+              <InlineSpinner size="sm" />
+            </>
+          ) : (
+            "Google 계정으로 로그인"
+          )}
         </button>
       </div>
       {passwordMatchError && <ErrorMessage message={passwordMatchError} />}

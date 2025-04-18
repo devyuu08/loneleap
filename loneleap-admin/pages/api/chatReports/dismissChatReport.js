@@ -1,12 +1,14 @@
 // loneleap-admin/pages/api/chatReports/dismissChatReport.js
-import { verifyAdminSession } from "@/lib/auth";
+import { verifyAdminToken } from "@/lib/auth";
 import { db } from "@/lib/firebaseAdmin";
 
 export default async function dismissChatReport(req, res) {
   // 관리자 인증
-  const isAdmin = await verifyAdminSession(req, res);
-  if (!isAdmin) {
-    return res.status(401).json({ error: "관리자 권한이 필요합니다." });
+  let decoded;
+  try {
+    decoded = await verifyAdminToken(req, res);
+  } catch (error) {
+    return res.status(401).json({ error: error.message || "인증 실패" });
   }
 
   // 메서드 검증
@@ -29,7 +31,7 @@ export default async function dismissChatReport(req, res) {
       return res.status(404).json({ error: "해당 신고를 찾을 수 없습니다." });
     }
 
-    const adminId = req.session?.user?.id || "unknown";
+    const adminId = decoded.uid || decoded.email || "unknown";
 
     // 감사 로그 기록
     await db.collection("adminLogs").add({
