@@ -6,6 +6,7 @@ import AdminLayout from "@/components/layout/AdminLayout";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ChatReportTable from "@/components/reports/ChatReportTable";
 import ChatReportDetail from "@/components/reports/ChatReportDetail";
+import NoReportSelected from "@/components/reports/NoReportSelected";
 
 export default function AdminChatReportsPage() {
   const [authReady, setAuthReady] = useState(false);
@@ -146,12 +147,7 @@ export default function AdminChatReportsPage() {
                 onSuccess={handleReportSuccess}
               />
             ) : (
-              <div className="flex flex-col items-center justify-center h-full text-gray-500">
-                <p>선택된 신고가 없습니다.</p>
-                <p className="text-sm mt-2">
-                  왼쪽 목록에서 신고를 선택해주세요.
-                </p>
-              </div>
+              <NoReportSelected />
             )}
           </div>
         </div>

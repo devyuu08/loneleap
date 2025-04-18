@@ -6,6 +6,7 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ReviewReportTable from "@/components/reports/ReviewReportTable";
 import ReviewReportDetail from "@/components/reports/ReviewReportDetail";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import NoReportSelected from "@/components/reports/NoReportSelected";
 
 export default function AdminReviewReportsPage() {
   const [authReady, setAuthReady] = useState(false);
@@ -133,10 +134,14 @@ export default function AdminReviewReportsPage() {
           </div>
 
           <div className="w-1/2 bg-white p-6 rounded-xl shadow min-h-[300px]">
-            <ReviewReportDetail
-              report={selectedReport}
-              onSuccess={handleReportSuccess}
-            />
+            {selectedReport ? (
+              <ReviewReportDetail
+                report={selectedReport}
+                onSuccess={handleReportSuccess}
+              />
+            ) : (
+              <NoReportSelected />
+            )}
           </div>
         </div>
       </AdminLayout>
