@@ -5,14 +5,12 @@ import AdminLayout from "@/components/layout/AdminLayout";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ReviewReportTable from "@/components/reports/ReviewReportTable";
 import ReviewReportDetail from "@/components/reports/ReviewReportDetail";
-import { getAuth } from "firebase/auth";
-
-/**
- * @description 관리자가 사용자들이 신고한 리뷰를 확인하고 처리할 수 있는 페이지
- * @returns {JSX.Element} 리뷰 신고 관리 페이지 컴포넌트
- */
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function AdminReviewReportsPage() {
+  const [authReady, setAuthReady] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
+
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -21,12 +19,25 @@ export default function AdminReviewReportsPage() {
   const [selectedReport, setSelectedReport] = useState(null);
   const [error, setError] = useState(null);
 
+  // 인증 상태 체크
   useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setAuthUser(user); // null or user
+      setAuthReady(true);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // 인증 완료 후 데이터 가져오기
+  useEffect(() => {
+    if (!authReady || !authUser) return;
+
     const fetchInitialReports = async () => {
       try {
         setError(null);
         setLoading(true);
-        await fetchReports(); // 보고서 초기 불러오기
+        await fetchReports(); // 초기 불러오기
       } catch (err) {
         setError(err.message);
       } finally {
@@ -35,14 +46,11 @@ export default function AdminReviewReportsPage() {
     };
 
     fetchInitialReports();
-  }, []);
+  }, [authReady, authUser]);
 
   const fetchReports = async (isLoadMore = false) => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (!user) return;
-
-    const token = await user.getIdToken();
+    if (!authUser) return;
+    const token = await authUser.getIdToken();
 
     const query = new URLSearchParams();
     query.append("limit", 50);
@@ -84,7 +92,7 @@ export default function AdminReviewReportsPage() {
     setSelectedReport(null);
   };
 
-  if (loading) {
+  if (loading || !authReady) {
     return <LoadingSpinner text="신고된 리뷰를 불러오는 중..." />;
   }
 
@@ -109,7 +117,7 @@ export default function AdminReviewReportsPage() {
                   onSelect={setSelectedReport}
                   selectedReportId={selectedReport?.id}
                 />
-                {hasMore && (
+                {hasMore && reports.length > 0 && (
                   <div className="mt-4 text-center">
                     <button
                       onClick={handleLoadMore}
