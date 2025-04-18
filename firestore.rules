@@ -31,9 +31,11 @@ service cloud.firestore {
     }
 
     match /chatRooms/{roomId} {
-      allow read, write: if isSignedIn() && request.auth.uid in resource.data.participants;
-      allow create: if isSignedIn();
-    }
+    allow read: if isSignedIn(); // 목록 조회 허용
+    allow write: if isSignedIn() && request.auth.uid in request.resource.data.participants;
+    allow update, delete: if isSignedIn() && request.auth.uid in resource.data.participants;
+    allow create: if isSignedIn();
+}
 
     match /chatMessages/{messageId} {
     allow read: if isSignedIn(); // 참여자 검사까지 하고 싶으면 join 검증 추가
