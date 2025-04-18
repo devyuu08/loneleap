@@ -9,19 +9,29 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "./firebase";
+import { db } from "./firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 // 회원가입
 export const signUp = async (email, password, displayName) => {
   const result = await createUserWithEmailAndPassword(auth, email, password);
 
-  // displayName 설정
   try {
+    // 🔹 displayName 설정
     if (displayName && displayName.trim() !== "") {
       await updateProfile(result.user, { displayName });
     }
+
+    // 🔹 Firestore에 사용자 정보 추가
+    const userRef = doc(db, "users", result.user.uid);
+    await setDoc(userRef, {
+      email: result.user.email,
+      displayName: displayName || "", // 없을 수도 있으니까
+      createdAt: new Date().toISOString(),
+    });
   } catch (error) {
-    console.error("프로필 업데이트 중 오류 발생:", error);
-    // 사용자에게 프로필 업데이트 실패를 알릴 수 있는 방법 고려
+    console.error("회원가입 후 Firestore 저장 실패:", error);
+    // 필요시 예외 처리
   }
 
   return result;
