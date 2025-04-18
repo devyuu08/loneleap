@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import LoadingSpinner from "../common/LoadingSpinner";
+import InlineSpinner from "../common/InlineSpinner";
 
 export default function AdminLayout({ children }) {
   const router = useRouter();
@@ -71,15 +71,14 @@ export default function AdminLayout({ children }) {
             disabled={isLoading}
             className="flex items-center justify-center gap-2 w-full text-sm text-gray-500 hover:text-red-500 border px-3 py-2 rounded disabled:opacity-50"
           >
-            <span>
-              {isLoading ? (
-                <>
-                  <LoadingSpinner size="sm" text="로그아웃 중..." />
-                </>
-              ) : (
-                "로그아웃"
-              )}
-            </span>
+            {isLoading ? (
+              <>
+                로그아웃 중...
+                <InlineSpinner size="sm" />
+              </>
+            ) : (
+              "로그아웃"
+            )}
           </button>
         </div>
       </aside>
