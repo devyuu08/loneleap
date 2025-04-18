@@ -3,7 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function isAdmin() {
-      return request.auth.token.email in ["admin@gmail.com"];
+    return exists(/databases/$(database)/documents/admin/$(request.auth.token.email));
     }
 
     function isSignedIn() {
@@ -12,6 +12,10 @@ service cloud.firestore {
 
     function isOwner(userId) {
       return request.auth.uid == userId;
+    }
+
+    match /admin/{email} {
+    allow read, write: if false;
     }
 
     match /itineraries/{itineraryId} {
