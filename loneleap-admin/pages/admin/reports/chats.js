@@ -1,7 +1,6 @@
 // loneleap-admin/pages/admin/reports/chats.js
 import { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useRouter } from "next/router";
+import { getAuth } from "firebase/auth";
 import AdminProtectedRoute from "@/components/auth/AdminProtectedRoute";
 import AdminLayout from "@/components/layout/AdminLayout";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
@@ -13,7 +12,6 @@ import ChatReportDetail from "@/components/reports/ChatReportDetail";
  * @returns {JSX.Element} 채팅 신고 관리 페이지 컴포넌트
  */
 export default function AdminChatReportsPage() {
-  const [authUser, setAuthUser] = useState(null);
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -21,26 +19,8 @@ export default function AdminChatReportsPage() {
   const [lastDocId, setLastDocId] = useState(null);
   const [selectedReport, setSelectedReport] = useState(null);
   const [error, setError] = useState(null);
-  const router = useRouter();
 
-  // 인증 처리 전용 useEffect
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push("/admin/login");
-      } else {
-        setAuthUser(user);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [router]);
-
-  // 인증 후 데이터 가져오기 useEffect
-  useEffect(() => {
-    if (!authUser) return;
-
     const fetchInitialReports = async () => {
       try {
         setLoading(true);
@@ -56,11 +36,15 @@ export default function AdminChatReportsPage() {
     };
 
     fetchInitialReports();
-  }, [authUser]);
+  }, []);
 
   // 데이터 가져오기 함수 (처음 또는 더 보기)
   const fetchReports = async (isLoadMore = false) => {
-    const token = await authUser.getIdToken();
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const token = await user.getIdToken();
 
     const query = new URLSearchParams();
     query.append("limit", 50);

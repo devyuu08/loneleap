@@ -5,8 +5,7 @@ import AdminLayout from "@/components/layout/AdminLayout";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ReviewReportTable from "@/components/reports/ReviewReportTable";
 import ReviewReportDetail from "@/components/reports/ReviewReportDetail";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useRouter } from "next/router";
+import { getAuth } from "firebase/auth";
 
 /**
  * @description 관리자가 사용자들이 신고한 리뷰를 확인하고 처리할 수 있는 페이지
@@ -14,7 +13,6 @@ import { useRouter } from "next/router";
  */
 
 export default function AdminReviewReportsPage() {
-  const [authUser, setAuthUser] = useState(null);
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -22,30 +20,13 @@ export default function AdminReviewReportsPage() {
   const [lastDoc, setLastDoc] = useState(null);
   const [selectedReport, setSelectedReport] = useState(null);
   const [error, setError] = useState(null);
-  const router = useRouter();
 
-  // 인증 처리
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push("/admin/login");
-      } else {
-        setAuthUser(user);
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
-
-  // 인증 후 데이터 불러오기
-  useEffect(() => {
-    if (!authUser) return;
-
     const fetchInitialReports = async () => {
       try {
         setError(null);
         setLoading(true);
-        await fetchReports();
+        await fetchReports(); // 보고서 초기 불러오기
       } catch (err) {
         setError(err.message);
       } finally {
@@ -54,10 +35,15 @@ export default function AdminReviewReportsPage() {
     };
 
     fetchInitialReports();
-  }, [authUser]);
+  }, []);
 
   const fetchReports = async (isLoadMore = false) => {
-    const token = await authUser.getIdToken();
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const token = await user.getIdToken();
+
     const query = new URLSearchParams();
     query.append("limit", 50);
     if (isLoadMore && lastDoc) query.append("lastDoc", lastDoc);
@@ -93,13 +79,14 @@ export default function AdminReviewReportsPage() {
     }
   };
 
-  // 삭제 성공 후 상태 업데이트 처리
   const handleReportSuccess = (deletedReport) => {
     setReports((prev) => prev.filter((r) => r.id !== deletedReport.id));
     setSelectedReport(null);
   };
 
-  if (loading) return <LoadingSpinner text="신고된 리뷰를 불러오는 중..." />;
+  if (loading) {
+    return <LoadingSpinner text="신고된 리뷰를 불러오는 중..." />;
+  }
 
   return (
     <AdminProtectedRoute>
@@ -112,7 +99,6 @@ export default function AdminReviewReportsPage() {
         </div>
 
         <div className="flex gap-6">
-          {/* 좌측 */}
           <div className="w-1/2 bg-white p-6 rounded-xl shadow">
             {error ? (
               <div className="text-red-500 text-center">{error}</div>
@@ -138,7 +124,6 @@ export default function AdminReviewReportsPage() {
             )}
           </div>
 
-          {/* 우측 */}
           <div className="w-1/2 bg-white p-6 rounded-xl shadow min-h-[300px]">
             <ReviewReportDetail
               report={selectedReport}
