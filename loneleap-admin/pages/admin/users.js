@@ -24,12 +24,6 @@ export default function AdminUsersPage() {
             >
               대시보드로 돌아가기
             </Link>
-            <Link
-              href="/admin/reports/reviews"
-              className="text-blue-500 hover:underline mx-2"
-            >
-              리뷰 신고 관리
-            </Link>
           </div>
         </div>
       </AdminLayout>
