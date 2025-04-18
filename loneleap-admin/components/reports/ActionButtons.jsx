@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getAuth } from "firebase/auth";
-import LoadingSpinner from "../common/LoadingSpinner";
+import InlineSpinner from "../common/InlineSpinner";
 
 export default function ActionButtons({ report, onSuccess }) {
   const [deleting, setDeleting] = useState(false);
@@ -59,13 +59,18 @@ export default function ActionButtons({ report, onSuccess }) {
 
     setDismissing(true);
     try {
+      const token = await getAuth().currentUser?.getIdToken();
+
       const res = await fetch(
         isChat
           ? "/api/chatReports/dismissChatReport"
           : "/api/reviewReports/dismissReport",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            ...(isChat && token ? { Authorization: `Bearer ${token}` } : {}),
+          },
           body: JSON.stringify({ reportId }),
         }
       );
@@ -89,11 +94,14 @@ export default function ActionButtons({ report, onSuccess }) {
     <div className="flex gap-2 mt-4">
       <button
         onClick={handleDelete}
-        className="px-4 py-2 text-sm rounded bg-red-500 hover:bg-red-600 text-white"
         disabled={deleting}
+        className="flex items-center justify-center gap-2 px-4 py-2 text-sm rounded bg-red-500 hover:bg-red-600 text-white"
       >
         {deleting ? (
-          <LoadingSpinner size="sm" color="white" text="삭제 중..." />
+          <>
+            삭제 중...
+            <InlineSpinner size="sm" color="white" />
+          </>
         ) : isChat ? (
           "메시지 삭제"
         ) : (
@@ -103,11 +111,14 @@ export default function ActionButtons({ report, onSuccess }) {
 
       <button
         onClick={handleDismiss}
-        className="px-4 py-2 text-sm rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
         disabled={dismissing}
+        className="flex items-center justify-center gap-2 px-4 py-2 text-sm rounded bg-gray-300 hover:bg-gray-400 text-gray-800"
       >
         {dismissing ? (
-          <LoadingSpinner size="sm" color="gray" text="무시중..." />
+          <>
+            무시 중...
+            <InlineSpinner size="sm" color="gray" />
+          </>
         ) : (
           "신고 무시"
         )}
