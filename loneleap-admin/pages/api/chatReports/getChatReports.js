@@ -49,45 +49,57 @@ export default async function getChatReports(req, res) {
       messageRefs[roomId].push(messageId);
     });
 
-    // 3단계: 메시지 일괄 조회 (roomId별 + where in)
-    const messagesMap = {}; // roomId -> messageId -> messageText
-    await Promise.all(
-      Object.entries(messageRefs).map(async ([roomId, messageIds]) => {
-        try {
-          const uniqueIds = [...new Set(messageIds)];
-          const CHUNK_SIZE = 10;
-          for (let i = 0; i < uniqueIds.length; i += CHUNK_SIZE) {
-            const chunk = uniqueIds.slice(i, i + CHUNK_SIZE);
-            const snapshot = await db
-              .collection("chatRooms")
-              .doc(roomId)
-              .collection("messages")
-              .where("__name__", "in", chunk)
-              .get();
+    // 3단계: 메시지 단건 조회 (messageId 기준으로 chatMessages 컬렉션에서 직접 조회)
+    const messagesMap = {}; // messageId -> messageText
 
-            snapshot.forEach((doc) => {
-              if (!messagesMap[roomId]) messagesMap[roomId] = {};
-              messagesMap[roomId][doc.id] = doc.data().text || "(빈 메시지)";
-            });
+    await Promise.all(
+      Object.values(messageRefs)
+        .flat()
+        .map(async (messageId) => {
+          try {
+            const doc = await db
+              .collection("chatMessages")
+              .doc(messageId)
+              .get();
+            if (doc.exists) {
+              messagesMap[messageId] = doc.data().message || "(빈 메시지)";
+            }
+          } catch (error) {
+            console.error(`메시지(${messageId}) 조회 실패:`, error);
           }
-        } catch (error) {
-          console.error(`${roomId} 채팅 메시지 일괄 조회 실패:`, error);
-        }
-      })
+        })
     );
 
     // 4단계: 메시지 텍스트 추가
     const data = reports.map((report) => {
-      const { roomId, messageId } = report;
       const messageText =
-        messagesMap[roomId]?.[messageId] || "(메시지를 찾을 수 없습니다)";
+        messagesMap[report.messageId] || "(메시지를 찾을 수 없습니다)";
       return {
         ...report,
         messageText,
       };
     });
 
-    return res.status(200).json(data);
+    // 5단계: 사용자 ID → 이메일 조회
+    const reporterIds = [...new Set(data.map((r) => r.reporterId))];
+    const userSnaps = await Promise.all(
+      reporterIds.map((uid) => db.collection("users").doc(uid).get())
+    );
+    const userMap = {};
+    userSnaps.forEach((snap) => {
+      if (snap.exists) {
+        const userData = snap.data();
+        userMap[snap.id] = userData.email || "(이메일 없음)";
+      }
+    });
+
+    // 6단계: reporterEmail 추가
+    const enrichedData = data.map((report) => ({
+      ...report,
+      reporterEmail: userMap[report.reporterId] || "(탈퇴한 사용자)",
+    }));
+
+    return res.status(200).json(enrichedData);
   } catch (error) {
     console.error("채팅 신고 데이터 불러오기 오류:", error);
     return res.status(500).json({
