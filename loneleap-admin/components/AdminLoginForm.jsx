@@ -6,10 +6,10 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import LoadingSpinner from "./common/LoadingSpinner";
 import ErrorMessage from "./ErrorMessage";
 import { FcGoogle } from "react-icons/fc";
 import { FiMail, FiLock } from "react-icons/fi";
+import InlineSpinner from "./common/InlineSpinner";
 
 export default function AdminLoginForm({ errorMessage }) {
   const router = useRouter();
@@ -148,10 +148,13 @@ export default function AdminLoginForm({ errorMessage }) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-11 bg-gray-900 text-white py-2 rounded-md font-semibold hover:bg-gray-800 flex items-center justify-center"
+          className="w-full h-11 bg-gray-900 text-white py-2 rounded-md font-semibold hover:bg-gray-800 flex items-center justify-center gap-2"
         >
           {loading ? (
-            <LoadingSpinner text="로그인 중..." size="sm" />
+            <>
+              로그인 중...
+              <InlineSpinner size="sm" color="white" />
+            </>
           ) : (
             "로그인"
           )}
@@ -162,10 +165,17 @@ export default function AdminLoginForm({ errorMessage }) {
         <button
           onClick={handleGoogleLogin}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 border py-2 rounded-md hover:bg-gray-50"
+          className="w-full flex items-center justify-center gap-2 border py-2 rounded-md hover:bg-gray-50 text-sm"
         >
           <FcGoogle className="text-xl" />
-          Google 계정으로 로그인
+          {loading ? (
+            <>
+              로그인 중...
+              <InlineSpinner size="sm" />
+            </>
+          ) : (
+            "Google 계정으로 로그인"
+          )}
         </button>
       </div>
       {passwordMatchError && <ErrorMessage message={passwordMatchError} />}
