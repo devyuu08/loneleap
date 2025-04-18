@@ -16,7 +16,13 @@ export default function AdminProtectedRoute({ children }) {
         const isAdmin = user && adminEmails.includes(user.email);
         if (!isAdmin) {
           setLoading(false);
-          router.replace("/admin/login");
+          router.replace(
+            {
+              pathname: "/admin/login",
+              query: { error: "not-admin" },
+            },
+            "/admin/login"
+          );
         } else {
           setLoading(false);
         }

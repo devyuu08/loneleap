@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
   signInWithEmailAndPassword,
@@ -11,7 +11,7 @@ import ErrorMessage from "./ErrorMessage";
 import { FcGoogle } from "react-icons/fc";
 import { FiMail, FiLock } from "react-icons/fi";
 
-export default function AdminLoginForm() {
+export default function AdminLoginForm({ errorMessage }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +20,10 @@ export default function AdminLoginForm() {
 
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState("");
+
+  useEffect(() => {
+    if (errorMessage) setError(errorMessage);
+  }, [errorMessage]);
 
   const handleAdminLogin = async (e) => {
     e.preventDefault();
