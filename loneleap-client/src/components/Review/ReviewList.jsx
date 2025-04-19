@@ -1,11 +1,10 @@
-// src/components/Review/ReviewList.jsx
 import { useState } from "react";
 
-import { useReviews } from "services/queries/useReviews";
+import { useReviews } from "services/queries/review/useReviews";
 
 import ReviewCard from "./ReviewCard";
-import LoadingSpinner from "components/LoadingSpinner";
-import EmptyState from "components/EmptyState";
+import LoadingSpinner from "components/common/LoadingSpinner";
+import EmptyState from "components/common/EmptyState";
 import ReviewSortButtons from "./ReviewSortButtons";
 
 export default function ReviewList() {
@@ -46,10 +45,8 @@ export default function ReviewList() {
 
   return (
     <div>
-      {/* 정렬 버튼 UI */}
       <ReviewSortButtons sort={sort} onChange={setSort} />
 
-      {/* 리뷰 카드 리스트 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {sortReviews(reviews, sort).map((review) => (
           <ReviewCard key={review.id} review={review} />

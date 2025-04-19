@@ -1,4 +1,3 @@
-// src/services/queries/useMyReviews.js
 import { useInfiniteQuery } from "@tanstack/react-query";
 import {
   collection,
@@ -9,7 +8,7 @@ import {
   limit,
   startAfter,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 export const useMyReviews = (uid, options = {}) => {
   return useInfiniteQuery({

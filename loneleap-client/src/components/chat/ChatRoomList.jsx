@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useChatRooms } from "services/queries/useChatRooms";
+import { useChatRooms } from "services/queries/chat/useChatRooms";
 import ChatRoomCard from "./ChatRoomCard";
-import LoadingSpinner from "components/LoadingSpinner";
-import EmptyState from "components/EmptyState";
+import LoadingSpinner from "components/common/LoadingSpinner.jsx";
+import EmptyState from "components/common/EmptyState";
 
 export default function ChatRoomList() {
   const navigate = useNavigate();
@@ -13,7 +13,13 @@ export default function ChatRoomList() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">나의 채팅방</h2>
+        <div>
+          <h2 className="text-2xl font-bold">채팅방 목록</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            여행 정보 또는 동행자를 찾고 싶다면 채팅방을 만들어보세요!
+          </p>
+        </div>
+
         <button
           className="bg-gray-900 text-white px-4 py-2 rounded-md"
           onClick={() => navigate("/chat/create")}
@@ -22,7 +28,6 @@ export default function ChatRoomList() {
           + 새 채팅방
         </button>
       </div>
-
       {rooms?.length === 0 ? (
         <EmptyState
           icon="💬"

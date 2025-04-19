@@ -1,9 +1,8 @@
-// src/components/chat/ChatRoomForm.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useCreateChatRoom } from "services/queries/useCreateChatRoom";
-import LoadingSpinner from "../LoadingSpinner";
+import { useCreateChatRoom } from "services/queries/chat/useCreateChatRoom";
+import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 
 export default function ChatRoomForm() {
   const [title, setTitle] = useState("");
@@ -63,7 +62,6 @@ export default function ChatRoomForm() {
       <h2 className="text-2xl font-bold mb-6">채팅방 만들기</h2>
 
       <form onSubmit={handleChatRoomFormSubmit} className="space-y-4">
-        {/* 제목 */}
         <div>
           <label
             htmlFor="title"
@@ -88,7 +86,6 @@ export default function ChatRoomForm() {
           )}
         </div>
 
-        {/* 설명 */}
         <div>
           <label
             htmlFor="description"
@@ -113,7 +110,6 @@ export default function ChatRoomForm() {
           )}
         </div>
 
-        {/* 제출 버튼 */}
         <button
           type="submit"
           disabled={isPending || !user}

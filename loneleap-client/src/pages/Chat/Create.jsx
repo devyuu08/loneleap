@@ -1,4 +1,3 @@
-// src/pages/chat/CreateChatRoomPage.jsx
 import ChatRoomForm from "components/chat/ChatRoomForm";
 
 export default function CreateChatRoomPage() {

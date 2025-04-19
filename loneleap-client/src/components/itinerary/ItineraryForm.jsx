@@ -5,9 +5,9 @@ import { auth } from "services/firebase"; // auth에서 uid 가져옴
 import { useMutation } from "@tanstack/react-query";
 
 import DatePicker from "./DatePicker";
-import FormSubmitButton from "./FormSubmitButton";
+import FormSubmitButton from "../common/FormSubmitButton";
 
-import { createItinerary, updateItinerary } from "../services/firestore";
+import { createItinerary, updateItinerary } from "../../services/firestore";
 
 export default function ItineraryForm({ initialData, isEditMode = false }) {
   const [title, setTitle] = useState(initialData?.title || "");

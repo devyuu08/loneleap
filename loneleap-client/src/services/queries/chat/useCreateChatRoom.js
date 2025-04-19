@@ -1,7 +1,5 @@
-// src/services/queries/useCreateChatRoom.js
-
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**

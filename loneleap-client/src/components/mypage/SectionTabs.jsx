@@ -1,4 +1,3 @@
-// src/components/mypage/SectionTabs.jsx
 import React from "react";
 
 export default function SectionTabs({ activeTab, setActiveTab }) {

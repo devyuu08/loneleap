@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { useItineraryDetail } from "services/queries/useItineraryDetail";
-import ItineraryForm from "components/ItineraryForm";
+import { useItineraryDetail } from "services/queries/itinerary/useItineraryDetail";
+import ItineraryForm from "components/itinerary/ItineraryForm";
 
 export default function EditItineraryPage() {
   const { id } = useParams();

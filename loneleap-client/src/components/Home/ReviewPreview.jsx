@@ -1,7 +1,5 @@
-// src/components/Home/ReviewPreview.jsx
-
 import { Link } from "react-router-dom";
-import { useRecentReviews } from "services/queries/useRecentReviews";
+import { useRecentReviews } from "services/queries/review/useRecentReviews";
 
 export default function ReviewPreview() {
   const { data: reviews, isLoading } = useRecentReviews();
@@ -19,7 +17,7 @@ export default function ReviewPreview() {
           더보기 →
         </Link>
       </div>
-      {/* 카드 목록 */}
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {reviews.map((review) => (
           <Link
@@ -27,7 +25,6 @@ export default function ReviewPreview() {
             to={`/reviews/${review.id}`}
             className="bg-white rounded-lg shadow hover:shadow-md transition block overflow-hidden"
           >
-            {/* 리뷰 이미지 */}
             <img
               src={review.imageUrl || "/images/no_image.png"}
               alt="리뷰 이미지"
@@ -38,7 +35,6 @@ export default function ReviewPreview() {
               className="w-full aspect-[4/3] object-cover bg-gray-100"
             />
 
-            {/* 프로필 정보 + 날짜 */}
             <div className="flex items-center gap-3 p-4">
               <img
                 src={review.authorPhoto || "/default_profile.png"}
@@ -62,7 +58,6 @@ export default function ReviewPreview() {
               </div>
             </div>
 
-            {/* 리뷰 내용 */}
             <p className="px-4 pb-4 text-gray-700 text-sm">{review.content}</p>
           </Link>
         ))}

@@ -1,5 +1,3 @@
-// src/components/EmptyState.jsx
-
 export default function EmptyState({
   icon = "📭",
   title = "데이터가 없습니다",
