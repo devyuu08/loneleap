@@ -1,4 +1,3 @@
-// src/services/auth.js
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -17,12 +16,12 @@ export const signUp = async (email, password, displayName) => {
   const result = await createUserWithEmailAndPassword(auth, email, password);
 
   try {
-    // 🔹 displayName 설정
+    // displayName 설정
     if (displayName && displayName.trim() !== "") {
       await updateProfile(result.user, { displayName });
     }
 
-    // 🔹 Firestore에 사용자 정보 추가
+    // Firestore에 사용자 정보 추가
     const userRef = doc(db, "users", result.user.uid);
     await setDoc(userRef, {
       email: result.user.email,

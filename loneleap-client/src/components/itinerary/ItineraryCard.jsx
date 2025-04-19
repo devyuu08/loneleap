@@ -24,7 +24,6 @@ export default function ItineraryCard({ itinerary }) {
   ) : (
     // 실제 카드 UI
     <div className="bg-white rounded-xl shadow-sm overflow-hidden border hover:shadow-md transition">
-      {/* 이미지 자리 */}
       <div className="h-32 overflow-hidden rounded-t-xl">
         {itinerary.imageUrl ? (
           <img
@@ -46,7 +45,6 @@ export default function ItineraryCard({ itinerary }) {
         )}
       </div>
 
-      {/* 본문 영역 */}
       <div className="p-4">
         <div className="text-sm text-gray-500">
           {startDate ? startDate : "날짜 미정"} {endDate ? ` ~ ${endDate}` : ""}

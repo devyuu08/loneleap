@@ -1,4 +1,3 @@
-// src/pages/Reviews/Detail.jsx
 import { useParams, useNavigate } from "react-router-dom";
 import { useReviewDetail } from "services/queries/review/useReviewDetail";
 import LoadingSpinner from "components/common/LoadingSpinner";

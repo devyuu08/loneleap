@@ -1,4 +1,3 @@
-// src/services/queries/useMyReviews.js
 import { useInfiniteQuery } from "@tanstack/react-query";
 import {
   collection,

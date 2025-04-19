@@ -1,5 +1,3 @@
-// utils/formatDate.js
-
 export function formatDate(dateValue) {
   if (!dateValue) return "날짜 없음";
 

@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 import { setUser, clearUser } from "store/userSlice";
 
 import { observeAuth } from "./services/auth";
@@ -10,6 +11,9 @@ import Header from "components/layout/Header";
 import Footer from "components/layout/Footer";
 
 import AuthForm from "components/auth/AuthForm";
+
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 
 import Home from "pages/home/Home";
 import CreateItineraryPage from "pages/Itinerary/Create";
@@ -24,11 +28,12 @@ import CreateChatRoomPage from "pages/Chat/Create";
 import ChatRoomListPage from "pages/Chat/List";
 import ChatRoomDetailPage from "pages/Chat/Detail";
 import MyPage from "pages/mypage/MyPage";
-
 import FutureRecommendationPage from "pages/recommendations/Preview";
 
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.currentUser);
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     const unsubscribe = observeAuth((user) => {
@@ -44,10 +49,13 @@ function App() {
       } else {
         dispatch(clearUser());
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, [dispatch]);
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -60,27 +68,108 @@ function App() {
           <Route path="/login" element={<AuthForm />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/itinerary">
-            <Route index element={<ItineraryListPage />} />
-            <Route path="create" element={<CreateItineraryPage />} />
-            <Route path="edit/:id" element={<EditItineraryPage />} />
-            <Route path=":id" element={<ItineraryDetailPage />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <ItineraryListPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="create"
+              element={
+                <ProtectedRoute>
+                  <CreateItineraryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="edit/:id"
+              element={
+                <ProtectedRoute>
+                  <EditItineraryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":id"
+              element={
+                <ProtectedRoute>
+                  <ItineraryDetailPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
           <Route path="/reviews">
-            <Route index element={<ReviewListPage />} />
-            <Route path="create" element={<CreateReviewPage />} />
-            <Route path=":id" element={<ReviewDetailPage />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <ReviewListPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="create"
+              element={
+                <ProtectedRoute>
+                  <CreateReviewPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":id"
+              element={
+                <ProtectedRoute>
+                  <ReviewDetailPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
           <Route path="/chat">
-            <Route index element={<ChatRoomListPage />} />
-            <Route path="create" element={<CreateChatRoomPage />} />
-            <Route path=":id" element={<ChatRoomDetailPage />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <ChatRoomListPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="create"
+              element={
+                <ProtectedRoute>
+                  <CreateChatRoomPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":id"
+              element={
+                <ProtectedRoute>
+                  <ChatRoomDetailPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
           <Route path="/mypage">
-            <Route index element={<MyPage />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <MyPage />
+                </ProtectedRoute>
+              }
+            />
           </Route>
           <Route
             path="/recommendations/preview"
-            element={<FutureRecommendationPage />}
+            element={
+              <ProtectedRoute>
+                <FutureRecommendationPage />
+              </ProtectedRoute>
+            }
           />
         </Routes>
       </main>

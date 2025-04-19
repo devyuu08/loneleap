@@ -1,4 +1,3 @@
-// src/pages/Recommendations/Preview.jsx
 export default function FutureRecommendationPage() {
   return (
     <div className="py-32 text-center px-4">

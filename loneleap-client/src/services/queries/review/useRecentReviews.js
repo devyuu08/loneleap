@@ -1,5 +1,3 @@
-// src/services/queries/useRecentReviews.js
-
 import { useQuery } from "@tanstack/react-query";
 import {
   getFirestore,

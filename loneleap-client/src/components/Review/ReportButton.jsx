@@ -1,5 +1,3 @@
-// src/components/Review/ReportButton.jsx
-
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useReportReview } from "services/queries/review/useReportReview";

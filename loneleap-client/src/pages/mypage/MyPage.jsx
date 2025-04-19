@@ -1,4 +1,3 @@
-// src/pages/MyPage.jsx
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ProfileSection from "components/mypage/ProfileSection";

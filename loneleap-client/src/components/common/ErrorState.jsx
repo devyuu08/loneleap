@@ -1,4 +1,3 @@
-// src/components/ErrorState.jsx
 import PropTypes from "prop-types";
 
 export default function ErrorState({ message }) {

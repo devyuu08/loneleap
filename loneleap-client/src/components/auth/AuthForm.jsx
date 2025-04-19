@@ -1,4 +1,3 @@
-// src/components/AuthForm.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -148,10 +147,6 @@ export default function AuthForm() {
           <Link to="/reset">비밀번호를 잊으셨나요?</Link>
           <Link to="/signup">회원가입</Link>
         </div>
-
-        <footer className="text-xs text-center text-gray-400 mt-10">
-          © 2025 LONELEAP. All rights reserved.
-        </footer>
       </div>
     </div>
   );

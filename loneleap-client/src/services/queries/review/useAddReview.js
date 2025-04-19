@@ -1,4 +1,3 @@
-// src/services/queries/useAddReview.js
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { db, storage } from "../../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";

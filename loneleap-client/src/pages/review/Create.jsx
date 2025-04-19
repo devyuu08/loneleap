@@ -1,4 +1,3 @@
-// src/pages/Reviews/Create.jsx
 import { useState } from "react";
 import ReviewForm from "components/Review/ReviewForm";
 import useAddReview from "services/queries/review/useAddReview";

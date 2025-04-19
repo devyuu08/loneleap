@@ -1,4 +1,3 @@
-// src/services/queries/useMyChatRooms.js
 import { useQuery } from "@tanstack/react-query";
 import {
   collection,

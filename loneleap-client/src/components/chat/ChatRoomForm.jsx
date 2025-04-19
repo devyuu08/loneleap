@@ -1,4 +1,3 @@
-// src/components/chat/ChatRoomForm.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -63,7 +62,6 @@ export default function ChatRoomForm() {
       <h2 className="text-2xl font-bold mb-6">채팅방 만들기</h2>
 
       <form onSubmit={handleChatRoomFormSubmit} className="space-y-4">
-        {/* 제목 */}
         <div>
           <label
             htmlFor="title"
@@ -88,7 +86,6 @@ export default function ChatRoomForm() {
           )}
         </div>
 
-        {/* 설명 */}
         <div>
           <label
             htmlFor="description"
@@ -113,7 +110,6 @@ export default function ChatRoomForm() {
           )}
         </div>
 
-        {/* 제출 버튼 */}
         <button
           type="submit"
           disabled={isPending || !user}

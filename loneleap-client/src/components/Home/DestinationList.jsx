@@ -1,4 +1,3 @@
-// src/components/Home/DestinationList.jsx
 import { Link } from "react-router-dom";
 
 const destinations = [
@@ -22,7 +21,6 @@ const destinations = [
 export default function DestinationList() {
   return (
     <section className="py-20 px-6 bg-white">
-      {/* 타이틀 + 링크 */}
       <div className="relative mb-10">
         <h2 className="text-2xl font-bold text-center">추천 여행지</h2>
         <Link
@@ -33,7 +31,6 @@ export default function DestinationList() {
         </Link>
       </div>
 
-      {/* 카드 리스트 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {destinations.map((d, idx) => (
           <Link

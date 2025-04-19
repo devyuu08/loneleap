@@ -27,17 +27,14 @@ export default function ChatRoomCard({ room = {} }) {
         if (e.key === "Escape") e.target.blur();
       }}
     >
-      {/* 제목 */}
       <h3 className="text-lg font-semibold text-gray-900 mb-1">{room.name}</h3>
 
-      {/* 설명 */}
       {room.description && (
         <p className="text-sm text-gray-700 line-clamp-1 mb-2">
           {room.description}
         </p>
       )}
 
-      {/* 생성일 */}
       <p className="text-xs text-gray-500">{formatDateOnly(room.createdAt)}</p>
     </article>
   );

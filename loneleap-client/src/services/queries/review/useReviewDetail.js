@@ -1,4 +1,3 @@
-// src/services/queries/useReviewDetail.js
 import { useQuery } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase";

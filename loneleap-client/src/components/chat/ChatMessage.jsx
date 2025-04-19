@@ -1,4 +1,3 @@
-// src/components/chat/ChatMessage.jsx
 import { useSelector } from "react-redux";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";

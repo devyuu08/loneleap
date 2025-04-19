@@ -1,4 +1,3 @@
-// src/components/chat/ChatRoomDetail.jsx
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -73,12 +72,10 @@ export default function ChatRoomDetail({ roomId }) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col h-[calc(100vh-var(--header-height,80px))]">
-      {/* 상단 제목 영역 */}
       <div className="mb-4">
         <h2 className="text-xl font-bold">{roomInfo.name || "채팅방"}</h2>
       </div>
 
-      {/* 메시지 리스트 */}
       <div
         className="flex-1 overflow-y-auto space-y-4 px-1"
         ref={scrollRef}
@@ -91,7 +88,6 @@ export default function ChatRoomDetail({ roomId }) {
         ))}
       </div>
 
-      {/* 메시지 입력창 */}
       <div className="mt-4" role="form" aria-label="메시지 입력">
         <MessageInput roomId={roomId} />
       </div>
