@@ -9,7 +9,7 @@ import {
   limit,
   getDocs,
 } from "firebase/firestore";
-import { app } from "../firebase"; // 기존 firebase.js 경로에 따라 조정
+import { app } from "../../firebase"; // 기존 firebase.js 경로에 따라 조정
 
 const db = getFirestore(app);
 

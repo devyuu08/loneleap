@@ -1,8 +1,8 @@
 // src/pages/Reviews/Detail.jsx
 import { useParams, useNavigate } from "react-router-dom";
-import { useReviewDetail } from "services/queries/useReviewDetail";
-import LoadingSpinner from "components/LoadingSpinner";
-import NotFoundMessage from "components/NotFoundMessage";
+import { useReviewDetail } from "services/queries/review/useReviewDetail";
+import LoadingSpinner from "components/common/LoadingSpinner";
+import NotFoundMessage from "components/common/NotFoundMessage";
 import ReportButton from "components/Review/ReportButton";
 import { formatDate } from "utils/formatDate";
 

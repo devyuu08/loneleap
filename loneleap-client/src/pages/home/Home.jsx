@@ -1,6 +1,6 @@
-import DestinationList from "../components/Home/DestinationList";
-import HeroSection from "../components/Home/HeroSection";
-import ReviewPreview from "../components/Home/ReviewPreview";
+import DestinationList from "components/Home/DestinationList";
+import HeroSection from "components/Home/HeroSection";
+import ReviewPreview from "components/Home/ReviewPreview";
 
 export default function Home() {
   return (

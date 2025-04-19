@@ -3,16 +3,16 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import ProfileSection from "components/mypage/ProfileSection";
 import SectionTabs from "components/mypage/SectionTabs";
-import EmptyState from "components/EmptyState";
-import ErrorState from "components/ErrorState";
+import EmptyState from "components/common/EmptyState";
+import ErrorState from "components/common/ErrorState";
 
 import MyItineraryCard from "components/mypage/MyItineraryCard";
 import MyReviewCard from "components/mypage/MyReviewCard";
 import MyChatRoomCard from "components/mypage/MyChatRoomCard";
 
-import { useMyItineraries } from "services/queries/useMyItineraries";
-import { useMyReviews } from "services/queries/useMyReviews";
-import { useMyChatRooms } from "services/queries/useMyChatRooms";
+import { useMyItineraries } from "services/queries/itinerary/useMyItineraries";
+import { useMyReviews } from "services/queries/review/useMyReviews";
+import { useMyChatRooms } from "services/queries/chat/useMyChatRooms";
 
 export default function MyPage() {
   const user = useSelector((state) => state.user.user);

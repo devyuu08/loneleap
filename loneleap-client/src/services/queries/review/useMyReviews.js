@@ -9,7 +9,7 @@ import {
   limit,
   startAfter,
 } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 export const useMyReviews = (uid, options = {}) => {
   return useInfiniteQuery({

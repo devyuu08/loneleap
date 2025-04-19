@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useState } from "react";
-import { useReportMessage } from "services/queries/useReportMessage";
-import ReportModal from "../ReportModal";
+import { useReportMessage } from "services/queries/chat/useReportMessage";
+import ReportModal from "components/common/ReportModal.jsx";
 
 export default function ChatMessage({ message }) {
   const user = useSelector((state) => state.user.user);
