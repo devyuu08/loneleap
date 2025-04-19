@@ -6,24 +6,26 @@ import { setUser, clearUser } from "store/userSlice";
 
 import { observeAuth } from "./services/auth";
 
-import Header from "components/Header";
-import AuthForm from "components/AuthForm";
+import Header from "components/layout/Header";
+import Footer from "components/layout/Footer";
 
-import Home from "pages/Home"; // 기본 홈화면
+import AuthForm from "components/auth/AuthForm";
+
+import Home from "pages/home/Home";
 import CreateItineraryPage from "pages/Itinerary/Create";
 import ItineraryListPage from "pages/Itinerary/List";
 import ItineraryDetailPage from "pages/Itinerary/Detail";
 import EditItineraryPage from "pages/Itinerary/Edit";
-import CreateReviewPage from "pages/Reviews/Create";
+import CreateReviewPage from "pages/Review/Create";
 import SignUp from "pages/Auth/SignUp";
-import ReviewListPage from "pages/Reviews/List";
-import ReviewDetailPage from "pages/Reviews/Detail";
+import ReviewListPage from "pages/Review/List";
+import ReviewDetailPage from "pages/Review/Detail";
 import CreateChatRoomPage from "pages/Chat/Create";
 import ChatRoomListPage from "pages/Chat/List";
 import ChatRoomDetailPage from "pages/Chat/Detail";
-import MyPage from "pages/MyPage";
-import Footer from "./components/Footer";
-import FutureRecommendationPage from "./pages/Recommendations/Preview";
+import MyPage from "pages/mypage/MyPage";
+
+import FutureRecommendationPage from "pages/recommendations/Preview";
 
 function App() {
   const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useChatRooms } from "services/queries/useChatRooms";
+import { useChatRooms } from "services/queries/chat/useChatRooms";
 import ChatRoomCard from "./ChatRoomCard";
-import LoadingSpinner from "components/LoadingSpinner";
-import EmptyState from "components/EmptyState";
+import LoadingSpinner from "components/common/LoadingSpinner.jsx";
+import EmptyState from "components/common/EmptyState";
 
 export default function ChatRoomList() {
   const navigate = useNavigate();

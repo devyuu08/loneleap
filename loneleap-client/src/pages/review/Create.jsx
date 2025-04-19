@@ -1,7 +1,7 @@
 // src/pages/Reviews/Create.jsx
 import { useState } from "react";
 import ReviewForm from "components/Review/ReviewForm";
-import useAddReview from "services/queries/useAddReview";
+import useAddReview from "services/queries/review/useAddReview";
 
 export default function CreateReviewPage() {
   const [error, setError] = useState(null);

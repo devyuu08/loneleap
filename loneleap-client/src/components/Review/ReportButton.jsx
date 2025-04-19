@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { useReportReview } from "services/queries/useReportReview";
-import ReportModal from "components/ReportModal"; // 경로는 너 구조에 따라 조정
+import { useReportReview } from "services/queries/review/useReportReview";
+import ReportModal from "components/common/ReportModal";
 
 export default function ReportButton({ reviewId }) {
   const [isOpen, setIsOpen] = useState(false);

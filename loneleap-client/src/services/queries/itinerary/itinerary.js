@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { createItinerary } from "../firestore";
+import { createItinerary } from "../../firestore";
 import { useMutation } from "@tanstack/react-query";
 
 export const useAddItinerary = () => {

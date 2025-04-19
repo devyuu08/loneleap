@@ -1,7 +1,7 @@
 // src/components/Home/ReviewPreview.jsx
 
 import { Link } from "react-router-dom";
-import { useRecentReviews } from "services/queries/useRecentReviews";
+import { useRecentReviews } from "services/queries/review/useRecentReviews";
 
 export default function ReviewPreview() {
   const { data: reviews, isLoading } = useRecentReviews();

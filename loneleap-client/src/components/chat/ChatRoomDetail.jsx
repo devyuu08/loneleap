@@ -8,7 +8,7 @@ import { db } from "services/firebase";
 import { useChatMessages } from "hooks/useChatMessages";
 import MessageInput from "./MessageInput";
 import ChatMessage from "./ChatMessage";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 
 export default function ChatRoomDetail({ roomId }) {
   const { messages, loading } = useChatMessages(roomId);

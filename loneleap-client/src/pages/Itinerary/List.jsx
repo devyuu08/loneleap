@@ -2,11 +2,11 @@ import { useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import { useMyItineraries } from "services/queries/useMyItineraries";
+import { useMyItineraries } from "services/queries/itinerary/useMyItineraries";
 
-import LoadingSpinner from "components/LoadingSpinner";
-import EmptyState from "components/EmptyState";
-import ItineraryList from "components/ItineraryList";
+import LoadingSpinner from "components/common/LoadingSpinner";
+import EmptyState from "components/common/EmptyState";
+import ItineraryList from "components/itinerary/ItineraryList";
 
 export default function ItineraryListPage() {
   const { data, isLoading, isError, refetch } = useMyItineraries();
