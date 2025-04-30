@@ -31,9 +31,17 @@ service cloud.firestore {
 
     match /users/{userId} {
       allow read: if isSignedIn() && (isOwner(userId) || isAdmin());
-      allow write: if isSignedIn() && (isOwner(userId) || isAdmin()); 
+
+      allow update: if isSignedIn() && (
+        isOwner(userId) || isAdmin() ||
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reportedCount']) &&
+          request.resource.data.reportedCount == resource.data.reportedCount + 1
+        )
+      );
+
       allow create: if isSignedIn();
-}
+    }
 
     match /chatRooms/{roomId} {
       allow read: if isSignedIn();
