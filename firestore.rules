@@ -30,9 +30,10 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-    allow read, write: if isSignedIn() && isOwner(userId);
-    allow create: if isSignedIn();
-    }
+      allow read: if isSignedIn() && (isOwner(userId) || isAdmin());
+      allow write: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn();
+}
 
     match /chatRooms/{roomId} {
       allow read: if isSignedIn();
