@@ -5,9 +5,11 @@ import { auth } from "services/firebase"; // auth에서 uid 가져옴
 import { useMutation } from "@tanstack/react-query";
 
 import DatePicker from "./DatePicker";
-import FormSubmitButton from "../common/FormSubmitButton";
+import FormSubmitButton from "components/common/FormSubmitButton";
 
-import { createItinerary, updateItinerary } from "../../services/firestore";
+import { useAddItinerary } from "services/queries/itinerary/useAddItinerary";
+
+import { updateItinerary } from "services/firestore";
 
 export default function ItineraryForm({ initialData, isEditMode = false }) {
   const [title, setTitle] = useState(initialData?.title || "");
@@ -34,13 +36,7 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const { mutate: addMutate, isPending: isAdding } = useMutation({
-    mutationFn: createItinerary,
-    onSuccess: (newId) => {
-      navigate(`/itinerary/${newId}`);
-    },
-    onError: () => alert("일정 저장 중 오류가 발생했습니다."),
-  });
+  const { mutate: addMutate, isPending: isAdding } = useAddItinerary();
 
   const { mutate: updateMutate, isPending: isUpdating } = useMutation({
     mutationFn: ({ id, updatedData }) => updateItinerary(id, updatedData),

@@ -1,4 +1,12 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  increment,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import { useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
@@ -60,6 +68,17 @@ export const useReportMessage = () => {
       }
 
       try {
+        // 1. 메시지 문서에서 senderId 조회
+        const messageRef = doc(db, "chatMessages", messageId);
+        const messageSnap = await getDoc(messageRef);
+
+        if (!messageSnap.exists()) {
+          throw new Error("신고 대상 메시지를 찾을 수 없습니다.");
+        }
+
+        const { senderId } = messageSnap.data();
+
+        // 2. 신고 문서 추가
         await addDoc(collection(db, "chatReports"), {
           messageId,
           roomId,
@@ -67,8 +86,14 @@ export const useReportMessage = () => {
           reason,
           reportedAt: serverTimestamp(),
         });
+
+        // 3. senderId 기준으로 신고당한 유저의 reportedCount 증가
+        await updateDoc(doc(db, "users", senderId), {
+          reportedCount: increment(1),
+        });
       } catch (error) {
         console.error("메시지 신고 중 오류 발생:", error);
+
         if (error.code === "permission-denied") {
           throw new Error("권한이 없습니다. 관리자에게 문의하세요.");
         } else if (error.code === "unavailable") {

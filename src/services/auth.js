@@ -32,7 +32,7 @@ export const signUp = async (email, password, displayName) => {
       role: "user", // 기본 사용자 역할
       itineraryCount: 0, // 작성한 일정 수
       reviewCount: 0, // 작성한 리뷰 수
-      reportCount: 0, // 신고당한 횟수
+      reportedCount: 0, // 신고당한 횟수
       createdAt: serverTimestamp(),
     });
   } catch (error) {
