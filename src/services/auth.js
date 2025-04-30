@@ -24,8 +24,15 @@ export const signUp = async (email, password, displayName) => {
     // Firestore에 사용자 정보 추가
     const userRef = doc(db, "users", result.user.uid);
     await setDoc(userRef, {
+      uid: result.user.uid,
       email: result.user.email,
-      displayName: displayName || "", // 없을 수도 있으니까
+      displayName: displayName || "",
+      photoURL: result.user.photoURL || "",
+      status: "active", // 기본 상태
+      role: "user", // 기본 사용자 역할
+      itineraryCount: 0, // 작성한 일정 수
+      reviewCount: 0, // 작성한 리뷰 수
+      reportCount: 0, // 신고당한 횟수
       createdAt: serverTimestamp(),
     });
   } catch (error) {
