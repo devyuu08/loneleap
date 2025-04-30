@@ -2,26 +2,17 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { useItineraryDetail } from "services/queries/itinerary/useItineraryDetail";
-import { deleteItinerary } from "services/firestore";
-import { useMutation } from "@tanstack/react-query";
 
 import LoadingSpinner from "components/common/LoadingSpinner";
 import NotFoundMessage from "components/common/NotFoundMessage";
 import DayScheduleList from "./DayScheduleList";
+import { useDeleteItinerary } from "services/queries/itinerary/useDeleteItinerary";
 
 export default function ItineraryDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { mutate: deleteMutate, isPending: isDeleting } = useMutation({
-    mutationFn: deleteItinerary,
-    onSuccess: () => {
-      navigate("/itinerary"); // 목록 페이지로 이동
-    },
-    onError: () => {
-      alert("일정 삭제 중 오류가 발생했습니다.");
-    },
-  });
+  const { mutate: deleteMutate, isPending: isDeleting } = useDeleteItinerary();
 
   const currentUser = useSelector((state) => state.user);
   const { data, isLoading, isError } = useItineraryDetail(id);
