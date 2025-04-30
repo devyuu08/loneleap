@@ -1,6 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { db, storage } from "../../firebase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  increment,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -72,6 +79,10 @@ export default function useAddReview({
         authorId: user?.uid || "",
         authorName: user?.displayName || "익명",
         createdAt: serverTimestamp(),
+      });
+
+      await updateDoc(doc(db, "users", user.uid), {
+        reviewCount: increment(1),
       });
     },
     onSuccess: () => {
