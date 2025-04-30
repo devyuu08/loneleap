@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { auth } from "./firebase";
 import { db } from "./firestore";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 // 회원가입
 export const signUp = async (email, password, displayName) => {
@@ -26,7 +26,7 @@ export const signUp = async (email, password, displayName) => {
     await setDoc(userRef, {
       email: result.user.email,
       displayName: displayName || "", // 없을 수도 있으니까
-      createdAt: new Date().toISOString(),
+      createdAt: serverTimestamp(),
     });
   } catch (error) {
     console.error("회원가입 후 Firestore 저장 실패:", error);
