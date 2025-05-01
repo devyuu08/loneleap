@@ -75,6 +75,12 @@ service cloud.firestore {
       }
     }
 
+    match /recommended_places/{docId} {
+      allow read: if true;
+      allow write: if isSignedIn() && isAdmin();
+      allow create: if isSignedIn() && isAdmin();
+    }
+
     // 나머지 모든 문서는 차단
     match /{document=**} {
       allow read, write: if false;
