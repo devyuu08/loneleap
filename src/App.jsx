@@ -28,12 +28,15 @@ import CreateChatRoomPage from "pages/Chat/Create";
 import ChatRoomListPage from "pages/Chat/List";
 import ChatRoomDetailPage from "pages/Chat/Detail";
 import MyPage from "pages/mypage/MyPage";
-import FutureRecommendationPage from "pages/recommendations/Preview";
+import RecommendationListPage from "./pages/recommendations/List";
+import RecommendationDetailPage from "./pages/recommendations/Detail";
 
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
   const [loading, setLoading] = React.useState(true);
+
+  const isRecommendationPage = location.pathname.startsWith("/recommendations");
 
   useEffect(() => {
     const unsubscribe = observeAuth((user) => {
@@ -62,7 +65,7 @@ function App() {
       <Header />
 
       {/* main에 flex-grow를 줘서 Routes가 영역을 채우게 함 */}
-      <main className="flex-grow pb-16">
+      <main className={`flex-grow ${!isRecommendationPage ? "pb-16" : ""}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<AuthForm />} />
@@ -163,14 +166,24 @@ function App() {
               }
             />
           </Route>
-          <Route
-            path="/recommendations/preview"
-            element={
-              <ProtectedRoute>
-                <FutureRecommendationPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/recommendations">
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <RecommendationListPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":id"
+              element={
+                <ProtectedRoute>
+                  <RecommendationDetailPage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
         </Routes>
       </main>
 
