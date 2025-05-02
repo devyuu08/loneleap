@@ -1,22 +1,40 @@
-import { useParams } from "react-router-dom";
-import { useRecommendationDetail } from "hooks/useRecommendationDetail";
+import RecommendationHero from "./RecommendationHero";
+import RecommendationDescription from "./RecommendationDescription";
+import RecommendationLocation from "./RecommendationLocation";
+import { Link } from "react-router-dom";
 
-export default function RecommendationDetail() {
-  const { id } = useParams();
-  const { data, isLoading, isError } = useRecommendationDetail(id);
-
-  if (isLoading) return <div className="p-10 text-center">불러오는 중...</div>;
-  if (isError || !data)
-    return (
-      <div className="p-10 text-center text-gray-500">
-        오류 또는 데이터 없음
-      </div>
-    );
-
+export default function RecommendationDetail({ data }) {
   return (
-    <div className="max-w-5xl mx-auto px-6 py-16">
-      <h1 className="text-2xl font-bold mb-4">{data.name}</h1>
-      {/* 이후 상세 내용 렌더링할 자리 */}
-    </div>
+    <>
+      <RecommendationHero data={data} />
+      <RecommendationDescription
+        description={data.description}
+        locationInfo={data.locationInfo}
+      />
+      <RecommendationLocation
+        directions={data.directions}
+        nearbyInfo={data.nearbyInfo}
+      />
+
+      {/* 일정 만들기 CTA 섹션 */}
+      <section className="bg-[#F3F4F6] py-16">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            이 장소로 여행을 시작해보세요.
+          </h3>
+          <p className="text-sm text-gray-500 mb-6">
+            당신만의 특별한 여정에{" "}
+            <span className="font-semibold text-gray-800">{data.name}</span>을
+            담아보세요. 혼자이기에 더 의미있는 순간들이 기다리고 있습니다.
+          </p>
+          <Link
+            to="/itinerary"
+            className="inline-block bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition"
+          >
+            여정 계획하기
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }

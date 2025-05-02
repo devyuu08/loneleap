@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { Heart, MessageCircle, Share2 } from "lucide-react";
+import { Heart, Copy, Share2 } from "lucide-react";
 
 export default function RecommendationHero({ data }) {
   const { name, summary, location, createdAt, imageUrl } = data;
@@ -26,8 +26,8 @@ export default function RecommendationHero({ data }) {
           </span>
           <div className="flex items-center gap-2 ml-auto">
             <Heart className="w-4 h-4" />
-            <MessageCircle className="w-4 h-4" />
             <Share2 className="w-4 h-4" />
+            <Copy className="w-5 h-5" />
           </div>
         </div>
       </div>
