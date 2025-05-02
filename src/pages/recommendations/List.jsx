@@ -5,11 +5,14 @@ import { Link } from "react-router-dom";
 
 const FILTERS = [
   "전체 지역",
-  "서울/경기",
-  "강원도",
-  "부산/경상",
-  "제주도",
+  "서울",
+  "인천",
+  "경기도",
+  "충청도",
   "전라도",
+  "경상도",
+  "강원도",
+  "제주도",
 ];
 
 export default function RecommendationListPage() {
@@ -19,9 +22,7 @@ export default function RecommendationListPage() {
   const filtered =
     activeFilter === "전체 지역"
       ? recommendations
-      : recommendations?.filter((item) =>
-          item.location.includes(activeFilter.replace("/", ""))
-        );
+      : recommendations?.filter((item) => item.location === activeFilter);
 
   if (isLoading) return <div className="p-10 text-center">불러오는 중...</div>;
   if (isError) return <div className="p-10 text-center">오류 발생</div>;
@@ -67,11 +68,22 @@ export default function RecommendationListPage() {
 
       {/* 추천 여행지 카드 섹션 */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered?.map((place) => (
-            <RecommendationCard key={place.id} recommendation={place} />
-          ))}
-        </div>
+        {!filtered || filtered.length === 0 ? (
+          <div className="py-32 text-center text-gray-500">
+            <p className="text-lg font-semibold mb-2">
+              추천 여행지를 찾을 수 없어요
+            </p>
+            <p className="text-sm">
+              추천 여행지를 준비 중입니다. 다른 지역을 선택해주세요.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((place) => (
+              <RecommendationCard key={place.id} recommendation={place} />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* 일정 만들기 CTA 섹션 */}
@@ -85,7 +97,7 @@ export default function RecommendationListPage() {
             특별하게 만들어 드릴게요.
           </p>
           <Link
-            to="/itinerary/new"
+            to="/itinerary"
             className="inline-block bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition"
           >
             나만의 일정 만들기
