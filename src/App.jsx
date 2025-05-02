@@ -29,6 +29,7 @@ import ChatRoomListPage from "pages/Chat/List";
 import ChatRoomDetailPage from "pages/Chat/Detail";
 import MyPage from "pages/mypage/MyPage";
 import RecommendationListPage from "./pages/recommendations/List";
+import RecommendationDetailPage from "./pages/recommendations/Detail";
 
 function App() {
   const dispatch = useDispatch();
@@ -165,14 +166,24 @@ function App() {
               }
             />
           </Route>
-          <Route
-            path="/recommendations"
-            element={
-              <ProtectedRoute>
-                <RecommendationListPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/recommendations">
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <RecommendationListPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":id"
+              element={
+                <ProtectedRoute>
+                  <RecommendationDetailPage />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
         </Routes>
       </main>
 
