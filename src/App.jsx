@@ -28,7 +28,7 @@ import CreateChatRoomPage from "pages/Chat/Create";
 import ChatRoomListPage from "pages/Chat/List";
 import ChatRoomDetailPage from "pages/Chat/Detail";
 import MyPage from "pages/mypage/MyPage";
-import FutureRecommendationPage from "pages/recommendations/Preview";
+import RecommendationListPage from "./pages/recommendations/List";
 
 function App() {
   const dispatch = useDispatch();
@@ -164,10 +164,10 @@ function App() {
             />
           </Route>
           <Route
-            path="/recommendations/preview"
+            path="/recommendations"
             element={
               <ProtectedRoute>
-                <FutureRecommendationPage />
+                <RecommendationListPage />
               </ProtectedRoute>
             }
           />
