@@ -1,3 +1,4 @@
+import { ArrowRight, Heart, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function RecommendationCard({ recommendation }) {
@@ -6,27 +7,32 @@ export default function RecommendationCard({ recommendation }) {
   return (
     <Link
       to={`/recommendations/${id}`}
-      className="group block overflow-hidden rounded-2xl shadow hover:shadow-lg transition-all bg-white"
+      className="group block rounded-2xl overflow-hidden shadow hover:shadow-lg transition bg-white"
     >
-      {/* 이미지 */}
-      <div className="relative w-full h-52">
-        <img
-          src={imageUrl}
-          alt={name}
-          className="w-full h-full object-cover rounded-t-2xl"
-        />
-        {/* 오버레이 지역명 */}
-        <span className="absolute bottom-2 left-3 bg-black bg-opacity-60 text-white text-sm px-3 py-1 rounded-full">
+      {/* 이미지 섹션 */}
+      <section className="relative w-full h-56">
+        <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
+        <span className="absolute bottom-3 left-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
           {location}
         </span>
-      </div>
+      </section>
 
       {/* 텍스트 정보 */}
-      <div className="p-4 space-y-1">
+      <section className="p-4 space-y-1">
         <h3 className="text-base font-semibold text-gray-900">{name}</h3>
         <p className="text-sm text-gray-500">{summary}</p>
-        <div className="text-xs text-gray-400 mt-1">🌿 혼행 감성도 장소</div>
-      </div>
+
+        <div className="flex items-center justify-between text-xs text-gray-400 mt-1">
+          {/* 왼쪽: 아이콘 + 텍스트 */}
+          <span className="flex items-center gap-1">
+            <Sparkles className="w-4 h-4" />
+            혼행 선호도 높음
+          </span>
+
+          {/* 오른쪽: 화살표 */}
+          <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-1 transition-transform duration-200" />
+        </div>
+      </section>
     </Link>
   );
 }

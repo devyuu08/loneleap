@@ -35,6 +35,8 @@ function App() {
   const user = useSelector((state) => state.user.currentUser);
   const [loading, setLoading] = React.useState(true);
 
+  const isRecommendationPage = location.pathname.startsWith("/recommendations");
+
   useEffect(() => {
     const unsubscribe = observeAuth((user) => {
       if (user) {
@@ -62,7 +64,7 @@ function App() {
       <Header />
 
       {/* main에 flex-grow를 줘서 Routes가 영역을 채우게 함 */}
-      <main className="flex-grow pb-16">
+      <main className={`flex-grow ${!isRecommendationPage ? "pb-16" : ""}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<AuthForm />} />
