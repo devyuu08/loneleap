@@ -79,6 +79,7 @@ export default function useAddReview({
         authorId: user?.uid || "",
         authorName: user?.displayName || "익명",
         createdAt: serverTimestamp(),
+        likesCount: 0,
       });
 
       await updateDoc(doc(db, "users", user.uid), {

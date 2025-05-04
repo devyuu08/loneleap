@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { deleteItinerary } from "services/firestore";
+import { deleteItinerary } from "services/itineraryService";
 import { useMutation } from "@tanstack/react-query";
 
 import { updateDoc, doc, increment } from "firebase/firestore";
