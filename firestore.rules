@@ -3,7 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function isAdmin() {
-    return exists(/databases/$(database)/documents/admin/$(request.auth.token.email));
+      return exists(/databases/$(database)/documents/admin/$(request.auth.token.email));
     }
 
     function isSignedIn() {
@@ -15,7 +15,7 @@ service cloud.firestore {
     }
 
     match /admin/{email} {
-    allow read, write: if false;
+      allow read, write: if false;
     }
 
     match /itineraries/{itineraryId} {
@@ -25,9 +25,21 @@ service cloud.firestore {
 
     match /reviews/{reviewId} {
       allow read: if true;
+
+      // 리뷰 생성자는 전체 write 가능
       allow write: if isSignedIn() && isOwner(resource.data.authorId);
+
+      // likesCount만 바꾸는 경우 → 누구든 가능
+      allow update: if isSignedIn() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likesCount']);
+
       allow create: if isSignedIn();
-    }
+
+      // 하위 컬렉션 'likes' 권한 설정 추가
+    match /likes/{userId} {
+      allow read, write: if isSignedIn(); // 또는 필요 시 write만 허용
+  }
+}
 
     match /users/{userId} {
       allow read: if isSignedIn() && (isOwner(userId) || isAdmin());
@@ -77,8 +89,7 @@ service cloud.firestore {
 
     match /recommended_places/{docId} {
       allow read: if true;
-      allow write: if isSignedIn() && isAdmin();
-      allow create: if isSignedIn() && isAdmin();
+      allow write, create: if isSignedIn() && isAdmin();
     }
 
     // 나머지 모든 문서는 차단

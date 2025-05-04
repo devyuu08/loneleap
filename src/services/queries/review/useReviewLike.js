@@ -22,9 +22,17 @@ export const useToggleReviewLike = (reviewId, userId) => {
         ? unlikeReview(reviewId, userId)
         : likeReview(reviewId, userId);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(["review-like-status", reviewId, userId]);
-      // queryClient.invalidateQueries(["review-list"]); // 좋아요 수 포함 리스트라면 함께 무효화
+    onSuccess: async () => {
+      // 좋아요 상태 캐시 무효화
+      await queryClient.invalidateQueries([
+        "review-like-status",
+        reviewId,
+        userId,
+      ]);
+
+      // 좋아요 수가 반영 안 될 경우 강제 무효화
+      queryClient.removeQueries(["review-detail", reviewId]);
+      queryClient.invalidateQueries(["review-detail", reviewId]);
     },
   });
 };

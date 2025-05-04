@@ -5,8 +5,9 @@ import {
   useToggleReviewLike,
 } from "services/queries/review/useReviewLike";
 import { cn } from "utils/utils";
+import { useReviewDetail } from "services/queries/review/useReviewDetail";
 
-export default function LikeButton({ reviewId, likesCount }) {
+export default function LikeButton({ reviewId }) {
   const { user } = useUser();
   const userId = user?.uid;
 
@@ -18,10 +19,11 @@ export default function LikeButton({ reviewId, likesCount }) {
     reviewId,
     userId
   );
+  const { data: review } = useReviewDetail(reviewId);
 
   const handleLikeBtnClick = (e) => {
     e.stopPropagation();
-    if (!user || isChecking || isMutating) return;
+    if (!user || isMutating) return;
     mutate();
   };
 
@@ -31,11 +33,11 @@ export default function LikeButton({ reviewId, likesCount }) {
       disabled={!user || isMutating}
       className={cn(
         "flex items-center gap-1 transition-all",
-        isMutating ? "opacity-50 cursor-not-allowed" : ""
+        isMutating && "opacity-50 cursor-not-allowed"
       )}
       aria-label={hasLiked ? "좋아요 취소" : "좋아요 누르기"}
     >
-      {hasLiked === true ? (
+      {hasLiked ? (
         <AiFillHeart className="text-red-500" size={18} />
       ) : (
         <AiOutlineHeart
@@ -43,9 +45,7 @@ export default function LikeButton({ reviewId, likesCount }) {
           size={18}
         />
       )}
-      {typeof likesCount === "number" && (
-        <span className="text-sm text-gray-600">{likesCount}</span>
-      )}
+      <span className="text-sm text-gray-600">{review?.likesCount ?? 0}</span>
     </button>
   );
 }

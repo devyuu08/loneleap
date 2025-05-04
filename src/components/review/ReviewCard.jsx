@@ -73,7 +73,6 @@ export default function ReviewCard({ review }) {
           <span>{authorName || "익명"}</span>
           <div className="flex items-center gap-2">
             <LikeButton reviewId={id} />
-            <span>{review.likesCount ?? 0}</span>
           </div>
         </div>
       </div>

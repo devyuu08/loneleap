@@ -10,9 +10,11 @@ import {
 } from "firebase/firestore";
 
 export const likeReview = async (reviewId, userId) => {
-  await setDoc(doc(db, "reviews", reviewId, "likes", userId), {
-    likedAt: serverTimestamp(),
-  });
+  await setDoc(
+    doc(db, "reviews", reviewId, "likes", userId),
+    { likedAt: serverTimestamp() },
+    { merge: true } // 중복 방지
+  );
   await updateDoc(doc(db, "reviews", reviewId), {
     likesCount: increment(1),
   });
