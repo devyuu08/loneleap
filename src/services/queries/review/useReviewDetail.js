@@ -9,7 +9,7 @@ import { db } from "../../firebase";
  */
 export const useReviewDetail = (id) => {
   return useQuery({
-    queryKey: ["review", id],
+    queryKey: ["review-detail", id],
     queryFn: async () => {
       try {
         const docRef = doc(db, "reviews", id);

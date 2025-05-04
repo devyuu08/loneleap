@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import { createItinerary } from "services/firestore";
+import { createItinerary } from "services/itineraryService";
 import { updateDoc, doc, increment } from "firebase/firestore";
 import { db } from "services/firebase";
 import { auth } from "services/firebase";

@@ -9,7 +9,7 @@ import FormSubmitButton from "components/common/FormSubmitButton";
 
 import { useAddItinerary } from "services/queries/itinerary/useAddItinerary";
 
-import { updateItinerary } from "services/firestore";
+import { updateItinerary } from "services/itineraryService";
 
 export default function ItineraryForm({ initialData, isEditMode = false }) {
   const [title, setTitle] = useState(initialData?.title || "");
