@@ -28,14 +28,14 @@ export default function LikeButton({ reviewId, likesCount }) {
   return (
     <button
       onClick={handleLikeBtnClick}
-      disabled={!user || isChecking || isMutating}
+      disabled={!user || isMutating}
       className={cn(
         "flex items-center gap-1 transition-all",
-        isChecking || isMutating ? "opacity-50 cursor-not-allowed" : ""
+        isMutating ? "opacity-50 cursor-not-allowed" : ""
       )}
       aria-label={hasLiked ? "좋아요 취소" : "좋아요 누르기"}
     >
-      {hasLiked ? (
+      {hasLiked === true ? (
         <AiFillHeart className="text-red-500" size={18} />
       ) : (
         <AiOutlineHeart
