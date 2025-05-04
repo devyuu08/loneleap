@@ -30,8 +30,6 @@ export const useToggleReviewLike = (reviewId, userId) => {
         userId,
       ]);
 
-      // 좋아요 수가 반영 안 될 경우 강제 무효화
-      queryClient.removeQueries(["review-detail", reviewId]);
       queryClient.invalidateQueries(["review-detail", reviewId]);
     },
   });
