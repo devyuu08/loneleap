@@ -1,5 +1,3 @@
-// queries/review/useReviewLike.js
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   likeReview,
@@ -16,14 +14,17 @@ export const useReviewLikeStatus = (reviewId, userId) =>
 
 export const useToggleReviewLike = (reviewId, userId) => {
   const queryClient = useQueryClient();
-  const { data: hasLiked } = useReviewLikeStatus(reviewId, userId);
-
-  const mutationFn = hasLiked ? unlikeReview : likeReview;
 
   return useMutation({
-    mutationFn: () => mutationFn(reviewId, userId),
+    mutationFn: async () => {
+      const hasLiked = await hasUserLikedReview(reviewId, userId);
+      return hasLiked
+        ? unlikeReview(reviewId, userId)
+        : likeReview(reviewId, userId);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries(["review-like-status", reviewId, userId]);
+      // queryClient.invalidateQueries(["review-list"]); // 좋아요 수 포함 리스트라면 함께 무효화
     },
   });
 };
