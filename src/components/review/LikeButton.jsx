@@ -1,0 +1,51 @@
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useUser } from "hooks/useUser";
+import {
+  useReviewLikeStatus,
+  useToggleReviewLike,
+} from "services/queries/review/useReviewLike";
+import { cn } from "utils/utils";
+
+export default function LikeButton({ reviewId, likesCount }) {
+  const { user } = useUser();
+  const userId = user?.uid;
+
+  const { data: hasLiked, isLoading: isChecking } = useReviewLikeStatus(
+    reviewId,
+    userId
+  );
+  const { mutate, isPending: isMutating } = useToggleReviewLike(
+    reviewId,
+    userId
+  );
+
+  const handleLikeBtnClick = (e) => {
+    e.stopPropagation();
+    if (!user || isChecking || isMutating) return;
+    mutate();
+  };
+
+  return (
+    <button
+      onClick={handleLikeBtnClick}
+      disabled={!user || isChecking || isMutating}
+      className={cn(
+        "flex items-center gap-1 transition-all",
+        isChecking || isMutating ? "opacity-50 cursor-not-allowed" : ""
+      )}
+      aria-label={hasLiked ? "좋아요 취소" : "좋아요 누르기"}
+    >
+      {hasLiked ? (
+        <AiFillHeart className="text-red-500" size={18} />
+      ) : (
+        <AiOutlineHeart
+          className="text-gray-400 hover:text-red-500"
+          size={18}
+        />
+      )}
+      {typeof likesCount === "number" && (
+        <span className="text-sm text-gray-600">{likesCount}</span>
+      )}
+    </button>
+  );
+}

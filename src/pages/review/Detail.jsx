@@ -4,6 +4,7 @@ import LoadingSpinner from "components/common/LoadingSpinner";
 import NotFoundMessage from "components/common/NotFoundMessage";
 import ReportButton from "components/Review/ReportButton";
 import { formatDate } from "utils/formatDate";
+import LikeButton from "components/review/LikeButton";
 
 export default function ReviewDetailPage() {
   const { id } = useParams();
@@ -23,6 +24,7 @@ export default function ReviewDetailPage() {
     authorName,
     createdAt,
     imageUrl,
+    likesCount,
   } = data;
 
   return (
@@ -68,7 +70,8 @@ export default function ReviewDetailPage() {
         {content || "리뷰 내용이 없습니다."}
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end items-center gap-4 mt-8">
+        <LikeButton reviewId={id} likesCount={likesCount} />
         <ReportButton reviewId={id} />
       </div>
     </article>
