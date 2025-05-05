@@ -13,7 +13,11 @@ export default function CommentItem({ comment, currentUserId }) {
     <div className="border p-4 rounded">
       <div className="text-sm text-gray-600 mb-1">
         <span className="font-semibold">{authorName}</span> ·{" "}
-        <span>{new Date(createdAt).toLocaleString()}</span>
+        <span>
+          {createdAt?.toDate?.()
+            ? new Date(createdAt.toDate()).toLocaleString()
+            : "날짜 없음"}
+        </span>
       </div>
       <p className="text-gray-800">{content}</p>
       {isAuthor && (
