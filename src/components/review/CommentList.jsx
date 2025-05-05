@@ -1,28 +1,13 @@
 // components/review/CommentList.jsx
 import { useState } from "react";
-import CommentItem from "./CommentItem";
+import { useComments } from "services/queries/review/useComments";
+import CommentItem from "components/review/CommentItem";
 
-const mockComments = [
-  {
-    id: "c1",
-    content: "정말 좋은 정보 감사합니다!",
-    createdAt: new Date().toISOString(),
-    authorId: "u1",
-    authorName: "유지니",
-  },
-  {
-    id: "c2",
-    content: "덕분에 많은 도움이 됐어요.",
-    createdAt: new Date().toISOString(),
-    authorId: "u2",
-    authorName: "하람",
-  },
-];
-
-export default function CommentList({ currentUserId }) {
+export default function CommentList({ currentUserId, reviewId }) {
   const [content, setContent] = useState("");
+  const { data: comments, isLoading } = useComments(reviewId);
 
-  const handleSubmit = (e) => {
+  const handleCommentSubmit = (e) => {
     e.preventDefault();
     if (!content.trim()) return;
     // TODO: 댓글 등록 mutation 연결
@@ -31,7 +16,7 @@ export default function CommentList({ currentUserId }) {
 
   return (
     <div className="mt-8 space-y-4">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+      <form onSubmit={handleCommentSubmit} className="flex flex-col gap-2">
         <textarea
           className="border p-2 rounded resize-none"
           rows={3}
@@ -47,14 +32,21 @@ export default function CommentList({ currentUserId }) {
         </button>
       </form>
 
+      {/* 댓글 목록 */}
       <div className="space-y-4">
-        {mockComments.map((comment) => (
-          <CommentItem
-            key={comment.id}
-            comment={comment}
-            currentUserId={currentUserId}
-          />
-        ))}
+        {isLoading ? (
+          <p className="text-gray-500 text-sm">댓글을 불러오는 중...</p>
+        ) : comments?.length > 0 ? (
+          comments.map((comment) => (
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              currentUserId={currentUserId}
+            />
+          ))
+        ) : (
+          <p className="text-gray-400 text-sm">첫 댓글을 남겨보세요.</p>
+        )}
       </div>
     </div>
   );

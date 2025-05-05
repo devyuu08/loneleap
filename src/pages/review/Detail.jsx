@@ -80,10 +80,10 @@ export default function ReviewDetailPage() {
         <ReportButton reviewId={id} />
       </div>
 
-      {/* 🔽 댓글 섹션 추가 */}
+      {/* 댓글 섹션 */}
       <section className="mt-10">
         <h2 className="text-xl font-semibold mb-4">댓글</h2>
-        <CommentList currentUserId={user?.uid} />
+        <CommentList currentUserId={user?.uid} reviewId={id} />
       </section>
     </article>
   );
