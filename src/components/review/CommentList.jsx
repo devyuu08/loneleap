@@ -56,6 +56,7 @@ export default function CommentList({ currentUserId, reviewId }) {
               key={comment.id}
               comment={comment}
               currentUserId={currentUserId}
+              reviewId={reviewId}
             />
           ))
         ) : (

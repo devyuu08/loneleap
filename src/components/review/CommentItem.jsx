@@ -1,12 +1,13 @@
-// components/review/CommentItem.jsx
-export default function CommentItem({ comment, currentUserId }) {
+import { useDeleteComment } from "services/queries/review/useDeleteComment";
+
+export default function CommentItem({ comment, currentUserId, reviewId }) {
   const { id, content, createdAt, authorId, authorName } = comment;
-
   const isAuthor = currentUserId === authorId;
+  const { mutate, isPending } = useDeleteComment(reviewId);
 
-  const handleDelete = () => {
+  const handleCommentDelete = () => {
     if (!confirm("댓글을 삭제하시겠습니까?")) return;
-    // TODO: 댓글 삭제 mutation 연결
+    mutate(id);
   };
 
   return (
@@ -22,10 +23,11 @@ export default function CommentItem({ comment, currentUserId }) {
       <p className="text-gray-800">{content}</p>
       {isAuthor && (
         <button
-          onClick={handleDelete}
+          onClick={handleCommentDelete}
+          disabled={isPending}
           className="text-sm text-red-500 mt-2 hover:underline"
         >
-          삭제
+          {isPending ? "삭제 중..." : "삭제"}
         </button>
       )}
     </div>
