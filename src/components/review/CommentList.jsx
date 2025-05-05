@@ -2,20 +2,32 @@
 import { useState } from "react";
 import { useComments } from "services/queries/review/useComments";
 import CommentItem from "components/review/CommentItem";
+import { useUser } from "hooks/useUser";
+import { useAddComment } from "services/queries/review/useAddComment";
 
 export default function CommentList({ currentUserId, reviewId }) {
   const [content, setContent] = useState("");
+  const { user } = useUser();
   const { data: comments, isLoading } = useComments(reviewId);
+
+  const { mutate, isPending } = useAddComment(reviewId);
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    if (!content.trim()) return;
-    // TODO: 댓글 등록 mutation 연결
+    if (!user || !content.trim()) return;
+
+    mutate({
+      content,
+      authorId: user.uid,
+      authorName: user.displayName || "익명",
+    });
+
     setContent("");
   };
 
   return (
     <div className="mt-8 space-y-4">
+      {/* 댓글 작성 폼 */}
       <form onSubmit={handleCommentSubmit} className="flex flex-col gap-2">
         <textarea
           className="border p-2 rounded resize-none"
@@ -23,12 +35,14 @@ export default function CommentList({ currentUserId, reviewId }) {
           placeholder="댓글을 입력하세요"
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          disabled={isPending}
         />
         <button
           type="submit"
-          className="self-end bg-black text-white px-4 py-2 rounded"
+          disabled={isPending || !content.trim()}
+          className="self-end bg-black text-white px-4 py-2 rounded disabled:opacity-50"
         >
-          댓글 작성
+          {isPending ? "작성 중..." : "댓글 작성"}
         </button>
       </form>
 

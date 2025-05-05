@@ -35,6 +35,14 @@ service cloud.firestore {
 
       allow create: if isSignedIn();
 
+    // 댓글 권한 추가
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isSignedIn();
+      allow delete: if isSignedIn() && isOwner(resource.data.authorId);
+    }
+
+
       // 하위 컬렉션 'likes' 권한 설정 추가
     match /likes/{userId} {
       allow read, write: if isSignedIn(); // 또는 필요 시 write만 허용
