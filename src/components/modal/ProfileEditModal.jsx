@@ -25,7 +25,7 @@ export default function ProfileEditModal({ isOpen, onClose, user }) {
             </label>
             <input
               type="text"
-              className="w-full border px-3 py-2 rounded text-sm"
+              className="w-full border px-3 py-2 rounded text-sm text-black"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
             />
@@ -35,7 +35,7 @@ export default function ProfileEditModal({ isOpen, onClose, user }) {
               소개 문구
             </label>
             <textarea
-              className="w-full border px-3 py-2 rounded resize-none text-sm"
+              className="w-full border px-3 py-2 rounded resize-none text-sm text-black"
               rows={3}
               value={bio}
               onChange={(e) => setBio(e.target.value)}

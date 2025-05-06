@@ -3,9 +3,12 @@ import { updateProfile as updateFirebaseProfile } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "services/firebase";
 import { useUser } from "hooks/useUser"; // 사용자 uid 얻기용 커스텀 훅
+import { setUser } from "store/userSlice";
+import { useDispatch } from "react-redux";
 
 export function useUpdateProfile() {
   const { user } = useUser(); // 현재 로그인 사용자
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -29,6 +32,13 @@ export function useUpdateProfile() {
           updatedAt: serverTimestamp(),
         },
         { merge: true }
+      );
+      dispatch(
+        setUser({
+          ...user,
+          displayName,
+          bio,
+        })
       );
     } catch (err) {
       console.error("프로필 업데이트 실패:", err);

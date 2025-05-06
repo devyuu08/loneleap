@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "services/auth";
 import { clearUser } from "store/userSlice";
-import PropTypes from "prop-types";
 import ProfileEditModal from "components/modal/ProfileEditModal";
 
-export default function ProfileSection({ user = null }) {
+export default function ProfileSection() {
+  const user = useSelector((state) => state.user.user);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -78,11 +78,3 @@ export default function ProfileSection({ user = null }) {
     </>
   );
 }
-
-ProfileSection.propTypes = {
-  user: PropTypes.shape({
-    displayName: PropTypes.string,
-    email: PropTypes.string,
-    photoURL: PropTypes.string,
-  }),
-};
