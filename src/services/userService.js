@@ -1,6 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { setUser } from "store/userSlice";
 import { db } from "services/firebase";
+import { extractSafeUser } from "utils/extractSafeUser";
 
 export const fetchUserWithProfile = async (firebaseUser, dispatch) => {
   if (!firebaseUser) return;
@@ -10,13 +11,6 @@ export const fetchUserWithProfile = async (firebaseUser, dispatch) => {
 
   const bio = userDoc.exists() ? userDoc.data().bio || "" : "";
 
-  dispatch(
-    setUser({
-      uid: firebaseUser.uid,
-      email: firebaseUser.email,
-      displayName: firebaseUser.displayName,
-      photoURL: firebaseUser.photoURL,
-      bio,
-    })
-  );
+  const safeUser = extractSafeUser(firebaseUser, bio);
+  dispatch(setUser(safeUser));
 };
