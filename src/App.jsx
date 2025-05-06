@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser, clearUser } from "store/userSlice";
 
 import { observeAuth } from "./services/auth";
+import { fetchUserWithProfile } from "services/userService";
 
 import Header from "components/layout/Header";
 import Footer from "components/layout/Footer";
@@ -28,8 +29,8 @@ import CreateChatRoomPage from "pages/Chat/Create";
 import ChatRoomListPage from "pages/Chat/List";
 import ChatRoomDetailPage from "pages/Chat/Detail";
 import MyPage from "pages/mypage/MyPage";
-import RecommendationListPage from "./pages/recommendations/List";
-import RecommendationDetailPage from "./pages/recommendations/Detail";
+import RecommendationListPage from "pages/recommendations/List";
+import RecommendationDetailPage from "pages/recommendations/Detail";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,16 +40,9 @@ function App() {
   const isRecommendationPage = location.pathname.startsWith("/recommendations");
 
   useEffect(() => {
-    const unsubscribe = observeAuth((user) => {
+    const unsubscribe = observeAuth(async (user) => {
       if (user) {
-        dispatch(
-          setUser({
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-          })
-        );
+        await fetchUserWithProfile(user, dispatch); // bio 포함하여 Redux 저장
       } else {
         dispatch(clearUser());
       }
