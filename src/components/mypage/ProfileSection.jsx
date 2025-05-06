@@ -38,8 +38,10 @@ export default function ProfileSection() {
         <h1 className="text-2xl font-semibold">
           {user?.displayName || user?.email || "닉네임 없음"}
         </h1>
-        <p className="text-sm text-gray-300 mb-4">
-          {user?.isPremium ? "Premium Member" : "일반 회원"}
+
+        {/* 소개 문구 출력 */}
+        <p className="text-sm text-gray-300 my-4 whitespace-pre-line">
+          {user?.bio?.trim() ? user.bio : "소개 문구가 없습니다."}
         </p>
 
         {/* 버튼 그룹 */}
