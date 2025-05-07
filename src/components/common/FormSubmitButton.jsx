@@ -3,7 +3,7 @@ export default function FormSubmitButton({ isLoading, label }) {
     <button
       type="submit"
       disabled={isLoading}
-      className={`w-full text-white py-2 rounded-md transition font-semibold
+      className={`w-auto px-5 text-white py-2 rounded-md transition font-medium
         ${
           isLoading
             ? "bg-gray-400 cursor-not-allowed"

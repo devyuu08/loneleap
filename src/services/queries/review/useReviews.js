@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "services/firebase";
 
 export const useReviews = () => {
   return useQuery({
