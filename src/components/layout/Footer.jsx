@@ -1,6 +1,9 @@
 import { Instagram, Facebook, Twitter } from "lucide-react";
 
 export default function Footer() {
+  const iconClass = "w-5 h-5 hover:text-gray-700 transition";
+  const sectionTitleClass = "font-semibold text-gray-900 mb-3";
+
   return (
     <footer className="bg-gray-50 text-gray-700 text-sm border-t">
       <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -14,20 +17,20 @@ export default function Footer() {
           </p>
           <div className="flex space-x-4 text-gray-500">
             <a href="#" aria-label="Instagram">
-              <Instagram className="w-5 h-5 hover:text-gray-700 transition" />
+              <Instagram className={iconClass} />
             </a>
             <a href="#" aria-label="Facebook">
-              <Facebook className="w-5 h-5 hover:text-gray-700 transition" />
+              <Facebook className={iconClass} />
             </a>
             <a href="#" aria-label="Twitter">
-              <Twitter className="w-5 h-5 hover:text-gray-700 transition" />
+              <Twitter className={iconClass} />
             </a>
           </div>
         </div>
 
         {/* 여행 정보 */}
         <div>
-          <h4 className="font-semibold text-gray-900 mb-3">여행 정보</h4>
+          <h4 className={sectionTitleClass}>여행 정보</h4>
           <ul className="space-y-2">
             <li>
               <a href="#">인기 여행지</a>
@@ -46,7 +49,7 @@ export default function Footer() {
 
         {/* 고객 지원 */}
         <div>
-          <h4 className="font-semibold text-gray-900 mb-3">고객 지원</h4>
+          <h4 className={sectionTitleClass}>고객 지원</h4>
           <ul className="space-y-2">
             <li>
               <a href="#">자주 묻는 질문</a>
@@ -65,7 +68,7 @@ export default function Footer() {
 
         {/* 회사 정보 */}
         <div>
-          <h4 className="font-semibold text-gray-900 mb-3">LoneLeap 소개</h4>
+          <h4 className={sectionTitleClass}>LoneLeap 소개</h4>
           <ul className="space-y-2">
             <li>
               <a href="#">회사 소개</a>
