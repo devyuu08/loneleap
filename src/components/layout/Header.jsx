@@ -36,7 +36,7 @@ export default function Header() {
       {/* 로그인된 경우 */}
       {user ? (
         <nav className="flex items-center gap-6 text-sm text-gray-700">
-          <span className="text-gray-600 font-body">
+          <span className="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 font-body text-sm shadow-sm">
             {user.displayName || user.email}
           </span>
 
