@@ -31,10 +31,9 @@ export default function ReviewPreview() {
       <Swiper
         modules={[Navigation]}
         navigation
-        spaceBetween={20}
-        slidesPerView={3}
+        spaceBetween={12}
         slidesPerGroup={1}
-        className="!overflow-visible"
+        className="!overflow-visible px-2"
         breakpoints={{
           320: { slidesPerView: 1 },
           640: { slidesPerView: 2 },
@@ -42,39 +41,30 @@ export default function ReviewPreview() {
         }}
       >
         {reviews.map((review) => (
-          <SwiperSlide key={review.id}>
+          <SwiperSlide key={review.id} className="!w-auto flex justify-center">
             <Link
               to={`/reviews/${review.id}`}
-              className="bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition block"
+              className="w-[480px] h-[260px] bg-[#F8F9FA] rounded-2xl shadow-sm hover:shadow-md transition p-6 flex flex-col justify-between"
             >
-              <img
-                src={review.imageUrl || "/images/no_image.png"}
-                alt="리뷰 이미지"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = "/images/no_image.png";
-                }}
-                className="w-full aspect-[4/3] object-cover bg-gray-100"
-              />
-
-              <div className="flex items-center gap-3 p-4">
+              {/* 상단 - 유저 정보 */}
+              <div className="flex items-center gap-3 mb-4">
                 <img
                   src={review.authorPhoto || "/default_profile.png"}
                   alt="프로필 이미지"
                   className="w-10 h-10 rounded-full object-cover"
                 />
                 <div>
-                  <p className="font-semibold font-body text-sm">
+                  <p className="font-semibold text-sm">
                     {review.authorName || "익명"}
                   </p>
-                  <p className="text-xs text-gray-400 font-body">
+                  <p className="text-xs text-gray-400">
+                    {review.destination || "여행지"} ·{" "}
                     {review.createdAt?.toDate
                       ? new Date(review.createdAt.toDate()).toLocaleDateString(
                           "ko-KR",
                           {
                             year: "numeric",
                             month: "long",
-                            day: "numeric",
                           }
                         )
                       : "날짜 없음"}
@@ -82,9 +72,17 @@ export default function ReviewPreview() {
                 </div>
               </div>
 
-              <p className="px-4 pb-4 text-gray-700 text-sm font-body line-clamp-3">
-                {review.content}
+              {/* 리뷰 내용 */}
+              <p className="text-sm text-gray-700 font-body line-clamp-3">
+                “{review.content}”
               </p>
+
+              {/* 별점 */}
+              <div className="mt-4 flex gap-1 text-yellow-500 text-base">
+                {[1, 2, 3, 4, 5].map((i) =>
+                  i <= Math.round(review.rating || 0) ? "★" : "☆"
+                )}
+              </div>
             </Link>
           </SwiperSlide>
         ))}
