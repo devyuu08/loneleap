@@ -1,6 +1,7 @@
 import HeroSection from "components/Home/HeroSection";
 import ReviewPreview from "components/Home/ReviewPreview";
 import DestinationSlider from "components/home/DestinationSlider";
+import RegionMapSection from "components/home/RegionMapSection";
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
       <HeroSection />
       <DestinationSlider />
       <ReviewPreview />
-      {/* DestinationList, ReviewPreview는 이후 추가 */}
+      <RegionMapSection />
     </>
   );
 }
