@@ -31,17 +31,17 @@ export default function ReviewPreview() {
       <Swiper
         modules={[Navigation]}
         navigation
-        spaceBetween={12}
-        slidesPerGroup={1}
+        spaceBetween={24} // 카드 간 여백 증가
+        slidesPerGroup={1} // 1개씩 넘어감
         className="px-2"
         breakpoints={{
           320: { slidesPerView: 1 },
-          640: { slidesPerView: 2 },
+          768: { slidesPerView: 2 },
           1024: { slidesPerView: 3 },
         }}
       >
         {reviews.map((review) => (
-          <SwiperSlide key={review.id} className="!w-auto flex justify-center">
+          <SwiperSlide key={review.id} className="flex justify-center">
             <Link
               to={`/reviews/${review.id}`}
               className="w-[480px] h-[260px] bg-[#F8F9FA] rounded-2xl shadow-sm hover:shadow-md transition p-6 flex flex-col justify-between"
