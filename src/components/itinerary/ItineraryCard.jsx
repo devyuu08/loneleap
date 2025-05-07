@@ -76,14 +76,18 @@ export default function ItineraryCard({ itinerary }) {
             </span>
             <img
               src={
-                itinerary.createdBy.photoURL || "/images/default_profile.png"
+                itinerary.createdBy?.photoURL || "/images/default_profile.png"
               }
-              alt="작성자 프로필 이미지"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "/images/default_profile.png";
-              }}
+              alt="작성자"
               className="w-5 h-5 rounded-full object-cover"
+              onError={(e) => {
+                const fallback = "/default_profile.png";
+                // 한 번만 fallback 적용
+                if (!e.target.dataset.errorHandled) {
+                  e.target.src = fallback;
+                  e.target.dataset.errorHandled = "true";
+                }
+              }}
             />
           </div>
         )}
