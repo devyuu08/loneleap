@@ -32,7 +32,7 @@ export default function ItineraryCard({ itinerary }) {
       }}
       className="group bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden cursor-pointer"
     >
-      {/* 이미지 */}
+      {/* 썸네일 이미지 섹션 */}
       <div className="relative h-56">
         <img
           src={imageUrl || "/images/no_image.png"}
@@ -49,48 +49,52 @@ export default function ItineraryCard({ itinerary }) {
         </span>
       </div>
 
-      {/* 본문 */}
+      {/* 카드 본문 섹션 */}
       <div className="p-4 space-y-1">
+        {/* 날짜 표시 */}
         <div className="flex justify-between items-center text-xs text-gray-500">
           <span>{dateRange}</span>
         </div>
 
+        {/* 일정 제목 */}
         <h3 className="text-base font-semibold text-gray-900 line-clamp-1">
           {title || "제목 없음"}
         </h3>
 
+        {/* 요약 정보 */}
         <p className="text-sm text-gray-500 line-clamp-2">
           {itinerary.summary || "여행 요약 정보가 없습니다."}
         </p>
 
-        <div className="flex items-center gap-1 text-xs text-gray-400 mt-1">
-          <Map className="w-4 h-4" />
-          {placeCount}개 장소
-        </div>
-
-        {/* 작성자 표시 */}
-        {itinerary.createdBy && (
-          <div className="flex justify-end items-center gap-2 pt-2">
-            <span className="text-xs text-gray-500 truncate max-w-[100px]">
-              {itinerary.createdBy.displayName || "익명"}
-            </span>
-            <img
-              src={
-                itinerary.createdBy?.photoURL || "/images/default_profile.png"
-              }
-              alt="작성자"
-              className="w-5 h-5 rounded-full object-cover"
-              onError={(e) => {
-                const fallback = "/default_profile.png";
-                // 한 번만 fallback 적용
-                if (!e.target.dataset.errorHandled) {
-                  e.target.src = fallback;
-                  e.target.dataset.errorHandled = "true";
-                }
-              }}
-            />
+        {/* 장소 수 + 작성자 정보 */}
+        <div className="flex justify-between items-center mt-2">
+          {/* 장소 개수 */}
+          <div className="flex items-center gap-1 text-xs text-gray-400">
+            <Map className="w-4 h-4" />
+            {placeCount}개 장소
           </div>
-        )}
+
+          {/* 작성자 정보 */}
+          {itinerary.createdBy && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500 truncate max-w-[100px]">
+                {itinerary.createdBy.displayName || "익명"}
+              </span>
+              <img
+                src={itinerary.createdBy?.photoURL || "/default_profile.png"}
+                alt="작성자"
+                className="w-5 h-5 rounded-full object-cover"
+                onError={(e) => {
+                  const fallback = "/default_profile.png";
+                  if (!e.target.dataset.errorHandled) {
+                    e.target.src = fallback;
+                    e.target.dataset.errorHandled = "true";
+                  }
+                }}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
