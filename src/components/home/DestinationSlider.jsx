@@ -35,7 +35,7 @@ const destinations = [
 
 export default function DestinationSlider() {
   return (
-    <section className="py-20 px-6 bg-white overflow-hidden">
+    <section className="py-20 px-6 bg-gray-50 overflow-hidden">
       <div className="relative mb-10">
         <h2 className="text-2xl font-bold text-gray-900">인기 여행지</h2>
         <p className="text-gray-500 text-sm">
