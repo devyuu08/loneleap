@@ -1,15 +1,13 @@
 import { useState } from "react";
-
 import { Link } from "react-router-dom";
 
-import { useMyItineraries } from "services/queries/itinerary/useMyItineraries";
-
+import { useItineraries } from "services/queries/itinerary/useItineraries";
 import LoadingSpinner from "components/common/LoadingSpinner";
 import EmptyState from "components/common/EmptyState";
 import ItineraryList from "components/itinerary/ItineraryList";
 
 export default function ItineraryListPage() {
-  const { data, isLoading, isError, refetch } = useMyItineraries();
+  const { data, isLoading, isError, refetch } = useItineraries();
   const [isRefetching, setIsRefetching] = useState(false);
 
   const handleRefetch = async () => {
@@ -40,23 +38,21 @@ export default function ItineraryListPage() {
     );
 
   return (
-    <div className="max-w-3xl mx-auto px-4 mt-10">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">내 여행 일정</h1>
-
-        <div className="flex items-center gap-2">
-          <input
-            type="text"
-            placeholder="검색어 입력..."
-            className="border border-gray-300 rounded px-3 py-1 text-sm"
-          />
-          <Link
-            to="/itinerary/create"
-            className="bg-gray-900 text-white text-sm px-4 py-2 rounded hover:bg-gray-800 transition"
-          >
-            새 일정 만들기
-          </Link>
+    <div className="max-w-4xl mx-auto px-4 mt-10">
+      <div className="flex justify-between items-start mb-6">
+        <div>
+          <h1 className="text-2xl font-bold">전체 여행 일정</h1>
+          <p className="text-sm text-gray-500 mt-1">
+            다양한 여행자들의 일정을 둘러보세요
+          </p>
         </div>
+
+        <Link
+          to="/itinerary/create"
+          className="bg-gray-900 text-white text-sm px-4 py-2 rounded hover:bg-gray-800 transition"
+        >
+          새 일정 만들기
+        </Link>
       </div>
 
       <main role="main">
@@ -65,7 +61,7 @@ export default function ItineraryListPage() {
         ) : (
           <EmptyState
             title="등록된 일정이 없습니다"
-            description="새로운 여행 일정을 작성해보세요!"
+            description="첫 여행 일정을 등록해보세요!"
           />
         )}
       </main>
