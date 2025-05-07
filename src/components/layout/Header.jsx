@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   CalendarCheck,
+  Footprints,
   LogIn,
   MapPin,
   MessageCircle,
@@ -24,7 +25,11 @@ export default function Header() {
   return (
     <header className="bg-white px-6 py-4 border-b flex justify-between items-center shadow-sm">
       {/* 로고 */}
-      <Link to="/" className="text-xl font-heading font-bold text-gray-900">
+      <Link
+        to="/"
+        className="flex items-center gap-2 text-xl font-heading font-bold text-gray-900"
+      >
+        <Footprints className="w-6 h-6 text-inherit" />
         LoneLeap
       </Link>
 
