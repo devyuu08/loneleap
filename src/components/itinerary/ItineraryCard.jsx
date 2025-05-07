@@ -1,10 +1,18 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { Map } from "lucide-react";
 
 export default function ItineraryCard({ itinerary }) {
   const navigate = useNavigate();
-  const { id, title, location, startDate, endDate, imageUrl, authorName } =
-    itinerary || {};
+  const {
+    id,
+    title,
+    location,
+    startDate,
+    endDate,
+    imageUrl,
+    placeCount = 0,
+  } = itinerary || {};
 
   const dateRange = startDate
     ? endDate
@@ -22,28 +30,42 @@ export default function ItineraryCard({ itinerary }) {
           navigate(`/itinerary/${id}`);
         }
       }}
-      className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 cursor-pointer overflow-hidden"
+      className="group bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden cursor-pointer"
     >
-      <img
-        src={imageUrl || "/images/no_image.png"}
-        alt={`${location} 대표 이미지`}
-        className="w-full h-48 object-cover bg-gray-100"
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = "/images/no_image.png";
-        }}
-      />
+      {/* 이미지 */}
+      <div className="relative h-56">
+        <img
+          src={imageUrl || "/images/no_image.png"}
+          alt={`${location} 대표 이미지`}
+          className="w-full h-full object-cover bg-gray-100"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "/images/no_image.png";
+          }}
+        />
+        {/* 위치 태그 */}
+        <span className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
+          {location}
+        </span>
+      </div>
 
-      <div className="p-5">
-        <h2 className="text-lg font-bold text-gray-800 mb-1">
+      {/* 내용 */}
+      <div className="p-4 space-y-1">
+        <div className="flex justify-between items-center text-xs text-gray-500">
+          <span>{dateRange}</span>
+        </div>
+
+        <h3 className="text-base font-semibold text-gray-900 line-clamp-1">
           {title || "제목 없음"}
-        </h2>
-        <p className="text-sm text-gray-500 mb-2">{location}</p>
-        <p className="text-xs text-gray-400 mb-2">{dateRange}</p>
+        </h3>
 
-        <div className="flex justify-between items-center text-xs text-gray-400">
-          <span>{authorName || "익명"}</span>
-          <div />
+        <p className="text-sm text-gray-500 line-clamp-2">
+          {itinerary.summary || "여행 요약 정보가 없습니다."}
+        </p>
+
+        <div className="flex items-center gap-1 text-xs text-gray-400 mt-1">
+          <Map className="w-4 h-4" />
+          {placeCount}개 장소
         </div>
       </div>
     </div>
@@ -58,6 +80,7 @@ ItineraryCard.propTypes = {
     startDate: PropTypes.string,
     endDate: PropTypes.string,
     imageUrl: PropTypes.string,
-    authorName: PropTypes.string,
+    summary: PropTypes.string,
+    placeCount: PropTypes.number,
   }).isRequired,
 };
