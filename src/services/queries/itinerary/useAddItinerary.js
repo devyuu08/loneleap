@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { updateDoc, doc, increment } from "firebase/firestore";
@@ -17,6 +17,7 @@ export const useAddItinerary = ({
 } = {}) => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (formData) => {
@@ -41,6 +42,8 @@ export const useAddItinerary = ({
       } catch (err) {
         console.warn("itineraryCount 증가 실패:", err);
       }
+
+      queryClient.invalidateQueries({ queryKey: ["itineraries"] });
 
       navigate(`/itinerary/${newId}`);
       onSuccessCallback();
