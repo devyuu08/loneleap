@@ -1,8 +1,10 @@
+import { Instagram, Facebook, Twitter } from "lucide-react";
+
 export default function Footer() {
   return (
     <footer className="bg-gray-50 text-gray-700 text-sm border-t">
       <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
-        {/* 브랜드 소개 */}
+        {/* 브랜드 소개 + 소셜 */}
         <div>
           <h3 className="font-heading text-xl font-bold text-gray-900 mb-2">
             LoneLeap
@@ -11,14 +13,14 @@ export default function Footer() {
             당신만의 여정을 위한 감성적인 혼행 플랫폼
           </p>
           <div className="flex space-x-4 text-gray-500">
-            <a href="#">
-              <i className="fab fa-instagram" />
+            <a href="#" aria-label="Instagram">
+              <Instagram className="w-5 h-5 hover:text-gray-700 transition" />
             </a>
-            <a href="#">
-              <i className="fab fa-facebook-f" />
+            <a href="#" aria-label="Facebook">
+              <Facebook className="w-5 h-5 hover:text-gray-700 transition" />
             </a>
-            <a href="#">
-              <i className="fab fa-twitter" />
+            <a href="#" aria-label="Twitter">
+              <Twitter className="w-5 h-5 hover:text-gray-700 transition" />
             </a>
           </div>
         </div>
