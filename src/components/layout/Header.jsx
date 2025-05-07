@@ -14,7 +14,8 @@ import {
 export default function Header() {
   const user = useSelector((state) => state.user.user);
 
-  const baseLinkClass = "flex items-center gap-1.5 pb-1 hover:text-black";
+  const baseLinkClass =
+    "flex items-center gap-1.5 pb-1 hover:text-black font-body";
   const activeLinkClass = "border-b-2 border-black text-black";
   const getNavLinkClass = (isActive) =>
     isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass;
@@ -23,14 +24,14 @@ export default function Header() {
   return (
     <header className="bg-white px-6 py-4 border-b flex justify-between items-center shadow-sm">
       {/* 로고 */}
-      <Link to="/" className="text-xl font-bold text-gray-900">
+      <Link to="/" className="text-xl font-heading font-bold text-gray-900">
         LoneLeap
       </Link>
 
       {/* 로그인된 경우 */}
       {user ? (
         <nav className="flex items-center gap-6 text-sm text-gray-700">
-          <span className="text-gray-600">
+          <span className="text-gray-600 font-body">
             {user.displayName || user.email}
           </span>
 
