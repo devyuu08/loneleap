@@ -49,7 +49,7 @@ export default function ItineraryCard({ itinerary }) {
         </span>
       </div>
 
-      {/* 내용 */}
+      {/* 본문 */}
       <div className="p-4 space-y-1">
         <div className="flex justify-between items-center text-xs text-gray-500">
           <span>{dateRange}</span>
@@ -67,6 +67,26 @@ export default function ItineraryCard({ itinerary }) {
           <Map className="w-4 h-4" />
           {placeCount}개 장소
         </div>
+
+        {/* 작성자 표시 */}
+        {itinerary.createdBy && (
+          <div className="flex justify-end items-center gap-2 pt-2">
+            <span className="text-xs text-gray-500 truncate max-w-[100px]">
+              {itinerary.createdBy.displayName || "익명"}
+            </span>
+            <img
+              src={
+                itinerary.createdBy.photoURL || "/images/default_profile.png"
+              }
+              alt="작성자 프로필 이미지"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "/images/default_profile.png";
+              }}
+              className="w-5 h-5 rounded-full object-cover"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -82,5 +102,10 @@ ItineraryCard.propTypes = {
     imageUrl: PropTypes.string,
     summary: PropTypes.string,
     placeCount: PropTypes.number,
+    createdBy: PropTypes.shape({
+      uid: PropTypes.string,
+      displayName: PropTypes.string,
+      photoURL: PropTypes.string,
+    }),
   }).isRequired,
 };
