@@ -28,6 +28,14 @@
   font-style: normal;
 }
 
+body {
+  @apply font-body;
+}
+
+h1, h2, h3, h4 {
+  @apply font-heading;
+}
+
 .swiper-button-next,
 .swiper-button-prev {
   top: 60%; /* 중앙보다 살짝 아래 */
