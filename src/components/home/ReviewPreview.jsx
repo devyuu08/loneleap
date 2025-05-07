@@ -44,7 +44,7 @@ export default function ReviewPreview() {
           <SwiperSlide key={review.id} className="flex justify-center">
             <Link
               to={`/reviews/${review.id}`}
-              className="w-[480px] h-[260px] bg-[#F8F9FA] rounded-2xl shadow-sm hover:shadow-md transition p-6 flex flex-col justify-between"
+              className="w-[480px] h-[260px] bg-[#F0F4F8] rounded-2xl shadow-sm hover:shadow-md transition p-6 flex flex-col justify-between"
             >
               {/* 상단 - 유저 정보 */}
               <div className="flex items-center gap-3 mb-4">
@@ -73,12 +73,14 @@ export default function ReviewPreview() {
               </div>
 
               {/* 리뷰 내용 */}
-              <p className="text-sm text-gray-700 font-body line-clamp-3">
-                “{review.content}”
-              </p>
+              <div className="bg-white/80 rounded-md px-4 py-3 shadow-inner w-full h-[100px] overflow-hidden">
+                <p className="text-sm text-gray-700 font-body line-clamp-4">
+                  ❝{review.content}❞
+                </p>
+              </div>
 
               {/* 별점 */}
-              <div className="mt-4 flex gap-1 text-yellow-500 text-base">
+              <div className="mt-4 flex gap-1 text-yellow-500 text-base transition-transform duration-200 hover:scale-105">
                 {[1, 2, 3, 4, 5].map((i) =>
                   i <= Math.round(review.rating || 0) ? "★" : "☆"
                 )}
