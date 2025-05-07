@@ -27,6 +27,7 @@ export default function Header() {
       {/* 로고 */}
       <Link
         to="/"
+        title="메인으로 돌아가기"
         className="flex items-center gap-2 text-xl font-heading font-bold text-gray-900"
       >
         <Footprints className="w-6 h-6 text-inherit" />
@@ -42,41 +43,47 @@ export default function Header() {
 
           <NavLink
             to="/itinerary"
+            title="혼행 일정 모아보기"
             className={({ isActive }) => getNavLinkClass(isActive)}
           >
-            <CalendarCheck className={iconClass} />내 일정
+            <CalendarCheck className={iconClass} />
+            Journeys
           </NavLink>
 
           <NavLink
             to="/reviews"
+            title="여행자들의 감상과 기록"
             className={({ isActive }) => getNavLinkClass(isActive)}
           >
             <MessagesSquare className="w-4 h-4 text-inherit" />
-            여행 리뷰
+            Stories
           </NavLink>
 
           <NavLink
             to="/chat"
+            title="여행자들과 소통하는 공간"
             className={({ isActive }) => getNavLinkClass(isActive)}
           >
             <MessageCircle className={iconClass} />
-            채팅 목록
+            Open Chats
           </NavLink>
 
           <NavLink
             to="/recommendations"
+            title="추천 여행지 살펴보기"
             className={({ isActive }) => getNavLinkClass(isActive)}
           >
             <MapPin className={iconClass} />
-            추천 여행지
+            Next Stops
           </NavLink>
 
           <NavLink
             to="/mypage"
+            title="내 정보와 활동 공간"
             className={({ isActive }) => getNavLinkClass(isActive)}
           >
             <UserCircle className={iconClass} />
-            마이페이지
+            My Cabin
           </NavLink>
         </nav>
       ) : (
@@ -87,7 +94,7 @@ export default function Header() {
             className={({ isActive }) => getNavLinkClass(isActive)}
           >
             <LogIn className={iconClass} />
-            로그인
+            Login
           </NavLink>
 
           <NavLink
@@ -95,7 +102,7 @@ export default function Header() {
             className={({ isActive }) => getNavLinkClass(isActive)}
           >
             <UserPlus className={iconClass} />
-            회원가입
+            Sign Up
           </NavLink>
         </nav>
       )}
