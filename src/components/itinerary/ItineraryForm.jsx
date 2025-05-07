@@ -6,7 +6,7 @@ import { useAddItinerary } from "services/queries/itinerary/useAddItinerary";
 import { updateItinerary } from "services/itineraryService";
 import DatePicker from "./DatePicker";
 import FormSubmitButton from "components/common/FormSubmitButton";
-import { BookOpenText, Camera, Clock, MapPin } from "lucide-react";
+import { BookOpenText, Camera, Clock, ImageIcon, MapPin } from "lucide-react";
 
 export default function ItineraryForm({ initialData, isEditMode = false }) {
   const [title, setTitle] = useState(initialData?.title || "");
@@ -158,13 +158,12 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
           {/* 소개 */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              여행 소개
+              여행 한 줄 소개
             </label>
             <textarea
               value={summary}
               onChange={(e) => setSummary(e.target.value)}
-              placeholder="이 여행에 담긴 이야기를 들려주세요"
-              rows={3}
+              placeholder="예: 조용한 바람과 함께 걷는 혼행의 시작"
               className="mt-1 w-full border px-3 py-2 rounded-md focus:ring-gray-800 focus:border-gray-800"
             />
             {errors.summary && (
@@ -207,14 +206,17 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
               대표 이미지 (선택)
             </label>
             <div className="mt-2 border-2 border-dashed border-gray-300 rounded-md p-6 text-center text-sm text-gray-500">
-              여행을 표현할 수 있는 이미지를 업로드해주세요
-              <div className="mt-2">
-                <button
-                  type="button"
-                  className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 text-sm"
-                >
-                  이미지 선택
-                </button>
+              <div className="flex flex-col items-center justify-center">
+                <ImageIcon className="w-6 h-6 mb-2 text-gray-400" />
+                여행을 표현할 수 있는 이미지를 업로드해주세요
+                <div className="mt-3">
+                  <button
+                    type="button"
+                    className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 text-sm"
+                  >
+                    이미지 선택
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -239,7 +241,7 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
       <section className="max-w-4xl mx-auto px-4 mt-5 pb-12">
         <div className="mt-6 bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
           <h3 className="text-sm font-semibold text-gray-800 mb-4">
-            혼행 여정을 위한 팁
+            혼자 떠나는 여행을 위한 작은 팁
           </h3>
           <div className="grid grid-cols-2 gap-6 text-sm text-gray-600">
             {/* 1 */}
@@ -247,9 +249,11 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
               <MapPin className="w-5 h-5 text-gray-500 mt-1" />
               <div>
                 <p className="font-semibold text-gray-800">
-                  여행 시작 지점 선택하기
+                  시작은 편안한 곳에서
                 </p>
-                <p>숙소 근처 또는 도착이 편리한 곳에서 하루를 시작해보세요.</p>
+                <p>
+                  도착 후 바로 쉴 수 있는 숙소 근처에서 하루를 시작해보세요.
+                </p>
               </div>
             </div>
 
@@ -257,10 +261,8 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
             <div className="flex items-start gap-3">
               <Clock className="w-5 h-5 text-gray-500 mt-1" />
               <div>
-                <p className="font-semibold text-gray-800">
-                  충분한 여유 시간 확보
-                </p>
-                <p>이동 사이에 여유 시간을 둬야 예상치 못한 발견을 즐기세요.</p>
+                <p className="font-semibold text-gray-800">빈틈을 남겨두세요</p>
+                <p>계획 사이 여유가 있어야 예상치 못한 발견도 따라옵니다.</p>
               </div>
             </div>
 
@@ -269,11 +271,9 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
               <BookOpenText className="w-5 h-5 text-gray-500 mt-1" />
               <div>
                 <p className="font-semibold text-gray-800">
-                  현지 문화 미리 알아보기
+                  낯선 곳을 더 가깝게
                 </p>
-                <p>
-                  현지 음식점, 문화와 예절을 미리 알아두면 경험이 풍부해져요.
-                </p>
+                <p>간단한 현지 인사말이나 매너를 알아두면 마음이 닿아요.</p>
               </div>
             </div>
 
@@ -282,9 +282,9 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
               <Camera className="w-5 h-5 text-gray-500 mt-1" />
               <div>
                 <p className="font-semibold text-gray-800">
-                  특별한 순간 기록하기
+                  기억은 디테일 속에 있어요
                 </p>
-                <p>사진뿐 아니라 메모로 여행의 특별한 순간을 기록해보세요.</p>
+                <p>사진 한 장, 문장 하나로도 그날의 공기가 남겨집니다.</p>
               </div>
             </div>
           </div>
