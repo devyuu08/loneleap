@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function OpenChatSection() {
   return (
-    <section className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 px-8 py-20">
+    <section className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 px-8 py-20 bg-gray-50">
       {/* 왼쪽 텍스트 설명 */}
       <div className="flex-1 max-w-lg ml-10">
         <h2 className="text-2xl font-bold text-gray-900 font-heading mb-4">

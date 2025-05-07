@@ -12,7 +12,7 @@ export default function ReviewPreview() {
 
   return (
     <section className="py-20 px-6 bg-white relative overflow-hidden">
-      <div className="relative mb-10">
+      <div className="relative mb-10 ml-2">
         <h2 className="text-2xl font-bold font-heading text-gray-900">
           여행자 리뷰
         </h2>

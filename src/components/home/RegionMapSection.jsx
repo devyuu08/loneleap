@@ -26,7 +26,7 @@ const regions = [
 
 export default function RegionMapSection() {
   return (
-    <section className="flex flex-col lg:flex-row items-center justify-between gap-8 bg-gray-50 px-8 py-20">
+    <section className="flex flex-col lg:flex-row items-center justify-between gap-8 bg-gray-100 px-8 py-20">
       {/* 왼쪽 설명 */}
       <div className="flex-1 max-w-lg ml-10">
         <h2 className="text-2xl font-bold text-gray-900 font-heading mb-4">

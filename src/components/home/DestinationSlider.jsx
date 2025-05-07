@@ -36,7 +36,7 @@ const destinations = [
 export default function DestinationSlider() {
   return (
     <section className="py-20 px-6 bg-gray-50 overflow-hidden">
-      <div className="relative mb-10">
+      <div className="relative mb-10 ml-2">
         <h2 className="text-2xl font-bold text-gray-900">인기 여행지</h2>
         <p className="text-gray-500 text-sm">
           혼자 여행하기 좋은 특별한 장소들
