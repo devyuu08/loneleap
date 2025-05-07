@@ -26,10 +26,10 @@ export default function HeroSection() {
         </p>
 
         <Link
-          to={isLoggedIn ? "/itinerary" : "/login"}
+          to={isLoggedIn ? "/mypage" : "/login"}
           className="inline-block border border-white text-white font-body font-medium px-4 py-2 rounded-full hover:bg-white hover:text-black transition-colors duration-200 text-sm md:text-base"
         >
-          {isLoggedIn ? "일정 보러가기" : "여행 시작하기"}
+          {isLoggedIn ? "내 일정 보러가기" : "여행 시작하기"}
         </Link>
       </div>
     </section>
