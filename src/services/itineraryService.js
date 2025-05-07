@@ -17,16 +17,34 @@ import {
 // 일정 생성 함수
 export const createItinerary = async (itineraryData) => {
   try {
+    const {
+      title,
+      location,
+      startDate,
+      endDate,
+      summary,
+      imageUrl = "",
+      createdBy,
+    } = itineraryData;
+
     // 필수 필드 검증
-    if (!itineraryData.userId || !itineraryData.title) {
+    if (!createdBy?.uid || !title) {
       throw new Error("필수 정보가 누락되었습니다.");
     }
+
     const docRef = await addDoc(collection(db, "itineraries"), {
-      ...itineraryData,
+      title,
+      location,
+      startDate,
+      endDate,
+      summary,
+      imageUrl,
+      createdBy, // 작성자 정보 객체 전체 저장
       createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(), // 초기 생성 시에도 updatedAt 필드 추가
+      updatedAt: serverTimestamp(),
     });
-    return docRef.id; // 생성된 문서 ID 반환
+
+    return docRef.id;
   } catch (error) {
     console.error("일정 생성 중 오류 발생:", error);
     throw error;

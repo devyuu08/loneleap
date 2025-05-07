@@ -1,33 +1,54 @@
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-
-import { createItinerary } from "services/itineraryService";
+import { useSelector } from "react-redux";
 import { updateDoc, doc, increment } from "firebase/firestore";
 import { db } from "services/firebase";
-import { auth } from "services/firebase";
-import { useMutation } from "@tanstack/react-query";
+import { createItinerary } from "services/itineraryService";
 
-export const useAddItinerary = () => {
+/**
+ * 일정 생성 훅
+ * @param {Object} options
+ * @param {Function} options.onSuccessCallback - 생성 성공 시 호출
+ * @param {Function} options.onErrorCallback - 생성 실패 시 호출
+ */
+export const useAddItinerary = ({
+  onSuccessCallback = () => {},
+  onErrorCallback = () => {},
+} = {}) => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.user);
 
   return useMutation({
-    mutationFn: createItinerary,
+    mutationFn: async (formData) => {
+      if (!user) throw new Error("로그인이 필요합니다.");
+      const itineraryData = {
+        ...formData,
+        createdBy: {
+          uid: user.uid,
+          displayName: user.displayName || "익명",
+          photoURL: user.photoURL || "",
+        },
+      };
+      return createItinerary(itineraryData);
+    },
     onSuccess: async (newId) => {
       try {
-        const uid = auth.currentUser?.uid;
-        if (uid) {
-          await updateDoc(doc(db, "users", uid), {
+        if (user?.uid) {
+          await updateDoc(doc(db, "users", user.uid), {
             itineraryCount: increment(1),
           });
         }
       } catch (err) {
-        // 실패해도 일정 생성은 완료되므로 경고만 남김
         console.warn("itineraryCount 증가 실패:", err);
       }
 
       navigate(`/itinerary/${newId}`);
+      onSuccessCallback();
     },
-    onError: () => {
-      alert("일정 저장에 실패했습니다.");
+    onError: (error) => {
+      console.error(error);
+      alert(`일정 등록 중 오류가 발생했습니다: ${error.message}`);
+      onErrorCallback(error);
     },
   });
 };
