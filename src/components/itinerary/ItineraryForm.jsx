@@ -16,7 +16,7 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
   const [location, setLocation] = useState(initialData?.location || "");
   const [startDate, setStartDate] = useState(initialData?.startDate || "");
   const [endDate, setEndDate] = useState(initialData?.endDate || "");
-  const [memo, setMemo] = useState(initialData?.memo || "");
+  const [summary, setSummary] = useState(initialData?.summary || "");
   const [isPublic, setIsPublic] = useState(initialData?.isPublic || false);
 
   const [errors, setErrors] = useState({});
@@ -63,7 +63,7 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
       location,
       startDate,
       endDate,
-      memo,
+      summary,
       isPublic,
       userId: user.uid,
       days: initialData?.days || [
@@ -172,9 +172,9 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
             메모
           </label>
           <textarea
-            name="memo"
-            value={memo}
-            onChange={(e) => setMemo(e.target.value)}
+            name="summary"
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
             rows={3}
             className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
             placeholder="예: 성산일출봉 꼭 가기"
