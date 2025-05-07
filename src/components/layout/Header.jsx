@@ -1,90 +1,110 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {
+  CalendarCheck,
+  Footprints,
+  LogIn,
+  MapPin,
+  MessageCircle,
+  MessagesSquare,
+  UserCircle,
+  UserPlus,
+} from "lucide-react";
 
 export default function Header() {
   const user = useSelector((state) => state.user.user);
 
+  const baseLinkClass =
+    "flex items-center gap-1.5 pb-1 hover:text-black font-body";
+  const activeLinkClass = "border-b-2 border-black text-black";
+  const getNavLinkClass = (isActive) =>
+    isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass;
+  const iconClass = "w-4 h-4 text-inherit";
+
   return (
     <header className="bg-white px-6 py-4 border-b flex justify-between items-center shadow-sm">
       {/* 로고 */}
-      <Link to="/" className="text-xl font-bold text-gray-900">
+      <Link
+        to="/"
+        title="메인으로 돌아가기"
+        className="flex items-center gap-2 text-xl font-heading font-bold text-gray-900"
+      >
+        <Footprints className="w-6 h-6 text-inherit" />
         LoneLeap
       </Link>
 
       {/* 로그인된 경우 */}
       {user ? (
-        <div className="flex items-center gap-5 text-sm text-gray-700">
-          <span className="text-gray-600">
+        <nav className="flex items-center gap-6 text-sm text-gray-700">
+          <span className="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 font-body text-sm shadow-sm">
             {user.displayName || user.email}
           </span>
 
           <NavLink
             to="/itinerary"
-            className={({ isActive }) =>
-              isActive ? "font-semibold text-black" : "hover:text-black"
-            }
+            title="혼행 일정 모아보기"
+            className={({ isActive }) => getNavLinkClass(isActive)}
           >
-            내 일정
+            <CalendarCheck className={iconClass} />
+            Journeys
           </NavLink>
 
           <NavLink
             to="/reviews"
-            className={({ isActive }) =>
-              isActive ? "font-semibold text-black" : "hover:text-black"
-            }
+            title="여행자들의 감상과 기록"
+            className={({ isActive }) => getNavLinkClass(isActive)}
           >
-            여행 리뷰
+            <MessagesSquare className="w-4 h-4 text-inherit" />
+            Stories
           </NavLink>
 
           <NavLink
             to="/chat"
-            className={({ isActive }) =>
-              isActive ? "font-semibold text-black" : "hover:text-black"
-            }
+            title="여행자들과 소통하는 공간"
+            className={({ isActive }) => getNavLinkClass(isActive)}
           >
-            채팅 목록
+            <MessageCircle className={iconClass} />
+            Open Chats
           </NavLink>
 
           <NavLink
             to="/recommendations"
-            className={({ isActive }) =>
-              isActive ? "font-semibold text-black" : "hover:text-black"
-            }
+            title="추천 여행지 살펴보기"
+            className={({ isActive }) => getNavLinkClass(isActive)}
           >
-            추천 여행지
+            <MapPin className={iconClass} />
+            Next Stops
           </NavLink>
 
           <NavLink
             to="/mypage"
-            className={({ isActive }) =>
-              isActive ? "font-semibold text-black" : "hover:text-black"
-            }
+            title="내 정보와 활동 공간"
+            className={({ isActive }) => getNavLinkClass(isActive)}
           >
-            마이페이지
+            <UserCircle className={iconClass} />
+            My Cabin
           </NavLink>
-        </div>
+        </nav>
       ) : (
         // 로그인되지 않은 경우
-        <div className="flex gap-4 text-sm text-gray-700">
+        <nav className="flex gap-4 text-sm text-gray-700">
           <NavLink
             to="/login"
-            className={({ isActive }) =>
-              isActive ? "font-semibold text-black" : "hover:text-black"
-            }
+            className={({ isActive }) => getNavLinkClass(isActive)}
           >
-            로그인
+            <LogIn className={iconClass} />
+            Login
           </NavLink>
 
           <NavLink
             to="/signup"
-            className={({ isActive }) =>
-              isActive ? "font-semibold text-black" : "hover:text-black"
-            }
+            className={({ isActive }) => getNavLinkClass(isActive)}
           >
-            회원가입
+            <UserPlus className={iconClass} />
+            Sign Up
           </NavLink>
-        </div>
+        </nav>
       )}
     </header>
   );

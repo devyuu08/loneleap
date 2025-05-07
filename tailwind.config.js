@@ -2,9 +2,14 @@
 
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
-  safelist: ["line-clamp-2"],
+  safelist: [{ pattern: /^line-clamp-/ }],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        heading: ["SpoqaHanSansNeo", "sans-serif"],
+        body: ["Pretendard", "sans-serif"],
+      },
+    },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 };

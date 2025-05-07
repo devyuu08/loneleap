@@ -1,14 +1,19 @@
-import DestinationList from "components/Home/DestinationList";
 import HeroSection from "components/Home/HeroSection";
 import ReviewPreview from "components/Home/ReviewPreview";
+import DestinationSlider from "components/home/DestinationSlider";
+import RegionMapSection from "components/home/RegionMapSection";
+import OpenChatSection from "components/home/OpenChatSection";
+import NewsletterSection from "components/home/NewsletterSection";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
-      <DestinationList />
+      <DestinationSlider />
       <ReviewPreview />
-      {/* DestinationList, ReviewPreview는 이후 추가 */}
+      <RegionMapSection />
+      <OpenChatSection />
+      <NewsletterSection />
     </>
   );
 }
