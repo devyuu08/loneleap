@@ -11,7 +11,7 @@ export default function ReviewPreview() {
   if (isLoading || !reviews) return null;
 
   return (
-    <section className="py-20 px-6 bg-white relative">
+    <section className="py-20 px-6 bg-white relative overflow-hidden">
       <div className="relative mb-10">
         <h2 className="text-2xl font-bold font-heading text-gray-900">
           여행자 리뷰
@@ -33,7 +33,7 @@ export default function ReviewPreview() {
         navigation
         spaceBetween={12}
         slidesPerGroup={1}
-        className="!overflow-visible px-2"
+        className="px-2"
         breakpoints={{
           320: { slidesPerView: 1 },
           640: { slidesPerView: 2 },

@@ -35,7 +35,7 @@ const destinations = [
 
 export default function DestinationSlider() {
   return (
-    <section className="py-20 px-6 bg-white">
+    <section className="py-20 px-6 bg-white overflow-hidden">
       <div className="relative mb-10">
         <h2 className="text-2xl font-bold font-heading text-gray-900">
           인기 여행지
@@ -57,7 +57,6 @@ export default function DestinationSlider() {
         spaceBetween={20}
         slidesPerView={3}
         slidesPerGroup={1}
-        className="!overflow-visible"
         breakpoints={{
           320: {
             slidesPerView: 1,
