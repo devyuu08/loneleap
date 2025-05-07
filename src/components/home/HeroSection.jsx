@@ -15,7 +15,7 @@ export default function HeroSection() {
         className="absolute inset-0 w-full h-full object-cover"
       />
 
-      <div className="absolute inset-0 bg-black bg-opacity-40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-transparent" />
 
       <div className="relative z-10 px-12 py-24 text-left max-w-2xl">
         <h1 className="text-4xl md:text-5xl font-heading font-bold mb-4">
@@ -27,9 +27,9 @@ export default function HeroSection() {
 
         <Link
           to={isLoggedIn ? "/itinerary" : "/login"}
-          className="inline-block border border-white text-white font-body px-6 py-3 rounded-full hover:bg-white hover:text-black transition-colors"
+          className="inline-block border border-white text-white font-body font-medium px-4 py-2 rounded-full hover:bg-white hover:text-black transition-colors duration-200 text-sm md:text-base"
         >
-          {isLoggedIn ? "내 일정 보러가기" : "여행 시작하기"}
+          {isLoggedIn ? "일정 보러가기" : "여행 시작하기"}
         </Link>
       </div>
     </section>
