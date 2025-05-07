@@ -1,10 +1,29 @@
+import { useState, useMemo } from "react";
 import { useItineraries } from "services/queries/itinerary/useItineraries";
+
 import ItineraryCard from "./ItineraryCard";
-import EmptyState from "components/common/EmptyState";
 import LoadingSpinner from "components/common/LoadingSpinner";
+import EmptyState from "components/common/EmptyState";
+
+const FILTERS = ["전체", "최신순", "과거순"];
 
 export default function ItineraryList() {
+  const [activeFilter, setActiveFilter] = useState("전체");
   const { data: itineraries, isLoading, isError, refetch } = useItineraries();
+
+  const filteredItineraries = useMemo(() => {
+    if (activeFilter === "최신순") {
+      return [...itineraries].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    }
+    if (activeFilter === "과거순") {
+      return [...itineraries].sort((a, b) =>
+        a.startDate?.localeCompare(b.startDate)
+      );
+    }
+    return itineraries;
+  }, [itineraries, activeFilter]);
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -32,21 +51,40 @@ export default function ItineraryList() {
     );
 
   return (
-    <div className="max-w-4xl mx-auto px-4 mt-10">
-      <div className="flex justify-between items-start mb-6">
+    <section className="bg-[#F9FAFB] py-16">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-8">
+        {/* 제목 */}
         <div>
-          <h1 className="text-2xl font-bold">전체 여행 일정</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h2 className="text-2xl font-bold text-gray-900">전체 여행 일정</h2>
+          <p className="text-sm text-gray-500 mt-3">
             다양한 여행자들의 일정을 둘러보세요
           </p>
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {itineraries.map((itinerary) => (
-          <ItineraryCard key={itinerary.id} itinerary={itinerary} />
-        ))}
+        {/* 필터 버튼 */}
+        <div className="flex flex-wrap gap-2">
+          {FILTERS.map((filter) => (
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className={`px-4 py-1.5 rounded-full border text-sm transition ${
+                activeFilter === filter
+                  ? "bg-black text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+
+        {/* 일정 카드 목록 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredItineraries.map((itinerary) => (
+            <ItineraryCard key={itinerary.id} itinerary={itinerary} />
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
