@@ -62,6 +62,7 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
       userId: user.uid,
       days: initialData?.days || [],
       checklist: initialData?.checklist || { required: [], optional: [] },
+      image: imageFile,
     };
 
     isEditMode

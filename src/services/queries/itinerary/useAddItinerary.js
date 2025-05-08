@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { updateDoc, doc, increment } from "firebase/firestore";
 import { db } from "services/firebase";
 import { createItinerary } from "services/itineraryService";
+import { uploadImage } from "utils/uploadImage";
 
 /**
  * 일정 생성 훅
@@ -22,8 +23,21 @@ export const useAddItinerary = ({
   return useMutation({
     mutationFn: async (formData) => {
       if (!user) throw new Error("로그인이 필요합니다.");
+
+      let imageUrl = "";
+
+      if (formData.image) {
+        try {
+          imageUrl = await uploadImage(formData.image, "itineraries");
+          console.log(imageUrl);
+        } catch (err) {
+          throw new Error(err.message);
+        }
+      }
+
       const itineraryData = {
         ...formData,
+        imageUrl,
         createdBy: {
           uid: user.uid,
           displayName: user.displayName || "익명",
