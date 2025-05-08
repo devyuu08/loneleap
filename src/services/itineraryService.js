@@ -1,3 +1,4 @@
+import { eachDayOfInterval, format } from "date-fns";
 import { db } from "./firebase";
 import {
   collection,
@@ -35,6 +36,19 @@ export const createItinerary = async (itineraryData) => {
       throw new Error("필수 정보가 누락되었습니다.");
     }
 
+    const generatedDays =
+      days.length > 0
+        ? days
+        : eachDayOfInterval({
+            start: new Date(startDate),
+            end: new Date(endDate),
+          }).map((date, index) => ({
+            day: index + 1,
+            title: "", // 추후 수정 가능
+            date: format(date, "yyyy-MM-dd"),
+            schedules: [],
+          }));
+
     const docRef = await addDoc(collection(db, "itineraries"), {
       title,
       location,
@@ -44,7 +58,7 @@ export const createItinerary = async (itineraryData) => {
       imageUrl,
       createdBy,
       isPublic,
-      days,
+      days: generatedDays,
       checklist,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
