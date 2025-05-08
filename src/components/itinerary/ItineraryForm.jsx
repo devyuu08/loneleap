@@ -58,7 +58,8 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
       summary,
       isPublic,
       userId: user.uid,
-      days: [],
+      days: initialData?.days || [],
+      checklist: initialData?.checklist || { required: [], optional: [] },
     };
 
     isEditMode
