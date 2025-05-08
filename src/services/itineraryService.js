@@ -203,3 +203,11 @@ export const deleteItinerary = async (id) => {
     throw error;
   }
 };
+
+export const updateChecklist = async (itineraryId, checklist) => {
+  const docRef = doc(db, "itineraries", itineraryId);
+  await updateDoc(docRef, {
+    checklist,
+    updatedAt: serverTimestamp(),
+  });
+};

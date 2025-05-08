@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { debounce } from "lodash";
+import { updateChecklist } from "services/itineraryService";
+import { useParams } from "react-router-dom";
 import {
   ClipboardCheck,
   Plus,
@@ -10,12 +13,47 @@ import {
 export default function ChecklistSection({
   checklist = { required: [], optional: [] },
 }) {
-  const [localChecklist, setLocalChecklist] = useState(checklist);
+  const { id: itineraryId } = useParams();
+  const [localChecklist, setLocalChecklist] = useState({
+    required: [],
+    optional: [],
+  });
   const [newItem, setNewItem] = useState({ type: "required", text: "" });
 
+  // checklist 데이터가 문자열 배열일 경우 대비해서 변환
+  useEffect(() => {
+    const convertItems = (items) =>
+      items.map((item) =>
+        typeof item === "string" ? { text: item, checked: false } : item
+      );
+    const converted = {
+      required: convertItems(checklist.required || []),
+      optional: convertItems(checklist.optional || []),
+    };
+    setLocalChecklist(converted);
+  }, [checklist]);
+
+  // 자동 저장
+  const debouncedSave = debounce((checklistToSave) => {
+    if (!itineraryId) return;
+    updateChecklist(itineraryId, checklistToSave).catch((err) =>
+      console.error("자동 저장 실패:", err)
+    );
+  }, 500);
+
+  useEffect(() => {
+    if (
+      localChecklist.required.length === 0 &&
+      localChecklist.optional.length === 0
+    )
+      return;
+    debouncedSave(localChecklist);
+    return () => debouncedSave.cancel();
+  }, [localChecklist, debouncedSave]);
+
+  // 항목 추가
   const handleAddItem = () => {
     if (!newItem.text.trim()) return;
-
     setLocalChecklist((prev) => ({
       ...prev,
       [newItem.type]: [
@@ -26,6 +64,7 @@ export default function ChecklistSection({
     setNewItem({ ...newItem, text: "" });
   };
 
+  // 체크 상태 토글
   const toggleCheck = (type, index) => {
     setLocalChecklist((prev) => {
       const updated = [...prev[type]];
@@ -40,6 +79,7 @@ export default function ChecklistSection({
     });
   };
 
+  // 항목 삭제
   const handleDeleteItem = (type, index) => {
     setLocalChecklist((prev) => ({
       ...prev,
@@ -54,7 +94,7 @@ export default function ChecklistSection({
         여행 준비 체크리스트
       </h3>
 
-      {/* 추가 입력 */}
+      {/* 항목 추가 */}
       <div className="flex gap-2 mb-4">
         <select
           className="border rounded px-2 py-1 text-sm"
@@ -125,7 +165,7 @@ export default function ChecklistSection({
         </h4>
         <ul className="space-y-2 text-sm text-gray-800">
           {localChecklist.optional.map((item, idx) => (
-            <li key={`r-${idx}`} className="flex justify-between items-center">
+            <li key={`o-${idx}`} className="flex justify-between items-center">
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
