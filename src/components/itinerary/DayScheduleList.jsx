@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { useAddScheduleToDay } from "services/queries/itinerary/useAddScheduleToDay";
 import DayScheduleItem from "./DayScheduleItem";
 import { ChevronDown } from "lucide-react";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { db } from "services/firebase";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function DayScheduleList({ days = [] }) {
   const [openDay, setOpenDay] = useState(days[0]?.day || null);
@@ -14,6 +17,7 @@ export default function DayScheduleList({ days = [] }) {
   });
   const { id: itineraryId } = useParams();
   const { mutate: addSchedule } = useAddScheduleToDay();
+  const queryClient = useQueryClient();
 
   const handleFormChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -31,6 +35,33 @@ export default function DayScheduleList({ days = [] }) {
 
     setFormData({ time: "", activity: "", description: "" });
     setOpenFormForDay(null);
+  };
+
+  const handleDeleteSchedule = async (dayIndex, scheduleId) => {
+    const ok = confirm("정말 이 세부 일정을 삭제하시겠습니까?");
+    if (!ok) return;
+
+    try {
+      const itineraryRef = doc(db, "itineraries", itineraryId);
+      const docSnap = await getDoc(itineraryRef);
+      const data = docSnap.data();
+
+      const updatedDays = [...data.days];
+      updatedDays[dayIndex].schedules = updatedDays[dayIndex].schedules.filter(
+        (s) => s.id !== scheduleId
+      );
+
+      await updateDoc(itineraryRef, {
+        days: updatedDays,
+        updatedAt: serverTimestamp(),
+      });
+      queryClient.invalidateQueries(["itineraryDetail", itineraryId]);
+
+      // 수동으로 리렌더링이 필요하다면 invalidateQueries
+    } catch (error) {
+      console.error("일정 삭제 실패:", error);
+      alert("일정 삭제에 실패했습니다.");
+    }
   };
 
   return (
@@ -59,6 +90,7 @@ export default function DayScheduleList({ days = [] }) {
                 <DayScheduleItem
                   key={item.id || `${day.day}-${idx}`}
                   {...item}
+                  onDelete={() => handleDeleteSchedule(index, item.id)}
                 />
               ))}
 
@@ -80,7 +112,7 @@ export default function DayScheduleList({ days = [] }) {
                       name="time"
                       value={formData.time}
                       onChange={handleFormChange}
-                      placeholder="시간 (예: 오전 9시)"
+                      placeholder="시간 (예: 10:00)"
                       className="border px-2 py-1 rounded w-28 text-sm"
                     />
                     <input
