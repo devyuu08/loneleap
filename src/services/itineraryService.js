@@ -14,6 +14,7 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
+import { uploadImage } from "utils/uploadImage";
 
 // 일정 생성 함수
 export const createItinerary = async (itineraryData) => {
@@ -164,21 +165,34 @@ export const fetchItineraryById = async (id) => {
 export const updateItinerary = async (id, updatedData) => {
   try {
     const docRef = doc(db, "itineraries", id);
-
-    // 문서 존재 여부 확인
     const docSnap = await getDoc(docRef);
+
     if (!docSnap.exists()) {
       throw new Error("존재하지 않는 일정입니다.");
     }
 
-    // updatedAt 추가
+    // 이미지 처리
+    let imageUrl = updatedData.imageUrl || "";
+    if (updatedData.image instanceof File) {
+      try {
+        imageUrl = await uploadImage(updatedData.image, "itineraries");
+      } catch (uploadErr) {
+        console.error("이미지 업로드 실패:", uploadErr);
+        throw new Error("이미지 업로드에 실패했습니다. 다시 시도해주세요.");
+      }
+    }
+
+    // Firestore에 저장할 데이터 준비
     const dataToUpdate = {
       ...updatedData,
+      imageUrl,
       updatedAt: serverTimestamp(),
     };
 
+    delete dataToUpdate.image; // File 객체는 Firestore에 저장 금지
+
     await updateDoc(docRef, dataToUpdate);
-    return true; // 성공 여부 반환
+    return true;
   } catch (error) {
     console.error("일정 수정 중 오류 발생:", error);
     throw error;
