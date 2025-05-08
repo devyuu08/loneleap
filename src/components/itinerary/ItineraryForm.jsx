@@ -7,6 +7,7 @@ import { updateItinerary } from "services/itineraryService";
 import DatePicker from "./DatePicker";
 import FormSubmitButton from "components/common/FormSubmitButton";
 import { BookOpenText, Camera, Clock, ImageIcon, MapPin } from "lucide-react";
+import ImageUploader from "components/common/ImageUploader";
 
 export default function ItineraryForm({ initialData, isEditMode = false }) {
   const [title, setTitle] = useState(initialData?.title || "");
@@ -16,6 +17,7 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
   const [summary, setSummary] = useState(initialData?.summary || "");
   const [isPublic, setIsPublic] = useState(initialData?.isPublic || true);
   const [errors, setErrors] = useState({});
+  const [imageFile, setImageFile] = useState(null);
 
   const navigate = useNavigate();
   const { mutate: addMutate, isPending: isAdding } = useAddItinerary();
@@ -187,26 +189,8 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
             </div>
           </div>
 
-          {/* 대표 이미지 업로드 (아직 기능 없음) */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              대표 이미지 (선택)
-            </label>
-            <div className="mt-2 border-2 border-dashed border-gray-300 rounded-md p-6 text-center text-sm text-gray-500">
-              <div className="flex flex-col items-center justify-center">
-                <ImageIcon className="w-6 h-6 mb-2 text-gray-400" />
-                여행을 표현할 수 있는 이미지를 업로드해주세요
-                <div className="mt-3">
-                  <button
-                    type="button"
-                    className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 text-sm"
-                  >
-                    이미지 선택
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* 대표 이미지 업로드*/}
+          <ImageUploader imageFile={imageFile} onChange={setImageFile} />
 
           {/* 제출 버튼 */}
           <div className="flex justify-end">
