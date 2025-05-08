@@ -25,6 +25,9 @@ export const createItinerary = async (itineraryData) => {
       summary,
       imageUrl = "",
       createdBy,
+      isPublic = false,
+      days = [],
+      checklist = { required: [], optional: [] },
     } = itineraryData;
 
     // 필수 필드 검증
@@ -39,7 +42,10 @@ export const createItinerary = async (itineraryData) => {
       endDate,
       summary,
       imageUrl,
-      createdBy, // 작성자 정보 객체 전체 저장
+      createdBy,
+      isPublic,
+      days,
+      checklist,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
