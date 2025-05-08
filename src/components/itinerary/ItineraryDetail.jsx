@@ -117,7 +117,7 @@ export default function ItineraryDetail() {
         )}
       </section>
 
-      <div className="max-w-4xl mx-auto px-4 py-10">
+      <section className="mt-10 space-y-6">
         {/* 앞으로 추가될 일정 상세 / 포함사항 등은 이 아래 */}
         {data.days && <DayScheduleList days={data.days} />}
 
@@ -143,7 +143,7 @@ export default function ItineraryDetail() {
             </button>
           </div>
         )}
-      </div>
+      </section>
     </>
   );
 }

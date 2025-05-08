@@ -58,21 +58,7 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
       summary,
       isPublic,
       userId: user.uid,
-      days: initialData?.days || [
-        {
-          day: 1,
-          date: startDate,
-          schedules: [
-            { time: "오전", activity: "도착", description: "목적지 도착" },
-            { time: "오후", activity: "관광", description: "주요 관광지 방문" },
-            {
-              time: "저녁",
-              activity: "저녁 식사",
-              description: "현지 맛집 방문",
-            },
-          ],
-        },
-      ],
+      days: [],
     };
 
     isEditMode
