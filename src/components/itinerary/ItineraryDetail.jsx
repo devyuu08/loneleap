@@ -19,6 +19,7 @@ import {
   Quote,
 } from "lucide-react";
 import FloatingButtons from "components/common/FloatingButtons";
+import ChecklistSection from "./ChecklistSection";
 
 export default function ItineraryDetail() {
   const { id } = useParams();
@@ -30,8 +31,6 @@ export default function ItineraryDetail() {
     return <NotFoundMessage message="일정을 찾을 수 없습니다." />;
 
   const isOwner = currentUser?.user?.uid === data.userId;
-  console.log("currentUser.uid", currentUser?.user?.uid);
-  console.log("data.userId", data.userId);
   const { location, isPublic, summary } = data;
 
   return (
@@ -120,6 +119,8 @@ export default function ItineraryDetail() {
         {data.days && <DayScheduleList days={data.days} />}
 
         {isOwner && <FloatingButtons />}
+
+        {isOwner && <ChecklistSection checklist={data.checklist} />}
       </section>
     </>
   );
