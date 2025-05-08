@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "services/auth";
 import { clearUser } from "store/userSlice";
-import PropTypes from "prop-types";
+import ProfileEditModal from "components/modal/ProfileEditModal";
 
-export default function ProfileSection({ user = null }) {
+export default function ProfileSection() {
+  const user = useSelector((state) => state.user.user);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,53 +28,55 @@ export default function ProfileSection({ user = null }) {
   };
 
   return (
-    <div className="bg-gradient-to-b from-[#1f2937] to-[#111827] py-12 text-center">
-      <img
-        src={user?.photoURL || "/default_profile.png"}
-        alt="프로필 이미지"
-        className="w-24 h-24 rounded-full mx-auto border-2 border-white mb-4"
-      />
-      <h1 className="text-2xl font-semibold">
-        {user?.displayName || user?.email || "닉네임 없음"}
-      </h1>
-      <p className="text-sm text-gray-300 mb-4">
-        {user?.isPremium ? "Premium Member" : "일반 회원"}
-      </p>
+    <>
+      <div className="bg-gradient-to-b from-[#1f2937] to-[#111827] py-12 text-center">
+        <img
+          src={user?.photoURL || "/default_profile.png"}
+          alt="프로필 이미지"
+          className="w-24 h-24 rounded-full mx-auto border-2 border-white mb-4"
+        />
+        <h1 className="text-2xl font-semibold">
+          {user?.displayName || user?.email || "닉네임 없음"}
+        </h1>
 
-      {/* 버튼 그룹 */}
-      <div className="flex justify-center gap-4 flex-wrap">
-        <button
-          onClick={() => alert("준비 중인 기능입니다.")}
-          className="min-w-[100px] px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition"
-        >
-          프로필 수정
-        </button>
-        <button
-          onClick={() => alert("준비 중인 기능입니다.")}
-          className="min-w-[100px] px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition"
-        >
-          설정
-        </button>
-        <button
-          onClick={handleLogout}
-          disabled={isLoggingOut}
-          className={`min-w-[100px] px-4 py-2 border border-white rounded transition ${
-            isLoggingOut
-              ? "bg-gray-500 text-white cursor-not-allowed"
-              : "text-red-500 hover:bg-red-500 hover:text-white"
-          }`}
-        >
-          {isLoggingOut ? "로그아웃 중..." : "로그아웃"}
-        </button>
+        {/* 소개 문구 출력 */}
+        <p className="text-sm text-gray-300 my-4 whitespace-pre-line">
+          {user?.bio?.trim() ? user.bio : "소개 문구가 없습니다."}
+        </p>
+
+        {/* 버튼 그룹 */}
+        <div className="flex justify-center gap-4 flex-wrap">
+          <button
+            onClick={() => setIsEditModalOpen(true)}
+            className="min-w-[100px] px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition"
+          >
+            프로필 수정
+          </button>
+          <button
+            onClick={() => alert("준비 중인 기능입니다.")}
+            className="min-w-[100px] px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition"
+          >
+            설정
+          </button>
+          <button
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className={`min-w-[100px] px-4 py-2 border border-white rounded transition ${
+              isLoggingOut
+                ? "bg-gray-500 text-white cursor-not-allowed"
+                : "text-red-500 hover:bg-red-500 hover:text-white"
+            }`}
+          >
+            {isLoggingOut ? "로그아웃 중..." : "로그아웃"}
+          </button>
+        </div>
       </div>
-    </div>
+      {/* 모달 컴포넌트 렌더링 */}
+      <ProfileEditModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        user={user}
+      />
+    </>
   );
 }
-
-ProfileSection.propTypes = {
-  user: PropTypes.shape({
-    displayName: PropTypes.string,
-    email: PropTypes.string,
-    photoURL: PropTypes.string,
-  }),
-};

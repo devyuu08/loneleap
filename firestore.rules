@@ -3,7 +3,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function isAdmin() {
-    return exists(/databases/$(database)/documents/admin/$(request.auth.token.email));
+      return exists(/databases/$(database)/documents/admin/$(request.auth.token.email));
     }
 
     function isSignedIn() {
@@ -15,23 +15,53 @@ service cloud.firestore {
     }
 
     match /admin/{email} {
-    allow read, write: if false;
+      allow read, write: if false;
     }
 
     match /itineraries/{itineraryId} {
-      allow read, write: if isSignedIn() && isOwner(resource.data.userId);
+      allow read: if isSignedIn();
       allow create: if isSignedIn();
+      allow update, delete: if isSignedIn() && resource.data.createdBy.uid == request.auth.uid;
     }
 
     match /reviews/{reviewId} {
       allow read: if true;
+
+      // 리뷰 생성자는 전체 write 가능
       allow write: if isSignedIn() && isOwner(resource.data.authorId);
+
+      // likesCount만 바꾸는 경우 → 누구든 가능
+      allow update: if isSignedIn() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likesCount']);
+
       allow create: if isSignedIn();
+
+    // 댓글 권한 추가
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isSignedIn();
+      allow delete: if isSignedIn() && isOwner(resource.data.authorId);
     }
 
+
+      // 하위 컬렉션 'likes' 권한 설정 추가
+    match /likes/{userId} {
+      allow read, write: if isSignedIn(); // 또는 필요 시 write만 허용
+  }
+}
+
     match /users/{userId} {
-    allow read, write: if isSignedIn() && isOwner(userId);
-    allow create: if isSignedIn();
+      allow read: if isSignedIn() && (isOwner(userId) || isAdmin());
+
+      allow update: if isSignedIn() && (
+        isOwner(userId) || isAdmin() ||
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reportedCount']) &&
+          request.resource.data.reportedCount == resource.data.reportedCount + 1
+        )
+      );
+
+      allow create: if isSignedIn();
     }
 
     match /chatRooms/{roomId} {
@@ -64,6 +94,11 @@ service cloud.firestore {
         allow read, write: if isSignedIn();
         allow read, delete: if isAdmin();
       }
+    }
+
+    match /recommended_places/{docId} {
+      allow read: if true;
+      allow write, create: if isSignedIn() && isAdmin();
     }
 
     // 나머지 모든 문서는 차단

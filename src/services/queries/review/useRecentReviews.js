@@ -7,7 +7,7 @@ import {
   limit,
   getDocs,
 } from "firebase/firestore";
-import { app } from "../../firebase"; // 기존 firebase.js 경로에 따라 조정
+import { app } from "services/firebase";
 
 const db = getFirestore(app);
 
@@ -16,7 +16,7 @@ export const useRecentReviews = () => {
     queryKey: ["recentReviews"],
     queryFn: async () => {
       const ref = collection(db, "reviews");
-      const q = query(ref, orderBy("createdAt", "desc"), limit(3));
+      const q = query(ref, orderBy("createdAt", "desc"), limit(5));
       const snapshot = await getDocs(q);
       return snapshot.docs.map((doc) => ({
         id: doc.id,

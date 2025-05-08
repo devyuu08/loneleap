@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchItineraryById } from "../../firestore";
+import { fetchItineraryById } from "services/itineraryService";
 
 export const useItineraryDetail = (id) => {
   return useQuery({

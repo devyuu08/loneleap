@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import LikeButton from "./LikeButton";
 
 /**
  * 리뷰 정보를 카드 형태로 표시하는 컴포넌트
@@ -67,12 +68,12 @@ export default function ReviewCard({ review }) {
             </span>
           ))}
         </div>
-        <p className="text-sm text-gray-700 mb-3 line-clamp-3">
-          {truncatedContent}
-        </p>
-        <div className="flex justify-between text-xs text-gray-400">
+        {/* 하단 정보 + 좋아요 버튼 */}
+        <div className="flex justify-between items-center text-xs text-gray-400">
           <span>{authorName || "익명"}</span>
-          <span>{formattedDate}</span>
+          <div className="flex items-center gap-2">
+            <LikeButton reviewId={id} />
+          </div>
         </div>
       </div>
     </div>

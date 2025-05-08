@@ -1,56 +1,45 @@
 import React, { useState, useEffect, useCallback } from "react";
-import RatingInput from "./RatingInput";
 import { useNavigate } from "react-router-dom";
+import RatingInput from "./RatingInput";
+import useAddReview from "services/queries/review/useAddReview";
 
 const MAX_CONTENT_LENGTH = 1000;
 
-export default function ReviewForm({ initialData, onSubmit, isLoading }) {
-  const [title, setTitle] = useState(initialData?.title || "");
-  const [destination, setDestination] = useState(
-    initialData?.destination || ""
-  );
-  const [content, setContent] = useState(initialData?.content || "");
-  const [rating, setRating] = useState(initialData?.rating || 0);
-  const [image, setImage] = useState(initialData?.image || null);
-
-  const [errors, setErrors] = useState({});
+export default function ReviewForm() {
+  const [title, setTitle] = useState("");
+  const [destination, setDestination] = useState("");
+  const [content, setContent] = useState("");
+  const [rating, setRating] = useState(0);
+  const [image, setImage] = useState(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
-
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState(null);
   const navigate = useNavigate();
 
+  const { addReview, isLoading } = useAddReview({
+    onError: (err) => {
+      setSubmitError(err.message);
+    },
+  });
+
   useEffect(() => {
-    let objectUrl;
     if (image) {
-      try {
-        const url = URL.createObjectURL(image);
-        objectUrl = url;
-        setImagePreviewUrl(url);
-      } catch (error) {
-        console.error("이미지 미리보기 생성 오류:", error);
-      }
+      const objectUrl = URL.createObjectURL(image);
+      setImagePreviewUrl(objectUrl);
+      return () => URL.revokeObjectURL(objectUrl);
     }
-    return () => {
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
-    };
   }, [image]);
 
   const handleImageChange = useCallback((e) => {
     const file = e.target.files[0];
-    if (file) {
-      // 파일 크기 제한 (5MB)
-      const maxSize = 5 * 1024 * 1024;
-      if (file.size > maxSize) {
-        alert("이미지 크기는 5MB 이하여야 합니다.");
-        return;
-      }
-
-      // 이미지 타입 확인
-      if (!file.type.startsWith("image/")) {
-        alert("이미지 파일만 업로드 가능합니다.");
-        return;
-      }
-
+    if (
+      file &&
+      file.size <= 5 * 1024 * 1024 &&
+      file.type.startsWith("image/")
+    ) {
       setImage(file);
+    } else {
+      alert("5MB 이하 이미지 파일만 업로드 가능합니다.");
     }
   }, []);
 
@@ -58,19 +47,15 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
     (e) => {
       e.preventDefault();
       const newErrors = {};
-
       if (!title) newErrors.title = "제목을 입력해주세요.";
       if (!destination) newErrors.destination = "여행지명을 입력해주세요.";
       if (rating === 0) newErrors.rating = "별점을 선택해주세요.";
       if (!content) newErrors.content = "내용을 입력해주세요.";
+      if (Object.keys(newErrors).length > 0) return setErrors(newErrors);
 
-      if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
-      }
-      onSubmit({ title, destination, content, rating, image });
+      addReview({ title, destination, content, rating, image });
     },
-    [title, destination, content, rating, image, onSubmit]
+    [title, destination, content, rating, image, addReview]
   );
 
   return (
@@ -79,6 +64,10 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
       className="bg-white p-8 rounded-2xl shadow-md border max-w-4xl mx-auto"
     >
       <h2 className="text-2xl font-bold mb-6">리뷰 작성하기</h2>
+
+      {submitError && (
+        <p className="text-red-700 text-sm mb-4">{submitError}</p>
+      )}
 
       {/* 제목 */}
       <div className="mb-4">
@@ -90,7 +79,6 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="예: 제주도 혼행 후기"
-          aria-invalid={errors.title ? "true" : "false"}
           className={`w-full border ${
             errors.title ? "border-red-500" : "border-gray-300"
           } rounded-md px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500`}
@@ -139,9 +127,8 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="여행 후기를 자세히 작성해주세요 :)"
+          rows={6}
           maxLength={MAX_CONTENT_LENGTH}
-          rows="6"
-          aria-invalid={errors.content ? "true" : "false"}
           className={`w-full border ${
             errors.content ? "border-red-500" : "border-gray-300"
           } rounded-md px-4 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500`}
@@ -167,7 +154,7 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
           onChange={handleImageChange}
           className="text-sm text-gray-600"
         />
-        {image ? (
+        {imagePreviewUrl ? (
           <img
             src={imagePreviewUrl}
             alt="미리보기"
@@ -175,7 +162,7 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
               e.target.onerror = null;
               e.target.src = "/free-icon-no-pictures-3875148.png";
             }}
-            className="w-32 h-32 object-cover rounded-lg border"
+            className="w-32 h-32 object-cover rounded-lg border mt-2"
           />
         ) : (
           <p className="text-sm text-gray-400">
@@ -184,51 +171,21 @@ export default function ReviewForm({ initialData, onSubmit, isLoading }) {
         )}
       </div>
 
-      {/* 버튼 영역 */}
-      <div className="flex gap-4">
+      {/* 버튼 */}
+      <div className="flex gap-4 mt-6">
         <button
           type="button"
-          onClick={() => {
-            navigate("/reviews");
-          }}
+          onClick={() => navigate("/reviews")}
           className="w-1/3 bg-gray-200 text-gray-800 font-semibold py-3 rounded-md hover:bg-gray-300 transition"
         >
           취소
         </button>
-
-        {/* 등록 버튼 */}
         <button
           type="submit"
           disabled={isLoading}
           className="w-2/3 bg-[#0F172A] text-white font-semibold py-3 rounded-md hover:bg-[#1E293B] transition disabled:opacity-50"
         >
-          {isLoading ? (
-            <div className="flex items-center justify-center">
-              <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              등록 중...
-            </div>
-          ) : (
-            "리뷰 등록하기"
-          )}
+          {isLoading ? "등록 중..." : "리뷰 등록하기"}
         </button>
       </div>
     </form>

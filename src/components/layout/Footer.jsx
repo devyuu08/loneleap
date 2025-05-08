@@ -1,45 +1,99 @@
-// src/components/Footer.jsx
+import { Instagram, Facebook, Twitter } from "lucide-react";
 
 export default function Footer() {
+  const iconClass = "w-5 h-5 hover:text-gray-700 transition";
+  const sectionTitleClass = "font-semibold text-gray-900 mb-3";
+
   return (
-    <footer className="bg-gray-900 text-gray-300 py-12 px-6 text-sm">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-gray-50 text-gray-700 text-sm border-t">
+      <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
+        {/* 브랜드 소개 + 소셜 */}
         <div>
-          <h3 className="font-semibold mb-2 text-white">LoneLeap</h3>
-          <p className="text-gray-400">
-            혼자 떠나는 여행을 위한 감성 플랫폼
-            <br />© {new Date().getFullYear()} LoneLeap
+          <h3 className="font-heading text-xl font-bold text-gray-900 mb-2">
+            LoneLeap
+          </h3>
+          <p className="text-gray-500 mb-4">
+            당신만의 여정을 위한 감성적인 혼행 플랫폼
           </p>
+          <div className="flex space-x-4 text-gray-500">
+            <a href="#" aria-label="Instagram">
+              <Instagram className={iconClass} />
+            </a>
+            <a href="#" aria-label="Facebook">
+              <Facebook className={iconClass} />
+            </a>
+            <a href="#" aria-label="Twitter">
+              <Twitter className={iconClass} />
+            </a>
+          </div>
         </div>
 
+        {/* 여행 정보 */}
         <div>
-          <h4 className="font-semibold mb-2">여행지</h4>
-          <ul className="space-y-1">
-            <li>제주도</li>
-            <li>부산</li>
-            <li>경주</li>
+          <h4 className={sectionTitleClass}>여행 정보</h4>
+          <ul className="space-y-2">
+            <li>
+              <a href="#">인기 여행지</a>
+            </li>
+            <li>
+              <a href="#">추천 일정</a>
+            </li>
+            <li>
+              <a href="#">혼행 가이드</a>
+            </li>
+            <li>
+              <a href="#">여행 팁</a>
+            </li>
           </ul>
         </div>
 
+        {/* 고객 지원 */}
         <div>
-          <h4 className="font-semibold mb-2">고객 지원</h4>
-          <ul className="space-y-1">
-            <li>자주 묻는 질문</li>
-            <li>문의하기</li>
-            <li>이용약관</li>
+          <h4 className={sectionTitleClass}>고객 지원</h4>
+          <ul className="space-y-2">
+            <li>
+              <a href="#">자주 묻는 질문</a>
+            </li>
+            <li>
+              <a href="#">문의하기</a>
+            </li>
+            <li>
+              <a href="#">이용약관</a>
+            </li>
+            <li>
+              <a href="#">개인정보처리방침</a>
+            </li>
           </ul>
         </div>
 
+        {/* 회사 정보 */}
         <div>
-          <h4 className="font-semibold mb-2">뉴스레터</h4>
-          <input
-            type="email"
-            placeholder="이메일 주소"
-            className="w-full px-3 py-2 rounded bg-gray-800 text-white placeholder-gray-400"
-          />
-          <button className="mt-2 w-full bg-white text-gray-900 font-semibold py-2 rounded hover:bg-gray-100 transition">
-            구독
-          </button>
+          <h4 className={sectionTitleClass}>LoneLeap 소개</h4>
+          <ul className="space-y-2">
+            <li>
+              <a href="#">회사 소개</a>
+            </li>
+            <li>
+              <a href="#">채용 정보</a>
+            </li>
+            <li>
+              <a href="#">파트너십</a>
+            </li>
+            <li>
+              <a href="#">보도자료</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* 바텀 라인 */}
+      <div className="border-t text-gray-400 text-xs flex flex-col md:flex-row justify-between items-center px-6 py-4">
+        <p>© {new Date().getFullYear()} LoneLeap. All rights reserved.</p>
+        <div>
+          <select className="bg-transparent text-gray-500 focus:outline-none">
+            <option>한국어</option>
+            <option>English</option>
+          </select>
         </div>
       </div>
     </footer>

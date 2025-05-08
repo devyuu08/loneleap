@@ -3,10 +3,16 @@ import { useReviewDetail } from "services/queries/review/useReviewDetail";
 import LoadingSpinner from "components/common/LoadingSpinner";
 import NotFoundMessage from "components/common/NotFoundMessage";
 import ReportButton from "components/Review/ReportButton";
+
 import { formatDate } from "utils/formatDate";
+import { useUser } from "hooks/useUser";
+
+import LikeButton from "components/review/LikeButton";
+import CommentList from "components/review/CommentList";
 
 export default function ReviewDetailPage() {
   const { id } = useParams();
+  const { user } = useUser();
   const { data, isLoading, isError } = useReviewDetail(id);
 
   const navigate = useNavigate();
@@ -23,6 +29,7 @@ export default function ReviewDetailPage() {
     authorName,
     createdAt,
     imageUrl,
+    likesCount,
   } = data;
 
   return (
@@ -68,9 +75,16 @@ export default function ReviewDetailPage() {
         {content || "리뷰 내용이 없습니다."}
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end items-center gap-4 mt-8">
+        <LikeButton reviewId={id} likesCount={likesCount} />
         <ReportButton reviewId={id} />
       </div>
+
+      {/* 댓글 섹션 */}
+      <section className="mt-10">
+        <h2 className="text-xl font-semibold mb-4">댓글</h2>
+        <CommentList currentUserId={user?.uid} reviewId={id} />
+      </section>
     </article>
   );
 }
