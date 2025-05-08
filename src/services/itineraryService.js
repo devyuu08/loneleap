@@ -1,3 +1,4 @@
+import { eachDayOfInterval, format } from "date-fns";
 import { db } from "./firebase";
 import {
   collection,
@@ -25,12 +26,28 @@ export const createItinerary = async (itineraryData) => {
       summary,
       imageUrl = "",
       createdBy,
+      isPublic = false,
+      days = [],
+      checklist = { required: [], optional: [] },
     } = itineraryData;
 
     // 필수 필드 검증
     if (!createdBy?.uid || !title) {
       throw new Error("필수 정보가 누락되었습니다.");
     }
+
+    const generatedDays =
+      days.length > 0
+        ? days
+        : eachDayOfInterval({
+            start: new Date(startDate),
+            end: new Date(endDate),
+          }).map((date, index) => ({
+            day: index + 1,
+            title: "", // 추후 수정 가능
+            date: format(date, "yyyy-MM-dd"),
+            schedules: [],
+          }));
 
     const docRef = await addDoc(collection(db, "itineraries"), {
       title,
@@ -39,7 +56,11 @@ export const createItinerary = async (itineraryData) => {
       endDate,
       summary,
       imageUrl,
-      createdBy, // 작성자 정보 객체 전체 저장
+      createdBy,
+      userId: createdBy.uid,
+      isPublic,
+      days: generatedDays,
+      checklist,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
@@ -47,6 +68,41 @@ export const createItinerary = async (itineraryData) => {
     return docRef.id;
   } catch (error) {
     console.error("일정 생성 중 오류 발생:", error);
+    throw error;
+  }
+};
+
+// 특정 일자의 일정(schedules)에 새로운 일정 하나 추가
+export const addScheduleToDay = async (itineraryId, dayIndex, newSchedule) => {
+  try {
+    const itineraryRef = doc(db, "itineraries", itineraryId);
+    const docSnap = await getDoc(itineraryRef);
+
+    if (!docSnap.exists()) {
+      throw new Error("존재하지 않는 일정입니다.");
+    }
+
+    const data = docSnap.data();
+    const updatedDays = [...(data.days || [])];
+
+    if (!updatedDays[dayIndex]) {
+      throw new Error(`DAY ${dayIndex + 1}가 존재하지 않습니다.`);
+    }
+
+    // 새로운 세부 일정 추가
+    updatedDays[dayIndex].schedules.push({
+      ...newSchedule,
+      id: Date.now().toString(), // 간단한 고유 ID 생성
+    });
+
+    await updateDoc(itineraryRef, {
+      days: updatedDays,
+      updatedAt: serverTimestamp(),
+    });
+
+    return true;
+  } catch (error) {
+    console.error("세부 일정 추가 중 오류 발생:", error);
     throw error;
   }
 };
@@ -146,4 +202,12 @@ export const deleteItinerary = async (id) => {
     console.error("일정 삭제 중 오류:", error);
     throw error;
   }
+};
+
+export const updateChecklist = async (itineraryId, checklist) => {
+  const docRef = doc(db, "itineraries", itineraryId);
+  await updateDoc(docRef, {
+    checklist,
+    updatedAt: serverTimestamp(),
+  });
 };

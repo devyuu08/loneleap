@@ -19,9 +19,10 @@ service cloud.firestore {
     }
 
     match /itineraries/{itineraryId} {
-      allow read: if isSignedIn(); // 로그인한 사람 누구나 읽기 가능
-      allow write: if isSignedIn() && isOwner(resource.data.userId);
+      allow read: if isSignedIn();
       allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource.data.createdBy.uid == request.auth.uid;
+      allow delete: if isSignedIn() && resource.data.createdBy.uid == request.auth.uid;
     }
 
     match /reviews/{reviewId} {
