@@ -73,8 +73,11 @@ export default function DayScheduleList({ days = [] }) {
             onClick={() => setOpenDay(openDay === day.day ? null : day.day)}
             className="w-full flex justify-between items-center px-4 py-3 text-left"
           >
-            <h3 className="font-semibold text-gray-800">
-              DAY {day.day} · {day.date}
+            <h3 className="text-sm sm:text-base font-semibold text-gray-900 flex items-center gap-2">
+              <span className="inline-block bg-[#6C8BA4] text-white text-xs px-2 py-1 rounded-md">
+                DAY {day.day}
+              </span>
+              <span className="text-gray-700">· {day.date}</span>
             </h3>
             <ChevronDown
               className={`w-5 h-5 transition-transform ${
@@ -98,7 +101,7 @@ export default function DayScheduleList({ days = [] }) {
               {openFormForDay !== index && (
                 <button
                   onClick={() => setOpenFormForDay(index)}
-                  className="text-sm text-blue-600 hover:underline mt-2"
+                  className="text-sm text-[#6C8BA4] hover:bg-[#f0f4f8] px-2 py-1 rounded mt-2 transition"
                 >
                   + 세부 일정 추가
                 </button>
