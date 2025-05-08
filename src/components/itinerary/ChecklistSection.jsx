@@ -125,69 +125,78 @@ export default function ChecklistSection({
       </div>
 
       {/* 필수 항목 */}
-      <div className="mb-4">
-        <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-[#F87171]" />
-          필수 준비물
-        </h4>
-        <ul className="space-y-2 text-sm text-gray-800">
-          {localChecklist.required.map((item, idx) => (
-            <li key={`r-${idx}`} className="flex justify-between items-center">
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={item.checked}
-                  onChange={() => toggleCheck("required", idx)}
-                  className="accent-[#6C8BA4]"
-                />
-                <span
-                  className={item.checked ? "line-through text-gray-400" : ""}
-                >
-                  {item.text}
-                </span>
-              </label>
-              <button
-                onClick={() => handleDeleteItem("required", idx)}
-                aria-label="삭제"
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* 필수 항목 */}
+        <div className="border rounded-xl p-4">
+          <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-[#F87171]" />
+            필수 준비물
+          </h4>
+          <ul className="space-y-2 text-sm text-gray-800">
+            {localChecklist.required.map((item, idx) => (
+              <li
+                key={`r-${idx}`}
+                className="flex justify-between items-center"
               >
-                <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-500" />
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={item.checked}
+                    onChange={() => toggleCheck("required", idx)}
+                    className="accent-[#6C8BA4]"
+                  />
+                  <span
+                    className={item.checked ? "line-through text-gray-400" : ""}
+                  >
+                    {item.text}
+                  </span>
+                </label>
+                <button
+                  onClick={() => handleDeleteItem("required", idx)}
+                  aria-label="삭제"
+                >
+                  <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-500" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      {/* 선택 항목 */}
-      <div>
-        <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-          <ShoppingBag className="w-4 h-4 text-[#6C8BA4]" />
-          선택 준비물
-        </h4>
-        <ul className="space-y-2 text-sm text-gray-800">
-          {localChecklist.optional.map((item, idx) => (
-            <li key={`o-${idx}`} className="flex justify-between items-center">
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={item.checked}
-                  onChange={() => toggleCheck("optional", idx)}
-                  className="accent-[#6C8BA4]"
-                />
-                <span
-                  className={item.checked ? "line-through text-gray-400" : ""}
-                >
-                  {item.text}
-                </span>
-              </label>
-              <button
-                onClick={() => handleDeleteItem("optional", idx)}
-                aria-label="삭제"
+        {/* 선택 항목 */}
+        <div className="border rounded-xl p-4">
+          <h4 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+            <ShoppingBag className="w-4 h-4 text-[#6C8BA4]" />
+            선택 준비물
+          </h4>
+          <ul className="space-y-2 text-sm text-gray-800">
+            {localChecklist.optional.map((item, idx) => (
+              <li
+                key={`o-${idx}`}
+                className="flex justify-between items-center"
               >
-                <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-500" />
-              </button>
-            </li>
-          ))}
-        </ul>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={item.checked}
+                    onChange={() => toggleCheck("optional", idx)}
+                    className="accent-[#6C8BA4]"
+                  />
+                  <span
+                    className={item.checked ? "line-through text-gray-400" : ""}
+                  >
+                    {item.text}
+                  </span>
+                </label>
+                <button
+                  onClick={() => handleDeleteItem("optional", idx)}
+                  aria-label="삭제"
+                >
+                  <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-500" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
