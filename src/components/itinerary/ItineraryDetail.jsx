@@ -5,10 +5,20 @@ import { useItineraryDetail } from "services/queries/itinerary/useItineraryDetai
 
 import LoadingSpinner from "components/common/LoadingSpinner";
 import NotFoundMessage from "components/common/NotFoundMessage";
-import ItineraryHero from "./ItineraryHero";
+import ItineraryHero from "components/itinerary/ItineraryHero";
 
 import DayScheduleList from "./DayScheduleList";
 import { useDeleteItinerary } from "services/queries/itinerary/useDeleteItinerary";
+import { format } from "date-fns";
+
+import {
+  MapPin,
+  CalendarDays,
+  TimerReset,
+  Eye,
+  EyeOff,
+  Quote,
+} from "lucide-react";
 
 export default function ItineraryDetail() {
   const { id } = useParams();
@@ -24,39 +34,90 @@ export default function ItineraryDetail() {
     return <NotFoundMessage message="일정을 찾을 수 없습니다." />;
 
   const isOwner = currentUser?.user?.uid === data.userId;
-  const { title, startDate, endDate, memo, location, isPublic } = data;
+  const { location, isPublic, summary } = data;
 
   return (
     <>
       <ItineraryHero data={data} isOwner={isOwner} />
-      <div className="max-w-4xl mx-auto px-4 py-10">
-        {/* 상단 제목 + 날짜 */}
-        <div className="mb-8">
-          <button
-            onClick={() => navigate("/itinerary")}
-            className="text-sm text-gray-500 mb-2 hover:underline "
-          >
-            ← 목록으로 돌아가기
-          </button>
-          <h1 className="text-3xl font-bold mb-2">{title}</h1>
+      {/* 여행 정보 */}
+      <section className="mt-10 space-y-6">
+        {/* 여행 정보 4개 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* 여행 지역 */}
+          <div className="bg-white border border-gray-200 rounded-xl px-6 py-4 shadow-sm">
+            <div className="flex justify-between items-center text-sm text-gray-700">
+              <span className="flex items-center font-semibold text-gray-500">
+                <MapPin className="w-4 h-4 mr-1" />
+                여행 지역
+              </span>
+              <span className="text-base text-gray-800 font-medium">
+                {location || "미정"}
+              </span>
+            </div>
+          </div>
 
-          <p className="text-gray-500">
-            {startDate} ~ {endDate} · {location}
-          </p>
-          {isPublic && (
-            <span className="text-xs text-blue-600 font-medium mt-1 inline-block">
-              공개 일정
-            </span>
-          )}
+          {/* 등록일 */}
+          <div className="bg-white border border-gray-200 rounded-xl px-6 py-4 shadow-sm">
+            <div className="flex justify-between items-center text-sm text-gray-700">
+              <span className="flex items-center font-semibold text-gray-500">
+                <CalendarDays className="w-4 h-4 mr-1" />
+                등록일
+              </span>
+              <span className="text-base text-gray-800 font-medium">
+                {data.createdAt
+                  ? format(new Date(data.createdAt), "yyyy.MM.dd")
+                  : "정보 없음"}
+              </span>
+            </div>
+          </div>
+
+          {/* 총 일정 */}
+          <div className="bg-white border border-gray-200 rounded-xl px-6 py-4 shadow-sm">
+            <div className="flex justify-between items-center text-sm text-gray-700">
+              <span className="flex items-center font-semibold text-gray-500">
+                <TimerReset className="w-4 h-4 mr-1" />총 일정
+              </span>
+              <span className="text-base text-gray-800 font-medium">
+                {data.days?.length ? `총 ${data.days.length}일` : "일정 미정"}
+              </span>
+            </div>
+          </div>
+
+          {/* 공개 여부 */}
+          <div className="bg-white border border-gray-200 rounded-xl px-6 py-4 shadow-sm">
+            <div className="flex justify-between items-center text-sm text-gray-700">
+              <span className="flex items-center font-semibold text-gray-500">
+                {isPublic ? (
+                  <Eye className="w-4 h-4 mr-1" />
+                ) : (
+                  <EyeOff className="w-4 h-4 mr-1" />
+                )}
+                일정 공개
+              </span>
+              <span
+                className={`text-base font-medium ${
+                  isPublic ? "text-blue-600" : "text-gray-500"
+                }`}
+              >
+                {isPublic ? "공개" : "비공개"}
+              </span>
+            </div>
+          </div>
         </div>
 
-        {/* 메모 or 간단한 소개 */}
-        {memo && (
-          <div className="bg-gray-50 border rounded p-4 text-gray-700">
-            {memo}
+        {/* 여행 한 줄 소개 */}
+        {summary && (
+          <div className="bg-white border border-gray-200 rounded-xl px-6 py-5 shadow-sm">
+            <h3 className="text-sm text-gray-500 font-semibold mb-2 flex items-center">
+              <Quote className="w-4 h-4 mr-1" />
+              여행 한 줄 소개
+            </h3>
+            <p className="text-base text-gray-800">{summary}</p>
           </div>
         )}
+      </section>
 
+      <div className="max-w-4xl mx-auto px-4 py-10">
         {/* 앞으로 추가될 일정 상세 / 포함사항 등은 이 아래 */}
         {data.days && <DayScheduleList days={data.days} />}
 
