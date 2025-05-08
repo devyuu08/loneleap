@@ -57,6 +57,7 @@ export const createItinerary = async (itineraryData) => {
       summary,
       imageUrl,
       createdBy,
+      userId: createdBy.uid,
       isPublic,
       days: generatedDays,
       checklist,

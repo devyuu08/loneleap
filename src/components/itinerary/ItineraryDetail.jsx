@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { useItineraryDetail } from "services/queries/itinerary/useItineraryDetail";
@@ -8,7 +8,6 @@ import NotFoundMessage from "components/common/NotFoundMessage";
 import ItineraryHero from "components/itinerary/ItineraryHero";
 
 import DayScheduleList from "./DayScheduleList";
-import { useDeleteItinerary } from "services/queries/itinerary/useDeleteItinerary";
 import { format } from "date-fns";
 
 import {
@@ -19,13 +18,10 @@ import {
   EyeOff,
   Quote,
 } from "lucide-react";
+import FloatingButtons from "components/common/FloatingButtons";
 
 export default function ItineraryDetail() {
   const { id } = useParams();
-  const navigate = useNavigate();
-
-  const { mutate: deleteMutate, isPending: isDeleting } = useDeleteItinerary();
-
   const currentUser = useSelector((state) => state.user);
   const { data, isLoading, isError } = useItineraryDetail(id);
 
@@ -34,6 +30,8 @@ export default function ItineraryDetail() {
     return <NotFoundMessage message="일정을 찾을 수 없습니다." />;
 
   const isOwner = currentUser?.user?.uid === data.userId;
+  console.log("currentUser.uid", currentUser?.user?.uid);
+  console.log("data.userId", data.userId);
   const { location, isPublic, summary } = data;
 
   return (
@@ -121,28 +119,7 @@ export default function ItineraryDetail() {
         {/* 앞으로 추가될 일정 상세 / 포함사항 등은 이 아래 */}
         {data.days && <DayScheduleList days={data.days} />}
 
-        {isOwner && (
-          <div className="flex justify-end mt-12">
-            <button
-              onClick={() => navigate(`/itinerary/edit/${data.id}`)}
-              className="bg-gray-900 text-white px-6 py-2 rounded-lg mr-2 hover:bg-gray-800 transition"
-            >
-              수정하기
-            </button>
-
-            <button
-              onClick={() => {
-                if (confirm("정말로 이 일정을 삭제하시겠습니까?")) {
-                  deleteMutate(data.id);
-                }
-              }}
-              disabled={isDeleting}
-              className="text-sm text-red-600 border border-red-600 px-6 py-2 rounded-lg hover:bg-red-50"
-            >
-              {isDeleting ? "삭제 중..." : "삭제하기"}
-            </button>
-          </div>
-        )}
+        {isOwner && <FloatingButtons />}
       </section>
     </>
   );
