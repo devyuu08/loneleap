@@ -53,15 +53,16 @@ export default function DestinationSlider() {
         modules={[Navigation]}
         navigation
         spaceBetween={20}
-        slidesPerView={3}
+        slidesPerView={4}
         slidesPerGroup={1}
         breakpoints={{
           320: { slidesPerView: 1 },
           640: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
         }}
       >
-        {destinations.map((d, idx) => (
+        {destinations.slice(0, 8).map((d, idx) => (
           <SwiperSlide key={idx}>
             <Link
               to="/recommendations"
