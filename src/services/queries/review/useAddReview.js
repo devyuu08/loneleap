@@ -69,6 +69,8 @@ export default function useAddReview({
           displayName: user.displayName || "익명",
           photoURL: user.photoURL || "",
         },
+        authorName: user.displayName || "익명",
+        authorPhotoURL: user.photoURL || "",
         createdAt: serverTimestamp(),
         likeCount: 0,
         commentCount: 0,
