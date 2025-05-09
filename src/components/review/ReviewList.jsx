@@ -55,7 +55,7 @@ export default function ReviewList() {
           {/* 제목 */}
           <div className="space-y-1">
             <h2 className="text-2xl font-bold text-gray-900">여행 리뷰 목록</h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 py-1">
               다른 여행자들의 후기를 읽고, 나만의 여행 이야기도 남겨보세요!
             </p>
             <p className="text-xs text-gray-400">
@@ -64,7 +64,7 @@ export default function ReviewList() {
           </div>
 
           {/* 정렬 버튼 + 검색창 */}
-          <div className="flex flex-wrap justify-between items-center gap-4 pt-4">
+          <div className="flex flex-wrap justify-between items-center gap-4">
             {/* 정렬 필터 */}
             <div className="flex gap-2">
               <button
