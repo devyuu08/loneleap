@@ -24,7 +24,7 @@ export default function HeroSection() {
   if (isLoading) return null;
 
   return (
-    <section className="relative h-[80vh] text-white flex items-center justify-start overflow-hidden">
+    <section className="relative h-[90vh] pt-16 text-white flex items-center justify-start overflow-hidden">
       {/* 슬라이드 이미지 */}
       {images.map((src, index) => (
         <img
