@@ -44,9 +44,32 @@ export default function ReviewDetail({ reviewId }) {
         </div>
 
         {/* 댓글 */}
-        <section className="max-w-4xl mx-auto px-4 mt-12">
-          <h2 className="text-xl font-semibold mb-4">댓글</h2>
-          <CommentList currentUserId={user?.uid} reviewId={reviewId} />
+        <section className="max-w-6xl mx-auto px-4 mt-16 flex flex-col md:flex-row gap-8">
+          {/* 댓글 작성 & 리스트 - 왼쪽 영역 */}
+          <div className="md:w-2/3">
+            <h2 className="text-xl font-bold text-gray-900 mb-2">
+              혼행자의 감상 한 줄
+            </h2>
+            <p className="text-sm text-gray-500 mb-6">
+              같은 장소, 다른 감정. 다른 여행자의 시선을 통해 더 깊이
+              바라보세요.
+            </p>
+            <CommentList currentUserId={user?.uid} reviewId={reviewId} />
+          </div>
+
+          {/* 유의사항 카드 - 오른쪽 영역 */}
+          <aside className="md:w-1/3">
+            <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-sm leading-relaxed text-gray-600 shadow-sm">
+              <p className="font-semibold text-gray-800 mb-2">
+                댓글 작성 시 유의사항
+              </p>
+              <ul className="list-disc list-inside space-y-1">
+                <li>비방, 욕설, 혐오 표현은 삭제될 수 있어요.</li>
+                <li>개인 정보는 입력하지 말아주세요.</li>
+                <li>여기 남긴 감정이 또 다른 여행의 시작이 됩니다.</li>
+              </ul>
+            </div>
+          </aside>
         </section>
       </div>
     </article>
