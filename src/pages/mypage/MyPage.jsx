@@ -141,7 +141,7 @@ export default function MyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-white text-black pt-16">
       {/* 상단 */}
       <section className="bg-gradient-to-b from-[#1c1f2a] to-[#2d3243] text-white">
         <ProfileSection user={user} />

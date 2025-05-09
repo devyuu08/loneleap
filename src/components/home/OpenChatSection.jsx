@@ -2,19 +2,19 @@ import { Link } from "react-router-dom";
 
 export default function OpenChatSection() {
   return (
-    <section className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 px-8 py-20 bg-gray-50">
+    <section className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 px-6 py-20 bg-gray-50">
       {/* 왼쪽 텍스트 설명 */}
-      <div className="flex-1 max-w-lg ml-10">
-        <h2 className="text-2xl font-bold text-gray-900 font-heading mb-4">
+      <div className="flex-1 max-w-xl lg:ml-14 text-center lg:text-left">
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">
           혼자지만 함께하는 여행
         </h2>
-        <p className="text-gray-500 text-sm mb-6">
+        <p className="text-sm text-gray-500 mb-6 leading-relaxed">
           LoneLeap 오픈채팅에서 비슷한 여행 취향을 가진 사람들과 실시간으로
           소통해보세요. 일정 공유, 지역 정보, 감성 나눔까지—혼행의 즐거움을 함께
           확장해보세요.
         </p>
 
-        <ul className="space-y-4 text-sm text-gray-700">
+        <ul className="space-y-4 text-sm text-gray-700 text-left max-w-md">
           <li className="flex items-start gap-2">
             <span className="text-blue-500 text-lg">✔</span>
             <span>
@@ -47,7 +47,7 @@ export default function OpenChatSection() {
       </div>
 
       {/* 오른쪽 이미지 */}
-      <div className="flex-1 w-full max-w-xl mr-10">
+      <div className="flex-1 w-full max-w-xl lg:mr-10 mx-auto">
         <img
           src="/images/chat-banner.jpg"
           alt="오픈채팅 소개"

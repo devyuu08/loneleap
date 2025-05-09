@@ -17,28 +17,28 @@ export default function HeroSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 15000); // 15초
+    }, 5000); // 5초
     return () => clearInterval(interval);
   }, []);
 
   if (isLoading) return null;
 
   return (
-    <section className="relative h-[80vh] text-white flex items-center justify-start overflow-hidden">
+    <section className="relative h-[90vh] pt-16 text-white flex items-center justify-start overflow-hidden">
       {/* 슬라이드 이미지 */}
       {images.map((src, index) => (
         <img
           key={index}
           src={src}
           alt={`슬라이드 이미지 ${index + 1}`}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[8000ms] ${
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[5000ms] ${
             index === current ? "opacity-100" : "opacity-0"
           }`}
         />
       ))}
 
       {/* 어두운 오버레이 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-transparent" />
 
       {/* 텍스트 콘텐츠 */}
       <div className="relative z-10 px-12 py-24 text-left max-w-2xl">

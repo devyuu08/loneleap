@@ -10,8 +10,8 @@ export default function EditItineraryPage() {
   if (!data) return <div>일정을 찾을 수 없습니다.</div>;
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12 px-4">
-      <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow">
+    <div className="bg-gray-50 min-h-screen py-12 px-4 pt-16">
+      <div className="max-w-4xl mx-auto">
         <ItineraryForm initialData={data} isEditMode={true} />
       </div>
     </div>
