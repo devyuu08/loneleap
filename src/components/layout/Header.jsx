@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   CalendarCheck,
@@ -15,6 +15,8 @@ import {
 export default function Header() {
   const user = useSelector((state) => state.user.user);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const isHeroPage = location.pathname === "/";
 
   const baseLinkClass =
     "flex items-center gap-1.5 pb-1 hover:text-black font-body";
@@ -24,13 +26,18 @@ export default function Header() {
   const iconClass = "w-4 h-4 text-inherit";
 
   useEffect(() => {
+    if (!isHeroPage) {
+      setIsScrolled(true); // Hero 아닌 페이지는 항상 흰 배경
+      return;
+    }
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 30); // 30px 이상 스크롤 시 배경 전환
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isHeroPage]);
 
   return (
     <header
