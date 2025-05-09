@@ -17,7 +17,7 @@ export default function ReviewForm() {
   const navigate = useNavigate();
 
   const { addReview, isLoading } = useAddReview({
-    onError: (err) => setSubmitError(err.message),
+    onErrorCallback: (err) => setSubmitError(err.message),
   });
 
   const handleSubmit = useCallback(
@@ -27,7 +27,7 @@ export default function ReviewForm() {
       if (!title) newErrors.title = "제목을 입력해주세요.";
       if (!destination) newErrors.destination = "여행지명을 입력해주세요.";
       if (rating === 0) newErrors.rating = "별점을 선택해주세요.";
-      if (!content || content.length < 100)
+      if (!content || content.trim().length < 100)
         newErrors.content = "내용을 100자 이상 입력해주세요.";
       if (Object.keys(newErrors).length > 0) return setErrors(newErrors);
 
