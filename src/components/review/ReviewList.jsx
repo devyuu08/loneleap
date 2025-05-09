@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react";
 import { useReviews } from "services/queries/review/useReviews";
 
-import ReviewCard from "./ReviewCard";
+import ReviewCard from "components/review/ReviewCard";
 import LoadingSpinner from "components/common/LoadingSpinner";
 import EmptyState from "components/common/EmptyState";
 import { Search } from "lucide-react";
+import CreateCard from "components/common/CreateCard";
 
 export default function ReviewList() {
   const [sort, setSort] = useState("latest");
@@ -106,6 +107,14 @@ export default function ReviewList() {
       {/* 리뷰 카드 목록 */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* 항상 표시되는 리뷰 생성 카드 */}
+          <CreateCard
+            to="/reviews/new"
+            title="여행 후기 작성하기"
+            description="여행의 감동을 나누고, 다음 여행자를 도와주세요"
+            buttonLabel="리뷰 작성하기"
+          />
+
           {filteredReviews.length > 0 ? (
             filteredReviews.map((review) => (
               <ReviewCard key={review.id} review={review} />
