@@ -25,14 +25,6 @@ export default function ReviewDetail({ reviewId }) {
       <ReviewHero review={data} />
 
       <div className="max-w-3xl mx-auto px-4 mt-12">
-        {/* 돌아가기 버튼 */}
-        <button
-          onClick={() => navigate("/reviews")}
-          className="text-sm text-gray-500 mb-6 hover:underline"
-        >
-          ← 목록으로 돌아가기
-        </button>
-
         {/* 본문 내용 */}
         <div className="text-gray-800 leading-relaxed mb-8 whitespace-pre-line">
           {content || "리뷰 내용이 없습니다."}
