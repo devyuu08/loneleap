@@ -109,7 +109,7 @@ export default function ReviewList() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* 항상 표시되는 리뷰 생성 카드 */}
           <CreateCard
-            to="/reviews/new"
+            to="/reviews/create"
             title="여행 후기 작성하기"
             description="여행의 감동을 나누고, 다음 여행자를 도와주세요"
             buttonLabel="리뷰 작성하기"
