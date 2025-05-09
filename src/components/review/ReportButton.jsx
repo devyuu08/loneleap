@@ -27,7 +27,7 @@ export default function ReportButton({ reviewId }) {
       <button
         onClick={handleOpen}
         disabled={reportMutation.isPending}
-        className="text-sm text-red-500 hover:underline disabled:opacity-50"
+        className="px-3 py-1.5 rounded-full border border-gray-300 text-sm bg-white/60 text-gray-800 backdrop-blur-sm shadow-sm hover:bg-white/80 transition disabled:opacity-50"
       >
         {reportMutation.isPending ? "신고 중..." : "신고하기"}
       </button>

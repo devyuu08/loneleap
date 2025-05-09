@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDeleteItinerary } from "services/queries/itinerary/useDeleteItinerary";
 
@@ -39,12 +39,34 @@ export function DeleteFloatingButton() {
   );
 }
 
-// 두 버튼을 묶어주는 Wrapper
+export function BackFloatingButton() {
+  const navigate = useNavigate();
+
+  return (
+    <button
+      onClick={() => navigate(-1)}
+      className="bg-white text-gray-700 p-3 rounded-full shadow-lg hover:bg-gray-100 transition border border-gray-300"
+      aria-label="이전 페이지로 돌아가기"
+    >
+      <ArrowLeft className="w-4 h-4" />
+    </button>
+  );
+}
+
+// 버튼을 묶어주는 Wrapper
 export default function FloatingButtons() {
   return (
-    <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
-      <EditFloatingButton />
-      <DeleteFloatingButton />
-    </div>
+    <>
+      {/* 왼쪽 하단: 돌아가기 */}
+      <div className="fixed bottom-6 left-6 z-50">
+        <BackFloatingButton />
+      </div>
+
+      {/* 오른쪽 하단: 수정/삭제 */}
+      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
+        <EditFloatingButton />
+        <DeleteFloatingButton />
+      </div>
+    </>
   );
 }

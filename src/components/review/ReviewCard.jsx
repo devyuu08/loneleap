@@ -114,7 +114,7 @@ export default function ReviewCard({ review }) {
               }}
             />
           </div>
-          <LikeButton reviewId={id} />
+          <LikeButton reviewId={review.id} likesCount={review.likesCount} />
         </div>
       </div>
     </div>

@@ -1,5 +1,8 @@
 import { useDeleteComment } from "services/queries/review/useDeleteComment";
 
+import { Trash2 } from "lucide-react";
+import { cn } from "utils/utils";
+
 export default function CommentItem({ comment, currentUserId, reviewId }) {
   const { id, content, createdAt, authorId, authorName } = comment;
   const isAuthor = currentUserId === authorId;
@@ -11,23 +14,39 @@ export default function CommentItem({ comment, currentUserId, reviewId }) {
   };
 
   return (
-    <div className="border p-4 rounded">
-      <div className="text-sm text-gray-600 mb-1">
-        <span className="font-semibold">{authorName}</span> ·{" "}
-        <span>
+    <div className="relative bg-white/70 backdrop-blur-sm border border-gray-200 rounded-xl p-5 shadow-sm">
+      {/* 작성자 & 시간 */}
+      <div className="flex items-center gap-3 mb-2 text-sm text-gray-600">
+        <img
+          src={comment.authorPhotoURL || "/default_profile.png"}
+          alt="작성자 프로필"
+          className="w-6 h-6 rounded-full object-cover"
+        />
+        <span className="font-semibold text-gray-800">{authorName}</span>
+        <span className="text-gray-400 text-xs">
           {createdAt?.toDate?.()
             ? new Date(createdAt.toDate()).toLocaleString()
             : "날짜 없음"}
         </span>
       </div>
-      <p className="text-gray-800">{content}</p>
+
+      {/* 내용 */}
+      <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-line">
+        {content}
+      </p>
+
+      {/* 삭제 버튼 */}
       {isAuthor && (
         <button
           onClick={handleCommentDelete}
           disabled={isPending}
-          className="text-sm text-red-500 mt-2 hover:underline"
+          aria-label="댓글 삭제"
+          className={cn(
+            "absolute top-3 right-3 text-gray-400 hover:text-red-500 transition",
+            isPending && "opacity-50 cursor-not-allowed"
+          )}
         >
-          {isPending ? "삭제 중..." : "삭제"}
+          <Trash2 className="w-4 h-4" />
         </button>
       )}
     </div>
