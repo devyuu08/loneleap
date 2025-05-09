@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import LikeButton from "./LikeButton";
+import LikeButton from "components/review/LikeButton";
 
 /**
  * 리뷰 정보를 카드 형태로 표시하는 컴포넌트
@@ -27,9 +27,14 @@ export default function ReviewCard({ review }) {
     authorName,
     createdAt,
     imageUrl,
+    authorPhotoURL,
   } = review || {};
 
-  const formattedDate = createdAt?.toDate?.().toLocaleDateString("ko-KR") ?? "";
+  const formattedDate =
+    createdAt instanceof Date
+      ? createdAt.toLocaleDateString("ko-KR")
+      : createdAt?.toDate?.().toLocaleDateString("ko-KR") ?? "";
+
   const truncatedContent =
     content && content.length > 100 ? `${content.slice(0, 100)}...` : content;
 
@@ -43,37 +48,73 @@ export default function ReviewCard({ review }) {
           navigate(`/reviews/${id}`);
         }
       }}
-      className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 cursor-pointer overflow-hidden"
+      className="group bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden cursor-pointer"
     >
-      <img
-        src={imageUrl || "/images/no_image.png"}
-        alt={`${title} - ${destination} 리뷰 이미지`}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = "/images/no_image.png"; // public 폴더 기준 경로
-        }}
-        className="w-full h-48 object-cover bg-gray-100"
-      />
+      {/* 이미지 썸네일 */}
+      <div className="relative h-56">
+        <img
+          src={imageUrl || "/images/no_image.png"}
+          alt={`${title} 썸네일`}
+          className="w-full h-full object-cover bg-gray-100"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "/images/no_image.png";
+          }}
+        />
+        {/* 여행지 태그 */}
+        <span className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
+          {destination || "여행지 미정"}
+        </span>
+      </div>
 
-      <div className="p-5">
-        <h2 className="text-lg font-bold text-gray-800 mb-1">{title}</h2>
-        <p className="text-sm text-gray-500 mb-2">{destination}</p>
-        <div className="flex text-sm mb-2">
-          {[...Array(5)].map((_, i) => (
-            <span
-              key={i}
-              className={i < rating ? "text-yellow-500" : "text-gray-300"}
-            >
-              ★
-            </span>
-          ))}
-        </div>
-        {/* 하단 정보 + 좋아요 버튼 */}
-        <div className="flex justify-between items-center text-xs text-gray-400">
-          <span>{authorName || "익명"}</span>
-          <div className="flex items-center gap-2">
-            <LikeButton reviewId={id} />
+      {/* 본문 */}
+      <div className="p-4 space-y-1">
+        {/* 별점 + 작성일 */}
+        <div className="flex justify-between items-center text-sm text-gray-600 mb-1">
+          <div className="flex">
+            {[...Array(5)].map((_, i) => (
+              <span
+                key={i}
+                className={i < rating ? "text-yellow-500" : "text-gray-300"}
+              >
+                ★
+              </span>
+            ))}
           </div>
+
+          <span className="text-xs text-gray-400">{formattedDate}</span>
+        </div>
+
+        {/* 제목 */}
+        <h3 className="text-base font-semibold text-gray-900 line-clamp-1">
+          {title || "제목 없음"}
+        </h3>
+
+        {/* 내용 요약 */}
+        <p className="text-sm text-gray-500 line-clamp-2">
+          {truncatedContent || "리뷰 내용이 없습니다."}
+        </p>
+
+        {/* 작성자 + 좋아요 */}
+        <div className="flex justify-between items-center mt-2">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500 truncate max-w-[100px]">
+              {authorName || "익명"}
+            </span>
+            <img
+              src={authorPhotoURL || "/default_profile.png"}
+              alt="작성자"
+              className="w-5 h-5 rounded-full object-cover"
+              onError={(e) => {
+                const fallback = "/default_profile.png";
+                if (!e.target.dataset.errorHandled) {
+                  e.target.src = fallback;
+                  e.target.dataset.errorHandled = "true";
+                }
+              }}
+            />
+          </div>
+          <LikeButton reviewId={id} />
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import ItineraryCard from "./ItineraryCard";
 import LoadingSpinner from "components/common/LoadingSpinner";
 import EmptyState from "components/common/EmptyState";
 import { Search } from "lucide-react";
-import CreateItineraryCard from "components/itinerary/CreateItineraryCard";
+import CreateCard from "components/common/CreateCard";
 
 const FILTERS = ["전체", "최신순", "과거순"];
 
@@ -113,7 +113,12 @@ export default function ItineraryList() {
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* 항상 표시되는 일정 생성 카드 */}
-          <CreateItineraryCard />
+          <CreateCard
+            to="/itinerary/create"
+            title="나만의 여행 일정 만들기"
+            description="당신만의 특별한 여행 계획을 시작해보세요"
+            buttonLabel="일정 만들기"
+          />
 
           {/* 일정 목록이 있으면 나열, 없으면 빈 상태 메시지 카드 형태로 */}
           {filteredItineraries.length > 0 ? (
