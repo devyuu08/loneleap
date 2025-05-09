@@ -26,7 +26,7 @@ export default function ReviewHero({ review }) {
       />
       <div className="absolute inset-0 bg-black/50" />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 h-full flex flex-col justify-end pb-9 text-white">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 h-full flex flex-col justify-end pb-9 text-white">
         {/* 제목 */}
         <h1 className="text-3xl font-bold">{title}</h1>
 

@@ -43,6 +43,9 @@ export default function ReviewDetail({ reviewId }) {
           </div>
         </div>
 
+        {/* 구분선 */}
+        <div className="my-12 border-t border-gray-200" />
+
         {/* 댓글 */}
         <section className="max-w-6xl mx-auto px-4 mt-16 flex flex-col md:flex-row gap-8">
           {/* 댓글 작성 & 리스트 - 왼쪽 영역 */}
