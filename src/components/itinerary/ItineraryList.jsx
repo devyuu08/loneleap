@@ -7,24 +7,34 @@ import EmptyState from "components/common/EmptyState";
 import { Search } from "lucide-react";
 import CreateCard from "components/common/CreateCard";
 import HeroSection from "components/common/HeroSection";
+import { Timestamp } from "firebase/firestore";
 
-const FILTERS = ["전체", "최신순", "과거순"];
+const FILTERS = ["최신순", "과거순"];
 
 export default function ItineraryList() {
-  const [activeFilter, setActiveFilter] = useState("전체");
+  const [activeFilter, setActiveFilter] = useState("최신순");
   const [searchKeyword, setSearchKeyword] = useState("");
   const { data: itineraries, isLoading, isError, refetch } = useItineraries();
 
   const filteredItineraries = useMemo(() => {
-    if (!itineraries) return [];
+    if (!Array.isArray(itineraries)) return [];
 
     let result = [...itineraries];
 
     // 필터링
+    const convertToDate = (ts) => {
+      if (!ts) return new Date(0);
+      return new Date(ts);
+    };
+
     if (activeFilter === "최신순") {
-      result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      result.sort(
+        (a, b) => convertToDate(b.createdAt) - convertToDate(a.createdAt)
+      );
     } else if (activeFilter === "과거순") {
-      result.sort((a, b) => a.startDate?.localeCompare(b.startDate));
+      result.sort(
+        (a, b) => convertToDate(a.createdAt) - convertToDate(b.createdAt)
+      );
     }
 
     // 검색 적용
