@@ -35,6 +35,8 @@ export default function Header() {
       setIsScrolled(window.scrollY > 30); // 30px 이상 스크롤 시 배경 전환
     };
 
+    handleScroll(); // 즉시 한 번 실행(헤더 즉시 반영)
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHeroPage]);
