@@ -198,7 +198,10 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
 
             {/* 버튼 */}
             <div className="flex justify-end">
-              <FormSubmitButton isLoading={isAdding} label="일정 만들기" />
+              <FormSubmitButton
+                isLoading={isEditMode ? isUpdating : isAdding}
+                label={isEditMode ? "일정 수정 완료" : "일정 등록 완료"}
+              />
             </div>
           </form>
 
