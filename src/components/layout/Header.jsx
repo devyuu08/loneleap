@@ -16,7 +16,9 @@ export default function Header() {
   const user = useSelector((state) => state.user.user);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const isHeroPage = location.pathname === "/";
+
+  const heroPaths = ["/", "/itinerary", "/reviews", "/recommendations"];
+  const isHeroPage = heroPaths.includes(location.pathname);
 
   const baseLinkClass =
     "flex items-center gap-1.5 pb-1 hover:text-black font-body";
