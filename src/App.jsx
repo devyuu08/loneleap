@@ -17,20 +17,21 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 
 import Home from "pages/home/Home";
-import CreateItineraryPage from "pages/Itinerary/Create";
-import ItineraryListPage from "pages/Itinerary/List";
-import ItineraryDetailPage from "pages/Itinerary/Detail";
-import EditItineraryPage from "pages/Itinerary/Edit";
-import CreateReviewPage from "pages/Review/Create";
-import SignUp from "pages/Auth/SignUp";
-import ReviewListPage from "pages/Review/List";
-import ReviewDetailPage from "pages/Review/Detail";
-import CreateChatRoomPage from "pages/Chat/Create";
-import ChatRoomListPage from "pages/Chat/List";
-import ChatRoomDetailPage from "pages/Chat/Detail";
+import CreateItineraryPage from "pages/itinerary/Create";
+import ItineraryListPage from "pages/itinerary/List";
+import ItineraryDetailPage from "pages/itinerary/Detail";
+import EditItineraryPage from "pages/itinerary/Edit";
+import CreateReviewPage from "pages/review/Create";
+import SignUp from "pages/auth/SignUp";
+import ReviewListPage from "pages/review/List";
+import ReviewDetailPage from "pages/review/Detail";
+import CreateChatRoomPage from "pages/chat/Create";
+import ChatRoomListPage from "pages/chat/List";
+import ChatRoomDetailPage from "pages/chat/Detail";
 import MyPage from "pages/mypage/MyPage";
 import RecommendationListPage from "pages/recommendations/List";
 import RecommendationDetailPage from "pages/recommendations/Detail";
+import EditReviewPage from "pages/review/Edit";
 
 function App() {
   const dispatch = useDispatch();
@@ -112,6 +113,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CreateReviewPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="edit/:id"
+              element={
+                <ProtectedRoute>
+                  <EditReviewPage />
                 </ProtectedRoute>
               }
             />

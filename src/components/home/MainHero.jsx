@@ -8,7 +8,7 @@ const images = [
   "/images/seoul_night.jpg", // 3. 회상/도착
 ];
 
-export default function HeroSection() {
+export default function MainHero() {
   const { user, isLoading } = useSelector((state) => state.user);
   const [current, setCurrent] = useState(0);
 

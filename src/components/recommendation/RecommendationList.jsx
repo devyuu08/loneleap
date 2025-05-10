@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecommendationList } from "hooks/useRecommendationList";
 import RecommendationCard from "./RecommendationCard";
+import HeroSection from "components/common/HeroSection";
 
 const FILTERS = [
   "전체 지역",
@@ -37,40 +38,35 @@ export default function RecommendationList() {
   return (
     <>
       {/* 추천 여행지 제목 + 필터 */}
-      <section
-        className="relative bg-cover bg-center bg-no-repeat py-24"
-        style={{
-          backgroundImage: "url('/images/recommendation-list-hero.jpg')",
-        }}
+      <HeroSection
+        imageSrc="/images/recommendation-list-hero.jpg"
+        align="center"
       >
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 text-white">
-          <div className="text-center space-y-2">
-            <h2 className="text-3xl font-extrabold drop-shadow">
-              이런 지역은 어때요?
-            </h2>
-            <p className="text-sm text-white/90">
-              혼자 여행하기 좋은 장소만 골라 소개합니다
-            </p>
-          </div>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            {FILTERS.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-4 py-1.5 rounded-full text-sm border ${
-                  activeFilter === filter
-                    ? "bg-white text-black"
-                    : "bg-white/20 text-white hover:bg-white/30"
-                } transition`}
-              >
-                {filter}
-              </button>
-            ))}
-          </div>
+        <div className="text-center space-y-2">
+          <h2 className="text-3xl font-extrabold drop-shadow">
+            이런 지역은 어때요?
+          </h2>
+          <p className="text-sm text-white/90">
+            혼자 여행하기 좋은 장소만 골라 소개합니다
+          </p>
         </div>
-      </section>
+
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          {FILTERS.map((filter) => (
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className={`px-4 py-1.5 rounded-full text-sm border ${
+                activeFilter === filter
+                  ? "bg-white text-black"
+                  : "bg-white/20 text-white hover:bg-white/30"
+              } transition`}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+      </HeroSection>
 
       {/* 추천 여행지 카드 섹션 */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">

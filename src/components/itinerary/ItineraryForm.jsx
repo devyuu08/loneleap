@@ -18,7 +18,9 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
   const [summary, setSummary] = useState(initialData?.summary || "");
   const [isPublic, setIsPublic] = useState(initialData?.isPublic || true);
   const [errors, setErrors] = useState({});
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState(
+    initialData?.imageUrl ? initialData.imageUrl : null
+  );
 
   const navigate = useNavigate();
   const { mutate: addMutate, isPending: isAdding } = useAddItinerary();
@@ -198,7 +200,10 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
 
             {/* 버튼 */}
             <div className="flex justify-end">
-              <FormSubmitButton isLoading={isAdding} label="일정 만들기" />
+              <FormSubmitButton
+                isLoading={isEditMode ? isUpdating : isAdding}
+                label={isEditMode ? "일정 수정 완료" : "일정 등록 완료"}
+              />
             </div>
           </form>
 

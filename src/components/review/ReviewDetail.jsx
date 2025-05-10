@@ -6,16 +6,21 @@ import LikeButton from "components/review/LikeButton";
 import CommentList from "components/review/CommentList";
 import { useUser } from "hooks/useUser";
 import ReviewHero from "components/review/ReviewHero";
+import { useDeleteReview } from "services/queries/review/useDeleteReview";
+import FloatingButtons from "components/common/FloatingButtons";
 
 export default function ReviewDetail({ reviewId }) {
   const { user } = useUser();
   const { data, isLoading, isError } = useReviewDetail(reviewId);
+  const { mutate: deleteReview, isPending } = useDeleteReview();
 
   if (isLoading) return <LoadingSpinner />;
   if (isError || !data)
     return <NotFoundMessage message="리뷰를 찾을 수 없습니다." />;
 
   const { content, likesCount } = data;
+
+  const isOwner = user?.uid === data.createdBy?.uid;
 
   return (
     <article className="pb-16">
@@ -67,6 +72,14 @@ export default function ReviewDetail({ reviewId }) {
             <ReportButton reviewId={reviewId} />
           </div>
         </div>
+
+        {isOwner && (
+          <FloatingButtons
+            editPath={`/reviews/edit/${reviewId}`}
+            onDelete={() => deleteReview(reviewId)}
+            isDeletePending={isPending}
+          />
+        )}
 
         {/* 구분선 */}
         <div className="my-12 border-t border-gray-200" />

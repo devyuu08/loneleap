@@ -16,7 +16,9 @@ export default function Header() {
   const user = useSelector((state) => state.user.user);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const isHeroPage = location.pathname === "/";
+
+  const heroPaths = ["/", "/itinerary", "/reviews", "/recommendations"];
+  const isHeroPage = heroPaths.includes(location.pathname);
 
   const baseLinkClass =
     "flex items-center gap-1.5 pb-1 hover:text-black font-body";
@@ -34,6 +36,8 @@ export default function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 30); // 30px 이상 스크롤 시 배경 전환
     };
+
+    handleScroll(); // 즉시 한 번 실행(헤더 즉시 반영)
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
