@@ -89,11 +89,11 @@ export default function ReviewDetail({ reviewId }) {
 
           {/* 유의사항 카드 - 오른쪽 영역 */}
           <aside className="md:w-1/3">
-            <div className="bg-white border border-gray-200 rounded-2xl p-4 text-sm leading-relaxed text-gray-600 shadow-sm">
+            <div className="bg-gray-100/60 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-5 text-sm text-gray-700 leading-relaxed shadow-md">
               <p className="font-semibold text-gray-800 mb-2">
                 댓글 작성 시 유의사항
               </p>
-              <ul className="list-disc list-inside space-y-1">
+              <ul className="list-disc list-inside space-y-1 text-gray-600">
                 <li>비방, 욕설, 혐오 표현은 삭제될 수 있어요.</li>
                 <li>개인 정보는 입력하지 말아주세요.</li>
                 <li>여기 남긴 감정이 또 다른 여행의 시작이 됩니다.</li>
