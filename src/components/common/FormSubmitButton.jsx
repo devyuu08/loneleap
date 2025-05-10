@@ -3,12 +3,11 @@ export default function FormSubmitButton({ isLoading, label }) {
     <button
       type="submit"
       disabled={isLoading}
-      className={`w-auto px-5 text-white py-2 rounded-md transition font-medium
-        ${
-          isLoading
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-gray-900 hover:bg-gray-800"
-        }`}
+      className={`px-6 py-3 text-sm font-semibold rounded-full shadow-md backdrop-blur-sm transition-all ${
+        isLoading
+          ? "bg-gray-400 text-white cursor-not-allowed opacity-70"
+          : "bg-black/80 text-white hover:bg-black hover:shadow-xl"
+      }`}
     >
       {isLoading ? "저장 중..." : label}
     </button>

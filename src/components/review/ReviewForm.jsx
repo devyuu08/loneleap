@@ -6,6 +6,7 @@ import InterviewAnswerForm from "components/review/InterviewAnswerForm";
 import useAddReview from "services/queries/review/useAddReview";
 import { FIXED_QUESTIONS, RANDOM_QUESTIONS } from "data/interviewQuestions";
 import ErrorMessage from "components/common/ErrorMessage";
+import FormSubmitButton from "components/common/FormSubmitButton";
 
 export default function ReviewForm() {
   const [step, setStep] = useState(1);
@@ -186,13 +187,10 @@ export default function ReviewForm() {
                 >
                   ← 이전 단계로 돌아가기
                 </button>
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="px-6 py-3 text-sm font-semibold rounded-full bg-black/80 text-white shadow-md hover:shadow-xl hover:bg-black disabled:opacity-40 transition-all backdrop-blur-sm"
-                >
-                  {isLoading ? "등록 중..." : "리뷰 등록 완료"}
-                </button>
+                <FormSubmitButton
+                  isLoading={isLoading}
+                  label="리뷰 등록 완료"
+                />
               </div>
 
               {submitError && (
