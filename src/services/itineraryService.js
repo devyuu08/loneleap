@@ -172,7 +172,7 @@ export const updateItinerary = async (id, updatedData) => {
     }
 
     // 이미지 처리
-    let imageUrl = updatedData.imageUrl || "";
+    let imageUrl = "";
 
     // File 객체일 때만 업로드
     if (updatedData.image instanceof File) {

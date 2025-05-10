@@ -18,7 +18,8 @@ export const updateReviewData = async (id, updatedData) => {
     }
 
     // 이미지 처리
-    let imageUrl = updatedData.imageUrl || "";
+    let imageUrl = "";
+
     if (updatedData.image instanceof File) {
       try {
         imageUrl = await uploadImage(updatedData.image, "reviews");
@@ -26,6 +27,9 @@ export const updateReviewData = async (id, updatedData) => {
         console.error("이미지 업로드 실패:", uploadErr);
         throw new Error("이미지 업로드에 실패했습니다. 다시 시도해주세요.");
       }
+    } else if (typeof updatedData.image === "string") {
+      // 기존 이미지 URL 유지
+      imageUrl = updatedData.image;
     }
 
     // Firestore에 저장할 데이터 준비

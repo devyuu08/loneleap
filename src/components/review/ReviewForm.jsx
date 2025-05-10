@@ -17,7 +17,9 @@ export default function ReviewForm({ initialData = null, isEditMode = false }) {
     initialData?.destination || ""
   );
   const [rating, setRating] = useState(initialData?.rating || 0);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(
+    initialData?.imageUrl ? initialData.imageUrl : null
+  );
   const [answers, setAnswers] = useState(initialData?.interviewAnswers || {});
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState(null);
