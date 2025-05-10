@@ -7,6 +7,12 @@ export default function ImageUploader({ imageFile, onChange }) {
 
   useEffect(() => {
     if (!imageFile) return setPreviewUrl(null);
+
+    if (typeof imageFile === "string") {
+      setPreviewUrl(imageFile);
+      return;
+    }
+
     const objectUrl = URL.createObjectURL(imageFile);
     setPreviewUrl(objectUrl);
     return () => URL.revokeObjectURL(objectUrl);

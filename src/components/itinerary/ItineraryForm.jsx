@@ -18,7 +18,9 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
   const [summary, setSummary] = useState(initialData?.summary || "");
   const [isPublic, setIsPublic] = useState(initialData?.isPublic || true);
   const [errors, setErrors] = useState({});
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState(
+    initialData?.imageUrl ? initialData.imageUrl : null
+  );
 
   const navigate = useNavigate();
   const { mutate: addMutate, isPending: isAdding } = useAddItinerary();
