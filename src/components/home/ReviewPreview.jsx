@@ -10,6 +10,14 @@ export default function ReviewPreview() {
   const { data: reviews, isLoading } = useRecentReviews();
   if (isLoading || !reviews) return null;
 
+  const getPreviewText = (review) => {
+    if (review.type === "interview") {
+      const firstQId = review.interviewQuestions?.[0]?.id;
+      return review.interviewAnswers?.[firstQId] || "내용 없음";
+    }
+    return review.content || "내용 없음";
+  };
+
   return (
     <section className="relative py-24 px-6 bg-gray-900 overflow-hidden">
       {/* 배경 이미지 */}
@@ -85,7 +93,7 @@ export default function ReviewPreview() {
 
                 {/* 내용 */}
                 <p className="text-sm leading-relaxed text-white/90 line-clamp-3">
-                  ❝{review.content}❞
+                  ❝{getPreviewText(review)}❞
                 </p>
 
                 {/* 별점 */}
