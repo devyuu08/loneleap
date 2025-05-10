@@ -7,25 +7,39 @@ import useAddReview from "services/queries/review/useAddReview";
 import { FIXED_QUESTIONS, RANDOM_QUESTIONS } from "data/interviewQuestions";
 import ErrorMessage from "components/common/ErrorMessage";
 import FormSubmitButton from "components/common/FormSubmitButton";
+import { useMutation } from "@tanstack/react-query";
+import { updateReviewData } from "services/reviewService";
 
-export default function ReviewForm() {
+export default function ReviewForm({ initialData = null, isEditMode = false }) {
   const [step, setStep] = useState(1);
-  const [title, setTitle] = useState("");
-  const [destination, setDestination] = useState("");
-  const [rating, setRating] = useState(0);
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [destination, setDestination] = useState(
+    initialData?.destination || ""
+  );
+  const [rating, setRating] = useState(initialData?.rating || 0);
   const [image, setImage] = useState(null);
-  const [answers, setAnswers] = useState({});
+  const [answers, setAnswers] = useState(initialData?.interviewAnswers || {});
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState(null);
+
   const navigate = useNavigate();
 
-  const [questions] = useState(() => {
-    const shuffled = [...RANDOM_QUESTIONS].sort(() => Math.random() - 0.5);
-    return [...FIXED_QUESTIONS, ...shuffled.slice(0, 3)];
-  });
+  const [questions] = useState(
+    () =>
+      initialData?.interviewQuestions || [
+        ...FIXED_QUESTIONS,
+        ...RANDOM_QUESTIONS.sort(() => Math.random() - 0.5).slice(0, 3),
+      ]
+  );
 
   const { addReview, isLoading } = useAddReview({
     onErrorCallback: (err) => setSubmitError(err.message),
+  });
+
+  const { mutate: updateReview, isPending: isUpdating } = useMutation({
+    mutationFn: ({ id, updatedData }) => updateReviewData(id, updatedData), // 만들어둔 함수
+    onSuccess: () => navigate(`/reviews/${initialData?.id}`),
+    onError: () => alert("리뷰 수정 중 오류가 발생했습니다."),
   });
 
   const handleNextStep = () => {
@@ -57,29 +71,40 @@ export default function ReviewForm() {
         return;
       }
 
-      setErrors({}); // 통과 시 초기화
+      setErrors({});
 
-      addReview(
-        {
-          title,
-          destination,
-          rating,
-          image,
-          type: "interview",
-          interviewAnswers: answers,
-          interviewQuestions: questions,
-        },
-        {
-          onSuccess: () => {
-            navigate("/reviews");
-          },
-          onError: (err) => {
-            setSubmitError(err.message);
-          },
-        }
-      );
+      const reviewData = {
+        title,
+        destination,
+        rating,
+        image,
+        type: "interview",
+        interviewAnswers: answers,
+        interviewQuestions: questions,
+      };
+
+      if (isEditMode && initialData?.id) {
+        updateReview({ id: initialData.id, updatedData: reviewData });
+      } else {
+        addReview(reviewData, {
+          onSuccess: () => navigate("/reviews"),
+          onError: (err) => setSubmitError(err.message),
+        });
+      }
     },
-    [title, destination, rating, image, answers, questions, addReview, navigate]
+    [
+      title,
+      destination,
+      rating,
+      image,
+      answers,
+      questions,
+      addReview,
+      updateReview,
+      isEditMode,
+      initialData,
+      navigate,
+    ]
   );
 
   return (
@@ -188,8 +213,8 @@ export default function ReviewForm() {
                   ← 이전 단계로 돌아가기
                 </button>
                 <FormSubmitButton
-                  isLoading={isLoading}
-                  label="리뷰 등록 완료"
+                  isLoading={isEditMode ? isUpdating : isLoading}
+                  label={isEditMode ? "리뷰 수정 완료" : "리뷰 등록 완료"}
                 />
               </div>
 
