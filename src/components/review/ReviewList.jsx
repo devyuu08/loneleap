@@ -24,6 +24,8 @@ export default function ReviewList() {
       result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     } else if (sort === "rating") {
       result.sort((a, b) => b.rating - a.rating);
+    } else if (sort === "likes") {
+      result.sort((a, b) => (b.likes?.length || 0) - (a.likes?.length || 0));
     }
 
     // 검색
@@ -87,6 +89,16 @@ export default function ReviewList() {
               } transition`}
             >
               별점순
+            </button>
+            <button
+              onClick={() => setSort("likes")}
+              className={`px-4 py-1.5 rounded-full text-sm border ${
+                sort === "likes"
+                  ? "bg-white text-black"
+                  : "bg-white/20 text-white hover:bg-white/30"
+              } transition`}
+            >
+              좋아요순
             </button>
           </div>
 

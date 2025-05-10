@@ -7,7 +7,6 @@ import EmptyState from "components/common/EmptyState";
 import { Search } from "lucide-react";
 import CreateCard from "components/common/CreateCard";
 import HeroSection from "components/common/HeroSection";
-import { Timestamp } from "firebase/firestore";
 
 const FILTERS = ["최신순", "과거순"];
 
