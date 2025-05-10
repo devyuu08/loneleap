@@ -35,16 +35,18 @@ export default function ImageUploader({ imageFile, onChange }) {
             className="w-32 h-32 object-cover rounded-lg mx-auto"
           />
         ) : (
-          <div className="flex flex-col items-center justify-center">
-            <ImageIcon className="w-6 h-6 mb-2 text-gray-400" />
-            여행을 표현할 수 있는 이미지를 업로드해주세요
+          <div className="flex flex-col items-center justify-center text-gray-700">
+            <ImageIcon className="w-8 h-8 mb-2 text-gray-600" />
+            <p className="text-sm font-medium">
+              여행을 표현할 이미지를 업로드해주세요
+            </p>
           </div>
         )}
         <div className="mt-3">
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 text-sm"
+            className="px-4 py-2 text-sm rounded-full bg-white/70 text-gray-800 hover:bg-white shadow-sm border border-gray-200 transition-all backdrop-blur-sm"
           >
             이미지 선택
           </button>
