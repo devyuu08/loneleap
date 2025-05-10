@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import RatingInput from "./RatingInput";
 import ImageUploader from "components/common/ImageUploader";
@@ -17,10 +17,10 @@ export default function ReviewForm() {
   const [submitError, setSubmitError] = useState(null);
   const navigate = useNavigate();
 
-  const questions = useMemo(() => {
+  const [questions] = useState(() => {
     const shuffled = [...RANDOM_QUESTIONS].sort(() => Math.random() - 0.5);
     return [...FIXED_QUESTIONS, ...shuffled.slice(0, 3)];
-  }, []);
+  });
 
   const { addReview, isLoading } = useAddReview({
     onErrorCallback: (err) => setSubmitError(err.message),
@@ -42,11 +42,20 @@ export default function ReviewForm() {
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      const emptyAnswer = questions.find((q) => !answers[q.id]?.trim());
-      if (emptyAnswer) {
-        alert(`"${emptyAnswer.text}" 질문에 답변을 작성해주세요.`);
+
+      const newErrors = {};
+      questions.forEach((q) => {
+        if (!answers[q.id]?.trim()) {
+          newErrors[q.id] = "답변을 작성해주세요.";
+        }
+      });
+
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
         return;
       }
+
+      setErrors({}); // 통과 시 초기화
 
       addReview(
         {
@@ -162,6 +171,7 @@ export default function ReviewForm() {
             questions={questions}
             answers={answers}
             onChange={handleChangeAnswer}
+            errors={errors}
           />
 
           <div className="flex justify-between pt-4">
