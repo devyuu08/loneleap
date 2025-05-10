@@ -116,7 +116,7 @@ export default function ItineraryDetail() {
 
       <section className="mt-10 space-y-6">
         {/* 앞으로 추가될 일정 상세 / 포함사항 등은 이 아래 */}
-        {data.days && <DayScheduleList days={data.days} />}
+        {data.days && <DayScheduleList days={data.days} isOwner={isOwner} />}
 
         {isOwner && <FloatingButtons />}
 

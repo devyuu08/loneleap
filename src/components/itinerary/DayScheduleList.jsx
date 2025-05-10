@@ -7,7 +7,7 @@ import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "services/firebase";
 import { useQueryClient } from "@tanstack/react-query";
 
-export default function DayScheduleList({ days = [] }) {
+export default function DayScheduleList({ days = [], isOwner = false }) {
   const [openDay, setOpenDay] = useState(days[0]?.day || null);
   const [openFormForDay, setOpenFormForDay] = useState(null);
   const [formData, setFormData] = useState({
@@ -93,12 +93,13 @@ export default function DayScheduleList({ days = [] }) {
                 <DayScheduleItem
                   key={item.id || `${day.day}-${idx}`}
                   {...item}
-                  onDelete={() => handleDeleteSchedule(index, item.id)}
+                  onDelete={() =>
+                    isOwner && handleDeleteSchedule(index, item.id)
+                  }
                 />
               ))}
-
               {/* + 버튼 → 입력 폼 토글 */}
-              {openFormForDay !== index && (
+              {isOwner && openFormForDay !== index && (
                 <button
                   onClick={() => setOpenFormForDay(index)}
                   className="text-sm text-[#6C8BA4] hover:bg-[#f0f4f8] px-2 py-1 rounded mt-2 transition"
@@ -108,7 +109,7 @@ export default function DayScheduleList({ days = [] }) {
               )}
 
               {/* 입력 폼 */}
-              {openFormForDay === index && (
+              {isOwner && openFormForDay === index && (
                 <li className="mt-3 space-y-2">
                   <div className="flex gap-2">
                     <input
