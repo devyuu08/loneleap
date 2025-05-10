@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { useItineraryDetail } from "services/queries/itinerary/useItineraryDetail";
+import { useDeleteItinerary } from "services/queries/itinerary/useDeleteItinerary";
 
 import LoadingSpinner from "components/common/LoadingSpinner";
 import NotFoundMessage from "components/common/NotFoundMessage";
@@ -25,6 +26,7 @@ export default function ItineraryDetail() {
   const { id } = useParams();
   const currentUser = useSelector((state) => state.user);
   const { data, isLoading, isError } = useItineraryDetail(id);
+  const { mutate, isPending } = useDeleteItinerary();
 
   if (isLoading || currentUser.isLoading) return <LoadingSpinner />;
   if (isError || !data)
@@ -118,7 +120,13 @@ export default function ItineraryDetail() {
         {/* 앞으로 추가될 일정 상세 / 포함사항 등은 이 아래 */}
         {data.days && <DayScheduleList days={data.days} isOwner={isOwner} />}
 
-        {isOwner && <FloatingButtons />}
+        {isOwner && (
+          <FloatingButtons
+            editPath={`/itinerary/edit/${id}`}
+            onDelete={() => mutate(id)}
+            isDeletePending={isPending}
+          />
+        )}
 
         {isOwner && <ChecklistSection checklist={data.checklist} />}
       </section>
