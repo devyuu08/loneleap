@@ -2,6 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { useReportReview } from "services/queries/review/useReportReview";
 import ReportModal from "components/common/ReportModal";
+import ModalPortal from "components/common/ModalPortal";
 
 export default function ReportButton({ reviewId }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,11 +34,13 @@ export default function ReportButton({ reviewId }) {
       </button>
 
       {isOpen && (
-        <ReportModal
-          onClose={handleClose}
-          onSubmit={handleSubmit}
-          isPending={reportMutation.isPending}
-        />
+        <ModalPortal>
+          <ReportModal
+            onClose={handleClose}
+            onSubmit={handleSubmit}
+            isPending={reportMutation.isPending}
+          />
+        </ModalPortal>
       )}
     </>
   );

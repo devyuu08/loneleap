@@ -4,6 +4,7 @@ import { ko } from "date-fns/locale";
 import { useState } from "react";
 import { useReportMessage } from "services/queries/chat/useReportMessage";
 import ReportModal from "components/common/ReportModal.jsx";
+import ModalPortal from "components/common/ModalPortal";
 
 export default function ChatMessage({ message }) {
   const user = useSelector((state) => state.user.user);
@@ -70,11 +71,13 @@ export default function ChatMessage({ message }) {
 
         {/* 공통 신고 모달 */}
         {openReportModal && (
-          <ReportModal
-            onClose={() => setOpenReportModal(false)}
-            onSubmit={handleSubmit}
-            isPending={reportMutation.isPending}
-          />
+          <ModalPortal>
+            <ReportModal
+              onClose={() => setOpenReportModal(false)}
+              onSubmit={handleSubmit}
+              isPending={reportMutation.isPending}
+            />
+          </ModalPortal>
         )}
       </div>
     </div>

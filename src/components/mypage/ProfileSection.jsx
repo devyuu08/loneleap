@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "services/auth";
 import { clearUser } from "store/userSlice";
 import ProfileEditModal from "components/modal/ProfileEditModal";
+import ModalPortal from "components/common/ModalPortal";
 
 export default function ProfileSection() {
   const user = useSelector((state) => state.user.user);
@@ -72,11 +73,13 @@ export default function ProfileSection() {
         </div>
       </div>
       {/* 모달 컴포넌트 렌더링 */}
-      <ProfileEditModal
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        user={user}
-      />
+      <ModalPortal>
+        <ProfileEditModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          user={user}
+        />
+      </ModalPortal>
     </>
   );
 }
