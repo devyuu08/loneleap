@@ -26,9 +26,25 @@ export default function ReviewDetail({ reviewId }) {
         {/* 본문 내용 */}
         <div className="relative pl-6 border-l-2 border-dashed border-gray-300 text-gray-800 bg-[#F4F4F5]/50 p-6 rounded-xl">
           <p className="text-sm text-gray-500 mb-2">기억하고 싶은 순간</p>
-          <div className="text-[16px] leading-relaxed tracking-wide whitespace-pre-line">
-            {content || "리뷰 내용이 없습니다."}
-          </div>
+
+          {data.type === "standard" ? (
+            <div className="text-[16px] leading-relaxed tracking-wide whitespace-pre-line">
+              {content || "리뷰 내용이 없습니다."}
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {data.interviewQuestions.map((q) => (
+                <div key={q.id}>
+                  <h4 className="font-semibold text-base text-gray-800">
+                    Q. {q.text}
+                  </h4>
+                  <p className="mt-1 text-[16px] leading-relaxed tracking-wide text-gray-700 whitespace-pre-line">
+                    {data.interviewAnswers?.[q.id] || "답변 없음"}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* 좋아요 / 신고 */}

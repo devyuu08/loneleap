@@ -40,16 +40,31 @@ export default function useAddReview({
     isError,
     error,
   } = useMutation({
-    mutationFn: async ({ title, destination, content, rating, image }) => {
+    mutationFn: async (review) => {
       checkAuth();
+
+      const {
+        title,
+        destination,
+        content,
+        rating,
+        image,
+        type = "standard",
+        interviewAnswers,
+        interviewQuestions,
+      } = review;
 
       if (!title?.trim()) throw new Error("제목을 입력해주세요.");
       if (!destination?.trim()) throw new Error("여행지명을 입력해주세요.");
-      if (!content?.trim()) throw new Error("내용을 입력해주세요.");
       if (!rating) throw new Error("별점을 입력해주세요.");
 
-      let imageUrl = "";
+      if (type === "standard") {
+        if (!content?.trim() || content.trim().length < 100) {
+          throw new Error("내용을 100자 이상 입력해주세요.");
+        }
+      }
 
+      let imageUrl = "";
       if (image) {
         try {
           imageUrl = await uploadImage(image, "reviews", user.uid);
@@ -58,10 +73,9 @@ export default function useAddReview({
         }
       }
 
-      await addDoc(collection(db, "reviews"), {
+      const reviewData = {
         title,
         destination,
-        content,
         rating,
         imageUrl,
         createdBy: {
@@ -74,12 +88,23 @@ export default function useAddReview({
         createdAt: serverTimestamp(),
         likeCount: 0,
         commentCount: 0,
-      });
+        type,
+      };
+
+      if (type === "standard") {
+        reviewData.content = content;
+      } else if (type === "interview") {
+        reviewData.interviewAnswers = interviewAnswers;
+        reviewData.interviewQuestions = interviewQuestions;
+      }
+
+      await addDoc(collection(db, "reviews"), reviewData);
 
       await updateDoc(doc(db, "users", user.uid), {
         reviewCount: increment(1),
       });
     },
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reviews"] });
       alert("리뷰가 성공적으로 등록되었습니다!");
