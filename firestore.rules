@@ -72,7 +72,18 @@ service cloud.firestore {
 
     match /chatMessages/{messageId} {
       allow read: if isSignedIn();
-      allow create: if isSignedIn() && request.resource.data.senderId == request.auth.uid;
+
+      allow create: if isSignedIn() && (
+        // 일반 메시지: senderId 확인
+        (request.resource.data.type == null && request.resource.data.senderId == request.auth.uid) ||
+
+        // 시스템 메시지: join 또는 leave일 때만 허용
+       (
+          request.resource.data.type == "system" &&
+          (request.resource.data.systemType == "join" || request.resource.data.systemType == "leave") &&
+          request.resource.data.userId == request.auth.uid
+        )
+      );
     }
 
     match /review_reports/{reportId} {

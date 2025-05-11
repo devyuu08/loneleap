@@ -7,6 +7,9 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
+  addDoc,
+  serverTimestamp,
+  collection,
 } from "firebase/firestore";
 import { db } from "services/firebase";
 
@@ -34,16 +37,33 @@ export default function ChatRoomDetail({ roomId }) {
 
       try {
         const roomRef = doc(db, "chatRooms", roomId);
-        await updateDoc(roomRef, {
-          participants: arrayUnion(currentUser.uid),
-        });
+        const roomSnap = await getDoc(roomRef);
+        const roomData = roomSnap.data();
+
+        const alreadyIn = roomData?.participants?.includes(currentUser.uid);
+
+        if (!alreadyIn) {
+          await updateDoc(roomRef, {
+            participants: arrayUnion(currentUser.uid),
+          });
+
+          // 입장 메시지 전송
+          await addDoc(collection(db, "chatMessages"), {
+            type: "system",
+            systemType: "join",
+            userId: currentUser.uid,
+            userName: currentUser.displayName || "익명",
+            roomId,
+            createdAt: serverTimestamp(),
+          });
+        }
       } catch (err) {
         console.error("채팅방 참여자 등록 실패:", err);
       }
     };
 
     registerParticipant();
-  }, [roomId, currentUser?.uid]);
+  }, [roomId, currentUser]);
 
   // Firestore에서 채팅방 정보 불러오기
   useEffect(() => {
@@ -85,6 +105,16 @@ export default function ChatRoomDetail({ roomId }) {
       const roomRef = doc(db, "chatRooms", roomId);
       await updateDoc(roomRef, {
         participants: arrayRemove(currentUser.uid),
+      });
+
+      // 퇴장 메시지 전송
+      await addDoc(collection(db, "chatMessages"), {
+        type: "system",
+        systemType: "leave",
+        userId: currentUser.uid,
+        userName: currentUser.displayName || "익명",
+        roomId,
+        createdAt: serverTimestamp(),
       });
 
       navigate("/chat"); // 채팅방 목록으로 이동

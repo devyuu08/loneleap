@@ -44,6 +44,22 @@ export default function ChatMessage({ message }) {
     );
   }
 
+  if (message.type === "system" && message.systemType === "join") {
+    return (
+      <div className="text-center text-xs text-gray-500 my-4">
+        {message.userName}님이 입장했습니다
+      </div>
+    );
+  }
+
+  if (message.type === "system" && message.systemType === "leave") {
+    return (
+      <div className="text-center text-xs text-gray-400 my-4 italic">
+        {message.userName}님이 퇴장했습니다
+      </div>
+    );
+  }
+
   return (
     <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
