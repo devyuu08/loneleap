@@ -40,9 +40,12 @@ function App() {
 
   const location = useLocation();
 
+  const pathParts = location.pathname.split("/");
+
   const isChatDetailPage =
-    location.pathname.startsWith("/chat/") &&
-    location.pathname.split("/").length === 3;
+    pathParts[1] === "chat" &&
+    pathParts.length === 3 &&
+    pathParts[2] !== "create";
 
   const isRecommendationPage = location.pathname.startsWith("/recommendations");
 
