@@ -34,30 +34,40 @@ export default function ChatMessage({ message }) {
       });
   };
 
-  if (message.type === "system" && message.systemType === "date") {
-    return (
-      <div className="flex justify-center my-4">
-        <span className="text-xs bg-gray-200 text-gray-700 px-3 py-1 rounded-full shadow-sm">
-          {message.message}
-        </span>
-      </div>
-    );
-  }
+  if (message.type === "system") {
+    const systemTextStyles = "text-center text-[12px] my-4";
 
-  if (message.type === "system" && message.systemType === "join") {
-    return (
-      <div className="text-center text-xs text-gray-500 my-4">
-        {message.userName}님이 입장했습니다
-      </div>
-    );
-  }
+    switch (message.systemType) {
+      case "date":
+        return (
+          <div className="flex justify-center my-6">
+            <span className="text-[11px] bg-gray-100 text-gray-600 px-3 py-1 rounded-full shadow-sm">
+              {message.message}
+            </span>
+          </div>
+        );
 
-  if (message.type === "system" && message.systemType === "leave") {
-    return (
-      <div className="text-center text-xs text-gray-400 my-4 italic">
-        {message.userName}님이 퇴장했습니다
-      </div>
-    );
+      case "join":
+        return (
+          <div className={`${systemTextStyles} text-gray-600`}>
+            <span className="font-semibold text-gray-800 underline">
+              {message.userName}
+            </span>
+            님이 여행 이야기에 합류했어요
+          </div>
+        );
+
+      case "leave":
+        return (
+          <div className={`${systemTextStyles} text-gray-400 italic`}>
+            <span className="font-bold text-gray-500">{message.userName}</span>
+            님이 다른 여행지를 향해 떠났어요
+          </div>
+        );
+
+      default:
+        return null;
+    }
   }
 
   return (
