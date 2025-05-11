@@ -47,7 +47,13 @@ export default function ChatRoomForm() {
     if (!validateForm()) return;
 
     try {
-      await mutateAsync({ title, description, category, uid: user.uid });
+      await mutateAsync({
+        title,
+        description,
+        category,
+        uid: user.uid,
+        userName: user.displayName || "알 수 없음",
+      });
       navigate("/chat");
     } catch (err) {
       console.error("채팅방 생성 오류:", err);

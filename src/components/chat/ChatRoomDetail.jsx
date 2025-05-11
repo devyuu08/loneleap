@@ -8,6 +8,7 @@ import { useChatMessages } from "hooks/useChatMessages";
 import MessageInput from "./MessageInput";
 import ChatMessage from "./ChatMessage";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
+import ChatHeader from "./ChatHeader";
 
 export default function ChatRoomDetail({ roomId }) {
   const { messages, loading } = useChatMessages(roomId);
@@ -72,9 +73,10 @@ export default function ChatRoomDetail({ roomId }) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col h-[calc(100vh-var(--header-height,80px))]">
-      <div className="mb-4">
-        <h2 className="text-xl font-bold">{roomInfo.name || "채팅방"}</h2>
-      </div>
+      <ChatHeader
+        title={roomInfo.name}
+        userName={roomInfo.createdByName || "상대 이름"}
+      />
 
       <div
         className="flex-1 overflow-y-auto space-y-4 px-1"
