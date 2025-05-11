@@ -17,7 +17,13 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
-  const heroPaths = ["/", "/itinerary", "/reviews", "/recommendations"];
+  const heroPaths = [
+    "/",
+    "/itinerary",
+    "/reviews",
+    "/recommendations",
+    "/chat",
+  ];
   const isHeroPage = heroPaths.includes(location.pathname);
 
   const baseLinkClass =
