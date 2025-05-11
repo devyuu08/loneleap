@@ -59,9 +59,29 @@ service cloud.firestore {
 
       allow update: if isSignedIn() && (
         isOwner(userId) || isAdmin() ||
+
+        // 신고 횟수 +1만 허용
         (
           request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reportedCount']) &&
           request.resource.data.reportedCount == resource.data.reportedCount + 1
+        ) ||
+
+        // 일정 수 +1 또는 -1만 허용
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['itineraryCount']) &&
+          (
+            request.resource.data.itineraryCount == resource.data.itineraryCount + 1 ||
+            request.resource.data.itineraryCount == resource.data.itineraryCount - 1
+          )
+        ) ||
+
+        // 리뷰 수 +1 또는 -1만 허용
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reviewCount']) &&
+          (
+            request.resource.data.reviewCount == resource.data.reviewCount + 1 ||
+            request.resource.data.reviewCount == resource.data.reviewCount - 1
+        )
         )
       );
 

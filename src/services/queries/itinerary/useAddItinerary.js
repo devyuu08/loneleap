@@ -49,7 +49,7 @@ export const useAddItinerary = ({
     onSuccess: async (newId) => {
       try {
         if (user?.uid) {
-          await updateDoc(doc(db, "users", user.uid), {
+          await updateDoc(doc(db, "users_private", user.uid), {
             itineraryCount: increment(1),
           });
         }

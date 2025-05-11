@@ -16,7 +16,7 @@ export const useDeleteItinerary = () => {
       const uid = auth.currentUser?.uid;
       if (uid) {
         try {
-          await updateDoc(doc(db, "users", uid), {
+          await updateDoc(doc(db, "users_private", uid), {
             itineraryCount: increment(-1),
           });
         } catch (err) {

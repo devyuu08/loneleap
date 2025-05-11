@@ -100,7 +100,7 @@ export default function useAddReview({
 
       await addDoc(collection(db, "reviews"), reviewData);
 
-      await updateDoc(doc(db, "users", user.uid), {
+      await updateDoc(doc(db, "users_private", user.uid), {
         reviewCount: increment(1),
       });
     },

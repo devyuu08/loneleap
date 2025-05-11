@@ -15,7 +15,7 @@ export const useDeleteReview = () => {
       const uid = auth.currentUser?.uid;
       if (uid) {
         try {
-          await updateDoc(doc(db, "users", uid), {
+          await updateDoc(doc(db, "users_private", uid), {
             reviewCount: increment(-1),
           });
         } catch (err) {
