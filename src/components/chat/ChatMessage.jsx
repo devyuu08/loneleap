@@ -34,6 +34,16 @@ export default function ChatMessage({ message }) {
       });
   };
 
+  if (message.type === "system" && message.systemType === "date") {
+    return (
+      <div className="flex justify-center my-4">
+        <span className="text-xs bg-gray-200 text-gray-700 px-3 py-1 rounded-full shadow-sm">
+          {message.message}
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
