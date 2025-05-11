@@ -27,14 +27,30 @@ export default function ChatRoomCard({ room = {} }) {
         if (e.key === "Escape") e.target.blur();
       }}
     >
+      {/* 카테고리 뱃지 */}
+      {room.category && (
+        <span
+          className={`inline-block text-xs font-medium px-2 py-1 rounded-full mb-2 ${
+            room.category === "동행"
+              ? "bg-blue-100 text-blue-800"
+              : "bg-green-100 text-green-800"
+          }`}
+        >
+          {room.category}
+        </span>
+      )}
+
+      {/* 제목 */}
       <h3 className="text-lg font-semibold text-gray-900 mb-1">{room.name}</h3>
 
+      {/* 설명 */}
       {room.description && (
         <p className="text-sm text-gray-700 line-clamp-1 mb-2">
           {room.description}
         </p>
       )}
 
+      {/* 생성일 */}
       <p className="text-xs text-gray-500">{formatDateOnly(room.createdAt)}</p>
     </article>
   );
@@ -46,5 +62,6 @@ ChatRoomCard.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
     createdAt: PropTypes.object,
+    category: PropTypes.string, // "동행" or "정보"
   }).isRequired,
 };
