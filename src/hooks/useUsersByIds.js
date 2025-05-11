@@ -1,20 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { db } from "services/firebase";
-import { getDocs, query, where, collection } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 
 export const useUsersByIds = (userIds = []) => {
   return useQuery({
     queryKey: ["usersByIds", userIds],
     enabled: Array.isArray(userIds) && userIds.length > 0,
     queryFn: async () => {
-      const usersRef = collection(db, "users");
-      const usersQuery = query(
-        usersRef,
-        where("uid", "in", userIds.slice(0, 10))
+      const userDocs = await Promise.all(
+        userIds.map(async (uid) => {
+          const docRef = doc(db, "users", uid);
+          const docSnap = await getDoc(docRef);
+          return docSnap.exists()
+            ? { uid: docSnap.id, ...docSnap.data() }
+            : null;
+        })
       );
-      const querySnapshot = await getDocs(usersQuery);
 
-      return querySnapshot.docs.map((doc) => doc.data());
+      return userDocs.filter(Boolean); // null 제거
     },
   });
 };
