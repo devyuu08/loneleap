@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
 import { db } from "services/firebase";
 
 import { useChatMessages } from "hooks/useChatMessages";
@@ -10,14 +16,16 @@ import ChatMessage from "./ChatMessage";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 import ChatHeader from "components/chat/ChatHeader";
 import ParticipantList from "components/chat/ParticipantList";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function ChatRoomDetail({ roomId }) {
   const { messages, loading } = useChatMessages(roomId);
   const [roomInfo, setRoomInfo] = useState({ title: "채팅방" });
   const [roomInfoLoading, setRoomInfoLoading] = useState(false);
   const scrollRef = useRef(null);
-
   const currentUser = useSelector((state) => state.user.user); // 현재 로그인 유저
+
+  const navigate = useNavigate();
 
   // participants에 현재 유저 등록
   useEffect(() => {
@@ -70,6 +78,22 @@ export default function ChatRoomDetail({ roomId }) {
     );
   }
 
+  const handleLeaveRoom = async () => {
+    if (!confirm("정말 채팅방을 나가시겠어요?")) return;
+
+    try {
+      const roomRef = doc(db, "chatRooms", roomId);
+      await updateDoc(roomRef, {
+        participants: arrayRemove(currentUser.uid),
+      });
+
+      navigate("/chat"); // 채팅방 목록으로 이동
+    } catch (err) {
+      alert("채팅방 나가기 중 오류 발생");
+      console.error(err);
+    }
+  };
+
   if (loading) return <LoadingSpinner />;
 
   return (
@@ -93,6 +117,7 @@ export default function ChatRoomDetail({ roomId }) {
           <ChatHeader
             title={roomInfo.name}
             userName={roomInfo.createdByName || "상대 이름"}
+            onLeave={handleLeaveRoom}
           />
 
           {/* 메시지 목록 */}
