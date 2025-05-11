@@ -26,15 +26,19 @@ export default function ChatRoomDetail({ roomId }) {
   const [roomInfo, setRoomInfo] = useState({ title: "채팅방" });
   const [roomInfoLoading, setRoomInfoLoading] = useState(false);
   const scrollRef = useRef(null);
+  const executedRef = useRef(false);
   const currentUser = useSelector((state) => state.user.user); // 현재 로그인 유저
 
   const navigate = useNavigate();
 
   // participants에 현재 유저 등록
+
   useEffect(() => {
     const registerParticipant = async () => {
-      if (!roomId || !currentUser?.uid) return;
+      if (!roomId || !currentUser?.uid || executedRef.current) return;
+      executedRef.current = true;
 
+      // 입장 처리
       try {
         const roomRef = doc(db, "chatRooms", roomId);
         const roomSnap = await getDoc(roomRef);
@@ -47,7 +51,6 @@ export default function ChatRoomDetail({ roomId }) {
             participants: arrayUnion(currentUser.uid),
           });
 
-          // 입장 메시지 전송
           await addDoc(collection(db, "chatMessages"), {
             type: "system",
             systemType: "join",
