@@ -37,13 +37,24 @@ export default function ChatMessage({ message }) {
   return (
     <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
-        {!isMine && <p className="text-xs text-gray-500 mb-1">{senderName}</p>}
+        {!isMine && (
+          <img
+            src={message.senderPhotoURL || "/default_profile.png"}
+            alt={message.senderName}
+            className="w-6 h-6 rounded-full object-cover mr-2"
+          />
+        )}
+        {!isMine && (
+          <p className="text-xs font-semibold text-gray-700 mb-1">
+            {senderName}
+          </p>
+        )}
 
         <div
-          className={`px-4 py-2 rounded-xl text-sm ${
+          className={`px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm ${
             isMine
-              ? "bg-gray-900 text-white rounded-br-none"
-              : "bg-gray-100 text-gray-900 rounded-bl-none"
+              ? "bg-[#5A5A5A] text-white rounded-br-none"
+              : "bg-[#F2F2F2] text-gray-900 rounded-bl-none"
           }`}
         >
           {messageText}
