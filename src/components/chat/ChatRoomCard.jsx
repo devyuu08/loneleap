@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { formatDateOnly } from "utils/formatDate";
+import { Users } from "lucide-react";
 
 export default function ChatRoomCard({ room = {} }) {
   const navigate = useNavigate();
@@ -50,8 +51,14 @@ export default function ChatRoomCard({ room = {} }) {
         </p>
       )}
 
-      {/* 생성일 */}
-      <p className="text-xs text-gray-500">{formatDateOnly(room.createdAt)}</p>
+      {/* 하단 정보: 참여자 수 + 생성일 */}
+      <div className="flex items-center justify-between text-xs text-gray-500 mt-2">
+        <span className="flex items-center gap-1">
+          <Users className="w-4 h-4" />
+          {room.participants?.length || 0}명 참여중
+        </span>
+        <span>{formatDateOnly(room.createdAt)}</span>
+      </div>
     </article>
   );
 }
