@@ -72,26 +72,33 @@ export default function ChatRoomDetail({ roomId }) {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col h-[calc(100vh-var(--header-height,80px))]">
-      <ChatHeader
-        title={roomInfo.name}
-        userName={roomInfo.createdByName || "상대 이름"}
-      />
+    <div className="h-screen bg-gray-100 flex items-center justify-center px-4">
+      <div className="w-full max-w-4xl h-full md:h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col">
+        {/* 헤더 */}
+        <ChatHeader
+          title={roomInfo.name}
+          userName={roomInfo.createdByName || "상대 이름"}
+        />
 
-      <div
-        className="flex-1 overflow-y-auto space-y-4 px-1"
-        ref={scrollRef}
-        role="log"
-        aria-live="polite"
-        aria-label="채팅 메시지"
-      >
-        {messages.map((msg) => (
-          <ChatMessage key={msg.id} message={msg} />
-        ))}
-      </div>
+        {/* 메시지 목록 */}
+        <div
+          className="flex-1 overflow-y-auto px-4 py-4 space-y-4"
+          ref={scrollRef}
+          role="log"
+          aria-live="polite"
+          aria-label="채팅 메시지"
+        >
+          {messages.map((msg) => (
+            <ChatMessage key={msg.id} message={msg} />
+          ))}
+        </div>
 
-      <div className="mt-4" role="form" aria-label="메시지 입력">
-        <MessageInput roomId={roomId} />
+        {/* 입력창 */}
+        <div className="px-4 pb-6">
+          <div className="rounded-2xl bg-white/80 backdrop-blur-md shadow-lg border border-gray-200 p-3">
+            <MessageInput roomId={roomId} />
+          </div>
+        </div>
       </div>
     </div>
   );

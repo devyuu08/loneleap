@@ -12,9 +12,5 @@ export default function ChatRoomDetailPage() {
     return <div>유효하지 않은 채팅방 ID입니다.</div>;
   }
 
-  return (
-    <div className="pt-16">
-      <ChatRoomDetail roomId={id} />
-    </div>
-  );
+  return <ChatRoomDetail roomId={id} />;
 }

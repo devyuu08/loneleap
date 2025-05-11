@@ -17,8 +17,9 @@ export default function ChatHeader({
         )}
         <div>
           <h1 className="text-sm font-semibold text-gray-900">{title}</h1>
-          <p className="text-xs text-gray-400">
-            {userName}님이 개설한 오픈 채팅
+          <p className="py-1 text-xs text-gray-500">
+            <span className="font-medium text-black">{userName}</span>
+            님의 여행 이야기 공간
           </p>
         </div>
       </div>
