@@ -1,7 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  addDoc,
+  serverTimestamp,
+  collection,
+} from "firebase/firestore";
 import { db } from "services/firebase";
 
 import { useChatMessages } from "hooks/useChatMessages";
@@ -10,32 +19,54 @@ import ChatMessage from "./ChatMessage";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 import ChatHeader from "components/chat/ChatHeader";
 import ParticipantList from "components/chat/ParticipantList";
+import { useNavigate } from "react-router-dom";
 
 export default function ChatRoomDetail({ roomId }) {
   const { messages, loading } = useChatMessages(roomId);
   const [roomInfo, setRoomInfo] = useState({ title: "채팅방" });
   const [roomInfoLoading, setRoomInfoLoading] = useState(false);
   const scrollRef = useRef(null);
-
+  const executedRef = useRef(false);
   const currentUser = useSelector((state) => state.user.user); // 현재 로그인 유저
 
+  const navigate = useNavigate();
+
   // participants에 현재 유저 등록
+
   useEffect(() => {
     const registerParticipant = async () => {
-      if (!roomId || !currentUser?.uid) return;
+      if (!roomId || !currentUser?.uid || executedRef.current) return;
+      executedRef.current = true;
 
+      // 입장 처리
       try {
         const roomRef = doc(db, "chatRooms", roomId);
-        await updateDoc(roomRef, {
-          participants: arrayUnion(currentUser.uid),
-        });
+        const roomSnap = await getDoc(roomRef);
+        const roomData = roomSnap.data();
+
+        const alreadyIn = roomData?.participants?.includes(currentUser.uid);
+
+        if (!alreadyIn) {
+          await updateDoc(roomRef, {
+            participants: arrayUnion(currentUser.uid),
+          });
+
+          await addDoc(collection(db, "chatMessages"), {
+            type: "system",
+            systemType: "join",
+            userId: currentUser.uid,
+            userName: currentUser.displayName || "익명",
+            roomId,
+            createdAt: serverTimestamp(),
+          });
+        }
       } catch (err) {
         console.error("채팅방 참여자 등록 실패:", err);
       }
     };
 
     registerParticipant();
-  }, [roomId, currentUser?.uid]);
+  }, [roomId, currentUser]);
 
   // Firestore에서 채팅방 정보 불러오기
   useEffect(() => {
@@ -70,22 +101,56 @@ export default function ChatRoomDetail({ roomId }) {
     );
   }
 
+  const handleLeaveRoom = async () => {
+    if (!confirm("정말 채팅방을 나가시겠어요?")) return;
+
+    try {
+      const roomRef = doc(db, "chatRooms", roomId);
+      await updateDoc(roomRef, {
+        participants: arrayRemove(currentUser.uid),
+      });
+
+      // 퇴장 메시지 전송
+      await addDoc(collection(db, "chatMessages"), {
+        type: "system",
+        systemType: "leave",
+        userId: currentUser.uid,
+        userName: currentUser.displayName || "익명",
+        roomId,
+        createdAt: serverTimestamp(),
+      });
+
+      navigate("/chat"); // 채팅방 목록으로 이동
+    } catch (err) {
+      alert("채팅방 나가기 중 오류 발생");
+      console.error(err);
+    }
+  };
+
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="h-screen bg-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-6xl h-full md:h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex">
-        {/* 좌측: 참여자 목록 */}
+    <section
+      className="relative h-screen bg-cover bg-center flex items-center justify-center px-4"
+      style={{ backgroundImage: "url('/images/chat-detail-bg.jpg')" }}
+    >
+      {/* 어두운 오버레이 */}
+      <div className="absolute inset-0 bg-black/20 z-0" />
+
+      {/* 채팅 박스 */}
+      <div className="relative z-10 w-full max-w-6xl h-full md:h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex">
+        {/* 참여자 목록 (좌측 사이드) */}
         <aside className="hidden md:block w-64 border-r border-gray-200 bg-white/70 backdrop-blur-md p-4">
-          <ParticipantList userIds={roomInfo.participants || []} />
+          <ParticipantList roomId={roomId} />
         </aside>
 
-        {/* 우측: 채팅 영역 */}
+        {/* 채팅 영역 */}
         <div className="flex-1 flex flex-col">
-          {/* 헤더 */}
+          {/* 상단 헤더 */}
           <ChatHeader
             title={roomInfo.name}
             userName={roomInfo.createdByName || "상대 이름"}
+            onLeave={handleLeaveRoom}
           />
 
           {/* 메시지 목록 */}
@@ -109,6 +174,6 @@ export default function ChatRoomDetail({ roomId }) {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -7,9 +7,9 @@ import {
   onSnapshot,
   getDocs,
   limit,
-  startAfter,
 } from "firebase/firestore";
 import { db } from "services/firebase";
+import dayjs from "dayjs";
 
 export const useChatMessages = (roomId) => {
   const [messages, setMessages] = useState([]);
@@ -26,7 +26,7 @@ export const useChatMessages = (roomId) => {
     const q = query(
       collection(db, "chatMessages"),
       where("roomId", "==", roomId),
-      orderBy("createdAt", "desc"), // 수정: 내림차순
+      orderBy("createdAt", "desc"),
       limit(messagesPerPage.current)
     );
 
@@ -38,7 +38,11 @@ export const useChatMessages = (roomId) => {
             id: doc.id,
             ...doc.data(),
           }));
-          setMessages(msgs.reverse()); // 역순으로 렌더링
+
+          const ordered = msgs.reverse(); // 시간 순 정렬
+          const withDates = insertDateSeparators(ordered); // 날짜 구분 삽입
+          setMessages(withDates);
+
           if (snapshot.docs.length > 0) {
             setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
           }
@@ -87,6 +91,33 @@ export const useChatMessages = (roomId) => {
       setLoading(false);
     }
   }, [roomId, lastDoc]);
+
+  // 날짜 구분 메시지 삽입 함수
+  const insertDateSeparators = (messages) => {
+    const result = [];
+    let lastDate = null;
+
+    messages.forEach((msg) => {
+      const date = dayjs(msg.createdAt?.toDate?.() || msg.createdAt).format(
+        "YYYY-MM-DD"
+      );
+
+      if (date !== lastDate) {
+        result.push({
+          id: `date-${date}`,
+          type: "system",
+          systemType: "date",
+          message: dayjs(date).format("YYYY년 M월 D일"),
+          createdAt: msg.createdAt,
+        });
+        lastDate = date;
+      }
+
+      result.push(msg);
+    });
+
+    return result;
+  };
 
   return {
     messages,

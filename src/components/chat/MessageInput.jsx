@@ -23,10 +23,12 @@ export default function MessageInput({ roomId }) {
 
     try {
       await addDoc(collection(db, "chatMessages"), {
+        type: "text",
         roomId,
         message: message.trim(),
         senderId: user.uid,
         senderName: user.displayName || "익명",
+        senderPhotoURL: user.photoURL || "",
         createdAt: serverTimestamp(),
       });
       setMessage("");
