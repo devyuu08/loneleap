@@ -73,16 +73,23 @@ export default function ChatRoomDetail({ roomId }) {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="h-screen bg-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-6xl h-full md:h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex">
-        {/* 좌측: 참여자 목록 */}
+    <section
+      className="relative h-screen bg-cover bg-center flex items-center justify-center px-4"
+      style={{ backgroundImage: "url('/images/chat-detail-bg.jpg')" }}
+    >
+      {/* 어두운 오버레이 */}
+      <div className="absolute inset-0 bg-black/20 z-0" />
+
+      {/* 채팅 박스 */}
+      <div className="relative z-10 w-full max-w-6xl h-full md:h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex">
+        {/* 참여자 목록 (좌측 사이드) */}
         <aside className="hidden md:block w-64 border-r border-gray-200 bg-white/70 backdrop-blur-md p-4">
           <ParticipantList userIds={roomInfo.participants || []} />
         </aside>
 
-        {/* 우측: 채팅 영역 */}
+        {/* 채팅 영역 */}
         <div className="flex-1 flex flex-col">
-          {/* 헤더 */}
+          {/* 상단 헤더 */}
           <ChatHeader
             title={roomInfo.name}
             userName={roomInfo.createdByName || "상대 이름"}
@@ -109,6 +116,6 @@ export default function ChatRoomDetail({ roomId }) {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
