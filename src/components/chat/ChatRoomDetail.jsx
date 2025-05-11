@@ -8,7 +8,7 @@ import { useChatMessages } from "hooks/useChatMessages";
 import MessageInput from "./MessageInput";
 import ChatMessage from "./ChatMessage";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
-import ChatHeader from "./ChatHeader";
+import ChatHeader from "components/chat/ChatHeader";
 
 export default function ChatRoomDetail({ roomId }) {
   const { messages, loading } = useChatMessages(roomId);
