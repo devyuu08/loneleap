@@ -7,6 +7,8 @@ import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 export default function ChatRoomForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+
   const user = useSelector((state) => state.user.user);
   const isLoading = useSelector((state) => state.user.isLoading);
 
@@ -29,6 +31,7 @@ export default function ChatRoomForm() {
     const newErrors = {};
     if (!title.trim()) newErrors.title = "제목을 입력해주세요.";
     if (!description.trim()) newErrors.description = "설명을 입력해주세요.";
+    if (!category) newErrors.category = "카테고리를 선택해주세요.";
     if (!user) newErrors.user = "로그인이 필요합니다.";
 
     setErrors(newErrors);
@@ -41,7 +44,7 @@ export default function ChatRoomForm() {
     if (!validateForm()) return;
 
     try {
-      await mutateAsync({ title, description, uid: user.uid });
+      await mutateAsync({ title, description, category, uid: user.uid });
       navigate("/chat");
     } catch (err) {
       console.error("채팅방 생성 오류:", err);
@@ -82,6 +85,33 @@ export default function ChatRoomForm() {
           {errors.title && (
             <p className="text-red-500 text-sm mt-1" aria-live="polite">
               {errors.title}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label className="text-sm font-medium text-gray-700 mb-1 block">
+            카테고리
+          </label>
+          <div className="flex gap-3">
+            {["동행", "정보"].map((option) => (
+              <button
+                key={option}
+                type="button"
+                onClick={() => setCategory(option)}
+                className={`px-4 py-2 rounded-full text-sm border transition ${
+                  category === option
+                    ? "bg-black text-white border-black"
+                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                }`}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+          {errors.category && (
+            <p className="text-red-500 text-sm mt-1" aria-live="polite">
+              {errors.category}
             </p>
           )}
         </div>

@@ -26,7 +26,7 @@ export const useCreateChatRoom = () => {
   const queryClient = useQueryClient(); // 쿼리 클라이언트 접근
 
   return useMutation({
-    mutationFn: async ({ title, description = "", uid }) => {
+    mutationFn: async ({ title, description = "", category, uid }) => {
       if (!uid) {
         throw new Error("인증된 사용자만 채팅방을 생성할 수 있습니다");
       }
@@ -37,6 +37,7 @@ export const useCreateChatRoom = () => {
       const docRef = await addDoc(collection(db, "chatRooms"), {
         name: title,
         description,
+        category,
         createdAt: serverTimestamp(),
         createdBy: uid,
         participants: [uid],
@@ -48,6 +49,7 @@ export const useCreateChatRoom = () => {
         id: docRef.id,
         title,
         description,
+        category,
         uid,
       };
     },
