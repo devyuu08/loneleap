@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -38,6 +38,12 @@ function App() {
   const user = useSelector((state) => state.user.currentUser);
   const [loading, setLoading] = React.useState(true);
 
+  const location = useLocation();
+
+  const isChatDetailPage =
+    location.pathname.startsWith("/chat/") &&
+    location.pathname.split("/").length === 3;
+
   const isRecommendationPage = location.pathname.startsWith("/recommendations");
 
   useEffect(() => {
@@ -57,7 +63,7 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      {!isChatDetailPage && <Header />}
 
       {/* main에 flex-grow를 줘서 Routes가 영역을 채우게 함 */}
       <main className="flex-grow">
@@ -190,7 +196,7 @@ function App() {
         </Routes>
       </main>
 
-      <Footer />
+      {!isChatDetailPage && <Footer />}
     </div>
   );
 }

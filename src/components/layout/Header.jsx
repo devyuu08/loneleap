@@ -17,12 +17,6 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
 
-  const isChatDetailPage =
-    location.pathname.startsWith("/chat/") &&
-    location.pathname.split("/").length === 3;
-
-  if (isChatDetailPage) return null;
-
   const heroPaths = [
     "/",
     "/itinerary",
