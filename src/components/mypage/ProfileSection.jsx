@@ -8,6 +8,7 @@ import { setUser, clearUser } from "store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "services/auth";
+import { changeUserPassword } from "services/userService";
 import { useUserStats } from "hooks/useUserStats";
 
 import ProfileEditModal from "components/modal/ProfileEditModal";
@@ -57,6 +58,16 @@ export default function ProfileSection() {
     } catch (err) {
       console.error("프로필 이미지 업로드 오류:", err);
       alert("이미지 업로드에 실패했습니다.");
+    }
+  };
+
+  const handlePasswordChange = async (currentPw, newPw) => {
+    try {
+      await changeUserPassword(newPw, currentPw);
+      alert("비밀번호가 성공적으로 변경되었습니다.");
+    } catch (err) {
+      console.error("비밀번호 변경 실패:", err);
+      alert("비밀번호 변경에 실패했습니다. 현재 비밀번호를 다시 확인해주세요.");
     }
   };
 
@@ -180,10 +191,7 @@ export default function ProfileSection() {
         <ChangePasswordModal
           isOpen={isPasswordModalOpen}
           onClose={() => setIsPasswordModalOpen(false)}
-          onSubmit={(newPassword) => {
-            console.log("새 비밀번호:", newPassword);
-            setIsPasswordModalOpen(false);
-          }}
+          onSubmit={handlePasswordChange}
         />
       </ModalPortal>
     </>

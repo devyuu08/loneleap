@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 
 export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -30,7 +31,7 @@ export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
 
     setIsLoading(true);
     try {
-      await onSubmit(trimmedPassword);
+      await onSubmit(currentPassword.trim(), trimmedPassword);
       onClose();
     } catch (err) {
       setError("비밀번호 변경 중 오류가 발생했습니다.");
@@ -58,11 +59,20 @@ export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
           <div className="space-y-4">
             <input
               type="password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              placeholder="현재 비밀번호"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
+            />
+
+            <input
+              type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="새 비밀번호"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
             />
+
             <input
               type="password"
               value={confirmPassword}
@@ -70,6 +80,7 @@ export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
               placeholder="비밀번호 확인"
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
             />
+
             {error && <p className="text-sm text-red-600">{error}</p>}
             <div className="flex justify-end gap-3 mt-4">
               <button
@@ -78,6 +89,7 @@ export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
               >
                 취소
               </button>
+
               <button
                 onClick={handleSubmit}
                 disabled={isLoading}
