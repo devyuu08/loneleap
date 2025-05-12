@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import ProfileSection from "components/mypage/ProfileSection";
 import SectionTabs from "components/mypage/SectionTabs";
@@ -28,16 +28,11 @@ export default function MyPage() {
   });
 
   const {
-    data: myReviews,
+    data: myReviews = [],
     isLoading: isReviewLoading,
     isError: isReviewError,
     error: reviewError,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useMyReviews(user?.uid, {
-    enabled: activeTab === "review",
-  });
+  } = useMyReviews({ enabled: activeTab === "review" });
 
   const {
     data: myChatRooms = [],
@@ -94,14 +89,11 @@ export default function MyPage() {
     }
 
     if (activeTab === "review") {
-      const flatReviews =
-        myReviews?.pages?.flatMap((page) => page.reviews) || [];
-
       return renderTabContent(
         isReviewLoading,
         isReviewError,
         reviewError,
-        flatReviews,
+        myReviews,
         {
           icon: "📝",
           title: "작성한 리뷰가 없습니다",
