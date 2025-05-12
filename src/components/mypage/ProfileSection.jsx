@@ -14,11 +14,13 @@ import ProfileEditModal from "components/modal/ProfileEditModal";
 import ModalPortal from "components/common/ModalPortal";
 import RoundedButton from "components/common/RoundedButton";
 import { Camera, Edit, LogOut, Settings } from "lucide-react";
+import SettingModal from "components/mypage/SettingModal";
 
 export default function ProfileSection() {
   const user = useSelector((state) => state.user.user);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isSettingModalOpen, setIsSettingModalOpen] = useState(false);
   const { data: stats, isLoading: statsLoading } = useUserStats(user?.uid);
 
   const dispatch = useDispatch();
@@ -122,7 +124,7 @@ export default function ProfileSection() {
 
           <RoundedButton
             label="Setting"
-            onClick={() => alert("준비 중")}
+            onClick={() => setIsSettingModalOpen(true)} // 수정된 부분
             icon={<Settings className="text-sm" />}
           />
 
@@ -159,6 +161,17 @@ export default function ProfileSection() {
           isOpen={isEditModalOpen}
           onClose={() => setIsEditModalOpen(false)}
           user={user}
+        />
+
+        <SettingModal
+          isOpen={isSettingModalOpen}
+          onClose={() => setIsSettingModalOpen(false)}
+          onPasswordChange={() => {
+            alert("비밀번호 변경 폼은 다음 단계에서 구현할 예정입니다.");
+          }}
+          onDeleteAccount={() => {
+            alert("계정 탈퇴 기능도 다음 단계에서 구현됩니다.");
+          }}
         />
       </ModalPortal>
     </>
