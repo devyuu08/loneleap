@@ -50,8 +50,10 @@ service cloud.firestore {
     }
 
     match /users_public/{userId} {
-      allow read: if true; // 누구나 읽기 가능
-      allow write: if isSignedIn() && isOwner(userId); // 본인만 수정 가능
+      allow read: if true;
+
+      allow update: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId);
     }
 
     match /users_private/{userId} {
