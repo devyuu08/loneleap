@@ -8,6 +8,7 @@ import { setUser, clearUser } from "store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "services/auth";
+import { useUserStats } from "hooks/useUserStats";
 
 import ProfileEditModal from "components/modal/ProfileEditModal";
 import ModalPortal from "components/common/ModalPortal";
@@ -18,6 +19,7 @@ export default function ProfileSection() {
   const user = useSelector((state) => state.user.user);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { data: stats, isLoading: statsLoading } = useUserStats(user?.uid);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -136,15 +138,17 @@ export default function ProfileSection() {
       {/* 하단 통계 */}
       <div className="grid grid-cols-3 gap-4 px-6 mb-10">
         {[
-          { label: "여행 일정", count: 12 },
-          { label: "여행 리뷰", count: 8 },
-          { label: "채팅방", count: 5 },
+          { label: "여행 일정", count: stats?.itineraryCount },
+          { label: "여행 리뷰", count: stats?.reviewCount },
+          { label: "채팅방", count: stats?.chatRoomCount },
         ].map((item) => (
           <div
             key={item.label}
             className="bg-white/50 backdrop-blur-lg rounded-lg py-4 text-center"
           >
-            <p className="text-lg text-white font-semibold">{item.count}</p>
+            <p className="text-lg text-white font-semibold">
+              {statsLoading ? "..." : item.count ?? "-"}
+            </p>
             <p className="text-sm text-gray-200">{item.label}</p>
           </div>
         ))}
