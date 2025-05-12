@@ -14,6 +14,8 @@ import { useMyItineraries } from "services/queries/itinerary/useMyItineraries";
 import { useMyReviews } from "services/queries/review/useMyReviews";
 import { useMyChatRooms } from "services/queries/chat/useMyChatRooms";
 
+import { CalendarDays, MessageSquareText, MessagesSquare } from "lucide-react";
+
 export default function MyPage() {
   const user = useSelector((state) => state.user.user);
   const [activeTab, setActiveTab] = useState("itinerary");
@@ -53,7 +55,7 @@ export default function MyPage() {
       renderItems
     ) => {
       if (isLoading) {
-        return <div className="text-gray-400">불러오는 중...</div>;
+        return <div className="text-gray-200">불러오는 중...</div>;
       }
 
       if (isError) {
@@ -74,7 +76,7 @@ export default function MyPage() {
         itineraryError,
         myItineraries,
         {
-          icon: "📅",
+          icon: <CalendarDays className="w-5 h-5 text-gray-400" />,
           title: "작성한 일정이 없습니다",
           description: "새로운 일정을 추가해 LoneLeap 여정을 시작해보세요.",
         },
@@ -95,7 +97,7 @@ export default function MyPage() {
         reviewError,
         myReviews,
         {
-          icon: "📝",
+          icon: <MessageSquareText className="w-5 h-5 text-gray-400" />,
           title: "작성한 리뷰가 없습니다",
           description: "여행지를 다녀오셨다면, 리뷰를 공유해보세요.",
         },
@@ -116,7 +118,7 @@ export default function MyPage() {
         chatError,
         myChatRooms,
         {
-          icon: "💬",
+          icon: <MessagesSquare className="w-5 h-5 text-gray-200" />,
           title: "참여한 채팅방이 없습니다",
           description: "함께 소통할 채팅방에 참여해보세요.",
         },
@@ -134,15 +136,21 @@ export default function MyPage() {
   };
 
   return (
-    <LayoutWrapper>
-      <section>
-        <ProfileSection user={user} />
-      </section>
+    <main className="min-h-screen bg-[url('/images/mypage-bg.jpg')] bg-cover bg-center bg-no-repeat">
+      <div className="min-h-screen bg-black/40 backdrop-blur-sm">
+        <LayoutWrapper>
+          <section>
+            <ProfileSection user={user} />
+          </section>
 
-      <section>
-        <SectionTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="max-w-5xl mx-auto px-6 py-10">{renderContent()}</div>
-      </section>
-    </LayoutWrapper>
+          <section>
+            <div className="max-w-5xl mx-auto">
+              <SectionTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+              <div className="px-6 py-10">{renderContent()}</div>
+            </div>
+          </section>
+        </LayoutWrapper>
+      </div>
+    </main>
   );
 }

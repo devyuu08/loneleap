@@ -44,13 +44,13 @@ export default function ProfileSection() {
 
           {/* 텍스트 */}
           <div className="space-y-1">
-            <h2 className="text-lg font-semibold">
+            <h2 className="text-lg font-semibold text-white">
               {user?.displayName || "닉네임 없음"}
             </h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-300">
               @{user?.email?.split("@")[0]}
             </p>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">
+            <p className="text-sm text-white whitespace-pre-wrap">
               {user?.bio?.trim() || "소개 문구가 없습니다."}
             </p>
           </div>
@@ -88,10 +88,10 @@ export default function ProfileSection() {
         ].map((item) => (
           <div
             key={item.label}
-            className="bg-gray-100 rounded-lg py-4 text-center"
+            className="bg-white/50 backdrop-blur-lg rounded-lg py-4 text-center"
           >
-            <p className="text-lg font-semibold">{item.count}</p>
-            <p className="text-xs text-gray-500">{item.label}</p>
+            <p className="text-lg text-white font-semibold">{item.count}</p>
+            <p className="text-sm text-gray-200">{item.label}</p>
           </div>
         ))}
       </div>

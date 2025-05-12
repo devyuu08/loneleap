@@ -1,35 +1,52 @@
+import { useRef, useEffect, useState } from "react";
+
 export default function SectionTabs({ activeTab, setActiveTab }) {
   const tabs = [
     { key: "itinerary", label: "내 일정" },
     { key: "review", label: "내 리뷰" },
-    { key: "chat", label: "채팅방" },
+    { key: "chat", label: "내 채팅방" },
   ];
 
+  const containerRef = useRef(null);
+  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
+
+  useEffect(() => {
+    const activeButton = containerRef.current?.querySelector(
+      `[data-tab="${activeTab}"]`
+    );
+    if (activeButton) {
+      const { offsetLeft, offsetWidth } = activeButton;
+      setUnderlineStyle({ left: offsetLeft, width: offsetWidth });
+    }
+  }, [activeTab]);
+
   return (
-    <div className="bg-[#f8f9fa] border-b border-gray-300">
+    <div className="relative max-w-5xl mx-auto px-6 pt-6 pb-2 border-b border-white/30">
       <div
-        className="max-w-5xl mx-auto px-6 pt-6 pb-2 flex justify-start gap-12"
-        role="tablist"
-        aria-label="마이페이지 섹션 탭"
+        ref={containerRef}
+        className="flex justify-between transition-all duration-300 ease-in-out"
       >
         {tabs.map((tab) => (
           <button
             key={tab.key}
-            type="button"
-            role="tab"
-            aria-selected={activeTab === tab.key}
-            aria-controls={`tabpanel-${tab.key}`}
+            data-tab={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={`pb-2 text-base transition-all ${
+            className={`pb-2 w-full text-sm md:text-base font-medium text-center transition-colors ${
               activeTab === tab.key
-                ? "text-black font-semibold border-b-2 border-black"
-                : "text-gray-400 hover:text-black border-b-2 border-transparent"
+                ? "text-white"
+                : "text-gray-400 hover:text-white"
             }`}
           >
             {tab.label}
           </button>
         ))}
       </div>
+
+      {/* 움직이는 밑줄 */}
+      <span
+        className="absolute bottom-0 h-0.5 bg-white transition-all duration-300 ease-in-out"
+        style={{ left: underlineStyle.left, width: underlineStyle.width }}
+      />
     </div>
   );
 }
