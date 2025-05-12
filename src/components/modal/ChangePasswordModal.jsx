@@ -3,6 +3,8 @@ import { X } from "lucide-react";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
+import ErrorMessage from "components/common/ErrorMessage";
+
 export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -81,7 +83,8 @@ export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
             />
 
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            <ErrorMessage message={error} />
+
             <div className="flex justify-end gap-3 mt-4">
               <button
                 onClick={onClose}
