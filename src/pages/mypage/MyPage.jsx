@@ -81,7 +81,7 @@ export default function MyPage() {
           description: "새로운 일정을 추가해 LoneLeap 여정을 시작해보세요.",
         },
         (items) => (
-          <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {items.map((item) => (
               <MyItineraryCard key={item.id} itinerary={item} />
             ))}
@@ -102,7 +102,7 @@ export default function MyPage() {
           description: "여행지를 다녀오셨다면, 리뷰를 공유해보세요.",
         },
         (reviews) => (
-          <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {reviews.map((review) => (
               <MyReviewCard key={review.id} review={review} />
             ))}

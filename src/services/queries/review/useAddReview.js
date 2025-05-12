@@ -89,6 +89,7 @@ export default function useAddReview({
         likeCount: 0,
         commentCount: 0,
         type,
+        userId: user.uid,
       };
 
       if (type === "standard") {

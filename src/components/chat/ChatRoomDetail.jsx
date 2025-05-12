@@ -20,6 +20,7 @@ import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 import ChatHeader from "components/chat/ChatHeader";
 import ParticipantList from "components/chat/ParticipantList";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ChatRoomDetail({ roomId }) {
   const { messages, loading } = useChatMessages(roomId);
@@ -28,6 +29,8 @@ export default function ChatRoomDetail({ roomId }) {
   const scrollRef = useRef(null);
   const executedRef = useRef(false);
   const currentUser = useSelector((state) => state.user.user); // 현재 로그인 유저
+
+  const queryClient = useQueryClient();
 
   const navigate = useNavigate();
 
@@ -119,6 +122,8 @@ export default function ChatRoomDetail({ roomId }) {
         roomId,
         createdAt: serverTimestamp(),
       });
+
+      await queryClient.invalidateQueries(["myChatRooms", currentUser.uid]);
 
       navigate("/chat"); // 채팅방 목록으로 이동
     } catch (err) {
