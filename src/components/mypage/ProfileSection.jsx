@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { updateProfile } from "firebase/auth";
+import {
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  deleteUser,
+  updateProfile,
+} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, storage, db } from "services/firebase";
 import { setUser, clearUser } from "store/userSlice";
@@ -17,6 +22,7 @@ import RoundedButton from "components/common/RoundedButton";
 import { Camera, Edit, LogOut, Settings } from "lucide-react";
 import SettingModal from "components/modal/SettingModal";
 import ChangePasswordModal from "components/modal/ChangePasswordModal";
+import DeleteAccountModal from "components/modal/DeleteAccountModal";
 
 export default function ProfileSection() {
   const user = useSelector((state) => state.user.user);
@@ -24,6 +30,7 @@ export default function ProfileSection() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isSettingModalOpen, setIsSettingModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { data: stats, isLoading: statsLoading } = useUserStats(user?.uid);
 
   const dispatch = useDispatch();
@@ -83,6 +90,23 @@ export default function ProfileSection() {
     } finally {
       setIsLoggingOut(false);
     }
+  };
+
+  const handleDeleteAccount = async (currentPassword) => {
+    const user = auth.currentUser;
+
+    if (!user?.email) throw new Error("사용자 인증 정보가 없습니다.");
+
+    const credential = EmailAuthProvider.credential(
+      user.email,
+      currentPassword
+    );
+
+    await reauthenticateWithCredential(user, credential);
+    await deleteUser(user);
+
+    dispatch(clearUser());
+    navigate("/");
   };
 
   return (
@@ -185,13 +209,19 @@ export default function ProfileSection() {
           }}
           onDeleteAccount={() => {
             setIsSettingModalOpen(false);
-            alert("계정 탈퇴는 아직 준비 중입니다.");
+            setIsDeleteModalOpen(true);
           }}
         />
         <ChangePasswordModal
           isOpen={isPasswordModalOpen}
           onClose={() => setIsPasswordModalOpen(false)}
           onSubmit={handlePasswordChange}
+        />
+
+        <DeleteAccountModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={handleDeleteAccount}
         />
       </ModalPortal>
     </>
