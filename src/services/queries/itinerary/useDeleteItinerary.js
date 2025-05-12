@@ -20,7 +20,7 @@ export const useDeleteItinerary = () => {
             itineraryCount: increment(-1),
           });
         } catch (err) {
-          console.warn("📉 itineraryCount 감소 실패:", err);
+          console.warn("itineraryCount 감소 실패:", err);
         }
       }
     },

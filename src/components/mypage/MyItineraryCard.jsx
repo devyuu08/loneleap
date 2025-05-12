@@ -1,47 +1,80 @@
-import React from "react";
+import { Edit2, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatDateOnly } from "utils/formatDate";
 
 export default function MyItineraryCard({ itinerary }) {
   const navigate = useNavigate();
-  const { id, title, status, startDate, endDate, imageUrl } = itinerary;
+  const { id, title, startDate, endDate, imageUrl } = itinerary;
 
   return (
-    <div className="bg-[#1f222b] text-white rounded-xl p-5 shadow mb-6">
-      <div className="flex justify-between items-center mb-2">
-        <h3 className="text-lg font-bold">{title}</h3>
-        <span className="text-sm bg-green-600 text-white px-2 py-1 rounded">
-          {status || "상태 없음"}
-        </span>
-      </div>
-
-      <p className="text-sm text-gray-300 mb-3">
-        {formatDateOnly(startDate)} ~ {formatDateOnly(endDate)}
-      </p>
-
-      <div className="w-full h-40 bg-gray-700 rounded flex items-center justify-center text-sm text-gray-300 overflow-hidden">
+    <div
+      onClick={() => navigate(`/itinerary/${id}`)}
+      role="button"
+      tabIndex="0"
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          navigate(`/itinerary/${id}`);
+        }
+      }}
+      className="bg-white rounded-xl shadow-sm overflow-hidden text-black w-full max-w-xs"
+    >
+      {/* 이미지 영역 */}
+      <div className="relative h-48 bg-gray-100">
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={title}
-            className="w-full h-full object-cover rounded"
+            className="w-full h-full object-cover"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "/assets/default-itinerary-image.png";
             }}
           />
         ) : (
-          <span className="text-gray-400">이미지가 없습니다</span>
+          <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+            이미지 없음
+          </div>
         )}
+
+        {/* 날짜 배지 */}
+        <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
+          {formatDateOnly(startDate)} ~ {formatDateOnly(endDate)}
+        </div>
       </div>
 
-      <div className="flex justify-between items-center mt-4 text-sm">
-        <button
-          onClick={() => navigate(`/itinerary/${id}`)}
-          className="text-gray-300 hover:text-white transition"
-        >
-          상세 보기
-        </button>
+      {/* 텍스트 영역 */}
+      <div className="p-4 flex flex-col gap-2">
+        <h3 className="text-base font-semibold line-clamp-1">{title}</h3>
+        {/* 요약 정보 */}
+        <p className="text-sm text-gray-500 line-clamp-2">
+          {itinerary.summary || "여행 요약 정보가 없습니다."}
+        </p>
+
+        <div className="flex justify-end items-center text-sm text-gray-500 mt-2">
+          {/* 액션 */}
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation(); // 상위 카드 클릭 막기
+                navigate(`/itinerary/edit/${id}`);
+              }}
+              className="hover:underline"
+            >
+              <Edit2 className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                alert("공유 기능은 추후 지원됩니다.");
+              }}
+              className="flex items-center gap-1 hover:underline"
+            >
+              <Share2 className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
