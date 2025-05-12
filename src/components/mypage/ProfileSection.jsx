@@ -1,13 +1,19 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import {
-  EmailAuthProvider,
-  reauthenticateWithCredential,
-  deleteUser,
-  updateProfile,
-} from "firebase/auth";
+import { updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, storage, db } from "services/firebase";
+import {
+  anonymizePublicProfile,
+  anonymizeReviews,
+  anonymizeItineraries,
+  anonymizeChatRooms,
+  anonymizeChatMessages,
+  anonymizeChatReports,
+  anonymizeReviewReports,
+  deleteUserAccount,
+} from "utils/deleteAccount";
+
 import { setUser, clearUser } from "store/userSlice";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -93,18 +99,22 @@ export default function ProfileSection() {
   };
 
   const handleDeleteAccount = async (currentPassword) => {
-    const user = auth.currentUser;
+    const uid = auth.currentUser?.uid;
+    if (!uid) return;
 
-    if (!user?.email) throw new Error("사용자 인증 정보가 없습니다.");
+    // 모든 익명화 순차 실행
+    await anonymizePublicProfile(uid);
+    await anonymizeReviews(uid);
+    await anonymizeItineraries(uid);
+    await anonymizeChatRooms(uid);
+    await anonymizeChatMessages(uid);
+    await anonymizeChatReports(uid);
+    await anonymizeReviewReports(uid);
 
-    const credential = EmailAuthProvider.credential(
-      user.email,
-      currentPassword
-    );
+    // 계정 삭제
+    await deleteUserAccount(currentPassword);
 
-    await reauthenticateWithCredential(user, credential);
-    await deleteUser(user);
-
+    // 상태 초기화
     dispatch(clearUser());
     navigate("/");
   };

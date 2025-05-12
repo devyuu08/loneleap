@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { X, AlertTriangle } from "lucide-react";
 import PropTypes from "prop-types";
-import { FirebaseError } from "firebase/app";
 import ErrorMessage from "components/common/ErrorMessage";
 
 export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
