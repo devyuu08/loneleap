@@ -14,13 +14,15 @@ import ProfileEditModal from "components/modal/ProfileEditModal";
 import ModalPortal from "components/common/ModalPortal";
 import RoundedButton from "components/common/RoundedButton";
 import { Camera, Edit, LogOut, Settings } from "lucide-react";
-import SettingModal from "components/mypage/SettingModal";
+import SettingModal from "components/modal/SettingModal";
+import ChangePasswordModal from "components/modal/ChangePasswordModal";
 
 export default function ProfileSection() {
   const user = useSelector((state) => state.user.user);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isSettingModalOpen, setIsSettingModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const { data: stats, isLoading: statsLoading } = useUserStats(user?.uid);
 
   const dispatch = useDispatch();
@@ -167,10 +169,20 @@ export default function ProfileSection() {
           isOpen={isSettingModalOpen}
           onClose={() => setIsSettingModalOpen(false)}
           onPasswordChange={() => {
-            alert("비밀번호 변경 폼은 다음 단계에서 구현할 예정입니다.");
+            setIsSettingModalOpen(false);
+            setIsPasswordModalOpen(true);
           }}
           onDeleteAccount={() => {
-            alert("계정 탈퇴 기능도 다음 단계에서 구현됩니다.");
+            setIsSettingModalOpen(false);
+            alert("계정 탈퇴는 아직 준비 중입니다.");
+          }}
+        />
+        <ChangePasswordModal
+          isOpen={isPasswordModalOpen}
+          onClose={() => setIsPasswordModalOpen(false)}
+          onSubmit={(newPassword) => {
+            console.log("새 비밀번호:", newPassword);
+            setIsPasswordModalOpen(false);
           }}
         />
       </ModalPortal>
