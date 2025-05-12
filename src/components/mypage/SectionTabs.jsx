@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function SectionTabs({ activeTab, setActiveTab }) {
   const tabs = [
     { key: "itinerary", label: "내 일정" },

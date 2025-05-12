@@ -16,7 +16,7 @@ export default function MyItineraryCard({ itinerary }) {
           navigate(`/itinerary/${id}`);
         }
       }}
-      className="bg-white rounded-xl shadow-sm overflow-hidden text-black w-full max-w-xs"
+      className="bg-white rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-transform duration-300 overflow-hidden text-black w-full max-w-xs cursor-pointer"
     >
       {/* 이미지 영역 */}
       <div className="relative h-48 bg-gray-100">
