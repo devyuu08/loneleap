@@ -5,6 +5,8 @@ import { logout } from "services/auth";
 import { clearUser } from "store/userSlice";
 import ProfileEditModal from "components/modal/ProfileEditModal";
 import ModalPortal from "components/common/ModalPortal";
+import RoundedButton from "components/common/RoundedButton";
+import { Edit, LogOut, Settings } from "lucide-react";
 
 export default function ProfileSection() {
   const user = useSelector((state) => state.user.user);
@@ -30,47 +32,68 @@ export default function ProfileSection() {
 
   return (
     <>
-      <div className="bg-gradient-to-b from-[#1f2937] to-[#111827] py-12 text-center">
-        <img
-          src={user?.photoURL || "/default_profile.png"}
-          alt="프로필 이미지"
-          className="w-24 h-24 rounded-full mx-auto border-2 border-white mb-4"
-        />
-        <h1 className="text-2xl font-semibold">
-          {user?.displayName || user?.email || "닉네임 없음"}
-        </h1>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 py-10">
+        {/* 왼쪽: 프로필 정보 */}
+        <div className="flex items-center gap-6">
+          {/* 이미지 */}
+          <img
+            src={user?.photoURL || "/default_profile.png"}
+            alt="프로필 이미지"
+            className="w-28 h-28 object-cover rounded-lg shadow-sm border"
+          />
 
-        {/* 소개 문구 출력 */}
-        <p className="text-sm text-gray-300 my-4 whitespace-pre-line">
-          {user?.bio?.trim() ? user.bio : "소개 문구가 없습니다."}
-        </p>
-
-        {/* 버튼 그룹 */}
-        <div className="flex justify-center gap-4 flex-wrap">
-          <button
-            onClick={() => setIsEditModalOpen(true)}
-            className="min-w-[100px] px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition"
-          >
-            프로필 수정
-          </button>
-          <button
-            onClick={() => alert("준비 중인 기능입니다.")}
-            className="min-w-[100px] px-4 py-2 border border-white rounded hover:bg-white hover:text-black transition"
-          >
-            설정
-          </button>
-          <button
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-            className={`min-w-[100px] px-4 py-2 border border-white rounded transition ${
-              isLoggingOut
-                ? "bg-gray-500 text-white cursor-not-allowed"
-                : "text-red-500 hover:bg-red-500 hover:text-white"
-            }`}
-          >
-            {isLoggingOut ? "로그아웃 중..." : "로그아웃"}
-          </button>
+          {/* 텍스트 */}
+          <div className="space-y-1">
+            <h2 className="text-lg font-semibold">
+              {user?.displayName || "닉네임 없음"}
+            </h2>
+            <p className="text-sm text-gray-500">
+              @{user?.email?.split("@")[0]}
+            </p>
+            <p className="text-sm text-gray-700 whitespace-pre-wrap">
+              {user?.bio?.trim() || "소개 문구가 없습니다."}
+            </p>
+          </div>
         </div>
+
+        {/* 오른쪽: 버튼 그룹 */}
+        <div className="flex justify-center gap-4 mt-6 flex-wrap">
+          <RoundedButton
+            label="Profile"
+            onClick={() => setIsEditModalOpen(true)}
+            icon={<Edit className="text-sm" />}
+          />
+
+          <RoundedButton
+            label="Setting"
+            onClick={() => alert("준비 중")}
+            icon={<Settings className="text-sm" />}
+          />
+
+          <RoundedButton
+            label="Logout"
+            onClick={handleLogout}
+            isLoading={isLoggingOut}
+            icon={<LogOut className="w-4 h-4" />}
+          />
+        </div>
+      </div>
+
+      {/* 하단 통계 */}
+      <div className="grid grid-cols-3 gap-4 px-6 mb-10">
+        {[
+          { label: "여행 일정", count: 12 },
+          { label: "여행 리뷰", count: 8 },
+          { label: "채팅방", count: 5 },
+        ].map((item) => (
+          <div
+            key={item.label}
+            className="bg-gray-100 rounded-lg py-4 text-center"
+          >
+            <p className="text-lg font-semibold">{item.count}</p>
+            <p className="text-xs text-gray-500">{item.label}</p>
+          </div>
+        ))}
       </div>
       {/* 모달 컴포넌트 렌더링 */}
       <ModalPortal>

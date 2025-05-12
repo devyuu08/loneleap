@@ -8,6 +8,7 @@ import ErrorState from "components/common/ErrorState";
 import MyItineraryCard from "components/mypage/MyItineraryCard";
 import MyReviewCard from "components/mypage/MyReviewCard";
 import MyChatRoomCard from "components/mypage/MyChatRoomCard";
+import LayoutWrapper from "components/common/LayoutWrapper";
 
 import { useMyItineraries } from "services/queries/itinerary/useMyItineraries";
 import { useMyReviews } from "services/queries/review/useMyReviews";
@@ -141,17 +142,15 @@ export default function MyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black pt-16">
-      {/* 상단 */}
-      <section className="bg-gradient-to-b from-[#1c1f2a] to-[#2d3243] text-white">
+    <LayoutWrapper>
+      <section>
         <ProfileSection user={user} />
       </section>
 
-      {/* 탭 + 콘텐츠 */}
-      <section className="bg-[#f8f9fa] min-h-screen">
+      <section>
         <SectionTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="max-w-5xl mx-auto px-6 py-10">{renderContent()}</div>
       </section>
-    </div>
+    </LayoutWrapper>
   );
 }
