@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import ProfileSection from "components/mypage/ProfileSection";
 import SectionTabs from "components/mypage/SectionTabs";
@@ -8,10 +8,13 @@ import ErrorState from "components/common/ErrorState";
 import MyItineraryCard from "components/mypage/MyItineraryCard";
 import MyReviewCard from "components/mypage/MyReviewCard";
 import MyChatRoomCard from "components/mypage/MyChatRoomCard";
+import LayoutWrapper from "components/common/LayoutWrapper";
 
 import { useMyItineraries } from "services/queries/itinerary/useMyItineraries";
 import { useMyReviews } from "services/queries/review/useMyReviews";
 import { useMyChatRooms } from "services/queries/chat/useMyChatRooms";
+
+import { CalendarDays, MessageSquareText, MessagesSquare } from "lucide-react";
 
 export default function MyPage() {
   const user = useSelector((state) => state.user.user);
@@ -27,16 +30,11 @@ export default function MyPage() {
   });
 
   const {
-    data: myReviews,
+    data: myReviews = [],
     isLoading: isReviewLoading,
     isError: isReviewError,
     error: reviewError,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useMyReviews(user?.uid, {
-    enabled: activeTab === "review",
-  });
+  } = useMyReviews({ enabled: activeTab === "review" });
 
   const {
     data: myChatRooms = [],
@@ -57,7 +55,7 @@ export default function MyPage() {
       renderItems
     ) => {
       if (isLoading) {
-        return <div className="text-gray-400">불러오는 중...</div>;
+        return <div className="text-gray-200">불러오는 중...</div>;
       }
 
       if (isError) {
@@ -78,7 +76,7 @@ export default function MyPage() {
         itineraryError,
         myItineraries,
         {
-          icon: "📅",
+          icon: <CalendarDays className="w-5 h-5 text-gray-400" />,
           title: "작성한 일정이 없습니다",
           description: "새로운 일정을 추가해 LoneLeap 여정을 시작해보세요.",
         },
@@ -93,16 +91,13 @@ export default function MyPage() {
     }
 
     if (activeTab === "review") {
-      const flatReviews =
-        myReviews?.pages?.flatMap((page) => page.reviews) || [];
-
       return renderTabContent(
         isReviewLoading,
         isReviewError,
         reviewError,
-        flatReviews,
+        myReviews,
         {
-          icon: "📝",
+          icon: <MessageSquareText className="w-5 h-5 text-gray-400" />,
           title: "작성한 리뷰가 없습니다",
           description: "여행지를 다녀오셨다면, 리뷰를 공유해보세요.",
         },
@@ -123,7 +118,7 @@ export default function MyPage() {
         chatError,
         myChatRooms,
         {
-          icon: "💬",
+          icon: <MessagesSquare className="w-5 h-5 text-gray-200" />,
           title: "참여한 채팅방이 없습니다",
           description: "함께 소통할 채팅방에 참여해보세요.",
         },
@@ -141,17 +136,21 @@ export default function MyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black pt-16">
-      {/* 상단 */}
-      <section className="bg-gradient-to-b from-[#1c1f2a] to-[#2d3243] text-white">
-        <ProfileSection user={user} />
-      </section>
+    <main className="min-h-screen bg-[url('/images/mypage-bg.jpg')] bg-cover bg-center bg-no-repeat">
+      <div className="min-h-screen bg-black/40 backdrop-blur-sm">
+        <LayoutWrapper>
+          <section>
+            <ProfileSection user={user} />
+          </section>
 
-      {/* 탭 + 콘텐츠 */}
-      <section className="bg-[#f8f9fa] min-h-screen">
-        <SectionTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <div className="max-w-5xl mx-auto px-6 py-10">{renderContent()}</div>
-      </section>
-    </div>
+          <section>
+            <div className="max-w-5xl mx-auto">
+              <SectionTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+              <div className="px-6 py-10">{renderContent()}</div>
+            </div>
+          </section>
+        </LayoutWrapper>
+      </div>
+    </main>
   );
 }
