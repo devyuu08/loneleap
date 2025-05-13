@@ -4,8 +4,8 @@ import { Trash2 } from "lucide-react";
 import { cn } from "utils/utils";
 
 export default function CommentItem({ comment, currentUserId, reviewId }) {
-  const { id, content, createdAt, authorId, authorName } = comment;
-  const isAuthor = currentUserId === authorId;
+  const { id, content, createdAt, author } = comment;
+  const isAuthor = currentUserId === author?.uid;
   const { mutate, isPending } = useDeleteComment(reviewId);
 
   const handleCommentDelete = () => {
@@ -18,11 +18,14 @@ export default function CommentItem({ comment, currentUserId, reviewId }) {
       {/* 작성자 & 시간 */}
       <div className="flex items-center gap-3 mb-2 text-sm text-gray-600">
         <img
-          src={comment.authorPhotoURL || "/default_profile.png"}
+          src={author?.photoURL || "/default_profile.png"}
           alt="작성자 프로필"
           className="w-6 h-6 rounded-full object-cover"
         />
-        <span className="font-semibold text-gray-800">{authorName}</span>
+        <span className="font-semibold text-gray-800">
+          {" "}
+          {author?.displayName || "익명"}
+        </span>
         <span className="text-gray-400 text-xs">
           {createdAt?.toDate?.()
             ? new Date(createdAt.toDate()).toLocaleString()

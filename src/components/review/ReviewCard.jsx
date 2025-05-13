@@ -11,7 +11,10 @@ import LikeButton from "components/review/LikeButton";
  * @param {string} props.review.destination - 여행지 이름
  * @param {string} props.review.content - 리뷰 내용
  * @param {number} props.review.rating - 평점 (1-5)
- * @param {string} props.review.authorName - 작성자 이름
+ * @param {Object} props.review.createdBy - 작성자 정보
+ * @param {string} props.review.createdBy.uid - 작성자 UID
+ * @param {string} props.review.createdBy.displayName - 작성자 이름
+ * @param {string} props.review.createdBy.photoURL - 작성자 프로필 이미지
  * @param {Object} props.review.createdAt - 작성 일시 (Firestore Timestamp)
  * @param {string} props.review.imageUrl - 이미지 URL (선택적)
  */
@@ -24,10 +27,9 @@ export default function ReviewCard({ review }) {
     destination,
     content,
     rating,
-    authorName,
+    createdBy,
     createdAt,
     imageUrl,
-    authorPhotoURL,
   } = review || {};
 
   const formattedDate =
@@ -99,10 +101,10 @@ export default function ReviewCard({ review }) {
         <div className="flex justify-between items-center mt-2">
           <div className="flex items-center gap-2">
             <span className="text-xs text-gray-500 truncate max-w-[100px]">
-              {authorName || "익명"}
+              {createdBy?.displayName || "익명"}
             </span>
             <img
-              src={authorPhotoURL || "/default_profile.png"}
+              src={createdBy?.photoURL || "/default_profile.png"}
               alt="작성자"
               className="w-5 h-5 rounded-full object-cover"
               onError={(e) => {

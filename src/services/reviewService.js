@@ -43,6 +43,10 @@ export const updateReviewData = async (id, updatedData) => {
       updatedAt: serverTimestamp(),
     };
 
+    if (updatedData.type === "standard") {
+      dataToUpdate.content = updatedData.content;
+    }
+
     await updateDoc(docRef, dataToUpdate);
     return true;
   } catch (error) {
