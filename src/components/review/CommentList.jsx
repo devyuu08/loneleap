@@ -17,8 +17,11 @@ export default function CommentList({ currentUserId, reviewId }) {
 
     mutate({
       content,
-      authorId: user.uid,
-      authorName: user.displayName || "익명",
+      author: {
+        uid: user.uid,
+        displayName: user.displayName || "익명",
+        photoURL: user.photoURL || "",
+      },
     });
 
     setContent("");

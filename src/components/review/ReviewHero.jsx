@@ -2,15 +2,8 @@ import { formatDate } from "utils/formatDate";
 import { Star, MapPin } from "lucide-react";
 
 export default function ReviewHero({ review }) {
-  const {
-    title,
-    destination,
-    rating,
-    authorName,
-    authorPhotoURL,
-    createdAt,
-    imageUrl,
-  } = review || {};
+  const { title, destination, rating, createdBy, createdAt, imageUrl } =
+    review || {};
 
   return (
     <div className="relative h-[420px] w-full rounded-3xl overflow-hidden">
@@ -45,11 +38,11 @@ export default function ReviewHero({ review }) {
         {/* 작성자 + 날짜 */}
         <div className="flex items-center gap-3 mt-4 text-sm text-white/70">
           <img
-            src={authorPhotoURL || "/default_profile.png"}
+            src={createdBy?.photoURL || "/default_profile.png"}
             alt="작성자"
             className="w-6 h-6 rounded-full object-cover"
           />
-          <span>{authorName || "익명"}</span>
+          <span>{createdBy?.displayName || "익명"}</span>
           <span className="text-xs">· {formatDate(createdAt)}</span>
         </div>
       </div>
