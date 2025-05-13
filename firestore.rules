@@ -40,7 +40,7 @@ service cloud.firestore {
       match /comments/{commentId} {
         allow read: if true;
         allow create: if isSignedIn();
-        allow delete: if isSignedIn() && isOwner(resource.data.authorId);
+        allow delete: if isSignedIn() && isOwner(resource.data.author.uid);
       }
 
       // 하위 컬렉션: likes
