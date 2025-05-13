@@ -27,10 +27,10 @@ service cloud.firestore {
     match /reviews/{reviewId} {
       allow read: if true;
 
-      // 리뷰 생성자만 수정/삭제 가능
+      // 리뷰 생성자만 전체 update/delete 가능
       allow update, delete: if isSignedIn() && isOwner(resource.data.createdBy.uid);
 
-      // likesCount만 바꾸는 경우 → 누구나 가능
+      // 예외적으로 likesCount만 수정할 수 있게 허용 (순서 중요: 아래쪽에 위치해야 함)
       allow update: if isSignedIn() &&
         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likesCount']);
 
