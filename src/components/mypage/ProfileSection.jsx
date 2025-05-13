@@ -1,18 +1,14 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { updateProfile } from "firebase/auth";
+import {
+  deleteUser,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updateProfile,
+} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, storage, db } from "services/firebase";
-import {
-  anonymizePublicProfile,
-  anonymizeReviews,
-  anonymizeItineraries,
-  anonymizeChatRooms,
-  anonymizeChatMessages,
-  anonymizeChatReports,
-  anonymizeReviewReports,
-  deleteUserAccount,
-} from "utils/deleteAccount";
+import { anonymizePublicProfile } from "utils/deleteAccount";
 
 import { setUser, clearUser } from "store/userSlice";
 
@@ -99,24 +95,31 @@ export default function ProfileSection() {
   };
 
   const handleDeleteAccount = async (currentPassword) => {
-    const uid = auth.currentUser?.uid;
-    if (!uid) return;
+    const user = auth.currentUser;
+    const uid = user?.uid;
+    if (!user || !uid) return;
 
-    // 모든 익명화 순차 실행
-    await anonymizePublicProfile(uid);
-    await anonymizeReviews(uid);
-    await anonymizeItineraries(uid);
-    await anonymizeChatRooms(uid);
-    await anonymizeChatMessages(uid);
-    await anonymizeChatReports(uid);
-    await anonymizeReviewReports(uid);
+    try {
+      // 1. 재인증
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        currentPassword
+      );
+      await reauthenticateWithCredential(user, credential);
 
-    // 계정 삭제
-    await deleteUserAccount(currentPassword);
+      // 2. 익명화
+      await anonymizePublicProfile(uid);
 
-    // 상태 초기화
-    dispatch(clearUser());
-    navigate("/");
+      // 3. 계정 삭제
+      await deleteUser(user);
+
+      // 4. 상태 초기화
+      dispatch(clearUser());
+      navigate("/");
+    } catch (err) {
+      console.error("계정 탈퇴 실패:", err);
+      alert("계정 탈퇴 중 오류가 발생했습니다: " + err.message);
+    }
   };
 
   return (
