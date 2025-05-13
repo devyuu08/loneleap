@@ -28,7 +28,7 @@ export default function ChatRoomList() {
     // 2. 검색 필터링
     if (searchKeyword.trim()) {
       result = result.filter((room) =>
-        room.title?.toLowerCase().includes(searchKeyword.trim().toLowerCase())
+        room.name?.toLowerCase().includes(searchKeyword.trim().toLowerCase())
       );
     }
 
