@@ -5,27 +5,37 @@ import { db } from "services/firebase";
 export const useReviews = () => {
   return useQuery({
     queryKey: ["reviews"],
-    staleTime: 5 * 60 * 1000, // 5분 동안 데이터를 최신으로 유지
-    cacheTime: 30 * 60 * 1000, // 30분 동안 캐시 유지
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 30 * 60 * 1000,
     queryFn: async () => {
       const q = query(
         collection(db, "reviews"),
         orderBy("createdAt", "desc"),
-        limit(20) // 한 번에 가져올 리뷰 수 제한
+        limit(20)
       );
       const snapshot = await getDocs(q);
 
-      return snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-        // Firestore 타임스탬프를 JavaScript Date 객체로 변환
-        createdAt: doc.data().createdAt?.toDate() || new Date(),
-        updatedAt: doc.data().updatedAt?.toDate() || new Date(),
-      }));
+      return snapshot.docs.map((doc) => {
+        const data = doc.data();
+
+        return {
+          id: doc.id,
+          ...data,
+          createdAt: data.createdAt?.toDate() || new Date(),
+          updatedAt: data.updatedAt?.toDate() || new Date(),
+          likesCount: data.likesCount || 0,
+
+          // 안전하게 createdBy 필드 체크
+          createdBy: {
+            uid: data.createdBy?.uid || "",
+            displayName: data.createdBy?.displayName || "익명",
+            photoURL: data.createdBy?.photoURL || "/default_profile.png",
+          },
+        };
+      });
     },
     onError: (error) => {
       console.error("리뷰를 불러오는 중 오류가 발생했습니다:", error);
-      // 필요한 경우 추가 에러 처리 로직
     },
   });
 };
