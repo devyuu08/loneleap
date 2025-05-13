@@ -26,9 +26,11 @@ export default function MessageInput({ roomId }) {
         type: "text",
         roomId,
         message: message.trim(),
-        senderId: user.uid,
-        senderName: user.displayName || "익명",
-        senderPhotoURL: user.photoURL || "",
+        sender: {
+          uid: user.uid,
+          displayName: user.displayName || "익명",
+          photoURL: user.photoURL || "",
+        },
         createdAt: serverTimestamp(),
       });
       setMessage("");

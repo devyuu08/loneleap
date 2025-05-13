@@ -42,6 +42,7 @@ export const useAddItinerary = ({
           uid: user.uid,
           displayName: user.displayName || "익명",
           photoURL: user.photoURL || "",
+          userId: user.uid,
         },
       };
       return createItinerary(itineraryData);

@@ -27,23 +27,20 @@ service cloud.firestore {
     match /reviews/{reviewId} {
       allow read: if true;
 
-      // 리뷰 생성자만 전체 update/delete 가능
       allow update, delete: if isSignedIn() && isOwner(resource.data.createdBy.uid);
 
-      // 예외적으로 likesCount만 수정할 수 있게 허용 (순서 중요: 아래쪽에 위치해야 함)
+      // 예외적으로 likesCount만 수정할 수 있게 허용
       allow update: if isSignedIn() &&
         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likesCount']);
 
       allow create: if isSignedIn();
 
-      // 하위 컬렉션: comments
       match /comments/{commentId} {
         allow read: if true;
         allow create: if isSignedIn();
         allow delete: if isSignedIn() && isOwner(resource.data.author.uid);
       }
 
-      // 하위 컬렉션: likes
       match /likes/{userId} {
         allow read, write: if isSignedIn();
       }
@@ -51,9 +48,7 @@ service cloud.firestore {
 
     match /users_public/{userId} {
       allow read: if true;
-
-      allow update: if isSignedIn() && isOwner(userId);
-      allow create: if isSignedIn() && isOwner(userId);
+      allow update, create: if isSignedIn() && isOwner(userId);
     }
 
     match /users_private/{userId} {
@@ -62,13 +57,11 @@ service cloud.firestore {
       allow update: if isSignedIn() && (
         isOwner(userId) || isAdmin() ||
 
-        // 신고 횟수 +1만 허용
         (
           request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reportedCount']) &&
           request.resource.data.reportedCount == resource.data.reportedCount + 1
         ) ||
 
-        // 일정 수 +1 또는 -1만 허용
         (
           request.resource.data.diff(resource.data).affectedKeys().hasOnly(['itineraryCount']) &&
           (
@@ -77,13 +70,12 @@ service cloud.firestore {
           )
         ) ||
 
-        // 리뷰 수 +1 또는 -1만 허용
         (
           request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reviewCount']) &&
           (
             request.resource.data.reviewCount == resource.data.reviewCount + 1 ||
             request.resource.data.reviewCount == resource.data.reviewCount - 1
-        )
+          )
         )
       );
 
@@ -92,25 +84,25 @@ service cloud.firestore {
 
     match /chatRooms/{roomId} {
       allow read: if isSignedIn();
+      allow create: if isSignedIn() &&
+        request.resource.data.createdBy.uid == request.auth.uid;
 
-      // write 시점에 문서가 없는 경우도 감안
-      allow write: if isSignedIn();
+      // 참가자 등록을 위해 "participants"만 수정할 수 있게 허용
+      allow update: if isSignedIn() && (
+        request.auth.uid in resource.data.participants || 
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(["participants"])
+      );
 
-      // 기존 문서 기준 update 제한
-      allow update, delete: if isSignedIn() && request.auth.uid in resource.data.participants;
-
-      allow create: if isSignedIn();
+      allow delete: if isSignedIn() && request.auth.uid in resource.data.participants;
     }
 
     match /chatMessages/{messageId} {
       allow read: if isSignedIn();
-
       allow create: if isSignedIn() && (
-        // 일반 메시지
-        ((request.resource.data.type == null || request.resource.data.type == "text") &&
-      request.resource.data.senderId == request.auth.uid)
-
-        // 시스템 메시지
+        (
+          (!("type" in request.resource.data) || request.resource.data.type == "text") &&
+          request.resource.data.sender.uid == request.auth.uid
+        )
         || (
           request.resource.data.type == "system" &&
           request.resource.data.systemType in ["join", "leave", "date"] &&
@@ -130,7 +122,7 @@ service cloud.firestore {
     }
 
     match /chatReports/{reportId} {
-      allow create: if isSignedIn() && request.auth.uid == request.resource.data.reporterId;
+      allow create: if isSignedIn() && request.resource.data.reporterId == request.auth.uid;
       allow read, delete: if isAdmin();
 
       match /{sub=**} {
@@ -144,7 +136,7 @@ service cloud.firestore {
       allow write, create: if isSignedIn() && isAdmin();
     }
 
-    // 나머지 모든 문서는 차단
+    // catch-all: 나머지 문서 차단
     match /{document=**} {
       allow read, write: if false;
     }

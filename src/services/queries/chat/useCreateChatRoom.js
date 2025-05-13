@@ -23,19 +23,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
  */
 
 export const useCreateChatRoom = () => {
-  const queryClient = useQueryClient(); // 쿼리 클라이언트 접근
+  const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({
-      title,
-      description = "",
-      category,
-      uid,
-      userName,
-    }) => {
-      if (!uid) {
+    mutationFn: async ({ title, description = "", category, user }) => {
+      if (!user?.uid)
         throw new Error("인증된 사용자만 채팅방을 생성할 수 있습니다");
-      }
+
       if (!title) {
         throw new Error("채팅방 제목은 필수입니다");
       }
@@ -45,9 +39,12 @@ export const useCreateChatRoom = () => {
         description,
         category,
         createdAt: serverTimestamp(),
-        createdBy: uid,
-        createdByName: userName,
-        participants: [uid],
+        createdBy: {
+          uid: user.uid,
+          displayName: user.displayName || "익명",
+          photoURL: user.photoURL || "/default_profile.png",
+        },
+        participants: [user.uid],
         isActive: true,
         lastActivity: serverTimestamp(),
       });
@@ -57,24 +54,25 @@ export const useCreateChatRoom = () => {
         title,
         description,
         category,
-        uid,
+        user,
       };
     },
 
     onSuccess: (newRoom) => {
-      // 1. 캐시 무효화 방식: 서버에서 목록 재조회
       queryClient.invalidateQueries({ queryKey: ["chatRooms"] });
 
-      // 2. 낙관적 업데이트
       queryClient.setQueryData(["chatRooms"], (oldData) => {
         const newRoomData = {
           id: newRoom.id,
           name: newRoom.title,
           description: newRoom.description,
-          createdBy: newRoom.uid,
-          createdByName: newRoom.userName,
-          createdAt: new Date().toISOString(), // 낙관적 예상값
-          participants: [newRoom.uid],
+          createdBy: {
+            uid: newRoom.user.uid,
+            displayName: newRoom.user.displayName,
+            photoURL: newRoom.user.photoURL,
+          },
+          participants: [newRoom.user.uid],
+          createdAt: new Date().toISOString(),
           isActive: true,
         };
         return oldData ? [...oldData, newRoomData] : [newRoomData];

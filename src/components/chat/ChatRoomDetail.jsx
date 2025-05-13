@@ -153,8 +153,8 @@ export default function ChatRoomDetail({ roomId }) {
         <div className="flex-1 flex flex-col">
           {/* 상단 헤더 */}
           <ChatHeader
-            title={roomInfo.name}
-            userName={roomInfo.createdByName || "상대 이름"}
+            title={roomInfo.name || "채팅방"}
+            userName={roomInfo.createdBy?.displayName || "익명"}
             onLeave={handleLeaveRoom}
           />
 

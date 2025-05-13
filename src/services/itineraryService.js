@@ -189,7 +189,11 @@ export const updateItinerary = async (id, updatedData) => {
 
     // Firestore에 저장할 데이터 준비
     const dataToUpdate = {
-      ...updatedData,
+      title: updatedData.title,
+      location: updatedData.location,
+      summary: updatedData.summary,
+      startDate: updatedData.startDate,
+      endDate: updatedData.endDate,
       imageUrl,
       updatedAt: serverTimestamp(),
     };

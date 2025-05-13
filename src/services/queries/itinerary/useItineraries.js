@@ -15,12 +15,22 @@ export const useItineraries = () => {
       );
       const snapshot = await getDocs(q);
 
-      return snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-        createdAt: doc.data().createdAt?.toDate() || new Date(),
-        updatedAt: doc.data().updatedAt?.toDate() || new Date(),
-      }));
+      return snapshot.docs.map((doc) => {
+        const data = doc.data();
+
+        return {
+          id: doc.id,
+          ...data,
+          createdAt: data.createdAt?.toDate() || new Date(),
+          updatedAt: data.updatedAt?.toDate() || new Date(),
+          createdBy: {
+            uid: data.createdBy?.uid || "",
+            displayName: data.createdBy?.displayName || "익명",
+            photoURL: data.createdBy?.photoURL || "/default_profile.png",
+          },
+          // startDate, endDate는 이후 개선 예정
+        };
+      });
     },
     onError: (err) => {
       console.error("일정 데이터를 불러오는 중 오류 발생:", err);
