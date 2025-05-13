@@ -3,7 +3,6 @@ import { useItineraries } from "services/queries/itinerary/useItineraries";
 
 import ItineraryCard from "./ItineraryCard";
 import LoadingSpinner from "components/common/LoadingSpinner";
-import EmptyState from "components/common/EmptyState";
 import { Search } from "lucide-react";
 import CreateCard from "components/common/CreateCard";
 import HeroSection from "components/common/HeroSection";
@@ -64,14 +63,7 @@ export default function ItineraryList() {
       </div>
     );
 
-  if (!itineraries || itineraries.length === 0)
-    return (
-      <EmptyState
-        icon="📅"
-        title="등록된 일정이 없습니다"
-        description="당신의 여행 일정을 공유해보세요!"
-      />
-    );
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <>
