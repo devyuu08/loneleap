@@ -51,8 +51,7 @@ export default function ChatRoomForm() {
         title,
         description,
         category,
-        uid: user.uid,
-        userName: user.displayName || "알 수 없음",
+        user,
       });
       navigate("/chat");
     } catch (err) {
