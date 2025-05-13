@@ -25,7 +25,7 @@ export default function ReviewList() {
     } else if (sort === "rating") {
       result.sort((a, b) => b.rating - a.rating);
     } else if (sort === "likes") {
-      result.sort((a, b) => (b.likes?.length || 0) - (a.likes?.length || 0));
+      result.sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0));
     }
 
     // 검색
