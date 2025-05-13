@@ -10,14 +10,16 @@ export default function ChatMessage({ message }) {
   const user = useSelector((state) => state.user.user);
   const {
     id,
-    senderId,
-    senderName,
+    sender,
     message: messageText,
     roomId,
     createdAt,
+    type,
+    systemType,
+    userName,
   } = message;
 
-  const isMine = senderId === user?.uid;
+  const isMine = sender?.uid === user?.uid;
   const [openReportModal, setOpenReportModal] = useState(false);
 
   const reportMutation = useReportMessage();
@@ -34,10 +36,10 @@ export default function ChatMessage({ message }) {
       });
   };
 
-  if (message.type === "system") {
+  if (type === "system") {
     const systemTextStyles = "text-center text-[12px] my-4";
 
-    switch (message.systemType) {
+    switch (systemType) {
       case "date":
         return (
           <div className="flex justify-center my-6">
@@ -46,25 +48,22 @@ export default function ChatMessage({ message }) {
             </span>
           </div>
         );
-
       case "join":
         return (
           <div className={`${systemTextStyles} text-gray-600`}>
             <span className="font-semibold text-gray-800 underline">
-              {message.userName}
+              {userName}
             </span>
             님이 여행 이야기에 합류했어요
           </div>
         );
-
       case "leave":
         return (
           <div className={`${systemTextStyles} text-gray-400 italic`}>
-            <span className="font-bold text-gray-500">{message.userName}</span>
+            <span className="font-bold text-gray-500">{userName}</span>
             님이 다른 여행지를 향해 떠났어요
           </div>
         );
-
       default:
         return null;
     }
@@ -75,14 +74,14 @@ export default function ChatMessage({ message }) {
       <div className="max-w-xs">
         {!isMine && (
           <img
-            src={message.senderPhotoURL || "/default_profile.png"}
-            alt={message.senderName}
+            src={sender?.photoURL || "/default_profile.png"}
+            alt={sender?.displayName || "익명"}
             className="w-6 h-6 rounded-full object-cover mr-2"
           />
         )}
         {!isMine && (
           <p className="text-xs font-semibold text-gray-700 mb-1">
-            {senderName}
+            {sender?.displayName || "익명"}
           </p>
         )}
 
