@@ -2,7 +2,16 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { updateProfile as updateFirebaseProfile } from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  serverTimestamp,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  collection,
+} from "firebase/firestore";
 import { auth, db } from "services/firebase";
 import { useUser } from "hooks/useUser"; // 사용자 uid 얻기용 커스텀 훅
 import { setUser } from "store/userSlice";
@@ -20,30 +29,56 @@ export function useUpdateProfile() {
     setError(null);
 
     try {
-      // 1. Firebase Auth 닉네임 업데이트
+      // Firebase Auth 닉네임 업데이트
       await updateFirebaseProfile(auth.currentUser, { displayName });
 
-      // 2-1. 공개 정보 저장 (users_public)
-      const publicRef = doc(db, "users_public", user.uid);
+      const photoURL = auth.currentUser.photoURL || "";
+
+      // 공개 정보 저장
       await setDoc(
-        publicRef,
+        doc(db, "users_public", user.uid),
         {
           displayName,
-          photoURL: auth.currentUser.photoURL || "",
+          photoURL,
           updatedAt: serverTimestamp(),
         },
         { merge: true }
       );
 
-      // 2-2. 비공개 정보 저장 (users_private)
-      const privateRef = doc(db, "users_private", user.uid);
+      // 비공개 정보 저장
       await setDoc(
-        privateRef,
+        doc(db, "users_private", user.uid),
         {
           bio,
           updatedAt: serverTimestamp(),
         },
         { merge: true }
+      );
+
+      // 작성 콘텐츠 업데이트
+      const collections = [
+        { name: "reviews", path: "createdBy" },
+        { name: "itineraries", path: "createdBy" },
+        { name: "chatRooms", path: "createdBy" },
+        { name: "chatMessages", path: "sender" },
+      ];
+
+      await Promise.all(
+        collections.map(async ({ name, path }) => {
+          const q = query(
+            collection(db, name),
+            where(`${path}.uid`, "==", user.uid)
+          );
+          const snap = await getDocs(q);
+          return Promise.all(
+            snap.docs.map((doc) =>
+              updateDoc(doc.ref, {
+                [`${path}.displayName`]: displayName,
+                [`${path}.photoURL`]: photoURL,
+              })
+            )
+          );
+        })
       );
 
       // Redux 업데이트
@@ -52,7 +87,7 @@ export function useUpdateProfile() {
           uid: user.uid,
           email: user.email,
           displayName,
-          photoURL: auth.currentUser.photoURL || "",
+          photoURL,
           bio,
         })
       );
