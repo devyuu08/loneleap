@@ -62,11 +62,30 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
 
           {/* 내용 */}
           <div className="space-y-4">
-            <div className="flex items-center gap-3 text-red-600">
-              <AlertTriangle className="w-5 h-5" />
-              <p className="text-sm">
-                작성한 리뷰, 일정, 채팅방 기록이 모두 삭제됩니다.
-              </p>
+            <div className="flex items-start gap-3 text-red-600">
+              <AlertTriangle className="w-5 h-5 mt-1" />
+              <div className="text-sm text-gray-700 space-y-1">
+                <p>
+                  작성한{" "}
+                  <strong className="text-red-700 font-medium">
+                    리뷰, 일정, 채팅방 기록은 삭제되지 않습니다.
+                  </strong>
+                </p>
+                <p>
+                  대신, 작성자 정보는{" "}
+                  <strong className="text-red-700 font-medium">
+                    "탈퇴한 사용자"
+                  </strong>
+                  로 익명 처리됩니다.
+                </p>
+                <p>
+                  기록 삭제를 원하실 경우,{" "}
+                  <strong className="text-red-700 font-medium">
+                    관리자에게 별도로 문의
+                  </strong>
+                  해 주세요.
+                </p>
+              </div>
             </div>
 
             {isPasswordUser ? (
