@@ -89,18 +89,24 @@ export default function RecommendationList() {
       </section>
 
       {/* 일정 만들기 CTA 섹션 */}
-      <section className="bg-[#F9FAFB] py-16">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            이 지역에서 일정을 만들어볼까요?
+      <section className="relative overflow-hidden py-24 px-6 bg-[#EDEDEA] text-center">
+        {/* 블러 포인트 */}
+        <div className="absolute -top-20 -left-20 w-96 h-96 bg-white/30 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-gray-300/20 rounded-full blur-2xl" />
+
+        {/* 콘텐츠 */}
+        <div className="relative z-10 max-w-xl mx-auto">
+          <h3 className="text-2xl font-heading font-semibold text-gray-900 mb-3">
+            이 계절, 당신만의 여정을 그려보세요.
           </h3>
-          <p className="text-sm text-gray-500 mb-6">
-            나만의 감성적인 혼행 일정을 계획해보세요. LoneLeap이 당신의 여정을
-            특별하게 만들어 드릴게요.
+          <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+            추천 여행지를 기반으로 나만의 감성을 담은 일정을 만들어보세요.
+            <br />
+            혼자 떠나지만, 당신의 여행은 언제나 특별하니까요.
           </p>
           <Link
             to="/itinerary"
-            className="inline-block bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition"
+            className="inline-block bg-black text-white px-6 py-2.5 rounded-full shadow-md hover:bg-gray-800 transition"
           >
             나만의 일정 만들기
           </Link>
