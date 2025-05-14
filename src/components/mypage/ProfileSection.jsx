@@ -6,7 +6,15 @@ import {
   reauthenticateWithCredential,
   updateProfile,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { auth, storage, db } from "services/firebase";
 import { anonymizePublicProfile } from "utils/deleteAccount";
 
@@ -61,6 +69,30 @@ export default function ProfileSection() {
         doc(db, "users_public", user.uid),
         { photoURL: downloadURL },
         { merge: true }
+      );
+
+      const collections = [
+        { name: "reviews", path: "createdBy" },
+        { name: "itineraries", path: "createdBy" },
+        { name: "chatRooms", path: "createdBy" },
+        { name: "chatMessages", path: "sender" },
+      ];
+
+      await Promise.all(
+        collections.map(async ({ name, path }) => {
+          const q = query(
+            collection(db, name),
+            where(`${path}.uid`, "==", user.uid)
+          );
+          const snap = await getDocs(q);
+          return Promise.all(
+            snap.docs.map((doc) =>
+              updateDoc(doc.ref, {
+                [`${path}.photoURL`]: downloadURL,
+              })
+            )
+          );
+        })
       );
 
       // Redux 상태 동기화
