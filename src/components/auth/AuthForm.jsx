@@ -77,7 +77,7 @@ export default function AuthForm() {
       />
 
       <div className="relative z-10 flex items-center justify-center min-h-screen py-32 px-4 sm:px-6 lg:px-8">
-        <div className="bg-white/90 w-full max-w-sm p-8 rounded-xl shadow-sm border backdrop-blur-md">
+        <div className="bg-white/50 w-full max-w-sm p-8 rounded-xl shadow-sm border backdrop-blur-md">
           <div className="text-center mb-8">
             <h1 className="text-xl font-semibold text-gray-800">LONELEAP</h1>
             <p className="mt-1 text-sm text-gray-500">
@@ -126,17 +126,17 @@ export default function AuthForm() {
               <p className="text-sm text-red-500 text-center">{error}</p>
             )}
 
-            <div className="flex items-center gap-2 text-sm text-gray-400">
-              <div className="h-px flex-1 bg-gray-300" />
+            <div className="flex items-center gap-2 text-sm text-gray-700">
+              <div className="h-px flex-1 bg-gray-500" />
               또는
-              <div className="h-px flex-1 bg-gray-300" />
+              <div className="h-px flex-1 bg-gray-500" />
             </div>
 
             <button
               type="button"
               onClick={handleGoogleLogin}
               disabled={loading}
-              className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-md hover:bg-gray-50 transition"
+              className="w-full flex items-center justify-center gap-3 border border-gray-100 py-2 rounded-md hover:bg-gray-50 transition"
             >
               <span className="text-xl">G</span>
               {loading ? "로그인 중..." : "Google로 계속하기"}
@@ -145,7 +145,7 @@ export default function AuthForm() {
             <button
               type="button"
               onClick={() => alert("Naver 로그인은 다음 버전에서 지원됩니다.")}
-              className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-md hover:bg-gray-50 transition"
+              className="w-full flex items-center justify-center gap-3 border border-gray-100 py-2 rounded-md hover:bg-gray-50 transition"
             >
               <img src="/naver-btn.png" alt="Naver" className="w-5 h-5" />
               네이버로 계속하기
@@ -159,11 +159,11 @@ export default function AuthForm() {
           </button> */}
           </form>
 
-          <div className="flex items-center justify-between mt-6 text-sm text-gray-500">
+          <div className="flex items-center justify-between mt-6 text-sm text-gray-600">
             아직 계정이 없으신가요?
             <Link
               to="/signup"
-              className="ml-1 underline font-medium text-gray-600 hover:text-black"
+              className="ml-1 underline font-medium text-gray-700 hover:text-black"
             >
               회원가입하기
             </Link>
