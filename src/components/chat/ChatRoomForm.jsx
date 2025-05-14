@@ -53,7 +53,7 @@ export default function ChatRoomForm() {
         category,
         user,
       });
-      navigate("/chat");
+      navigate("/chat/:id");
     } catch (err) {
       console.error("채팅방 생성 오류:", err);
       if (err.message.includes("제목과 사용자 ID는 필수입니다")) {
