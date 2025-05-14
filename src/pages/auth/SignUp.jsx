@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { setUser } from "store/userSlice";
 import { signUp } from "services/auth";
+
+import { Eye, EyeOff } from "lucide-react";
 
 export default function SignUp() {
   const dispatch = useDispatch();
@@ -164,11 +166,15 @@ export default function SignUp() {
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-blue-500 hover:underline"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
               >
-                {showPassword ? "숨기기" : "보기"}
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
 
@@ -188,7 +194,7 @@ export default function SignUp() {
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-blue-500 hover:underline"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
                 aria-label={
                   showPasswordConfirm
@@ -196,7 +202,11 @@ export default function SignUp() {
                     : "비밀번호 확인 보기"
                 }
               >
-                {showPasswordConfirm ? "숨기기" : "보기"}
+                {showPasswordConfirm ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
 
