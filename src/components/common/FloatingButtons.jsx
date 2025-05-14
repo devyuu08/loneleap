@@ -7,7 +7,7 @@ export function EditFloatingButton({ editPath }) {
   return (
     <button
       onClick={() => navigate(editPath)}
-      className="bg-gray-900 text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition"
+      className="bg-black/80 text-white p-3 rounded-full shadow-lg hover:bg-black transition"
       aria-label="수정하기"
     >
       <Pencil className="w-4 h-4" />
@@ -26,7 +26,7 @@ export function DeleteFloatingButton({ onDelete, isPending = false }) {
     <button
       onClick={handleDelete}
       disabled={isPending}
-      className="bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition"
+      className="bg-rose-400/90 text-white p-3 rounded-full shadow-lg hover:bg-rose-500 transition"
       aria-label="삭제하기"
     >
       <Trash2 className="w-4 h-4" />
