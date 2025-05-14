@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setUser, clearUser } from "store/userSlice";
 
-import { observeAuth } from "./services/auth";
+import { observeAuth } from "services/auth";
 import { fetchUserWithProfile } from "services/userService";
 
 import Header from "components/layout/Header";
@@ -13,7 +13,7 @@ import Footer from "components/layout/Footer";
 
 import AuthForm from "components/auth/AuthForm";
 
-import ProtectedRoute from "./components/common/ProtectedRoute";
+import ProtectedRoute from "components/common/ProtectedRoute";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 
 import Home from "pages/home/Home";
@@ -32,6 +32,7 @@ import MyPage from "pages/mypage/MyPage";
 import RecommendationListPage from "pages/recommendations/List";
 import RecommendationDetailPage from "pages/recommendations/Detail";
 import EditReviewPage from "pages/review/Edit";
+import FloatingButtons from "components/common/FloatingButtons";
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function App() {
   const location = useLocation();
 
   const pathParts = location.pathname.split("/");
+  const isHome = location.pathname === "/";
 
   const isChatDetailPage =
     pathParts[1] === "chat" &&
@@ -198,6 +200,8 @@ function App() {
           </Route>
         </Routes>
       </main>
+
+      {!isHome && <FloatingButtons />}
 
       {!isChatDetailPage && <Footer />}
     </div>
