@@ -25,6 +25,7 @@ import { Camera, Edit, LogOut, Settings } from "lucide-react";
 import SettingModal from "components/modal/SettingModal";
 import ChangePasswordModal from "components/modal/ChangePasswordModal";
 import DeleteAccountModal from "components/modal/DeleteAccountModal";
+import { anonymizeUserContent } from "utils/deleteAccount";
 
 export default function ProfileSection() {
   const user = useSelector((state) => state.user.user);
@@ -109,6 +110,7 @@ export default function ProfileSection() {
 
       // 2. 익명화
       await anonymizePublicProfile(uid);
+      await anonymizeUserContent(uid);
 
       // 3. 계정 삭제
       await deleteUser(user);
