@@ -24,6 +24,8 @@ export default function Header() {
     "/recommendations",
     "/chat",
     "/mypage",
+    "/login",
+    "/signup",
   ];
   const isHeroPage = heroPaths.includes(location.pathname);
 
