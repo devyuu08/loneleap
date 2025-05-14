@@ -12,7 +12,7 @@ export const useUserStats = (uid) => {
           query(collection(db, "itineraries"), where("userId", "==", uid))
         ),
         getCountFromServer(
-          query(collection(db, "reviews"), where("userId", "==", uid))
+          query(collection(db, "reviews"), where("createdBy.uid", "==", uid))
         ),
         getCountFromServer(
           query(
