@@ -9,5 +9,9 @@ export default function EditReviewPage() {
   if (isLoading) return <div className="text-center py-20">로딩 중...</div>;
   if (!data) return <div>리뷰를 찾을 수 없습니다.</div>;
 
-  return <ReviewForm initialData={data} isEditMode={true} />;
+  return (
+    <div className="pt-16">
+      <ReviewForm initialData={data} isEditMode={true} />
+    </div>
+  );
 }

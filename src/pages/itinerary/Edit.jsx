@@ -9,5 +9,9 @@ export default function EditItineraryPage() {
   if (isLoading) return <div className="text-center py-20">로딩 중...</div>;
   if (!data) return <div>일정을 찾을 수 없습니다.</div>;
 
-  return <ItineraryForm initialData={data} isEditMode={true} />;
+  return (
+    <div className="pt-16">
+      <ItineraryForm initialData={data} isEditMode={true} />
+    </div>
+  );
 }
