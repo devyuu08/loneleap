@@ -9,7 +9,6 @@ import {
   UserPlus,
   Menu,
   X,
-  UserCircle2,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
@@ -57,11 +56,11 @@ export default function Header() {
 
   const navItems = user ? (
     <>
-      <span className="px-4 py-1.5 rounded-full bg-[#f2f2f2]/70 text-gray-800 font-body shadow-sm border border-gray-300 text-sm font-medium">
+      <span className="shrink-0 max-w-xs truncate px-4 py-1.5 rounded-full bg-[#f2f2f2]/70 text-gray-800 font-body shadow-sm border border-gray-300 text-sm font-medium">
         <span className="text-[11px] uppercase tracking-widest text-gray-500 mr-1">
           Traveler
         </span>
-        <span className=" text-gray-800 font-semibold">
+        <span className="text-gray-800 font-semibold">
           {(user.displayName || user.email)?.split("@")[0] || "익명"}
         </span>
       </span>
@@ -134,7 +133,7 @@ export default function Header() {
 
         {/* 모바일 메뉴 버튼 */}
         <button
-          className="md:hidden"
+          className="lg:hidden"
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
         >
           {isMobileMenuOpen ? (
@@ -145,7 +144,7 @@ export default function Header() {
         </button>
 
         {/* 데스크탑 메뉴 */}
-        <nav className="hidden md:flex flex-wrap items-center gap-4 md:gap-6 text-sm">
+        <nav className="hidden lg:flex flex-wrap items-center gap-4 md:gap-6 text-sm max-w-full overflow-x-auto">
           {navItems}
         </nav>
       </div>
@@ -153,7 +152,7 @@ export default function Header() {
       {/* 모바일 메뉴 드롭다운 */}
       {isMobileMenuOpen && (
         <div
-          className={`md:hidden bg-white border-t border-gray-200 shadow-sm text-gray-800 px-4 pb-4`}
+          className={`lg:hidden bg-white border-t border-gray-200 shadow-sm text-gray-800 px-4 pb-4`}
         >
           <nav className="flex flex-col gap-3 text-sm pt-2">{navItems}</nav>
         </div>
