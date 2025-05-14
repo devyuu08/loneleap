@@ -123,7 +123,7 @@ export default function Header() {
           : "bg-transparent text-white border-transparent"
       }`}
     >
-      <div className="max-w-screen-xl mx-auto px-4 md:px-6 flex justify-between items-center h-16">
+      <div className="w-full mx-auto px-4 md:px-6 flex justify-between items-center h-16">
         {/* 로고 */}
         <Link
           to="/"
