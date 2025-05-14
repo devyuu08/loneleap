@@ -62,11 +62,11 @@ export default function AuthForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-md p-8 w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white w-full max-w-sm p-8 rounded-xl shadow-sm border border-gray-200">
         <div className="text-center mb-8">
-          <h1 className="text-xl font-semibold tracking-wide">LONELEAP</h1>
-          <p className="text-sm text-gray-500 mt-2">
+          <h1 className="text-xl font-semibold text-gray-800">LONELEAP</h1>
+          <p className="mt-1 text-sm text-gray-500">
             혼자 떠나는 여정, 스스로를 향한 도약
           </p>
         </div>
@@ -82,7 +82,7 @@ export default function AuthForm() {
               type="email"
               placeholder="your@email.com"
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+              className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
             />
           </div>
 
@@ -98,13 +98,13 @@ export default function AuthForm() {
               name="password"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+              className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-gray-900 text-white py-2 rounded font-medium hover:bg-black"
+            className="w-full py-3 bg-[#6D8591] text-white rounded-md hover:bg-[#4d5e66] transition"
           >
             {loading ? "로그인 중..." : "로그인"}
           </button>
@@ -120,7 +120,7 @@ export default function AuthForm() {
             type="button"
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full border border-gray-300 rounded py-2 flex items-center justify-center gap-2 hover:bg-gray-50"
+            className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-md hover:bg-gray-50 transition"
           >
             <span className="text-xl">G</span>
             {loading ? "로그인 중..." : "Google로 계속하기"}
@@ -129,7 +129,7 @@ export default function AuthForm() {
           <button
             type="button"
             onClick={() => alert("Naver 로그인은 다음 버전에서 지원됩니다.")}
-            className="w-full border border-gray-300 rounded py-2 flex items-center justify-center gap-2 hover:bg-green-50"
+            className="w-full flex items-center justify-center gap-3 border border-gray-300 py-2 rounded-md hover:bg-gray-50 transition"
           >
             <img src="/naver-btn.png" alt="Naver" className="w-5 h-5" />
             네이버로 계속하기
@@ -143,9 +143,14 @@ export default function AuthForm() {
           </button> */}
         </form>
 
-        <div className="flex justify-between mt-6 text-sm text-gray-500">
-          <Link to="/reset">비밀번호를 잊으셨나요?</Link>
-          <Link to="/signup">회원가입</Link>
+        <div className="flex items-center justify-between mt-6 text-sm text-gray-500">
+          아직 계정이 없으신가요?
+          <Link
+            to="/signup"
+            className="ml-1 underline font-medium text-gray-600 hover:text-black"
+          >
+            회원가입하기
+          </Link>
         </div>
       </div>
     </div>
