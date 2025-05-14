@@ -14,6 +14,8 @@ import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import { motion } from "framer-motion";
+
 export default function Header() {
   const user = useSelector((state) => state.user.user);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -127,8 +129,16 @@ export default function Header() {
           to="/"
           className="flex items-center gap-2 text-xl font-heading font-bold whitespace-nowrap"
         >
-          <Footprints className="w-6 h-6 text-inherit" />
-          LoneLeap
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="flex items-center gap-2 text-xl font-heading font-bold whitespace-nowrap"
+            whileHover={{ scale: 1.05 }}
+          >
+            <Footprints className="w-6 h-6 text-inherit" />
+            LoneLeap
+          </motion.div>
         </Link>
 
         {/* 모바일 메뉴 버튼 */}
