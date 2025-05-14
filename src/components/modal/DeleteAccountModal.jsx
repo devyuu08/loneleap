@@ -4,10 +4,18 @@ import { X, AlertTriangle } from "lucide-react";
 import PropTypes from "prop-types";
 import ErrorMessage from "components/common/ErrorMessage";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "services/firebase";
+
 export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const [user] = useAuthState(auth);
+  const isPasswordUser = user?.providerData?.some(
+    (p) => p.providerId === "password"
+  );
 
   const handleConfirm = async () => {
     if (!password.trim()) {
@@ -54,26 +62,52 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
 
           {/* 내용 */}
           <div className="space-y-4">
-            <div className="flex items-center gap-3 text-red-600">
-              <AlertTriangle className="w-5 h-5" />
-              <p className="text-sm">
-                작성한 리뷰, 일정, 채팅방 기록이 모두 삭제됩니다.
-              </p>
+            <div className="flex items-start gap-3 text-red-600">
+              <AlertTriangle className="w-5 h-5 mt-1" />
+              <div className="text-sm text-gray-700 space-y-1">
+                <p>
+                  작성한{" "}
+                  <strong className="text-red-700 font-medium">
+                    리뷰, 일정, 채팅방 기록은 삭제되지 않습니다.
+                  </strong>
+                </p>
+                <p>
+                  대신, 작성자 정보는{" "}
+                  <strong className="text-red-700 font-medium">
+                    "탈퇴한 사용자"
+                  </strong>
+                  로 익명 처리됩니다.
+                </p>
+                <p>
+                  기록 삭제를 원하실 경우,{" "}
+                  <strong className="text-red-700 font-medium">
+                    관리자에게 별도로 문의
+                  </strong>
+                  해 주세요.
+                </p>
+              </div>
             </div>
 
-            <p className="text-sm text-gray-700">
-              탈퇴를 위해 비밀번호를 다시 입력해주세요.
-            </p>
-
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="현재 비밀번호"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
-            />
-
-            <ErrorMessage message={error} />
+            {isPasswordUser ? (
+              <>
+                <p className="text-sm text-gray-700">
+                  탈퇴를 위해 비밀번호를 다시 입력해주세요.
+                </p>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="현재 비밀번호"
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
+                />
+                <ErrorMessage message={error} />
+              </>
+            ) : (
+              <p className="text-sm text-gray-700">
+                이 계정은 소셜 로그인으로 가입되었습니다. 별도 비밀번호 확인
+                없이 탈퇴할 수 있습니다.
+              </p>
+            )}
 
             <div className="flex justify-end gap-3 mt-4">
               <button
@@ -83,8 +117,8 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
                 취소
               </button>
               <button
-                onClick={handleConfirm}
-                disabled={isLoading}
+                onClick={() => (isPasswordUser ? handleConfirm() : onConfirm())}
+                disabled={isLoading || (isPasswordUser && !password)}
                 className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
               >
                 {isLoading ? "탈퇴 중..." : "탈퇴하기"}
