@@ -110,7 +110,7 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b ${
-        isScrolled
+        isScrolled || isMobileMenuOpen
           ? "bg-white shadow-sm text-gray-900 border-gray-200"
           : "bg-transparent text-white border-transparent"
       }`}
