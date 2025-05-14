@@ -9,6 +9,7 @@ import {
   UserPlus,
   Menu,
   X,
+  UserCircle2,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
@@ -56,9 +57,15 @@ export default function Header() {
 
   const navItems = user ? (
     <>
-      <span className="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 font-body shadow-sm whitespace-nowrap">
-        {user.displayName || user.email}
+      <span className="px-4 py-1.5 rounded-full bg-[#f2f2f2]/70 text-gray-800 font-body shadow-sm border border-gray-300 text-sm font-medium">
+        <span className="text-[11px] uppercase tracking-widest text-gray-500 mr-1">
+          Traveler
+        </span>
+        <span className=" text-gray-800 font-semibold">
+          {(user.displayName || user.email)?.split("@")[0] || "익명"}
+        </span>
       </span>
+
       <NavLink
         to="/itinerary"
         className={({ isActive }) => getNavLinkClass(isActive)}
