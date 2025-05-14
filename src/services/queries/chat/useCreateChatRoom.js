@@ -22,7 +22,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
  * };
  */
 
-export const useCreateChatRoom = () => {
+export const useCreateChatRoom = (navigate) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -77,6 +77,7 @@ export const useCreateChatRoom = () => {
         };
         return oldData ? [...oldData, newRoomData] : [newRoomData];
       });
+      navigate(`/chat/${newRoom.id}`);
     },
   });
 };
