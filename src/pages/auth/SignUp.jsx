@@ -218,9 +218,12 @@ export default function SignUp() {
             </button>
           </form>
 
-          <p className="text-sm text-center text-gray-500 mt-6">
+          <p className="flex items-center justify-between text-sm text-gray-600 mt-6">
             이미 계정이 있으신가요?{" "}
-            <Link to="/login" className="text-blue-600 font-medium">
+            <Link
+              to="/login"
+              className="text-gray-700 underline font-medium hover:text-black"
+            >
               로그인
             </Link>
           </p>
