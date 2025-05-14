@@ -23,14 +23,6 @@ export default function MessageInput({ roomId }) {
     return <div className="text-red-500">채팅방 ID 오류</div>;
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!message.trim()) return;
-
-    // 메시지 전송 로직...
-    setMessage("");
-  };
-
   const handleSend = async () => {
     if (!message.trim() || !user || isSubmitting) return;
     setIsSubmitting(true);
@@ -65,7 +57,6 @@ export default function MessageInput({ roomId }) {
 
   return (
     <div className="flex items-center gap-3">
-      {/* 이미지 업로드 버튼 (디자인만, 기능은 나중에) */}
       <button className="text-gray-500 hover:text-gray-700">
         <ImageIcon className="w-5 h-5" />
       </button>
