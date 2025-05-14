@@ -8,7 +8,7 @@ export default function RecommendationLocation({
 }) {
   return (
     <section className="py-24 px-6">
-      <div className="max-w-screen-xl mx-auto space-y-16">
+      <div className="max-w-5xl mx-auto space-y-16">
         {/* 제목 */}
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900">위치 정보</h2>

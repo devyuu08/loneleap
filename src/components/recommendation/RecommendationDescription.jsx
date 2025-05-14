@@ -28,9 +28,6 @@ export default function RecommendationDescription({
           {description}
         </ReactMarkdown>
 
-        {/* 구분선 */}
-        <div className="border-t border-gray-200 my-10" />
-
         {/* 위치 정보 */}
         <p className="text-sm text-gray-500 flex items-center gap-2 mt-8">
           <MapPin className="w-4 h-4" />
