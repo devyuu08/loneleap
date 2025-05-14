@@ -68,13 +68,13 @@ export default function ReviewPreview() {
                 {/* 유저 정보 */}
                 <div className="flex gap-4 items-center mb-4">
                   <img
-                    src={review.authorPhoto || "/default_profile.png"}
+                    src={review.createdBy?.photoURL || "/default_profile.png"}
                     alt="작성자"
                     className="w-14 h-14 object-cover rounded-full border border-white/20"
                   />
                   <div>
                     <p className="font-bold text-base">
-                      {review.authorName || "익명"}
+                      {review.createdBy?.displayName || "익명"}
                     </p>
                     <p className="text-xs opacity-60">
                       {review.destination || "여행지"} ·{" "}
