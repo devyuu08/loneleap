@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "services/firebase";
 import { useSelector } from "react-redux";
@@ -8,14 +8,28 @@ import { useSelector } from "react-redux";
 import { Send, Image as ImageIcon } from "lucide-react";
 
 export default function MessageInput({ roomId }) {
+  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const user = useSelector((state) => state.user.user);
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
   if (!roomId) {
     console.error("MessageInput: roomId가 제공되지 않았습니다.");
     return <div className="text-red-500">채팅방 ID 오류</div>;
   }
 
-  const [message, setMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const user = useSelector((state) => state.user.user);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+
+    // 메시지 전송 로직...
+    setMessage("");
+  };
 
   const handleSend = async () => {
     if (!message.trim() || !user || isSubmitting) return;
@@ -58,6 +72,7 @@ export default function MessageInput({ roomId }) {
 
       {/* 입력창 */}
       <input
+        ref={inputRef}
         type="text"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
