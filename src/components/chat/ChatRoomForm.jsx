@@ -16,7 +16,7 @@ export default function ChatRoomForm() {
   const isLoading = useSelector((state) => state.user.isLoading);
 
   const navigate = useNavigate();
-  const { mutateAsync, isPending } = useCreateChatRoom();
+  const { mutateAsync, isPending } = useCreateChatRoom(navigate);
 
   const [errors, setErrors] = useState({});
   const [didAlert, setDidAlert] = useState(false);
@@ -53,7 +53,6 @@ export default function ChatRoomForm() {
         category,
         user,
       });
-      navigate("/chat/:id");
     } catch (err) {
       console.error("채팅방 생성 오류:", err);
       if (err.message.includes("제목과 사용자 ID는 필수입니다")) {
