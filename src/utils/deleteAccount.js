@@ -34,7 +34,7 @@ export const anonymizeUserContent = async (uid) => {
     where("createdBy.uid", "==", uid)
   );
   const messageQ = query(
-    collection(db, "messages"),
+    collection(db, "chatMessages"),
     where("sender.uid", "==", uid)
   );
 
@@ -48,17 +48,19 @@ export const anonymizeUserContent = async (uid) => {
     await Promise.all(promises);
   };
 
-  const [reviews, itineraries, chatRooms, messages] = await Promise.all([
-    getDocs(reviewQ),
-    getDocs(itineraryQ),
-    getDocs(chatRoomQ),
-    getDocs(messageQ),
-  ]);
+  try {
+    const [reviews, itineraries, chatRooms, messages] = await Promise.all([
+      getDocs(reviewQ),
+      getDocs(itineraryQ),
+      getDocs(chatRoomQ),
+      getDocs(messageQ),
+    ]);
 
-  await Promise.all([
-    anonymizeDocs(reviews, "createdBy"),
-    anonymizeDocs(itineraries, "createdBy"),
-    anonymizeDocs(chatRooms, "createdBy"),
-    anonymizeDocs(messages, "sender"),
-  ]);
+    await anonymizeDocs(reviews, "createdBy");
+    await anonymizeDocs(itineraries, "createdBy");
+    await anonymizeDocs(chatRooms, "createdBy");
+    await anonymizeDocs(messages, "sender");
+  } catch (err) {
+    throw err;
+  }
 };

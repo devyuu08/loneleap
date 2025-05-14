@@ -119,7 +119,6 @@ export default function ProfileSection() {
       dispatch(clearUser());
       navigate("/");
     } catch (err) {
-      console.error("계정 탈퇴 실패:", err);
       alert("계정 탈퇴 중 오류가 발생했습니다: " + err.message);
     }
   };
