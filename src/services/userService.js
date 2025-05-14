@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { setUser } from "store/userSlice";
 import { auth, db } from "services/firebase";
 import { extractSafeUser } from "utils/extractSafeUser";
@@ -17,13 +17,39 @@ export const fetchUserWithProfile = async (firebaseUser, dispatch) => {
     // 공개 정보
     const publicRef = doc(db, "users_public", uid);
     const publicSnap = await getDoc(publicRef);
-    const publicData = publicSnap.exists() ? publicSnap.data() : {};
+
+    if (!publicSnap.exists()) {
+      await setDoc(publicRef, {
+        displayName: firebaseUser.displayName || "익명",
+        photoURL: firebaseUser.photoURL || "/default_profile.png",
+        createdAt: serverTimestamp(),
+      });
+    }
+
+    const publicData = (await getDoc(publicRef)).data();
 
     // 비공개 정보
     const privateRef = doc(db, "users_private", uid);
     const privateSnap = await getDoc(privateRef);
-    const privateData = privateSnap.exists() ? privateSnap.data() : {};
 
+    // users_private에 기본 필드가 모두 포함되도록 보장
+    if (!privateSnap.exists()) {
+      await setDoc(privateRef, {
+        bio: "",
+        email: firebaseUser.email || "",
+        uid,
+        role: "user",
+        status: "active",
+        itineraryCount: 0,
+        reviewCount: 0,
+        reportedCount: 0,
+        createdAt: serverTimestamp(),
+      });
+    }
+
+    const privateData = (await getDoc(privateRef)).data();
+
+    // 병합 및 Redux 저장
     const bio = privateData.bio || "";
     const displayName =
       publicData.displayName || firebaseUser.displayName || "";
