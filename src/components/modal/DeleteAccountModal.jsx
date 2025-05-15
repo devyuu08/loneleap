@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { X, AlertTriangle } from "lucide-react";
 import PropTypes from "prop-types";
@@ -11,6 +11,13 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setPassword("");
+      setError("");
+    }
+  }, [isOpen]);
 
   const [user] = useAuthState(auth);
   const isPasswordUser = user?.providerData?.some(

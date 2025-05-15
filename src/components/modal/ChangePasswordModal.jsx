@@ -1,7 +1,7 @@
 import { Dialog } from "@headlessui/react";
 import { X } from "lucide-react";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ErrorMessage from "components/common/ErrorMessage";
 
@@ -11,6 +11,15 @@ export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setError("");
+    }
+  }, [isOpen]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
