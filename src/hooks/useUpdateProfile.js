@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useQueryClient } from "@tanstack/react-query";
+
 import { updateProfile as updateFirebaseProfile } from "firebase/auth";
 import {
   doc,
@@ -20,6 +22,7 @@ export function useUpdateProfile() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const queryClient = useQueryClient();
 
   /**
    * 사용자 프로필 정보 업데이트
@@ -38,19 +41,19 @@ export function useUpdateProfile() {
       // 1. Firebase Auth 프로필 업데이트
       await updateFirebaseProfile(auth.currentUser, {
         displayName,
-        photoURL,
+        ...(photoURL !== undefined && { photoURL }),
       });
 
       // 2. Firestore 공개 프로필 정보 업데이트
-      await setDoc(
-        doc(db, "users_public", user.uid),
-        {
-          displayName,
-          photoURL,
-          updatedAt: serverTimestamp(),
-        },
-        { merge: true }
-      );
+      const publicData = {
+        displayName,
+        updatedAt: serverTimestamp(),
+      };
+      if (photoURL !== undefined) publicData.photoURL = photoURL;
+
+      await setDoc(doc(db, "users_public", user.uid), publicData, {
+        merge: true,
+      });
 
       // 3. Firestore 비공개 프로필 정보 업데이트
       await setDoc(
@@ -81,7 +84,9 @@ export function useUpdateProfile() {
             snap.docs.map((doc) =>
               updateDoc(doc.ref, {
                 [`${path}.displayName`]: displayName,
-                [`${path}.photoURL`]: photoURL,
+                ...(photoURL !== undefined && {
+                  [`${path}.photoURL`]: photoURL,
+                }),
               })
             )
           );
@@ -94,10 +99,15 @@ export function useUpdateProfile() {
           uid: user.uid,
           email: user.email,
           displayName,
-          photoURL,
+          photoURL: photoURL !== undefined ? photoURL : user.photoURL,
           bio,
         })
       );
+
+      // 6. React Query 캐시 무효화
+      queryClient.invalidateQueries(["reviews"]);
+      queryClient.invalidateQueries(["itineraries"]);
+      queryClient.invalidateQueries(["chatRooms"]);
     } catch (err) {
       console.error("프로필 업데이트 실패:", err);
       setError(err);
