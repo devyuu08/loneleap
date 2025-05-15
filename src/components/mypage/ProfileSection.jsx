@@ -157,48 +157,43 @@ export default function ProfileSection() {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 py-10">
+      <section className="flex flex-col items-center text-center px-6 py-16 min-h-[80vh]">
         {/* 왼쪽: 프로필 정보 */}
-        <div className="flex items-center gap-6">
-          <div className="relative group">
-            <img
-              src={user?.photoURL || "/default_profile.png"}
-              alt="프로필 이미지"
-              className="w-28 h-28 object-cover rounded-lg shadow-sm border"
+        <div className="relative group w-32 h-32 mb-4">
+          <img
+            src={user?.photoURL || "/default_profile.png"}
+            alt="프로필 이미지"
+            className="w-32 h-32 object-cover rounded-full border-2 border-white shadow-md"
+          />
+          {/* 업로드 버튼 (hover 시 표시) */}
+          <label
+            htmlFor="profile-image-upload"
+            className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition duration-200 cursor-pointer"
+          >
+            <Camera className="w-6 h-6" />
+            <input
+              id="profile-image-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
             />
+          </label>
+        </div>
 
-            {/* 업로드 버튼 (hover 시 표시) */}
-            <label
-              htmlFor="profile-image-upload"
-              className="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition cursor-pointer"
-            >
-              <Camera className="w-6 h-6" />
-              <input
-                id="profile-image-upload"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageChange}
-              />
-            </label>
-          </div>
-
-          {/* 텍스트 */}
-          <div className="space-y-1">
-            <h2 className="text-lg font-semibold text-white">
-              {user?.displayName || "닉네임 없음"}
-            </h2>
-            <p className="text-sm text-gray-300">
-              @{user?.email?.split("@")[0]}
-            </p>
-            <p className="text-sm text-white whitespace-pre-wrap">
-              {user?.bio?.trim() || "소개 문구가 없습니다."}
-            </p>
-          </div>
+        {/* 텍스트 정보 */}
+        <div className="space-y-1 mb-8">
+          <h2 className="text-xl font-semibold text-white">
+            {user?.displayName || "닉네임 없음"}
+          </h2>
+          <p className="text-sm text-gray-400">@{user?.email?.split("@")[0]}</p>
+          <p className="text-sm text-white mt-2 whitespace-pre-wrap max-w-md">
+            {user?.bio?.trim() || "소개 문구가 없습니다."}
+          </p>
         </div>
 
         {/* 오른쪽: 버튼 그룹 */}
-        <div className="flex justify-center gap-4 mt-6 flex-wrap">
+        <div className="flex justify-center gap-4 mb-12 flex-wrap">
           <RoundedButton
             label="Profile"
             onClick={() => setIsEditModalOpen(true)}
@@ -218,26 +213,26 @@ export default function ProfileSection() {
             icon={<LogOut className="w-4 h-4" />}
           />
         </div>
-      </div>
 
-      {/* 하단 통계 */}
-      <div className="grid grid-cols-3 gap-4 px-6 mb-10">
-        {[
-          { label: "여행 일정", count: stats?.itineraryCount },
-          { label: "여행 리뷰", count: stats?.reviewCount },
-          { label: "채팅방", count: stats?.chatRoomCount },
-        ].map((item) => (
-          <div
-            key={item.label}
-            className="bg-white/50 backdrop-blur-lg rounded-lg py-4 text-center"
-          >
-            <p className="text-lg text-white font-semibold">
-              {statsLoading ? "..." : item.count ?? "-"}
-            </p>
-            <p className="text-sm text-gray-200">{item.label}</p>
-          </div>
-        ))}
-      </div>
+        {/* 하단 통계 */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl px-6">
+          {[
+            { label: "여행 일정", count: stats?.itineraryCount },
+            { label: "여행 리뷰", count: stats?.reviewCount },
+            { label: "채팅방", count: stats?.chatRoomCount },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="bg-white/50 backdrop-blur-lg rounded-lg py-4 text-center"
+            >
+              <p className="text-lg text-white font-semibold">
+                {statsLoading ? "..." : item.count ?? "-"}
+              </p>
+              <p className="text-sm text-gray-200">{item.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
       {/* 모달 컴포넌트 렌더링 */}
       <ModalPortal>
         <ProfileEditModal
