@@ -63,7 +63,7 @@ export default function ReviewPreview() {
             <SwiperSlide key={review.id} className="flex justify-center">
               <Link
                 to={`/reviews/${review.id}`}
-                className="bg-black/60 text-white rounded-xl px-6 py-5 w-[420px] h-72 shadow-md hover:shadow-lg transition flex flex-col justify-between"
+                className="bg-white/60 text-gray-900 rounded-xl px-6 py-5 w-[420px] h-72 shadow-md hover:shadow-lg transition flex flex-col justify-between"
               >
                 {/* 유저 정보 */}
                 <div className="flex gap-4 items-center mb-4">
@@ -92,15 +92,26 @@ export default function ReviewPreview() {
                 </div>
 
                 {/* 내용 */}
-                <p className="text-sm leading-relaxed text-white/90 line-clamp-3">
+                <p className="text-sm leading-relaxed text-gray-800 line-clamp-3">
                   ❝{getPreviewText(review)}❞
                 </p>
 
                 {/* 별점 */}
-                <div className="mt-3 flex gap-0.5 text-yellow-400 text-sm">
-                  {[1, 2, 3, 4, 5].map((i) =>
-                    i <= Math.round(review.rating || 0) ? "★" : "☆"
-                  )}
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-1 text-yellow-300 text-xl transition-transform duration-200 ease-in-out hover:scale-110">
+                    {[1, 2, 3, 4, 5].map((i) =>
+                      i <= Math.round(review.rating || 0) ? (
+                        <span key={i}>★</span>
+                      ) : (
+                        <span key={i} className="text-gray-300 opacity-70">
+                          ☆
+                        </span>
+                      )
+                    )}
+                  </div>
+                  <span className="text-sm text-gray-500">
+                    ({review.rating.toFixed(1)})
+                  </span>
                 </div>
               </Link>
             </SwiperSlide>
