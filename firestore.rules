@@ -136,7 +136,9 @@ service cloud.firestore {
       allow create: if isSignedIn() && request.auth.uid == request.resource.data.reporterId;
 
       // 생성한 사용자가 읽을 수 있도록 read 허용
-      allow read: if isSignedIn() && resource.data.reporterId == request.auth.uid;
+      allow read: if isSignedIn() && (
+        resource.data.reporterId == request.auth.uid || isAdmin()
+      );
 
       allow delete: if isAdmin();
 
