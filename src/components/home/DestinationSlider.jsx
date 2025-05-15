@@ -43,7 +43,7 @@ export default function DestinationSlider() {
             1024: { slidesPerView: 4 },
           }}
         >
-          {destinations.map((place) => (
+          {destinations.slice(0, 8).map((place) => (
             <SwiperSlide key={place.id}>
               <Link
                 to={`/recommendations/${place.id}`}
