@@ -102,9 +102,14 @@ export default function ReviewPreview() {
                   </div>
 
                   {/* 내용 */}
-                  <p className="text-sm leading-relaxed mt-3 line-clamp-3 opacity-90">
-                    ❝{getPreviewText(review)}❞
-                  </p>
+                  <div className="mt-4 space-y-1 leading-relaxed">
+                    <p className="text-sm text-gray-500 italic font-semibold">
+                      Q. 이번 여행은 어떻게 시작되었나요?
+                    </p>
+                    <p className="text-[15px] text-gray-800 pt-3 line-clamp-3 font-medium before:content-['“'] after:content-['”']">
+                      {getPreviewText(review)}
+                    </p>
+                  </div>
 
                   {/* 별점 */}
                   <div className="flex items-center gap-2 mt-4">
