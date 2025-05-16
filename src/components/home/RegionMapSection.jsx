@@ -5,38 +5,42 @@ import { useState } from "react";
 export default function RegionMapSection() {
   const [activeRegion, setActiveRegion] = useState(null);
 
+  const totalCount = regions.reduce((acc, r) => acc + r.count, 0);
+
   return (
     <section className="bg-gray-100 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10">
         {/* 왼쪽 설명 */}
         <div className="flex-1 max-w-2xl pl-7">
           <h2 className="text-3xl font-bold text-gray-900 mb-2 text-left">
-            지금, 어디로 떠나고 싶나요?
+            지도에서 여행지를 골라보세요
           </h2>
           <p className="text-sm text-gray-500 mb-6 leading-relaxed">
-            감성 혼행자들이 자주 찾는 지역별 여행 일정. 지도를 클릭해 나만의
-            여정을 시작해보세요.
+            대한민국의 구석구석, 혼자 떠나기 좋은 일정들이 기다리고 있어요. 클릭
+            한 번으로 일정을 탐색하고, 마음에 드는 여정을 발견해보세요.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-            {regions.map((r) => (
-              <div key={r.slug} className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold">
-                  {r.count}
-                </div>
-                <div>
-                  <p className="font-semibold">{r.name}</p>
-                  <p className="text-sm text-gray-500">{r.desc}</p>
-                </div>
-              </div>
-            ))}
+          {/* 전체 지역 요약 (예: 일정 수 총합, 인기 지역) */}
+          <div className="bg-white/60 rounded-xl shadow-sm px-6 py-4 mb-6 backdrop-blur-sm">
+            <p className="text-gray-800 text-sm leading-relaxed font-bold">
+              총 <span className="text-blue-700">{totalCount}</span>
+              개의 일정이{" "}
+              <span className="text-blue-700">{regions.length}</span>개 지역에
+              걸쳐 등록되어 있어요.
+            </p>
+            <p className="text-xs text-gray-500 mt-3">
+              최근 인기 지역은{" "}
+              <span className="font-medium text-black">서울</span>과{" "}
+              <span className="font-medium text-black">제주도</span>입니다.
+            </p>
           </div>
 
+          {/* CTA 버튼 */}
           <Link
-            to={`/itinerary`}
-            className="inline-block mt-6 text-sm px-4 py-1.5 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50 transition"
+            to="/itinerary"
+            className="inline-block mt-5 px-5 py-2 rounded bg-black text-white text-sm hover:bg-gray-800"
           >
-            더 많은 일정 보러가기 →
+            전체 일정 보러가기 →
           </Link>
         </div>
 
@@ -54,11 +58,11 @@ export default function RegionMapSection() {
               className="absolute -translate-x-1/2 -translate-y-1/2"
               style={{ top: r.position.top, left: r.position.left }}
             >
-              {/* 설명 박스: 항상 z-50 이상 */}
+              {/* 설명 박스 */}
               {activeRegion === r.slug && (
-                <div className="absolute bottom-[56px] left-1/2 -translate-x-1/2 bg-white text-gray-800 rounded-xl shadow-xl px-4 py-3 w-[200px]">
+                <div className="absolute bottom-[56px] left-1/2 -translate-x-1/2 bg-gray-600 text-white rounded-xl shadow-xl px-4 py-3 w-[200px]">
                   <p className="font-semibold text-sm">{r.name}</p>
-                  <p className="text-xs text-gray-500 mt-1">{r.desc}</p>
+                  <p className="text-xs text-white mt-1">{r.desc}</p>
                 </div>
               )}
 
