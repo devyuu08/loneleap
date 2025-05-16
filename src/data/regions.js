@@ -18,7 +18,7 @@ export const regions = [
     slug: "gangwon",
     count: 18,
     desc: "자연과 함께하는 고요한 여행 장소들",
-    position: { top: "20%", left: "60%" },
+    position: { top: "25%", left: "65%" },
   },
   {
     name: "충청도",
