@@ -72,13 +72,13 @@ export const useReportReview = () => {
       await addDoc(collection(db, "review_reports"), {
         reviewId,
         reason,
-        reporterId,
+        reporterId: user.uid,
         reportedAt: serverTimestamp(),
         status: "pending",
       });
 
       // 3. 리뷰 작성자의 신고당한 횟수 증가
-      await updateDoc(doc(db, "users", authorUid), {
+      await updateDoc(doc(db, "users_private", authorUid), {
         reportedCount: increment(1),
       });
     },

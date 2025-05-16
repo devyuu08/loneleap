@@ -92,7 +92,7 @@ export const useReportMessage = () => {
         });
 
         // 3. senderId 기준으로 신고당한 유저의 reportedCount 증가
-        await updateDoc(doc(db, "users", sender.uid), {
+        await updateDoc(doc(db, "users_private", sender.uid), {
           reportedCount: increment(1),
         });
       } catch (error) {
