@@ -2,10 +2,20 @@ import { Link } from "react-router-dom";
 import { regions } from "data/regions";
 import { useState } from "react";
 
+import { useRegionCounts } from "services/queries/itinerary/useRegionCounts";
+
 export default function RegionMapSection() {
   const [activeRegion, setActiveRegion] = useState(null);
 
-  const totalCount = regions.reduce((acc, r) => acc + r.count, 0);
+  const { data: regionCounts, isLoading } = useRegionCounts();
+
+  if (!regionCounts) return null;
+
+  const mappedRegions = regions.map((r) => ({
+    ...r,
+    count: regionCounts[r.slug] || 0,
+  }));
+  const totalCount = Object.values(regionCounts).reduce((acc, v) => acc + v, 0);
 
   return (
     <section className="bg-gray-100 py-20 px-4 sm:px-6 lg:px-8">
@@ -52,7 +62,7 @@ export default function RegionMapSection() {
             className="w-full h-full object-contain"
           />
 
-          {regions.map((r) => (
+          {mappedRegions.map((r) => (
             <div
               key={r.slug}
               className="absolute -translate-x-1/2 -translate-y-1/2"
