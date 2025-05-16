@@ -56,6 +56,7 @@ service cloud.firestore {
     match /users_public/{userId} {
       allow read: if true;
       allow update, create: if isSignedIn() && isOwner(userId);
+      allow delete: if isAdmin();
     }
 
     match /users_private/{userId} {
@@ -86,6 +87,7 @@ service cloud.firestore {
         )
       );
 
+      allow delete: if isAdmin();
       allow create: if isSignedIn();
     }
 
