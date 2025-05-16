@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { regions } from "data/regions";
+import { useState } from "react";
 
 export default function RegionMapSection() {
+  const [activeRegion, setActiveRegion] = useState(null);
+
   return (
     <section className="bg-gray-100 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10">
@@ -38,7 +41,7 @@ export default function RegionMapSection() {
         </div>
 
         {/* 오른쪽 지도 */}
-        <div className="relative w-[480px] h-[480px] flex-shrink-0 mx-auto lg:mr-7">
+        <div className="relative w-[480px] h-[480px] flex-shrink-0 mx-auto lg:mr-7 z-0 overflow-visible">
           <img
             src="/images/korea-map.png"
             alt="대한민국 지도"
@@ -51,12 +54,22 @@ export default function RegionMapSection() {
               className="absolute -translate-x-1/2 -translate-y-1/2"
               style={{ top: r.position.top, left: r.position.left }}
             >
-              <Link
-                to={`/itineraries/${r.slug}`}
-                className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm shadow-md hover:scale-110 hover:ring-2 hover:ring-white transition"
+              {/* 설명 박스: 항상 z-50 이상 */}
+              {activeRegion === r.slug && (
+                <div className="absolute bottom-[56px] left-1/2 -translate-x-1/2 bg-white text-gray-800 rounded-xl shadow-xl px-4 py-3 w-[200px]">
+                  <p className="font-semibold text-sm">{r.name}</p>
+                  <p className="text-xs text-gray-500 mt-1">{r.desc}</p>
+                </div>
+              )}
+
+              <button
+                onClick={() =>
+                  setActiveRegion(activeRegion === r.slug ? null : r.slug)
+                }
+                className="relative w-10 h-10 rounded-full bg-white/80 text-gray-900 font-semibold text-sm shadow-lg ring-2 ring-white backdrop-blur-sm flex items-center justify-center transition hover:scale-110"
               >
                 {r.count}
-              </Link>
+              </button>
             </div>
           ))}
         </div>
