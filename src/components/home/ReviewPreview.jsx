@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -19,7 +19,7 @@ export default function ReviewPreview() {
   };
 
   return (
-    <section className="relative py-24 px-6 bg-gray-900 overflow-hidden">
+    <section className="relative py-32 px-6 bg-gray-900 overflow-hidden">
       {/* 배경 이미지 */}
       <img
         src="/images/review-bg.jpg"
@@ -38,80 +38,91 @@ export default function ReviewPreview() {
           <p className="text-sm text-white/80 mt-2">
             당신만의 순간이 누군가의 여행이 됩니다.
           </p>
-          <Link
-            to="/reviews"
-            className="inline-block mt-4 text-sm px-4 py-1.5 rounded-full border border-white/30 text-white hover:bg-white/10 transition"
-          >
-            더보기 →
-          </Link>
+          <div className="text-center mt-8">
+            <Link
+              to="/reviews"
+              className="text-sm px-4 py-2 border rounded-full text-white border-white/30 hover:bg-white/10 transition"
+            >
+              더 많은 이야기 보기 →
+            </Link>
+          </div>
         </div>
 
         <Swiper
-          modules={[Navigation]}
+          modules={[Navigation, Pagination]}
           navigation
-          spaceBetween={20}
-          slidesPerView={4}
-          slidesPerGroup={1}
-          breakpoints={{
-            320: { slidesPerView: 1 },
-            640: { slidesPerView: 2 },
-            768: { slidesPerView: 3 },
-            1024: { slidesPerView: 4 },
-          }}
+          pagination={{ clickable: true }}
+          centeredSlides
+          slidesPerView={1.2}
+          spaceBetween={40}
+          loop={reviews.length >= 3}
+          className="max-w-6xl mx-auto"
         >
           {reviews.map((review) => (
             <SwiperSlide key={review.id} className="flex justify-center">
               <Link
                 to={`/reviews/${review.id}`}
-                className="bg-white/60 text-gray-900 rounded-xl px-6 py-5 w-[420px] h-72 shadow-md hover:shadow-lg transition flex flex-col justify-between"
+                className="relative w-full max-w-3xl h-80 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition flex bg-white backdrop-blur-sm"
               >
-                {/* 유저 정보 */}
-                <div className="flex gap-4 items-center mb-4">
+                {/* 왼쪽: 리뷰 이미지 */}
+                <div className="w-2/5 min-w-[160px] h-full">
                   <img
-                    src={review.createdBy?.photoURL || "/default_profile.png"}
-                    alt="작성자"
-                    className="w-14 h-14 object-cover rounded-full border border-white/20"
+                    src={review.imageUrl || "/images/no_image.png"}
+                    alt="리뷰 이미지"
+                    className="w-full h-full object-cover"
                   />
-                  <div>
-                    <p className="font-bold text-base">
-                      {review.createdBy?.displayName || "익명"}
-                    </p>
-                    <p className="text-xs opacity-60">
-                      {review.destination || "여행지"} ·{" "}
-                      {review.createdAt?.toDate
-                        ? new Date(
-                            review.createdAt.toDate()
-                          ).toLocaleDateString("ko-KR", {
-                            year: "2-digit",
-                            month: "2-digit",
-                            day: "2-digit",
-                          })
-                        : "날짜 없음"}
-                    </p>
-                  </div>
                 </div>
 
-                {/* 내용 */}
-                <p className="text-sm leading-relaxed text-gray-800 line-clamp-3">
-                  ❝{getPreviewText(review)}❞
-                </p>
-
-                {/* 별점 */}
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1 text-yellow-300 text-xl transition-transform duration-200 ease-in-out hover:scale-110">
-                    {[1, 2, 3, 4, 5].map((i) =>
-                      i <= Math.round(review.rating || 0) ? (
-                        <span key={i}>★</span>
-                      ) : (
-                        <span key={i} className="text-gray-300 opacity-70">
-                          ☆
-                        </span>
-                      )
-                    )}
+                {/* 오른쪽: 리뷰 내용 */}
+                <div className="flex-1 px-6 py-6 text-gray-900 flex flex-col justify-between">
+                  {/* 유저 정보 */}
+                  <div className="flex gap-4 items-center">
+                    <img
+                      src={review.createdBy?.photoURL || "/default_profile.png"}
+                      alt="작성자"
+                      className="w-12 h-12 object-cover rounded-full border border-white/20"
+                    />
+                    <div>
+                      <p className="font-bold text-base">
+                        {review.createdBy?.displayName || "익명"}
+                      </p>
+                      <p className="text-xs opacity-70">
+                        {review.destination || "여행지"} ·{" "}
+                        {review.createdAt?.toDate
+                          ? new Date(
+                              review.createdAt.toDate()
+                            ).toLocaleDateString("ko-KR", {
+                              year: "2-digit",
+                              month: "2-digit",
+                              day: "2-digit",
+                            })
+                          : "날짜 없음"}
+                      </p>
+                    </div>
                   </div>
-                  <span className="text-sm text-gray-500">
-                    ({review.rating.toFixed(1)})
-                  </span>
+
+                  {/* 내용 */}
+                  <p className="text-sm leading-relaxed mt-3 line-clamp-3 opacity-90">
+                    ❝{getPreviewText(review)}❞
+                  </p>
+
+                  {/* 별점 */}
+                  <div className="flex items-center gap-2 mt-4">
+                    <div className="flex gap-1 text-yellow-400 text-xl hover:scale-110 transition-transform">
+                      {[1, 2, 3, 4, 5].map((i) =>
+                        i <= Math.round(review.rating || 0) ? (
+                          <span key={i}>★</span>
+                        ) : (
+                          <span key={i} className="text-gray-400">
+                            ☆
+                          </span>
+                        )
+                      )}
+                    </div>
+                    <span className="text-sm text-gray-400">
+                      ({review.rating.toFixed(1)})
+                    </span>
+                  </div>
                 </div>
               </Link>
             </SwiperSlide>
