@@ -22,24 +22,13 @@ import SkeletonImage from "components/common/SkeletonImage";
 
 export default function ReviewCard({ review }) {
   const navigate = useNavigate();
-  const {
-    id,
-    title,
-    destination,
-    content,
-    rating,
-    createdBy,
-    createdAt,
-    imageUrl,
-  } = review || {};
+  const { id, title, destination, rating, createdBy, createdAt, imageUrl } =
+    review || {};
 
   const formattedDate =
     createdAt instanceof Date
       ? createdAt.toLocaleDateString("ko-KR")
       : createdAt?.toDate?.().toLocaleDateString("ko-KR") ?? "";
-
-  const truncatedContent =
-    content && content.length > 100 ? `${content.slice(0, 100)}...` : content;
 
   return (
     <div
@@ -93,21 +82,26 @@ export default function ReviewCard({ review }) {
           {title || "제목 없음"}
         </h3>
 
-        {/* 내용 요약 */}
-        <p className="text-sm text-gray-500 line-clamp-2">
-          {truncatedContent || "리뷰 내용이 없습니다."}
-        </p>
+        {/* TODO: review.summary 필드 도입 후, 여기에 요약 내용으로 대체 예정 */}
+        <p className="text-sm text-gray-500 italic">여행자의 솔직한 이야기</p>
 
         {/* 작성자 + 좋아요 */}
         <div className="flex justify-between items-center mt-2">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 max-w-[calc(100%-40px)]">
             <span className="text-xs text-gray-500 truncate max-w-[100px]">
               {createdBy?.displayName || "익명"}
             </span>
-            <SkeletonImage
+            <img
               src={createdBy?.photoURL || "/images/default-profile.png"}
               alt="작성자"
               className="w-5 h-5 rounded-full object-cover"
+              onError={(e) => {
+                const fallback = "/images/default-profile.png";
+                if (!e.target.dataset.fallback) {
+                  e.target.src = fallback;
+                  e.target.dataset.fallback = "true";
+                }
+              }}
             />
           </div>
           <LikeButton reviewId={review.id} likesCount={review.likesCount} />
