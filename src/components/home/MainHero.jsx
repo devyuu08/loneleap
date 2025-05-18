@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const images = [
-  "/images/korea_han_river.jpg", // 1. 고요한 시작
-  "/images/train_view.jpg", // 2. 이동
-  "/images/seoul_night.jpg", // 3. 회상/도착
+  "/images/Naejangsan.jpg",
+  "/images/train_view.jpg",
+  "/images/seoul_night.jpg",
 ];
 
 export default function MainHero() {
