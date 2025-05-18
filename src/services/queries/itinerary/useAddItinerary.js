@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { updateDoc, doc, increment } from "firebase/firestore";
 import { db } from "services/firebase";
@@ -16,7 +15,6 @@ export const useAddItinerary = ({
   onSuccessCallback = () => {},
   onErrorCallback = () => {},
 } = {}) => {
-  const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
   const queryClient = useQueryClient();
 
@@ -60,8 +58,7 @@ export const useAddItinerary = ({
 
       queryClient.invalidateQueries({ queryKey: ["itineraries"] });
 
-      navigate(`/itinerary/${newId}`);
-      onSuccessCallback();
+      onSuccessCallback(newId);
     },
     onError: (error) => {
       console.error(error);
