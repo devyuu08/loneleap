@@ -1,4 +1,4 @@
-import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
+import { ArrowLeft, Pencil, Plus, Trash2 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export function EditFloatingButton({ editPath }) {
@@ -53,6 +53,7 @@ export default function FloatingButtons({
   editPath,
   onDelete,
   isDeletePending = false,
+  createPath,
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,7 +79,7 @@ export default function FloatingButtons({
       </div>
 
       {/* 수정/삭제 버튼: editPath와 onDelete가 있어야 렌더링 */}
-      {editPath && onDelete && (
+      {editPath && onDelete ? (
         <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
           <EditFloatingButton editPath={editPath} />
           <DeleteFloatingButton
@@ -86,7 +87,17 @@ export default function FloatingButtons({
             isPending={isDeletePending}
           />
         </div>
-      )}
+      ) : createPath ? (
+        <div className="fixed bottom-6 right-6 z-50">
+          <button
+            onClick={() => navigate(createPath)}
+            className="bg-black/80 text-white p-4 rounded-full shadow-lg hover:bg-black transition"
+            aria-label="생성하기"
+          >
+            <Plus className="w-5 h-5" />
+          </button>
+        </div>
+      ) : null}
     </>
   );
 }

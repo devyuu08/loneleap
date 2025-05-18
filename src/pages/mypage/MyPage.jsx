@@ -15,6 +15,7 @@ import { useMyReviews } from "services/queries/review/useMyReviews";
 import { useMyChatRooms } from "services/queries/chat/useMyChatRooms";
 
 import { CalendarDays, MessageSquareText, MessagesSquare } from "lucide-react";
+import FloatingButtons from "components/common/FloatingButtons";
 
 export default function MyPage() {
   const user = useSelector((state) => state.user.user);
@@ -151,6 +152,16 @@ export default function MyPage() {
           </section>
         </LayoutWrapper>
       </div>
+
+      <FloatingButtons
+        createPath={
+          activeTab === "itinerary"
+            ? "/itinerary/create"
+            : activeTab === "review"
+            ? "/reviews/create"
+            : null
+        }
+      />
     </main>
   );
 }
