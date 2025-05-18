@@ -2,23 +2,28 @@ rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
 
-    // 일정 관련 파일 - 사용자 본인만 접근 가능
-    match /itineraries/{userId}/{itineraryId}/{fileName} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+    match /itineraries/{allPaths=**} {
+      allow read, write: if request.auth != null;
     }
 
-    // 리뷰 이미지 업로드 - 로그인된 유저 모두 가능
     match /reviews/{allPaths=**} {
       allow read, write: if request.auth != null;
     }
 
-    // 관리자만 업로드 가능
-    match /admin/{allPaths=**} {
-      allow write: if request.auth != null &&
-        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    match /recommendations/{allPaths=**} {
+      allow read, write: if request.auth != null;
     }
 
-    // 기본: 인증된 유저만 읽기 허용
+    match /admin/{allPaths=**} {
+      allow write: if request.auth != null;
+    }
+
+    // 프로필 이미지: 본인만 읽기/쓰기 가능
+    match /profile_images/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 나머지: 인증된 유저만 읽기 가능
     match /{allPaths=**} {
       allow read: if request.auth != null;
     }

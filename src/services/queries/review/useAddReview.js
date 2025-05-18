@@ -1,17 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { db, storage } from "../../firebase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import {
+  updateDoc,
+  doc,
+  increment,
+  addDoc,
+  collection,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db } from "services/firebase";
+import { uploadImage } from "utils/uploadImage";
 
 /**
-+ * 리뷰 추가 기능을 제공하는 커스텀 훅
-+ * @param {Object} options - 훅 옵션
-+ * @param {Function} options.onSuccessCallback - 리뷰 추가 성공 시 호출되는 콜백 함수
-+ * @param {Function} options.onErrorCallback - 리뷰 추가 실패 시 호출되는 콜백 함수(에러 객체를 매개변수로 받음)
-+ * @returns {Object} 리뷰 추가 관련 함수와 상태
-+ */
+ * 리뷰 추가 기능을 제공하는 커스텀 훅
+ * @param {Object} options - 훅 옵션
+ * @param {Function} options.onSuccessCallback - 성공 시 콜백
+ * @param {Function} options.onErrorCallback - 실패 시 콜백
+ * @returns {Object} 리뷰 추가 관련 함수와 상태
+ */
 export default function useAddReview({
   onSuccessCallback = () => {},
   onErrorCallback = () => {},
@@ -20,7 +27,6 @@ export default function useAddReview({
   const user = useSelector((state) => state.user.user);
   const queryClient = useQueryClient();
 
-  // 사용자 인증 상태 확인
   const checkAuth = () => {
     if (!user) {
       navigate("/login", { state: { from: "/reviews/create" } });
@@ -29,57 +35,79 @@ export default function useAddReview({
   };
 
   const {
-    mutate: addReview, // mutate → addReview로 이름 변경
-    isLoading, // 외부에서 로딩 상태 사용할 수 있도록 반환
+    mutate: addReview,
+    isLoading,
     isError,
     error,
   } = useMutation({
-    mutationFn: async ({ title, destination, content, rating, image }) => {
+    mutationFn: async (review) => {
       checkAuth();
-      if (!title?.trim()) throw new Error("제목을 입력해주세요.");
-      if (!destination?.trim()) throw new Error("여행지를 입력해주세요.");
-      if (!content?.trim()) throw new Error("내용을 입력해주세요.");
 
-      let imageUrl = "";
-
-      if (image) {
-        const maxSizeInBytes = 5 * 1024 * 1024;
-        const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
-
-        if (image.size > maxSizeInBytes) {
-          throw new Error("이미지 크기는 5MB 이하이어야 합니다.");
-        }
-        if (!allowedTypes.includes(image.type)) {
-          throw new Error("지원되는 이미지 형식은 JPEG, PNG, GIF입니다.");
-        }
-
-        const imageRef = ref(storage, `reviews/${Date.now()}_${image.name}`);
-        try {
-          const snapshot = await uploadBytes(imageRef, image);
-          imageUrl = await getDownloadURL(snapshot.ref);
-        } catch (error) {
-          console.error("이미지 업로드 중 오류 발생:", error);
-          throw new Error("이미지 업로드에 실패했습니다. 다시 시도해 주세요.");
-        }
-      }
-
-      await addDoc(collection(db, "reviews"), {
+      const {
         title,
         destination,
         content,
         rating,
+        image,
+        type = "standard",
+        interviewAnswers,
+        interviewQuestions,
+      } = review;
+
+      if (!title?.trim()) throw new Error("제목을 입력해주세요.");
+      if (!destination?.trim()) throw new Error("여행지명을 입력해주세요.");
+      if (!rating) throw new Error("별점을 입력해주세요.");
+      if (type === "standard" && (!content?.trim() || content.length < 100)) {
+        throw new Error("내용을 100자 이상 입력해주세요.");
+      }
+
+      let imageUrl = "";
+      if (image) {
+        try {
+          imageUrl = await uploadImage(image, "reviews", user.uid);
+        } catch (err) {
+          throw new Error(err.message);
+        }
+      }
+
+      const reviewData = {
+        title,
+        destination,
+        rating,
         imageUrl,
-        authorId: user?.uid || "",
-        authorName: user?.displayName || "익명",
+        createdBy: {
+          uid: user.uid,
+          displayName: user.displayName || "익명",
+          photoURL: user.photoURL || "",
+        },
         createdAt: serverTimestamp(),
+        likeCount: 0,
+        commentCount: 0,
+        type,
+      };
+
+      if (type === "standard") {
+        reviewData.content = content;
+      } else {
+        reviewData.interviewAnswers = interviewAnswers;
+        reviewData.interviewQuestions = interviewQuestions;
+      }
+
+      const docRef = await addDoc(collection(db, "reviews"), reviewData);
+
+      await updateDoc(doc(db, "users_private", user.uid), {
+        reviewCount: increment(1),
       });
+
+      return docRef.id;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+
+    onSuccess: (newId) => {
       alert("리뷰가 성공적으로 등록되었습니다!");
-      navigate("/reviews");
-      onSuccessCallback();
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      onSuccessCallback(newId);
     },
+
     onError: (error) => {
       console.error(error);
       alert(`리뷰 등록 중 오류가 발생했습니다: ${error.message}`);
