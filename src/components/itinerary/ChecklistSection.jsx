@@ -114,7 +114,7 @@ export default function ChecklistSection({
           onChange={(e) =>
             setNewItem((prev) => ({ ...prev, text: e.target.value }))
           }
-          onKeyDown={(e) => e.key === "Enter" && handleAddItem()}
+          onKeyUp={(e) => e.key === "Enter" && handleAddItem()}
         />
         <button
           onClick={handleAddItem}

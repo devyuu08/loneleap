@@ -15,28 +15,35 @@ export const signUp = async (email, password, displayName) => {
   const result = await createUserWithEmailAndPassword(auth, email, password);
 
   try {
-    // displayName 설정
+    const user = result.user;
+
+    // Firebase Auth 사용자 정보에 displayName 설정
     if (displayName && displayName.trim() !== "") {
-      await updateProfile(result.user, { displayName });
+      await updateProfile(user, { displayName });
     }
 
-    // Firestore에 사용자 정보 추가
-    const userRef = doc(db, "users", result.user.uid);
-    await setDoc(userRef, {
-      uid: result.user.uid,
-      email: result.user.email,
+    // 공개 정보: users_public/{uid}
+    const publicRef = doc(db, "users_public", user.uid);
+    await setDoc(publicRef, {
       displayName: displayName || "",
-      photoURL: result.user.photoURL || "",
-      status: "active", // 기본 상태
-      role: "user", // 기본 사용자 역할
-      itineraryCount: 0, // 작성한 일정 수
-      reviewCount: 0, // 작성한 리뷰 수
-      reportedCount: 0, // 신고당한 횟수
+      photoURL: user.photoURL || "",
+      bio: "",
+    });
+
+    // 민감 정보: users_private/{uid}
+    const privateRef = doc(db, "users_private", user.uid);
+    await setDoc(privateRef, {
+      uid: user.uid,
+      email: user.email,
+      status: "active",
+      role: "user",
+      itineraryCount: 0,
+      reviewCount: 0,
+      reportedCount: 0,
       createdAt: serverTimestamp(),
     });
   } catch (error) {
     console.error("회원가입 후 Firestore 저장 실패:", error);
-    // 필요시 예외 처리
   }
 
   return result;

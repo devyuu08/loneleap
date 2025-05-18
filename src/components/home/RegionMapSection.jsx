@@ -1,85 +1,92 @@
 import { Link } from "react-router-dom";
+import { regions } from "data/regions";
+import { useState } from "react";
 
-const regions = [
-  {
-    name: "서울 & 경기",
-    slug: "seoul",
-    count: 24,
-    desc: "도심 속 혼자만의 시간을 위한 장소들",
-    position: { top: "42%", left: "48%" },
-  },
-  {
-    name: "강원도",
-    slug: "gangwon",
-    count: 18,
-    desc: "자연과 함께하는 고요한 여행 장소들",
-    position: { top: "30%", left: "60%" },
-  },
-  {
-    name: "제주도",
-    slug: "jeju",
-    count: 22,
-    desc: "섬 속의 고독을 즐기는 장소들",
-    position: { top: "85%", left: "30%" },
-  },
-];
+import { useRegionCounts } from "services/queries/itinerary/useRegionCounts";
 
 export default function RegionMapSection() {
-  return (
-    <section className="flex flex-col lg:flex-row items-center justify-between gap-8 bg-gray-100 px-8 py-20">
-      {/* 왼쪽 설명 */}
-      <div className="flex-1 max-w-lg ml-10">
-        <h2 className="text-2xl font-bold text-gray-900 font-heading mb-4">
-          Explore Korean Destinations
-        </h2>
-        <p className="text-gray-500 text-sm mb-6">
-          혼자 여행하기 좋은 한국의 지역별 일정과 숨겨진 명소를 탐색해보세요.
-        </p>
+  const [activeRegion, setActiveRegion] = useState(null);
 
-        <div className="flex flex-col gap-4">
-          {regions.map((r) => (
-            <div key={r.slug} className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold">
+  const { data: regionCounts, isLoading } = useRegionCounts();
+
+  if (!regionCounts) return null;
+
+  const mappedRegions = regions.map((r) => ({
+    ...r,
+    count: regionCounts[r.slug] || 0,
+  }));
+  const totalCount = Object.values(regionCounts).reduce((acc, v) => acc + v, 0);
+
+  return (
+    <section className="bg-gray-100 py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10">
+        {/* 왼쪽 설명 */}
+        <div className="flex-1 max-w-2xl pl-7">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2 text-left">
+            지도에서 여행지를 골라보세요
+          </h2>
+          <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+            대한민국의 구석구석, 혼자 떠나기 좋은 일정들이 기다리고 있어요. 클릭
+            한 번으로 일정을 탐색하고, 마음에 드는 여정을 발견해보세요.
+          </p>
+
+          {/* 전체 지역 요약 (예: 일정 수 총합, 인기 지역) */}
+          <div className="bg-white/60 rounded-xl shadow-sm px-6 py-4 mb-6 backdrop-blur-sm">
+            <p className="text-gray-800 text-sm leading-relaxed font-bold">
+              총 <span className="text-blue-700">{totalCount}</span>
+              개의 일정이{" "}
+              <span className="text-blue-700">{regions.length}</span>개 지역에
+              걸쳐 등록되어 있어요.
+            </p>
+            <p className="text-xs text-gray-500 mt-3">
+              최근 인기 지역은{" "}
+              <span className="font-medium text-black">서울</span>과{" "}
+              <span className="font-medium text-black">제주도</span>입니다.
+            </p>
+          </div>
+
+          {/* CTA 버튼 */}
+          <Link
+            to="/itinerary"
+            className="inline-block mt-5 px-5 py-2 rounded bg-black text-white text-sm hover:bg-gray-800"
+          >
+            전체 일정 보러가기 →
+          </Link>
+        </div>
+
+        {/* 오른쪽 지도 */}
+        <div className="relative w-[480px] h-[480px] flex-shrink-0 mx-auto lg:mr-7 z-0 overflow-visible">
+          <img
+            src="/images/korea-map.png"
+            alt="대한민국 지도"
+            className="w-full h-full object-contain"
+          />
+
+          {mappedRegions.map((r) => (
+            <div
+              key={r.slug}
+              className="absolute -translate-x-1/2 -translate-y-1/2"
+              style={{ top: r.position.top, left: r.position.left }}
+            >
+              {/* 설명 박스 */}
+              {activeRegion === r.slug && (
+                <div className="absolute bottom-[56px] left-1/2 -translate-x-1/2 bg-gray-600 text-white rounded-xl shadow-xl px-4 py-3 w-[200px]">
+                  <p className="font-semibold text-sm">{r.name}</p>
+                  <p className="text-xs text-white mt-1">{r.desc}</p>
+                </div>
+              )}
+
+              <button
+                onClick={() =>
+                  setActiveRegion(activeRegion === r.slug ? null : r.slug)
+                }
+                className="relative w-10 h-10 rounded-full bg-white/80 text-gray-900 font-semibold text-sm shadow-lg ring-2 ring-white backdrop-blur-sm flex items-center justify-center transition hover:scale-110"
+              >
                 {r.count}
-              </div>
-              <div>
-                <p className="font-semibold">{r.name}</p>
-                <p className="text-sm text-gray-500">{r.desc}</p>
-              </div>
+              </button>
             </div>
           ))}
         </div>
-
-        <Link
-          to={`/itineraries`}
-          className="inline-block mt-6 px-5 py-2 rounded bg-black text-white text-sm hover:bg-gray-800"
-        >
-          더 많은 일정 보러가기
-        </Link>
-      </div>
-
-      {/* 오른쪽 지도 */}
-      <div className="relative w-full max-w-xl aspect-[5/4] mr-10">
-        <img
-          src="/images/korea-map.png"
-          alt="대한민국 지도"
-          className="w-full h-full object-contain"
-        />
-
-        {regions.map((r) => (
-          <div
-            key={r.slug}
-            className="absolute -translate-x-1/2 -translate-y-1/2"
-            style={{ top: r.position.top, left: r.position.left }}
-          >
-            <Link
-              to={`/itineraries/${r.slug}`}
-              className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm shadow-md hover:scale-105 transition-transform"
-            >
-              {r.count}
-            </Link>
-          </div>
-        ))}
       </div>
     </section>
   );

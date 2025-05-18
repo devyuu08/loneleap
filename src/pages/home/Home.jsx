@@ -1,4 +1,4 @@
-import HeroSection from "components/Home/HeroSection";
+import MainHero from "components/Home/MainHero";
 import ReviewPreview from "components/Home/ReviewPreview";
 import DestinationSlider from "components/home/DestinationSlider";
 import RegionMapSection from "components/home/RegionMapSection";
@@ -8,7 +8,7 @@ import NewsletterSection from "components/home/NewsletterSection";
 export default function Home() {
   return (
     <>
-      <HeroSection />
+      <MainHero />
       <DestinationSlider />
       <ReviewPreview />
       <RegionMapSection />

@@ -53,7 +53,7 @@ export const useReportReview = () => {
         throw new Error("이미 신고한 리뷰입니다.");
       }
 
-      // 1. 리뷰 문서에서 작성자(authorId) 조회
+      // 1. 리뷰 문서에서 작성자 조회
       const reviewRef = doc(db, "reviews", reviewId);
       const reviewSnap = await getDoc(reviewRef);
 
@@ -61,19 +61,24 @@ export const useReportReview = () => {
         throw new Error("신고 대상 리뷰를 찾을 수 없습니다.");
       }
 
-      const { authorId } = reviewSnap.data();
+      const reviewData = reviewSnap.data();
+      const authorUid = reviewData.createdBy?.uid;
+
+      if (!authorUid) {
+        throw new Error("리뷰 작성자의 UID를 찾을 수 없습니다.");
+      }
 
       // 2. 신고 문서 추가
       await addDoc(collection(db, "review_reports"), {
         reviewId,
         reason,
-        reporterId,
+        reporterId: user.uid,
         reportedAt: serverTimestamp(),
         status: "pending",
       });
 
-      // 3. 리뷰 작성자(authorId)의 신고당한 횟수 증가
-      await updateDoc(doc(db, "users", authorId), {
+      // 3. 리뷰 작성자의 신고당한 횟수 증가
+      await updateDoc(doc(db, "users_private", authorUid), {
         reportedCount: increment(1),
       });
     },

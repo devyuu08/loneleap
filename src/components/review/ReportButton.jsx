@@ -2,6 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { useReportReview } from "services/queries/review/useReportReview";
 import ReportModal from "components/common/ReportModal";
+import ModalPortal from "components/common/ModalPortal";
 
 export default function ReportButton({ reviewId }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,17 +28,19 @@ export default function ReportButton({ reviewId }) {
       <button
         onClick={handleOpen}
         disabled={reportMutation.isPending}
-        className="text-sm text-red-500 hover:underline disabled:opacity-50"
+        className="px-3 py-1.5 rounded-full border border-gray-300 text-sm bg-white/60 text-gray-800 backdrop-blur-sm shadow-sm hover:bg-white/80 transition disabled:opacity-50"
       >
         {reportMutation.isPending ? "신고 중..." : "신고하기"}
       </button>
 
       {isOpen && (
-        <ReportModal
-          onClose={handleClose}
-          onSubmit={handleSubmit}
-          isPending={reportMutation.isPending}
-        />
+        <ModalPortal>
+          <ReportModal
+            onClose={handleClose}
+            onSubmit={handleSubmit}
+            isPending={reportMutation.isPending}
+          />
+        </ModalPortal>
       )}
     </>
   );

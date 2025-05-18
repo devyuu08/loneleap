@@ -1,6 +1,3 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
   CalendarCheck,
   Footprints,
@@ -10,10 +7,32 @@ import {
   MessagesSquare,
   UserCircle,
   UserPlus,
+  Menu,
+  X,
 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { motion } from "framer-motion";
 
 export default function Header() {
   const user = useSelector((state) => state.user.user);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const heroPaths = [
+    "/",
+    "/itinerary",
+    "/reviews",
+    "/recommendations",
+    "/chat",
+    "/mypage",
+    "/login",
+    "/signup",
+  ];
+  const isHeroPage = heroPaths.includes(location.pathname);
 
   const baseLinkClass =
     "flex items-center gap-1.5 pb-1 hover:text-black font-body";
@@ -22,89 +41,131 @@ export default function Header() {
     isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass;
   const iconClass = "w-4 h-4 text-inherit";
 
-  return (
-    <header className="bg-white px-6 py-4 border-b flex justify-between items-center shadow-sm">
-      {/* 로고 */}
-      <Link
-        to="/"
-        title="메인으로 돌아가기"
-        className="flex items-center gap-2 text-xl font-heading font-bold text-gray-900"
+  useEffect(() => {
+    if (!isHeroPage) {
+      setIsScrolled(true);
+      return;
+    }
+
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isHeroPage]);
+
+  const navItems = user ? (
+    <>
+      <span className="shrink-0 max-w-xs truncate px-4 py-1.5 rounded-full bg-[#f2f2f2]/70 text-gray-800 font-body shadow-sm border border-gray-300 text-sm font-medium">
+        <span className="text-[11px] uppercase tracking-widest text-gray-500 mr-1">
+          Traveler
+        </span>
+        <span className="text-gray-800 font-semibold">
+          {(user.displayName || user.email)?.split("@")[0] || "익명"}
+        </span>
+      </span>
+
+      <NavLink
+        to="/itinerary"
+        className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <Footprints className="w-6 h-6 text-inherit" />
-        LoneLeap
-      </Link>
+        <CalendarCheck className={iconClass} /> Journeys
+      </NavLink>
+      <NavLink
+        to="/reviews"
+        className={({ isActive }) => getNavLinkClass(isActive)}
+      >
+        <MessagesSquare className={iconClass} /> Stories
+      </NavLink>
+      <NavLink
+        to="/chat"
+        className={({ isActive }) => getNavLinkClass(isActive)}
+      >
+        <MessageCircle className={iconClass} /> Open Chats
+      </NavLink>
+      <NavLink
+        to="/recommendations"
+        className={({ isActive }) => getNavLinkClass(isActive)}
+      >
+        <MapPin className={iconClass} /> Next Stops
+      </NavLink>
+      <NavLink
+        to="/mypage"
+        className={({ isActive }) => getNavLinkClass(isActive)}
+      >
+        <UserCircle className={iconClass} /> My Cabin
+      </NavLink>
+    </>
+  ) : (
+    <>
+      <NavLink
+        to="/login"
+        className={({ isActive }) => getNavLinkClass(isActive)}
+      >
+        <LogIn className={iconClass} /> Login
+      </NavLink>
+      <NavLink
+        to="/signup"
+        className={({ isActive }) => getNavLinkClass(isActive)}
+      >
+        <UserPlus className={iconClass} /> Sign Up
+      </NavLink>
+    </>
+  );
 
-      {/* 로그인된 경우 */}
-      {user ? (
-        <nav className="flex items-center gap-6 text-sm text-gray-700">
-          <span className="px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 font-body text-sm shadow-sm">
-            {user.displayName || user.email}
-          </span>
-
-          <NavLink
-            to="/itinerary"
-            title="혼행 일정 모아보기"
-            className={({ isActive }) => getNavLinkClass(isActive)}
+  return (
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b ${
+        isScrolled || isMobileMenuOpen
+          ? "bg-white shadow-sm text-gray-900 border-gray-200"
+          : "bg-transparent text-white border-transparent"
+      }`}
+    >
+      <div className="w-full mx-auto px-4 md:px-6 flex justify-between items-center h-16">
+        {/* 로고 */}
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-xl font-heading font-bold whitespace-nowrap"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="flex items-center gap-2 text-xl font-heading font-bold whitespace-nowrap"
+            whileHover={{ scale: 1.05 }}
           >
-            <CalendarCheck className={iconClass} />
-            Journeys
-          </NavLink>
+            <Footprints className="w-6 h-6 text-inherit" />
+            LoneLeap
+          </motion.div>
+        </Link>
 
-          <NavLink
-            to="/reviews"
-            title="여행자들의 감상과 기록"
-            className={({ isActive }) => getNavLinkClass(isActive)}
-          >
-            <MessagesSquare className="w-4 h-4 text-inherit" />
-            Stories
-          </NavLink>
+        {/* 모바일 메뉴 버튼 */}
+        <button
+          className="lg:hidden"
+          onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+        >
+          {isMobileMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
+        </button>
 
-          <NavLink
-            to="/chat"
-            title="여행자들과 소통하는 공간"
-            className={({ isActive }) => getNavLinkClass(isActive)}
-          >
-            <MessageCircle className={iconClass} />
-            Open Chats
-          </NavLink>
-
-          <NavLink
-            to="/recommendations"
-            title="추천 여행지 살펴보기"
-            className={({ isActive }) => getNavLinkClass(isActive)}
-          >
-            <MapPin className={iconClass} />
-            Next Stops
-          </NavLink>
-
-          <NavLink
-            to="/mypage"
-            title="내 정보와 활동 공간"
-            className={({ isActive }) => getNavLinkClass(isActive)}
-          >
-            <UserCircle className={iconClass} />
-            My Cabin
-          </NavLink>
+        {/* 데스크탑 메뉴 */}
+        <nav className="hidden lg:flex flex-wrap items-center gap-4 md:gap-6 text-sm max-w-full overflow-x-auto">
+          {navItems}
         </nav>
-      ) : (
-        // 로그인되지 않은 경우
-        <nav className="flex gap-4 text-sm text-gray-700">
-          <NavLink
-            to="/login"
-            className={({ isActive }) => getNavLinkClass(isActive)}
-          >
-            <LogIn className={iconClass} />
-            Login
-          </NavLink>
+      </div>
 
-          <NavLink
-            to="/signup"
-            className={({ isActive }) => getNavLinkClass(isActive)}
-          >
-            <UserPlus className={iconClass} />
-            Sign Up
-          </NavLink>
-        </nav>
+      {/* 모바일 메뉴 드롭다운 */}
+      {isMobileMenuOpen && (
+        <div
+          className={`lg:hidden bg-white border-t border-gray-200 shadow-sm text-gray-800 px-4 pb-4`}
+        >
+          <nav className="flex flex-col gap-3 text-sm pt-2">{navItems}</nav>
+        </div>
       )}
     </header>
   );

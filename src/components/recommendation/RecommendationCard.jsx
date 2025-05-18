@@ -1,5 +1,6 @@
 import { ArrowRight, Heart, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import SkeletonImage from "components/common/SkeletonImage";
 
 export default function RecommendationCard({ recommendation }) {
   const { id, name, location, imageUrl, summary } = recommendation;
@@ -11,7 +12,11 @@ export default function RecommendationCard({ recommendation }) {
     >
       {/* 이미지 섹션 */}
       <section className="relative w-full h-56">
-        <img src={imageUrl} alt={name} className="w-full h-full object-cover" />
+        <SkeletonImage
+          src={imageUrl || "/images/no_image.png"}
+          alt={name}
+          className="w-full h-full object-cover"
+        />
         <span className="absolute bottom-3 left-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
           {location}
         </span>

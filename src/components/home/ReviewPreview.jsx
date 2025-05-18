@@ -1,94 +1,145 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
 import { Link } from "react-router-dom";
 import { useRecentReviews } from "services/queries/review/useRecentReviews";
+import SkeletonImage from "components/common/SkeletonImage";
 
 export default function ReviewPreview() {
   const { data: reviews, isLoading } = useRecentReviews();
   if (isLoading || !reviews) return null;
 
+  const getPreviewText = (review) => {
+    if (review.type === "interview") {
+      const firstQId = review.interviewQuestions?.[0]?.id;
+      return review.interviewAnswers?.[firstQId] || "내용 없음";
+    }
+    return review.content || "내용 없음";
+  };
+
   return (
-    <section className="py-20 px-6 bg-white relative overflow-hidden">
-      <div className="relative mb-10 ml-2">
-        <h2 className="text-2xl font-bold font-heading text-gray-900">
-          여행자 리뷰
-        </h2>
-        <p className="text-sm text-gray-500 font-body">
-          혼행자들이 남긴 생생한 이야기들
-        </p>
+    <section className="relative py-32 px-6 bg-gray-900 overflow-hidden">
+      {/* 배경 이미지 */}
+      <img
+        src="/images/review-bg.jpg"
+        alt="여행자 리뷰 배경"
+        className="absolute inset-0 w-full h-full object-cover opacity-40"
+      />
 
-        <Link
-          to="/reviews"
-          className="absolute right-0 top-0 text-sm text-gray-500 hover:text-gray-800 transition"
-        >
-          더보기 →
-        </Link>
-      </div>
+      {/* 어두운 오버레이 */}
+      <div className="absolute inset-0 bg-black/20" />
 
-      <Swiper
-        modules={[Navigation]}
-        navigation
-        spaceBetween={24} // 카드 간 여백 증가
-        slidesPerGroup={1} // 1개씩 넘어감
-        className="px-2"
-        breakpoints={{
-          320: { slidesPerView: 1 },
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-        }}
-      >
-        {reviews.map((review) => (
-          <SwiperSlide key={review.id} className="flex justify-center">
+      {/* 콘텐츠 */}
+      <div className="relative z-10 max-w-screen-2xl mx-auto">
+        {/* 제목 + 설명 */}
+        <div className="text-center mb-12 text-white">
+          <h2 className="text-3xl font-bold">여행의 흔적, 혼자 남긴 이야기</h2>
+          <p className="text-sm text-white/80 mt-2">
+            당신만의 순간이 누군가의 여행이 됩니다.
+          </p>
+          <div className="text-center mt-8">
             <Link
-              to={`/reviews/${review.id}`}
-              className="w-[480px] h-[260px] bg-[#F0F4F8] rounded-2xl shadow-sm hover:shadow-md transition p-6 flex flex-col justify-between"
+              to="/reviews"
+              className="text-sm px-4 py-2 border rounded-full text-white border-white/30 hover:bg-white/10 transition"
             >
-              {/* 상단 - 유저 정보 */}
-              <div className="flex items-center gap-3 mb-4">
-                <img
-                  src={review.authorPhoto || "/default_profile.png"}
-                  alt="프로필 이미지"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-semibold text-sm">
-                    {review.authorName || "익명"}
-                  </p>
-                  <p className="text-xs text-gray-400">
-                    {review.destination || "여행지"} ·{" "}
-                    {review.createdAt?.toDate
-                      ? new Date(review.createdAt.toDate()).toLocaleDateString(
-                          "ko-KR",
-                          {
-                            year: "numeric",
-                            month: "long",
-                          }
-                        )
-                      : "날짜 없음"}
-                  </p>
-                </div>
-              </div>
-
-              {/* 리뷰 내용 */}
-              <div className="bg-white/80 rounded-md px-4 py-3 shadow-inner w-full h-[100px] overflow-hidden">
-                <p className="text-sm text-gray-700 font-body line-clamp-4">
-                  ❝{review.content}❞
-                </p>
-              </div>
-
-              {/* 별점 */}
-              <div className="mt-4 flex gap-1 text-yellow-500 text-base transition-transform duration-200 hover:scale-105">
-                {[1, 2, 3, 4, 5].map((i) =>
-                  i <= Math.round(review.rating || 0) ? "★" : "☆"
-                )}
-              </div>
+              더 많은 이야기 보기 →
             </Link>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+          </div>
+        </div>
+
+        <Swiper
+          modules={[Navigation, Pagination]}
+          navigation
+          pagination={{ clickable: true }}
+          centeredSlides
+          slidesPerView={1.2}
+          spaceBetween={40}
+          loop={reviews.length >= 3}
+          className="max-w-6xl mx-auto"
+        >
+          {reviews.map((review) => (
+            <SwiperSlide key={review.id} className="block">
+              <div className="flex justify-center">
+                <Link
+                  to={`/reviews/${review.id}`}
+                  className="relative w-full max-w-3xl h-80 min-h-[320px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition flex bg-white backdrop-blur-sm"
+                >
+                  {/* 왼쪽: 리뷰 이미지 */}
+                  <div className="w-2/5 min-w-[160px] h-full">
+                    <SkeletonImage
+                      src={review.imageUrl || "/images/no_image.png"}
+                      alt="리뷰 이미지"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* 오른쪽: 리뷰 내용 */}
+                  <div className="flex-1 px-6 py-6 text-gray-900 flex flex-col justify-between">
+                    {/* 유저 정보 */}
+                    <div className="flex gap-4 items-center">
+                      <img
+                        src={
+                          review.createdBy?.photoURL ||
+                          "/images/default-profile.png"
+                        }
+                        alt="작성자"
+                        className="w-12 h-12 object-cover rounded-full border border-white/20"
+                      />
+                      <div>
+                        <p className="font-bold text-base">
+                          {review.createdBy?.displayName || "익명"}
+                        </p>
+                        <p className="text-xs opacity-70">
+                          {review.destination || "여행지"} ·{" "}
+                          {review.createdAt?.toDate
+                            ? new Date(
+                                review.createdAt.toDate()
+                              ).toLocaleDateString("ko-KR", {
+                                year: "2-digit",
+                                month: "2-digit",
+                                day: "2-digit",
+                              })
+                            : "날짜 없음"}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* 내용 */}
+                    <div className="mt-4 space-y-1 leading-relaxed">
+                      <p className="text-sm text-gray-500 italic font-semibold">
+                        Q. 이번 여행은 어떻게 시작되었나요?
+                      </p>
+                      <p className="text-[15px] text-gray-800 pt-3 line-clamp-3 font-medium before:content-['“'] after:content-['”']">
+                        {getPreviewText(review)}
+                      </p>
+                    </div>
+
+                    {/* 별점 */}
+                    <div className="flex items-center gap-2 mt-4">
+                      <div className="flex gap-1 text-yellow-400 text-xl hover:scale-110 transition-transform">
+                        {[1, 2, 3, 4, 5].map((i) =>
+                          i <= Math.round(review.rating || 0) ? (
+                            <span key={i}>★</span>
+                          ) : (
+                            <span key={i} className="text-gray-400">
+                              ☆
+                            </span>
+                          )
+                        )}
+                      </div>
+                      <span className="text-sm text-gray-400">
+                        ({review.rating.toFixed(1)})
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </section>
   );
 }

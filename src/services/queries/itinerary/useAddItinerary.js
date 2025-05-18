@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { updateDoc, doc, increment } from "firebase/firestore";
 import { db } from "services/firebase";
@@ -16,7 +15,6 @@ export const useAddItinerary = ({
   onSuccessCallback = () => {},
   onErrorCallback = () => {},
 } = {}) => {
-  const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
   const queryClient = useQueryClient();
 
@@ -42,6 +40,7 @@ export const useAddItinerary = ({
           uid: user.uid,
           displayName: user.displayName || "익명",
           photoURL: user.photoURL || "",
+          userId: user.uid,
         },
       };
       return createItinerary(itineraryData);
@@ -49,18 +48,17 @@ export const useAddItinerary = ({
     onSuccess: async (newId) => {
       try {
         if (user?.uid) {
-          await updateDoc(doc(db, "users", user.uid), {
+          await updateDoc(doc(db, "users_private", user.uid), {
             itineraryCount: increment(1),
           });
         }
       } catch (err) {
         console.warn("itineraryCount 증가 실패:", err);
       }
-
+      alert("일정이 성공적으로 등록되었습니다!");
       queryClient.invalidateQueries({ queryKey: ["itineraries"] });
 
-      navigate(`/itinerary/${newId}`);
-      onSuccessCallback();
+      onSuccessCallback(newId);
     },
     onError: (error) => {
       console.error(error);

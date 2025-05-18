@@ -76,7 +76,11 @@ export const useReportMessage = () => {
           throw new Error("신고 대상 메시지를 찾을 수 없습니다.");
         }
 
-        const { senderId } = messageSnap.data();
+        const { sender } = messageSnap.data();
+
+        if (!sender?.uid) {
+          throw new Error("신고 대상 사용자 정보를 찾을 수 없습니다.");
+        }
 
         // 2. 신고 문서 추가
         await addDoc(collection(db, "chatReports"), {
@@ -88,7 +92,7 @@ export const useReportMessage = () => {
         });
 
         // 3. senderId 기준으로 신고당한 유저의 reportedCount 증가
-        await updateDoc(doc(db, "users", senderId), {
+        await updateDoc(doc(db, "users_private", sender.uid), {
           reportedCount: increment(1),
         });
       } catch (error) {

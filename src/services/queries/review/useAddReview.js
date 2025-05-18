@@ -13,13 +13,13 @@ import { db } from "services/firebase";
 import { uploadImage } from "utils/uploadImage";
 
 /**
- * 일정 추가 기능을 제공하는 커스텀 훅
+ * 리뷰 추가 기능을 제공하는 커스텀 훅
  * @param {Object} options - 훅 옵션
  * @param {Function} options.onSuccessCallback - 성공 시 콜백
  * @param {Function} options.onErrorCallback - 실패 시 콜백
- * @returns {Object} 일정 추가 관련 함수와 상태
+ * @returns {Object} 리뷰 추가 관련 함수와 상태
  */
-export default function useAddItinerary({
+export default function useAddReview({
   onSuccessCallback = () => {},
   onErrorCallback = () => {},
 } = {}) {
@@ -29,46 +29,52 @@ export default function useAddItinerary({
 
   const checkAuth = () => {
     if (!user) {
-      navigate("/login", { state: { from: "/itinerary/create" } });
+      navigate("/login", { state: { from: "/reviews/create" } });
       throw new Error("로그인이 필요한 서비스입니다.");
     }
   };
 
   const {
-    mutate: addItinerary,
+    mutate: addReview,
     isLoading,
     isError,
     error,
   } = useMutation({
-    mutationFn: async ({
-      title,
-      destination,
-      description,
-      image,
-      isPublic = true,
-      oneLineIntro = "",
-    }) => {
+    mutationFn: async (review) => {
       checkAuth();
+
+      const {
+        title,
+        destination,
+        content,
+        rating,
+        image,
+        type = "standard",
+        interviewAnswers,
+        interviewQuestions,
+      } = review;
+
       if (!title?.trim()) throw new Error("제목을 입력해주세요.");
-      if (!destination?.trim()) throw new Error("여행지를 입력해주세요.");
+      if (!destination?.trim()) throw new Error("여행지명을 입력해주세요.");
+      if (!rating) throw new Error("별점을 입력해주세요.");
+      if (type === "standard" && (!content?.trim() || content.length < 100)) {
+        throw new Error("내용을 100자 이상 입력해주세요.");
+      }
 
       let imageUrl = "";
-
       if (image) {
         try {
-          imageUrl = await uploadImage(image, "itineraries");
+          imageUrl = await uploadImage(image, "reviews", user.uid);
         } catch (err) {
           throw new Error(err.message);
         }
       }
 
-      await addDoc(collection(db, "itineraries"), {
+      const reviewData = {
         title,
         destination,
-        description,
+        rating,
         imageUrl,
-        isPublic,
-        oneLineIntro,
         createdBy: {
           uid: user.uid,
           displayName: user.displayName || "익명",
@@ -76,27 +82,41 @@ export default function useAddItinerary({
         },
         createdAt: serverTimestamp(),
         likeCount: 0,
+        commentCount: 0,
+        type,
+      };
+
+      if (type === "standard") {
+        reviewData.content = content;
+      } else {
+        reviewData.interviewAnswers = interviewAnswers;
+        reviewData.interviewQuestions = interviewQuestions;
+      }
+
+      const docRef = await addDoc(collection(db, "reviews"), reviewData);
+
+      await updateDoc(doc(db, "users_private", user.uid), {
+        reviewCount: increment(1),
       });
 
-      await updateDoc(doc(db, "users", user.uid), {
-        itineraryCount: increment(1),
-      });
+      return docRef.id;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["itineraries"] });
-      alert("일정이 성공적으로 등록되었습니다!");
-      navigate("/itinerary");
-      onSuccessCallback();
+
+    onSuccess: (newId) => {
+      alert("리뷰가 성공적으로 등록되었습니다!");
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      onSuccessCallback(newId);
     },
+
     onError: (error) => {
       console.error(error);
-      alert(`일정 등록 중 오류가 발생했습니다: ${error.message}`);
+      alert(`리뷰 등록 중 오류가 발생했습니다: ${error.message}`);
       onErrorCallback(error);
     },
   });
 
   return {
-    addItinerary,
+    addReview,
     isLoading,
     isError,
     error,

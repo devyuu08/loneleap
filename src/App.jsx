@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import { setUser, clearUser } from "store/userSlice";
 
-import { observeAuth } from "./services/auth";
+import { observeAuth } from "services/auth";
 import { fetchUserWithProfile } from "services/userService";
 
 import Header from "components/layout/Header";
@@ -13,29 +13,41 @@ import Footer from "components/layout/Footer";
 
 import AuthForm from "components/auth/AuthForm";
 
-import ProtectedRoute from "./components/common/ProtectedRoute";
+import ProtectedRoute from "components/common/ProtectedRoute";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 
 import Home from "pages/home/Home";
-import CreateItineraryPage from "pages/Itinerary/Create";
-import ItineraryListPage from "pages/Itinerary/List";
-import ItineraryDetailPage from "pages/Itinerary/Detail";
-import EditItineraryPage from "pages/Itinerary/Edit";
-import CreateReviewPage from "pages/Review/Create";
-import SignUp from "pages/Auth/SignUp";
-import ReviewListPage from "pages/Review/List";
-import ReviewDetailPage from "pages/Review/Detail";
-import CreateChatRoomPage from "pages/Chat/Create";
-import ChatRoomListPage from "pages/Chat/List";
-import ChatRoomDetailPage from "pages/Chat/Detail";
+import CreateItineraryPage from "pages/itinerary/Create";
+import ItineraryListPage from "pages/itinerary/List";
+import ItineraryDetailPage from "pages/itinerary/Detail";
+import EditItineraryPage from "pages/itinerary/Edit";
+import CreateReviewPage from "pages/review/Create";
+import SignUp from "pages/auth/SignUp";
+import ReviewListPage from "pages/review/List";
+import ReviewDetailPage from "pages/review/Detail";
+import CreateChatRoomPage from "pages/chat/Create";
+import ChatRoomListPage from "pages/chat/List";
+import ChatRoomDetailPage from "pages/chat/Detail";
 import MyPage from "pages/mypage/MyPage";
 import RecommendationListPage from "pages/recommendations/List";
 import RecommendationDetailPage from "pages/recommendations/Detail";
+import EditReviewPage from "pages/review/Edit";
+import FloatingButtons from "components/common/FloatingButtons";
 
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
   const [loading, setLoading] = React.useState(true);
+
+  const location = useLocation();
+
+  const pathParts = location.pathname.split("/");
+  const isHome = location.pathname === "/";
+
+  const isChatDetailPage =
+    pathParts[1] === "chat" &&
+    pathParts.length === 3 &&
+    pathParts[2] !== "create";
 
   const isRecommendationPage = location.pathname.startsWith("/recommendations");
 
@@ -56,10 +68,10 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      {!isChatDetailPage && <Header />}
 
       {/* main에 flex-grow를 줘서 Routes가 영역을 채우게 함 */}
-      <main className={`flex-grow ${!isRecommendationPage ? "pb-16" : ""}`}>
+      <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<AuthForm />} />
@@ -112,6 +124,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CreateReviewPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="edit/:id"
+              element={
+                <ProtectedRoute>
+                  <EditReviewPage />
                 </ProtectedRoute>
               }
             />
@@ -181,7 +201,9 @@ function App() {
         </Routes>
       </main>
 
-      <Footer />
+      {!isHome && <FloatingButtons />}
+
+      {!isChatDetailPage && <Footer />}
     </div>
   );
 }

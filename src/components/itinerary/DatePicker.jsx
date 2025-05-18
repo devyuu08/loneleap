@@ -1,9 +1,7 @@
 export default function DatePicker({ label, value, onChange, name }) {
   return (
     <div>
-      <label className="text-sm font-medium text-gray-700 mb-1 block">
-        {label}
-      </label>
+      <label className="block text-sm font-semibold mb-1">{label}</label>
       <input
         type="date"
         name={name}
