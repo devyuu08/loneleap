@@ -55,12 +55,12 @@ export default function MyChatRoomCard({ room }) {
           {room.participants?.slice(0, 5).map((user, index) => (
             <img
               key={index}
-              src={user.photoURL || "/default_profile.png"}
+              src={user.photoURL || "/images/default-profile.png"}
               alt="참여자"
               className="w-6 h-6 rounded-full border-2 border-white object-cover"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = "/default_profile.png";
+                e.target.src = "/images/default-profile.png";
               }}
             />
           ))}

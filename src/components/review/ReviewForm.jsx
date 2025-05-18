@@ -89,7 +89,7 @@ export default function ReviewForm({ initialData = null, isEditMode = false }) {
         updateReview({ id: initialData.id, updatedData: reviewData });
       } else {
         addReview(reviewData, {
-          onSuccess: () => navigate("/reviews"),
+          onSuccess: (newId) => navigate(`/reviews/${newId}`),
           onError: (err) => setSubmitError(err.message),
         });
       }

@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteReview } from "services/reviewService";
 import { auth, db } from "services/firebase";
 import { doc, updateDoc, increment } from "firebase/firestore";
 
 export const useDeleteReview = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (reviewId) => {
@@ -24,6 +25,9 @@ export const useDeleteReview = () => {
       }
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      queryClient.invalidateQueries({ queryKey: ["myReviews"] });
+      alert("리뷰가 삭제되었습니다.");
       navigate("/reviews");
     },
     onError: () => {

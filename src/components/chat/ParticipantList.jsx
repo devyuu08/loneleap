@@ -36,7 +36,7 @@ export default function ParticipantList({ roomId }) {
         {users.map((user) => (
           <li key={user.uid} className="flex items-center gap-3">
             <img
-              src={user.photoURL || "/default_profile.png"}
+              src={user.photoURL || "/images/default-profile.png"}
               alt={user.displayName || "참여자"}
               className="w-8 h-8 rounded-full object-cover"
             />

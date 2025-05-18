@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LikeButton from "components/review/LikeButton";
+import SkeletonImage from "components/common/SkeletonImage";
 
 /**
  * 리뷰 정보를 카드 형태로 표시하는 컴포넌트
@@ -103,17 +104,10 @@ export default function ReviewCard({ review }) {
             <span className="text-xs text-gray-500 truncate max-w-[100px]">
               {createdBy?.displayName || "익명"}
             </span>
-            <img
-              src={createdBy?.photoURL || "/default_profile.png"}
+            <SkeletonImage
+              src={createdBy?.photoURL || "/images/default-profile.png"}
               alt="작성자"
               className="w-5 h-5 rounded-full object-cover"
-              onError={(e) => {
-                const fallback = "/default_profile.png";
-                if (!e.target.dataset.errorHandled) {
-                  e.target.src = fallback;
-                  e.target.dataset.errorHandled = "true";
-                }
-              }}
             />
           </div>
           <LikeButton reviewId={review.id} likesCount={review.likesCount} />

@@ -18,7 +18,7 @@ export default function CommentItem({ comment, currentUserId, reviewId }) {
       {/* 작성자 & 시간 */}
       <div className="flex items-center gap-3 mb-2 text-sm text-gray-600">
         <img
-          src={author?.photoURL || "/default_profile.png"}
+          src={author?.photoURL || "/images/default-profile.png"}
           alt="작성자 프로필"
           className="w-6 h-6 rounded-full object-cover"
         />

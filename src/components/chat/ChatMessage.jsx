@@ -74,7 +74,7 @@ export default function ChatMessage({ message }) {
       <div className="max-w-xs">
         {!isMine && (
           <img
-            src={sender?.photoURL || "/default_profile.png"}
+            src={sender?.photoURL || "/images/default-profile.png"}
             alt={sender?.displayName || "익명"}
             className="w-6 h-6 rounded-full object-cover mr-2"
           />

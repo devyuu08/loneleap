@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { deleteItinerary } from "services/itineraryService";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { updateDoc, doc, increment } from "firebase/firestore";
 import { db, auth } from "services/firebase";
 
 export const useDeleteItinerary = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (itineraryId) => {
@@ -25,6 +26,9 @@ export const useDeleteItinerary = () => {
       }
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["itineraries"] });
+      queryClient.invalidateQueries({ queryKey: ["myItineraries"] }); // 마이페이지용 키도 무효화
+      alert("일정이 삭제되었습니다.");
       navigate("/itinerary");
     },
     onError: () => {

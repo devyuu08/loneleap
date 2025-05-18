@@ -57,11 +57,8 @@ export default function useAddReview({
       if (!title?.trim()) throw new Error("제목을 입력해주세요.");
       if (!destination?.trim()) throw new Error("여행지명을 입력해주세요.");
       if (!rating) throw new Error("별점을 입력해주세요.");
-
-      if (type === "standard") {
-        if (!content?.trim() || content.trim().length < 100) {
-          throw new Error("내용을 100자 이상 입력해주세요.");
-        }
+      if (type === "standard" && (!content?.trim() || content.length < 100)) {
+        throw new Error("내용을 100자 이상 입력해주세요.");
       }
 
       let imageUrl = "";
@@ -91,24 +88,26 @@ export default function useAddReview({
 
       if (type === "standard") {
         reviewData.content = content;
-      } else if (type === "interview") {
+      } else {
         reviewData.interviewAnswers = interviewAnswers;
         reviewData.interviewQuestions = interviewQuestions;
       }
 
-      await addDoc(collection(db, "reviews"), reviewData);
+      const docRef = await addDoc(collection(db, "reviews"), reviewData);
 
       await updateDoc(doc(db, "users_private", user.uid), {
         reviewCount: increment(1),
       });
+
+      return docRef.id;
     },
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+    onSuccess: (newId) => {
       alert("리뷰가 성공적으로 등록되었습니다!");
-      navigate("/reviews");
-      onSuccessCallback();
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      onSuccessCallback(newId);
     },
+
     onError: (error) => {
       console.error(error);
       alert(`리뷰 등록 중 오류가 발생했습니다: ${error.message}`);

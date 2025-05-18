@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Map } from "lucide-react";
+import SkeletonImage from "components/common/SkeletonImage";
 
 export default function ItineraryCard({ itinerary }) {
   const navigate = useNavigate();
@@ -34,15 +35,11 @@ export default function ItineraryCard({ itinerary }) {
     >
       {/* 썸네일 이미지 섹션 */}
       <div className="relative h-56">
-        <img
+        <SkeletonImage
           src={imageUrl || "/images/no_image.png"}
           alt={`${location} 대표 이미지`}
-          className="w-full h-full object-cover bg-gray-100"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "/images/no_image.png";
-          }}
         />
+
         {/* 위치 태그 */}
         <span className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
           {location}
@@ -81,11 +78,13 @@ export default function ItineraryCard({ itinerary }) {
                 {itinerary.createdBy.displayName || "익명"}
               </span>
               <img
-                src={itinerary.createdBy?.photoURL || "/default_profile.png"}
+                src={
+                  itinerary.createdBy?.photoURL || "/images/default-profile.png"
+                }
                 alt="작성자"
                 className="w-5 h-5 rounded-full object-cover"
                 onError={(e) => {
-                  const fallback = "/default_profile.png";
+                  const fallback = "/images/default-profile.png";
                   if (!e.target.dataset.errorHandled) {
                     e.target.src = fallback;
                     e.target.dataset.errorHandled = "true";

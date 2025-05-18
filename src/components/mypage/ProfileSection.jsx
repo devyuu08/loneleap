@@ -157,11 +157,11 @@ export default function ProfileSection() {
 
   return (
     <>
-      <section className="flex flex-col items-center text-center px-6 py-16 min-h-[80vh]">
+      <section className="flex flex-col items-center text-center px-6 py-16">
         {/* 왼쪽: 프로필 정보 */}
         <div className="relative group w-32 h-32 mb-4">
           <img
-            src={user?.photoURL || "/default_profile.png"}
+            src={user?.photoURL || "/images/default-profile.png"}
             alt="프로필 이미지"
             className="w-32 h-32 object-cover rounded-full border-2 border-white shadow-md"
           />

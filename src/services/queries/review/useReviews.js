@@ -29,7 +29,7 @@ export const useReviews = () => {
           createdBy: {
             uid: data.createdBy?.uid || "",
             displayName: data.createdBy?.displayName || "익명",
-            photoURL: data.createdBy?.photoURL || "/default_profile.png",
+            photoURL: data.createdBy?.photoURL || "/images/default-profile.png",
           },
         };
       });

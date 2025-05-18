@@ -2,6 +2,7 @@ import { Edit2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatDateOnly } from "utils/formatDate";
 import LikeButton from "components/review/LikeButton";
+import SkeletonImage from "components/common/SkeletonImage";
 
 export default function MyReviewCard({ review = {} }) {
   const navigate = useNavigate();
@@ -31,14 +32,10 @@ export default function MyReviewCard({ review = {} }) {
       {/* 이미지 영역 */}
       <div className="relative h-48 bg-gray-100">
         {imageUrl ? (
-          <img
-            src={imageUrl}
+          <SkeletonImage
+            src={imageUrl || "/assets/default-review-image.png"}
             alt={title}
             className="w-full h-full object-cover"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "/assets/default-review-image.png";
-            }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">

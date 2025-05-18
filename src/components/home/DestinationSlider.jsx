@@ -5,6 +5,7 @@ import "swiper/css/navigation";
 
 import { Link } from "react-router-dom";
 import { useRecommendationList } from "hooks/useRecommendationList";
+import SkeletonImage from "components/common/SkeletonImage";
 
 export default function DestinationSlider() {
   const { data: destinations, isLoading } = useRecommendationList();
@@ -49,16 +50,9 @@ export default function DestinationSlider() {
                 to={`/recommendations/${place.id}`}
                 className="relative block w-full h-72 rounded-xl overflow-hidden shadow hover:brightness-105 transition bg-gray-200"
               >
-                <img
+                <SkeletonImage
                   src={place.imageUrl || "/images/placeholder.jpg"}
                   alt={place.name}
-                  onError={(e) => {
-                    if (!e.target.dataset.fallback) {
-                      e.target.src = "/images/placeholder.jpg";
-                      e.target.dataset.fallback = "true";
-                    }
-                  }}
-                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white z-10">
