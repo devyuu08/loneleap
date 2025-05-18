@@ -22,7 +22,7 @@ export default function ItineraryHero({ data }) {
           alt={title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/35" />
       </div>
 
       {/* 텍스트 영역 (z-10) */}
@@ -35,7 +35,7 @@ export default function ItineraryHero({ data }) {
         <h1 className="text-4xl font-bold mt-3">{title}</h1>
 
         {createdBy && (
-          <div className="flex items-center gap-2 mt-4 text-sm text-white/70">
+          <div className="flex items-center gap-2 mt-4 text-sm text-white/80">
             <img
               src={createdBy.photoURL || "/default_profile.png"}
               alt="작성자"

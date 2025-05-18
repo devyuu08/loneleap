@@ -15,7 +15,7 @@ export default function ReviewHero({ review }) {
           alt={title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/35" />
       </div>
 
       {/* 텍스트 영역 */}
@@ -36,7 +36,7 @@ export default function ReviewHero({ review }) {
         </div>
 
         {/* 작성자 + 날짜 */}
-        <div className="flex items-center gap-3 mt-4 text-sm text-white/70">
+        <div className="flex items-center gap-3 mt-4 text-sm text-white/80">
           <img
             src={createdBy?.photoURL || "/default_profile.png"}
             alt="작성자"

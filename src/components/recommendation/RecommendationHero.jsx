@@ -14,7 +14,7 @@ export default function RecommendationHero({ data }) {
           alt={name}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/30" />
       </div>
 
       {/* 텍스트 레이어 */}
