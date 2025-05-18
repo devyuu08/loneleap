@@ -100,14 +100,21 @@ export default function ReviewCard({ review }) {
 
         {/* 작성자 + 좋아요 */}
         <div className="flex justify-between items-center mt-2">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 max-w-[calc(100%-40px)]">
             <span className="text-xs text-gray-500 truncate max-w-[100px]">
               {createdBy?.displayName || "익명"}
             </span>
-            <SkeletonImage
+            <img
               src={createdBy?.photoURL || "/images/default-profile.png"}
               alt="작성자"
               className="w-5 h-5 rounded-full object-cover"
+              onError={(e) => {
+                const fallback = "/images/default-profile.png";
+                if (!e.target.dataset.fallback) {
+                  e.target.src = fallback;
+                  e.target.dataset.fallback = "true";
+                }
+              }}
             />
           </div>
           <LikeButton reviewId={review.id} likesCount={review.likesCount} />
