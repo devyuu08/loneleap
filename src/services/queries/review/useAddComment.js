@@ -19,6 +19,7 @@ export const useAddComment = (reviewId) => {
           displayName: user.displayName || "익명",
           photoURL: user.photoURL || "",
         },
+        authorUid: user.uid,
         createdAt: serverTimestamp(),
       });
     },
