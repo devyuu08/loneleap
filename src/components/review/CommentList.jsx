@@ -38,7 +38,7 @@ export default function CommentList({ currentUserId, reviewId }) {
         <form onSubmit={handleCommentSubmit} className="space-y-2">
           <div className="flex items-start gap-3">
             <img
-              src={user?.photoURL || "/default_profile.png"}
+              src={user?.photoURL || "/images/default-profile.png"}
               alt="프로필"
               className="w-10 h-10 rounded-full object-cover"
             />

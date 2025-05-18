@@ -105,7 +105,7 @@ export default function ReviewCard({ review }) {
               {createdBy?.displayName || "익명"}
             </span>
             <SkeletonImage
-              src={createdBy?.photoURL || "/default_profile.png"}
+              src={createdBy?.photoURL || "/images/default-profile.png"}
               alt="작성자"
               className="w-5 h-5 rounded-full object-cover"
             />

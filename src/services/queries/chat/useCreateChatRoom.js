@@ -42,7 +42,7 @@ export const useCreateChatRoom = (navigate) => {
         createdBy: {
           uid: user.uid,
           displayName: user.displayName || "익명",
-          photoURL: user.photoURL || "/default_profile.png",
+          photoURL: user.photoURL || "/images/default-profile.png",
         },
         participants: [user.uid],
         isActive: true,

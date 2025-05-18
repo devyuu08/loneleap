@@ -38,7 +38,7 @@ export default function ReviewHero({ review }) {
         {/* 작성자 + 날짜 */}
         <div className="flex items-center gap-3 mt-4 text-sm text-white/80">
           <img
-            src={createdBy?.photoURL || "/default_profile.png"}
+            src={createdBy?.photoURL || "/images/default-profile.png"}
             alt="작성자"
             className="w-6 h-6 rounded-full object-cover"
           />

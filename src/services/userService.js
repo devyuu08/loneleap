@@ -21,7 +21,7 @@ export const fetchUserWithProfile = async (firebaseUser, dispatch) => {
     if (!publicSnap.exists()) {
       await setDoc(publicRef, {
         displayName: firebaseUser.displayName || "익명",
-        photoURL: firebaseUser.photoURL || "/default_profile.png",
+        photoURL: firebaseUser.photoURL || "/images/default-profile.png",
         createdAt: serverTimestamp(),
       });
     }

@@ -16,7 +16,7 @@ export const anonymizePublicProfile = async (uid) => {
   const publicRef = doc(db, "users_public", uid);
   await updateDoc(publicRef, {
     displayName: "탈퇴한 사용자",
-    photoURL: "/default_profile.png",
+    photoURL: "/images/default-profile.png",
   });
 };
 

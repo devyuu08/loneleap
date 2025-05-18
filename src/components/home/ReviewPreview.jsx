@@ -80,7 +80,8 @@ export default function ReviewPreview() {
                     <div className="flex gap-4 items-center">
                       <img
                         src={
-                          review.createdBy?.photoURL || "/default_profile.png"
+                          review.createdBy?.photoURL ||
+                          "/images/default-profile.png"
                         }
                         alt="작성자"
                         className="w-12 h-12 object-cover rounded-full border border-white/20"
