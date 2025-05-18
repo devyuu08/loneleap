@@ -70,7 +70,11 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
 
     isEditMode
       ? updateMutate({ id: initialData.id, updatedData: itineraryData })
-      : addMutate(itineraryData);
+      : addMutate(itineraryData, {
+          onSuccess: (newId) => {
+            navigate(`/itinerary/${newId}`);
+          },
+        });
   };
 
   return (
