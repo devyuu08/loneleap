@@ -55,7 +55,7 @@ export const useAddItinerary = ({
       } catch (err) {
         console.warn("itineraryCount 증가 실패:", err);
       }
-
+      alert("일정이 성공적으로 등록되었습니다!");
       queryClient.invalidateQueries({ queryKey: ["itineraries"] });
 
       onSuccessCallback(newId);
