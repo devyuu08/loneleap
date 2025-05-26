@@ -1,7 +1,7 @@
-import MessageInput from "./MessageInput";
 import ChatMessage from "./ChatMessage";
 import ChatHeader from "components/chat/ChatHeader";
 import ParticipantListContainer from "containers/chat/ParticipantListContainer";
+import MessageInputContainer from "containers/chat/MessageInputContainer";
 
 export default function ChatRoomDetail({
   roomInfo,
@@ -50,7 +50,7 @@ export default function ChatRoomDetail({
           {/* 입력창 */}
           <div className="px-4 pb-6">
             <div className="rounded-2xl bg-white/80 backdrop-blur-md shadow-lg border border-gray-200 p-3">
-              <MessageInput roomId={roomId} />
+              <MessageInputContainer roomId={roomId} />
             </div>
           </div>
         </div>
