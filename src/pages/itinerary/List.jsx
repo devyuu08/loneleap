@@ -1,9 +1,5 @@
-import ItineraryList from "components/itinerary/ItineraryList";
+import ItineraryListContainer from "containers/itinerary/ItineraryListContainer";
 
 export default function ItineraryListPage() {
-  return (
-    <div>
-      <ItineraryList />
-    </div>
-  );
+  return <ItineraryListContainer />;
 }
