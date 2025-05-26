@@ -1,9 +1,8 @@
-import ReportButton from "components/Review/ReportButton";
-
 import ReviewHero from "components/review/ReviewHero";
 import FloatingButtons from "components/common/FloatingButtons";
 import CommentListContainer from "containers/review/CommentListContainer";
 import LikeButtonContainer from "containers/review/LikeButtonContainer";
+import ReportButtonContainer from "containers/review/ReportButtonContainer";
 
 export default function ReviewDetail({
   reviewId,
@@ -61,7 +60,7 @@ export default function ReviewDetail({
             />
           </div>
           <div className="transition hover:scale-105">
-            <ReportButton reviewId={reviewId} />
+            <ReportButtonContainer reviewId={reviewId} />
           </div>
         </div>
 
