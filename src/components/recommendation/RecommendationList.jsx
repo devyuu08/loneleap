@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useRecommendationList } from "hooks/useRecommendationList";
 import RecommendationCard from "./RecommendationCard";
 import HeroSection from "components/common/HeroSection";
 
@@ -16,18 +14,17 @@ const FILTERS = [
   "제주도",
 ];
 
-export default function RecommendationList() {
-  const { data: recommendations, isLoading, isError } = useRecommendationList();
-  const [activeFilter, setActiveFilter] = useState("전체 지역");
-
-  const filtered =
-    activeFilter === "전체 지역"
-      ? recommendations
-      : recommendations?.filter((item) => item.location === activeFilter);
-
+export default function RecommendationList({
+  recommendations,
+  originalData,
+  isLoading,
+  isError,
+  activeFilter,
+  setActiveFilter,
+}) {
   if (isLoading) return <div className="p-10 text-center">불러오는 중...</div>;
   if (isError) return <div className="p-10 text-center">오류 발생</div>;
-  if (!recommendations || recommendations.length === 0) {
+  if (!originalData || originalData.length === 0) {
     return (
       <div className="py-32 text-center text-gray-500">
         추천 여행지가 없습니다
@@ -70,7 +67,7 @@ export default function RecommendationList() {
 
       {/* 추천 여행지 카드 섹션 */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
-        {!filtered || filtered.length === 0 ? (
+        {!recommendations || recommendations.length === 0 ? (
           <div className="py-32 text-center text-gray-500">
             <p className="text-lg font-semibold mb-2">
               추천 여행지를 찾을 수 없어요
@@ -81,7 +78,7 @@ export default function RecommendationList() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((place) => (
+            {recommendations.map((place) => (
               <RecommendationCard key={place.id} recommendation={place} />
             ))}
           </div>

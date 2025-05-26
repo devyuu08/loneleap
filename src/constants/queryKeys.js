@@ -22,4 +22,6 @@ export const QUERY_KEYS = {
   ],
   MY_CHAT_ROOMS: (uid) => ["myChatRooms", uid],
   USERS_BY_IDS: (userIds) => ["usersByIds", userIds],
+  RECOMMENDATIONS: "recommendations",
+  RECOMMENDATION_DETAIL: (id) => ["recommendation", id],
 };
