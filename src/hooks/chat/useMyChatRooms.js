@@ -8,10 +8,11 @@ import {
   limit,
 } from "firebase/firestore";
 import { db } from "services/firebase";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 export const useMyChatRooms = (uid, options = {}) => {
   return useQuery({
-    queryKey: ["myChatRooms", uid],
+    queryKey: QUERY_KEYS.MY_CHAT_ROOMS(uid),
     enabled: !!uid && options.enabled !== false,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: true,

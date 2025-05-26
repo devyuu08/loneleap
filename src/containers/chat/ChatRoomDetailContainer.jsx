@@ -9,6 +9,7 @@ import ChatRoomDetail from "components/chat/ChatRoomDetail";
 import { joinRoom } from "services/chat/joinRoom";
 import { leaveRoom } from "services/chat/leaveRoom";
 import { fetchRoomInfo } from "services/chat/fetchRoomInfo";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 export default function ChatRoomDetailContainer({ roomId }) {
   const scrollRef = useRef(null);
@@ -74,7 +75,9 @@ export default function ChatRoomDetailContainer({ roomId }) {
 
     try {
       await leaveRoom({ roomId, user: currentUser });
-      await queryClient.invalidateQueries(["myChatRooms", currentUser.uid]);
+      await queryClient.invalidateQueries(
+        QUERY_KEYS.MY_CHAT_ROOMS(currentUser.uid)
+      );
       navigate("/chat");
     } catch (err) {
       alert("채팅방 나가기 중 오류 발생");

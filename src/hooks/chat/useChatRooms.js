@@ -8,6 +8,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "services/firebase";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 // Firestore에서 채팅방 목록 최신순으로 가져오는 기본 구조
 // limitCount: 가져올 채팅방의 수 (기본값: 10)
@@ -17,7 +18,11 @@ export const useChatRooms = ({
   filterBy = null,
 } = {}) => {
   return useQuery({
-    queryKey: ["chatRooms", limitCount, orderDirection, filterBy],
+    queryKey: QUERY_KEYS.CHAT_ROOMS_FILTERED(
+      limitCount,
+      orderDirection,
+      filterBy
+    ),
     refetchInterval: 30000,
     staleTime: 10000,
     queryFn: async () => {

@@ -1,6 +1,7 @@
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "services/firebase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 /**
  * 새로운 채팅방을 생성하는 커스텀 훅
@@ -59,9 +60,9 @@ export const useCreateChatRoom = (navigate) => {
     },
 
     onSuccess: (newRoom) => {
-      queryClient.invalidateQueries({ queryKey: ["chatRooms"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.CHAT_ROOMS] });
 
-      queryClient.setQueryData(["chatRooms"], (oldData) => {
+      queryClient.setQueryData([QUERY_KEYS.CHAT_ROOMS], (oldData) => {
         const newRoomData = {
           id: newRoom.id,
           name: newRoom.title,
