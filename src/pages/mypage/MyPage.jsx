@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import ProfileSection from "components/mypage/ProfileSection";
 import SectionTabs from "components/mypage/SectionTabs";
 import EmptyState from "components/common/EmptyState";
 import ErrorState from "components/common/ErrorState";
@@ -16,6 +15,7 @@ import { useMyChatRooms } from "hooks/chat/useMyChatRooms";
 
 import { CalendarDays, MessageSquareText, MessagesSquare } from "lucide-react";
 import FloatingButtons from "components/common/FloatingButtons";
+import ProfileSectionContainer from "containers/mypage/ProfileSectionContainer";
 
 export default function MyPage() {
   const user = useSelector((state) => state.user.user);
@@ -141,7 +141,7 @@ export default function MyPage() {
       <div className="min-h-screen bg-black/40 backdrop-blur-sm">
         <LayoutWrapper>
           <section>
-            <ProfileSection user={user} />
+            <ProfileSectionContainer user={user} />
           </section>
 
           <section>
