@@ -24,7 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "services/auth";
 import { changeUserPassword } from "services/userService";
-import { useUserStats } from "hooks/useUserStats";
+import { useUserStats } from "hooks/mypage/useUserStats";
 
 import ProfileEditModal from "components/modal/ProfileEditModal";
 import ModalPortal from "components/common/ModalPortal";
