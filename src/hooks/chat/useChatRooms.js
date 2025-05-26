@@ -7,7 +7,7 @@ import {
   limit,
   where,
 } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "services/firebase";
 
 // Firestore에서 채팅방 목록 최신순으로 가져오는 기본 구조
 // limitCount: 가져올 채팅방의 수 (기본값: 10)

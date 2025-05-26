@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useState } from "react";
-import { useReportMessage } from "services/queries/chat/useReportMessage";
+import { useReportMessage } from "hooks/chat/useReportMessage";
 import ReportModal from "components/common/ReportModal.jsx";
 import ModalPortal from "components/common/ModalPortal";
 

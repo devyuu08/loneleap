@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import { db } from "services/firebase";
 
-import { useChatMessages } from "hooks/useChatMessages";
+import { useChatMessages } from "hooks/chat/useChatMessages";
 import MessageInput from "./MessageInput";
 import ChatMessage from "./ChatMessage";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useCreateChatRoom } from "services/queries/chat/useCreateChatRoom";
+import { useCreateChatRoom } from "hooks/chat/useCreateChatRoom";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 import ErrorMessage from "components/common/ErrorMessage";
 import FormSubmitButton from "components/common/FormSubmitButton";

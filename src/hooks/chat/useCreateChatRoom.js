@@ -1,5 +1,5 @@
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "services/firebase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**

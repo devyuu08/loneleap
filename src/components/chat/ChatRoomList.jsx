@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { useChatRooms } from "services/queries/chat/useChatRooms";
+import { useChatRooms } from "hooks/chat/useChatRooms";
 import ChatRoomCard from "./ChatRoomCard";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 import EmptyState from "components/common/EmptyState";
