@@ -1,9 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  likeReview,
-  unlikeReview,
-  hasUserLikedReview,
-} from "services/reviewLikeService";
+import { likeReview } from "services/review/likeReview";
+import { unlikeReview } from "services/review/unlikeReview";
+import { hasUserLikedReview } from "services/review/hasUserLikedReview";
 
 export const useReviewLikeStatus = (reviewId, userId) =>
   useQuery({

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteReview } from "services/reviewService";
+import { deleteReview } from "services/review/deleteReview";
 import { auth, db } from "services/firebase";
 import { doc, updateDoc, increment } from "firebase/firestore";
 

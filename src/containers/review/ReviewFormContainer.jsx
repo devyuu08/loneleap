@@ -6,7 +6,7 @@ import { useReviewDetail } from "hooks/review/useReviewDetail";
 import useAddReview from "hooks/review/useAddReview";
 
 import { FIXED_QUESTIONS, RANDOM_QUESTIONS } from "data/interviewQuestions";
-import { updateReviewData } from "services/reviewService";
+import { updateReview as updateReviewData } from "services/review/updateReview";
 import { uploadImage } from "utils/uploadImage";
 import ReviewForm from "components/review/ReviewForm";
 
