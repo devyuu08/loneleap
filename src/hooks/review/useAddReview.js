@@ -63,12 +63,21 @@ export default function useAddReview({
       }
 
       let imageUrl = "";
-      if (image) {
+      if (image instanceof File) {
+        const supportedTypes = ["image/jpeg", "image/png", "image/gif"];
+        if (!supportedTypes.includes(image.type)) {
+          throw new Error("지원되는 이미지 형식은 JPEG, PNG, GIF입니다.");
+        }
+
         try {
           imageUrl = await uploadImage(image, "reviews", user.uid);
         } catch (err) {
-          throw new Error(err.message);
+          throw new Error(err.message || "이미지 업로드에 실패했습니다.");
         }
+      } else if (typeof image === "string") {
+        imageUrl = image; // 수정 시 기존 이미지 URL 유지
+      } else if (image) {
+        throw new Error("올바르지 않은 이미지 형식입니다.");
       }
 
       const reviewData = {
