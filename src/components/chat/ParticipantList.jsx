@@ -1,29 +1,4 @@
-import { useEffect, useState } from "react";
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "services/firebase";
-import { useUsersByIds } from "hooks/useUsersByIds";
-
-export default function ParticipantList({ roomId }) {
-  const [userIds, setUserIds] = useState([]);
-
-  // 실시간 구독으로 participants 가져오기
-  useEffect(() => {
-    if (!roomId) return;
-
-    const unsub = onSnapshot(doc(db, "chatRooms", roomId), (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (Array.isArray(data.participants)) {
-          setUserIds(data.participants);
-        }
-      }
-    });
-
-    return () => unsub();
-  }, [roomId]);
-
-  const { data: users, isLoading } = useUsersByIds(userIds);
-
+export default function ParticipantList({ users, isLoading }) {
   if (isLoading || !Array.isArray(users)) return null;
 
   return (

@@ -12,7 +12,7 @@ import LayoutWrapper from "components/common/LayoutWrapper";
 
 import { useMyItineraries } from "hooks/itinerary/useMyItineraries";
 import { useMyReviews } from "hooks/review/useMyReviews";
-import { useMyChatRooms } from "services/queries/chat/useMyChatRooms";
+import { useMyChatRooms } from "hooks/chat/useMyChatRooms";
 
 import { CalendarDays, MessageSquareText, MessagesSquare } from "lucide-react";
 import FloatingButtons from "components/common/FloatingButtons";

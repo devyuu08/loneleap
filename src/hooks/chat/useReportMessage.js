@@ -7,7 +7,7 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "services/firebase";
 import { useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { getDocs, query, where } from "firebase/firestore";

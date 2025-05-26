@@ -1,42 +1,17 @@
-import { useState, useMemo } from "react";
-
-import { useNavigate } from "react-router-dom";
-import { useChatRooms } from "services/queries/chat/useChatRooms";
 import ChatRoomCard from "./ChatRoomCard";
-import LoadingSpinner from "components/common/LoadingSpinner.jsx";
 import EmptyState from "components/common/EmptyState";
 import HeroSection from "components/common/HeroSection";
 import { Search } from "lucide-react";
 
-export default function ChatRoomList() {
-  const [activeFilter, setActiveFilter] = useState("전체");
-  const [searchKeyword, setSearchKeyword] = useState("");
-
-  const navigate = useNavigate();
-  const { data: chatrooms, isLoading } = useChatRooms();
-
-  const filteredRooms = useMemo(() => {
-    if (!Array.isArray(chatrooms)) return [];
-
-    let result = [...chatrooms];
-
-    // 1. 카테고리 필터링
-    if (activeFilter !== "전체") {
-      result = result.filter((room) => room.category === activeFilter);
-    }
-
-    // 2. 검색 필터링
-    if (searchKeyword.trim()) {
-      result = result.filter((room) =>
-        room.name?.toLowerCase().includes(searchKeyword.trim().toLowerCase())
-      );
-    }
-
-    return result;
-  }, [chatrooms, activeFilter, searchKeyword]);
-
-  if (isLoading) return <LoadingSpinner />;
-
+export default function ChatRoomList({
+  chatrooms,
+  filteredRooms,
+  activeFilter,
+  setActiveFilter,
+  searchKeyword,
+  setSearchKeyword,
+  onCreate,
+}) {
   return (
     <>
       <HeroSection imageSrc="/images/chat-list-hero.jpg" align="center">
@@ -103,7 +78,7 @@ export default function ChatRoomList() {
       </div>
       <button
         className="fixed bottom-6 right-6 z-50 px-5 py-3 bg-black text-white text-sm font-medium rounded-full shadow-lg hover:bg-gray-800 transition"
-        onClick={() => navigate("/chat/create")}
+        onClick={onCreate}
         aria-label="새 채팅방 만들기"
       >
         + 새 채팅방

@@ -1,40 +1,26 @@
-import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
-import { useState } from "react";
-import { useReportMessage } from "services/queries/chat/useReportMessage";
+
 import ReportModal from "components/common/ReportModal.jsx";
 import ModalPortal from "components/common/ModalPortal";
 
-export default function ChatMessage({ message }) {
-  const user = useSelector((state) => state.user.user);
+export default function ChatMessage({
+  message,
+  isMine,
+  onReport,
+  openReportModal,
+  setOpenReportModal,
+  isReporting,
+}) {
   const {
-    id,
     sender,
     message: messageText,
-    roomId,
     createdAt,
     type,
     systemType,
     userName,
   } = message;
-
-  const isMine = sender?.uid === user?.uid;
-  const [openReportModal, setOpenReportModal] = useState(false);
-
-  const reportMutation = useReportMessage();
-
-  const handleSubmit = ({ reason }) => {
-    return reportMutation
-      .mutateAsync({ messageId: id, roomId, reason })
-      .then(() => {
-        alert("신고가 접수되었습니다.");
-        setOpenReportModal(false);
-      })
-      .catch((err) => {
-        alert(err?.message || "신고 처리 중 오류가 발생했습니다.");
-      });
-  };
 
   if (type === "system") {
     const systemTextStyles = "text-center text-[12px] my-4";
@@ -120,8 +106,8 @@ export default function ChatMessage({ message }) {
           <ModalPortal>
             <ReportModal
               onClose={() => setOpenReportModal(false)}
-              onSubmit={handleSubmit}
-              isPending={reportMutation.isPending}
+              onSubmit={onReport}
+              isPending={isReporting}
             />
           </ModalPortal>
         )}
@@ -129,3 +115,12 @@ export default function ChatMessage({ message }) {
     </div>
   );
 }
+
+ChatMessage.propTypes = {
+  message: PropTypes.object.isRequired,
+  isMine: PropTypes.bool.isRequired,
+  onReport: PropTypes.func.isRequired,
+  openReportModal: PropTypes.bool.isRequired,
+  setOpenReportModal: PropTypes.func.isRequired,
+  isReporting: PropTypes.bool.isRequired,
+};

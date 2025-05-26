@@ -13,4 +13,13 @@ export const QUERY_KEYS = {
   MY_ITINERARIES: (uid) => ["myItineraries", uid],
   ITINERARY_DETAIL: (id) => ["itineraryDetail", id],
   REGION_COUNTS: "regionCounts",
+  CHAT_ROOMS: "chatRooms",
+  CHAT_ROOMS_FILTERED: (limitCount, orderDirection, filterBy) => [
+    "chatRooms",
+    limitCount,
+    orderDirection,
+    filterBy,
+  ],
+  MY_CHAT_ROOMS: (uid) => ["myChatRooms", uid],
+  USERS_BY_IDS: (userIds) => ["usersByIds", userIds],
 };
