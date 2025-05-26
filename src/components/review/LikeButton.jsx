@@ -3,7 +3,7 @@ import { useUser } from "hooks/useUser";
 import {
   useReviewLikeStatus,
   useToggleReviewLike,
-} from "services/queries/review/useReviewLike";
+} from "hooks/review/useReviewLike";
 import { cn } from "utils/utils";
 
 export default function LikeButton({

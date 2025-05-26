@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useReviewDetail } from "services/queries/review/useReviewDetail";
+import { useReviewDetail } from "hooks/review/useReviewDetail";
 import ReviewForm from "components/review/ReviewForm";
 
 export default function EditReviewPage() {

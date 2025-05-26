@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useComments } from "services/queries/review/useComments";
+import { useComments } from "hooks/review/useComments";
 import CommentItem from "components/review/CommentItem";
 import { useUser } from "hooks/useUser";
-import { useAddComment } from "services/queries/review/useAddComment";
+import { useAddComment } from "hooks/review/useAddComment";
 import { Send } from "lucide-react";
 
 export default function CommentList({ currentUserId, reviewId }) {

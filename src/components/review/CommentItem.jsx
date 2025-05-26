@@ -1,4 +1,4 @@
-import { useDeleteComment } from "services/queries/review/useDeleteComment";
+import { useDeleteComment } from "hooks/review/useDeleteComment";
 
 import { Trash2 } from "lucide-react";
 import { cn } from "utils/utils";

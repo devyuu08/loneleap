@@ -1,4 +1,4 @@
-import { useReviewDetail } from "services/queries/review/useReviewDetail";
+import { useReviewDetail } from "hooks/review/useReviewDetail";
 import LoadingSpinner from "components/common/LoadingSpinner";
 import NotFoundMessage from "components/common/NotFoundMessage";
 import ReportButton from "components/Review/ReportButton";
@@ -6,7 +6,7 @@ import LikeButton from "components/review/LikeButton";
 import CommentList from "components/review/CommentList";
 import { useUser } from "hooks/useUser";
 import ReviewHero from "components/review/ReviewHero";
-import { useDeleteReview } from "services/queries/review/useDeleteReview";
+import { useDeleteReview } from "hooks/review/useDeleteReview";
 import FloatingButtons from "components/common/FloatingButtons";
 
 export default function ReviewDetail({ reviewId }) {

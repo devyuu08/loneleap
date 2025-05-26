@@ -11,7 +11,7 @@ import MyChatRoomCard from "components/mypage/MyChatRoomCard";
 import LayoutWrapper from "components/common/LayoutWrapper";
 
 import { useMyItineraries } from "services/queries/itinerary/useMyItineraries";
-import { useMyReviews } from "services/queries/review/useMyReviews";
+import { useMyReviews } from "hooks/review/useMyReviews";
 import { useMyChatRooms } from "services/queries/chat/useMyChatRooms";
 
 import { CalendarDays, MessageSquareText, MessagesSquare } from "lucide-react";

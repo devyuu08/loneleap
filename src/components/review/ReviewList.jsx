@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useReviews } from "services/queries/review/useReviews";
+import { useReviews } from "hooks/review/useReviews";
 
 import ReviewCard from "components/review/ReviewCard";
 import LoadingSpinner from "components/common/LoadingSpinner";

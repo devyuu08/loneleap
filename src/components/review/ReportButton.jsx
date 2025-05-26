@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { useReportReview } from "services/queries/review/useReportReview";
+import { useReportReview } from "hooks/review/useReportReview";
 import ReportModal from "components/common/ReportModal";
 import ModalPortal from "components/common/ModalPortal";
 

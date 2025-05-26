@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import RatingInput from "./RatingInput";
 import ImageUploader from "components/common/ImageUploader";
 import InterviewAnswerForm from "components/review/InterviewAnswerForm";
-import useAddReview from "services/queries/review/useAddReview";
+import useAddReview from "hooks/review/useAddReview";
 import { FIXED_QUESTIONS, RANDOM_QUESTIONS } from "data/interviewQuestions";
 import ErrorMessage from "components/common/ErrorMessage";
 import FormSubmitButton from "components/common/FormSubmitButton";

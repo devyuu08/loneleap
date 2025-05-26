@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "services/firebase";
 
 /**
  * 특정 리뷰의 상세 정보를 가져오는 커스텀 훅
