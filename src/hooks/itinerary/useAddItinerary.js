@@ -25,13 +25,14 @@ export const useAddItinerary = ({
 
       let imageUrl = "";
 
-      if (formData.image) {
+      if (formData.image instanceof File) {
         try {
           imageUrl = await uploadImage(formData.image, "itineraries");
-          console.log(imageUrl);
         } catch (err) {
           throw new Error(err.message);
         }
+      } else if (typeof formData.image === "string") {
+        imageUrl = formData.image; // 기존 URL 유지
       }
 
       const itineraryData = {
