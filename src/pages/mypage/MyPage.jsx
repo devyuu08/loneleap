@@ -10,7 +10,7 @@ import MyReviewCard from "components/mypage/MyReviewCard";
 import MyChatRoomCard from "components/mypage/MyChatRoomCard";
 import LayoutWrapper from "components/common/LayoutWrapper";
 
-import { useMyItineraries } from "services/queries/itinerary/useMyItineraries";
+import { useMyItineraries } from "hooks/itinerary/useMyItineraries";
 import { useMyReviews } from "hooks/review/useMyReviews";
 import { useMyChatRooms } from "services/queries/chat/useMyChatRooms";
 

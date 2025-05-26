@@ -2,8 +2,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { updateDoc, doc, increment } from "firebase/firestore";
 import { db } from "services/firebase";
-import { createItinerary } from "services/itineraryService";
+import { createItinerary } from "services/itinerary/createItinerary";
 import { uploadImage } from "utils/uploadImage";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 /**
  * 일정 생성 훅
@@ -24,13 +25,14 @@ export const useAddItinerary = ({
 
       let imageUrl = "";
 
-      if (formData.image) {
+      if (formData.image instanceof File) {
         try {
           imageUrl = await uploadImage(formData.image, "itineraries");
-          console.log(imageUrl);
         } catch (err) {
           throw new Error(err.message);
         }
+      } else if (typeof formData.image === "string") {
+        imageUrl = formData.image; // 기존 URL 유지
       }
 
       const itineraryData = {
@@ -56,7 +58,7 @@ export const useAddItinerary = ({
         console.warn("itineraryCount 증가 실패:", err);
       }
       alert("일정이 성공적으로 등록되었습니다!");
-      queryClient.invalidateQueries({ queryKey: ["itineraries"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ITINERARIES] });
 
       onSuccessCallback(newId);
     },

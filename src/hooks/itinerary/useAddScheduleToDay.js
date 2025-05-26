@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addScheduleToDay } from "services/itineraryService";
+import { addScheduleToDay } from "services/itinerary/addScheduleToDay";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 export function useAddScheduleToDay() {
   const queryClient = useQueryClient();
@@ -10,7 +11,7 @@ export function useAddScheduleToDay() {
 
     onSuccess: (_, { itineraryId }) => {
       // 일정 상세 캐시 무효화
-      queryClient.invalidateQueries(["itineraryDetail", itineraryId]);
+      queryClient.invalidateQueries(QUERY_KEYS.ITINERARY_DETAIL(itineraryId));
     },
 
     onError: (error) => {

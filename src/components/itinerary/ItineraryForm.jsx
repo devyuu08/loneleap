@@ -1,82 +1,29 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { auth } from "services/firebase";
-import { useMutation } from "@tanstack/react-query";
-import { useAddItinerary } from "services/queries/itinerary/useAddItinerary";
-import { updateItinerary } from "services/itineraryService";
 import DatePicker from "./DatePicker";
 import FormSubmitButton from "components/common/FormSubmitButton";
 import { BookOpenText, Camera, Clock, MapPin } from "lucide-react";
 import ImageUploader from "components/common/ImageUploader";
 import ErrorMessage from "components/common/ErrorMessage";
 
-export default function ItineraryForm({ initialData, isEditMode = false }) {
-  const [title, setTitle] = useState(initialData?.title || "");
-  const [location, setLocation] = useState(initialData?.location || "");
-  const [startDate, setStartDate] = useState(initialData?.startDate || "");
-  const [endDate, setEndDate] = useState(initialData?.endDate || "");
-  const [summary, setSummary] = useState(initialData?.summary || "");
-  const [isPublic, setIsPublic] = useState(initialData?.isPublic || true);
-  const [errors, setErrors] = useState({});
-  const [imageFile, setImageFile] = useState(
-    initialData?.imageUrl ? initialData.imageUrl : null
-  );
-
-  const navigate = useNavigate();
-  const { mutate: addMutate, isPending: isAdding } = useAddItinerary();
-
-  const { mutate: updateMutate, isPending: isUpdating } = useMutation({
-    mutationFn: ({ id, updatedData }) => updateItinerary(id, updatedData),
-    onSuccess: () => navigate(`/itinerary/${initialData.id}`),
-    onError: () => alert("일정 수정 중 오류가 발생했습니다."),
-  });
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (!title.trim()) newErrors.title = "제목을 입력해주세요.";
-    if (!location.trim()) newErrors.location = "여행지를 입력해주세요.";
-    if (!startDate) newErrors.startDate = "시작일을 선택해주세요.";
-    if (!endDate) newErrors.endDate = "종료일을 선택해주세요.";
-    if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
-      newErrors.endDate = "종료일은 시작일보다 이후여야 합니다.";
-    }
-    if (!summary.trim()) newErrors.summary = "여행 소개를 입력해주세요.";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    const user = auth.currentUser;
-    if (!user?.uid) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
-    const itineraryData = {
-      title,
-      location,
-      startDate,
-      endDate,
-      summary,
-      isPublic,
-      userId: user.uid,
-      days: initialData?.days || [],
-      checklist: initialData?.checklist || { required: [], optional: [] },
-      image: imageFile,
-    };
-
-    isEditMode
-      ? updateMutate({ id: initialData.id, updatedData: itineraryData })
-      : addMutate(itineraryData, {
-          onSuccess: (newId) => {
-            navigate(`/itinerary/${newId}`);
-          },
-        });
-  };
-
+export default function ItineraryForm({
+  title,
+  setTitle,
+  location,
+  setLocation,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  summary,
+  setSummary,
+  isPublic,
+  setIsPublic,
+  imageFile,
+  setImageFile,
+  errors,
+  handleSubmit,
+  isSubmitting,
+  submitLabel,
+}) {
   return (
     <>
       <article
@@ -204,10 +151,7 @@ export default function ItineraryForm({ initialData, isEditMode = false }) {
 
             {/* 버튼 */}
             <div className="flex justify-end">
-              <FormSubmitButton
-                isLoading={isEditMode ? isUpdating : isAdding}
-                label={isEditMode ? "일정 수정 완료" : "일정 등록 완료"}
-              />
+              <FormSubmitButton isLoading={isSubmitting} label={submitLabel} />
             </div>
           </form>
 

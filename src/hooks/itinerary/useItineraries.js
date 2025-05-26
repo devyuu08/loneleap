@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { db } from "services/firebase";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 export const useItineraries = () => {
   return useQuery({
-    queryKey: ["itineraries"],
+    queryKey: [QUERY_KEYS.ITINERARIES],
     staleTime: 5 * 60 * 1000,
     cacheTime: 30 * 60 * 1000,
     queryFn: async () => {

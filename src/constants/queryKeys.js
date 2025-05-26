@@ -9,4 +9,8 @@ export const QUERY_KEYS = {
     userId,
   ],
   COMMENTS: (reviewId) => ["comments", reviewId],
+  ITINERARIES: "itineraries",
+  MY_ITINERARIES: (uid) => ["myItineraries", uid],
+  ITINERARY_DETAIL: (id) => ["itineraryDetail", id],
+  REGION_COUNTS: "regionCounts",
 };

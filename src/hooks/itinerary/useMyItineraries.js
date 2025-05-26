@@ -1,21 +1,22 @@
-import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "@tanstack/react-query";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
-import { db, auth } from "services/firebase";
+import { auth } from "services/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { QUERY_KEYS } from "constants/queryKeys";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import { db } from "services/firebase";
 
-export const useMyReviews = (options = {}) => {
+export const useMyItineraries = (options = {}) => {
   const [user, loading] = useAuthState(auth);
 
   return useQuery({
-    queryKey: QUERY_KEYS.MY_REVIEWS(user?.uid),
+    queryKey: QUERY_KEYS.MY_ITINERARIES(user?.uid),
     enabled: !loading && !!user?.uid && options.enabled !== false,
     queryFn: async () => {
       if (!user?.uid) throw new Error("사용자 정보가 없습니다.");
 
       const q = query(
-        collection(db, "reviews"),
-        where("createdBy.uid", "==", user.uid),
+        collection(db, "itineraries"),
+        where("userId", "==", user.uid),
         orderBy("createdAt", "desc")
       );
 
