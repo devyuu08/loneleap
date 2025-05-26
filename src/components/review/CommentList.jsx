@@ -1,32 +1,17 @@
-import { useState } from "react";
-import { useComments } from "hooks/review/useComments";
 import CommentItem from "components/review/CommentItem";
-import { useUser } from "hooks/useUser";
-import { useAddComment } from "hooks/review/useAddComment";
 import { Send } from "lucide-react";
 
-export default function CommentList({ currentUserId, reviewId }) {
-  const [content, setContent] = useState("");
-  const { user } = useUser();
-  const { data: comments, isLoading } = useComments(reviewId);
-  const { mutate, isPending } = useAddComment(reviewId);
-
-  const handleCommentSubmit = (e) => {
-    e.preventDefault();
-    if (!user || !content.trim()) return;
-
-    mutate({
-      content,
-      author: {
-        uid: user.uid,
-        displayName: user.displayName || "익명",
-        photoURL: user.photoURL || "",
-      },
-    });
-
-    setContent("");
-  };
-
+export default function CommentList({
+  currentUserId,
+  reviewId,
+  user,
+  content,
+  setContent,
+  comments,
+  isLoading,
+  isPending,
+  handleSubmit,
+}) {
   return (
     <div className="bg-white rounded-2xl shadow-sm px-6 py-8 space-y-8">
       {/* 댓글 입력 박스 */}
@@ -35,7 +20,7 @@ export default function CommentList({ currentUserId, reviewId }) {
           이 여행지에서의 감정을 나눠보세요
         </h3>
 
-        <form onSubmit={handleCommentSubmit} className="space-y-2">
+        <form onSubmit={handleSubmit} className="space-y-2">
           <div className="flex items-start gap-3">
             <img
               src={user?.photoURL || "/images/default-profile.png"}

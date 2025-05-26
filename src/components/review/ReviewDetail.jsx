@@ -1,14 +1,13 @@
 import ReportButton from "components/Review/ReportButton";
 import LikeButton from "components/review/LikeButton";
-import CommentList from "components/review/CommentList";
 
 import ReviewHero from "components/review/ReviewHero";
 import FloatingButtons from "components/common/FloatingButtons";
+import CommentListContainer from "containers/review/CommentListContainer";
 
 export default function ReviewDetail({
   reviewId,
   review,
-  currentUser,
   onDelete,
   isDeletePending,
   isOwner,
@@ -89,10 +88,7 @@ export default function ReviewDetail({
                 같은 장소, 다른 감정. 다른 여행자의 시선을 통해 더 깊이
                 바라보세요.
               </p>
-              <CommentList
-                currentUserId={currentUser?.uid}
-                reviewId={reviewId}
-              />
+              <CommentListContainer reviewId={reviewId} />
             </div>
           </div>
 

@@ -24,7 +24,6 @@ export default function ReviewDetailContainer() {
     <ReviewDetail
       reviewId={reviewId}
       review={data}
-      currentUser={user}
       onDelete={deleteReview}
       isDeletePending={isPending}
       isOwner={isOwner}
