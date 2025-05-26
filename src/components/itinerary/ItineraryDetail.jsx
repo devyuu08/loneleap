@@ -1,6 +1,3 @@
-import ItineraryHero from "components/itinerary/ItineraryHero";
-
-import DayScheduleList from "./DayScheduleList";
 import { format } from "date-fns";
 
 import {
@@ -12,7 +9,9 @@ import {
   Quote,
 } from "lucide-react";
 import FloatingButtons from "components/common/FloatingButtons";
+import ItineraryHero from "components/itinerary/ItineraryHero";
 import ChecklistSection from "./ChecklistSection";
+import DayScheduleListContainer from "containers/itinerary/DayScheduleListContainer";
 
 export default function ItineraryDetail({
   itineraryId,
@@ -72,7 +71,7 @@ export default function ItineraryDetail({
         {/* 일정 상세 */}
         {days?.length > 0 && (
           <section className="mt-10">
-            <DayScheduleList days={days} isOwner={isOwner} />
+            <DayScheduleListContainer days={days} isOwner={isOwner} />
           </section>
         )}
 
