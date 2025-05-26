@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAddScheduleToDay } from "services/queries/itinerary/useAddScheduleToDay";
+import { useAddScheduleToDay } from "hooks/itinerary/useAddScheduleToDay";
 import DayScheduleItem from "./DayScheduleItem";
 import { ChevronDown } from "lucide-react";
 import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";

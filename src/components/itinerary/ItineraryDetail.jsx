@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { useItineraryDetail } from "services/queries/itinerary/useItineraryDetail";
-import { useDeleteItinerary } from "services/queries/itinerary/useDeleteItinerary";
+import { useItineraryDetail } from "hooks/itinerary/useItineraryDetail";
+import { useDeleteItinerary } from "hooks/itinerary/useDeleteItinerary";
 
 import LoadingSpinner from "components/common/LoadingSpinner";
 import NotFoundMessage from "components/common/NotFoundMessage";

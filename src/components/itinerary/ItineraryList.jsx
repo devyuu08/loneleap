@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useItineraries } from "services/queries/itinerary/useItineraries";
+import { useItineraries } from "hooks/itinerary/useItineraries";
 
 import ItineraryCard from "./ItineraryCard";
 import LoadingSpinner from "components/common/LoadingSpinner";

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "services/firebase";
 import { useMutation } from "@tanstack/react-query";
-import { useAddItinerary } from "services/queries/itinerary/useAddItinerary";
+import { useAddItinerary } from "hooks/itinerary/useAddItinerary";
 import { updateItinerary } from "services/itineraryService";
 import DatePicker from "./DatePicker";
 import FormSubmitButton from "components/common/FormSubmitButton";
