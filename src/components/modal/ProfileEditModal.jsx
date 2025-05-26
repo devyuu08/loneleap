@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUpdateProfile } from "hooks/useUpdateProfile";
+import { useUpdateProfile } from "hooks/mypage/useUpdateProfile";
 
 export default function ProfileEditModal({ isOpen, onClose, user }) {
   const [displayName, setDisplayName] = useState(user?.displayName || "");
