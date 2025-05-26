@@ -2,20 +2,12 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { updateProfile as updateFirebaseProfile } from "firebase/auth";
-import {
-  doc,
-  setDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-  updateDoc,
-  serverTimestamp,
-} from "firebase/firestore";
-import { auth, db } from "services/firebase";
-import { setUser } from "store/userSlice";
 import { useUser } from "hooks/useUser";
+import { updatePublicUserProfile } from "services/user/updatePublicUserProfile";
+import { updatePrivateUserProfile } from "services/user/updatePrivateUserProfile";
+import { updateUserContentProfile } from "services/user/updateUserContentProfile";
+import { updateUserState } from "services/user/updateUserState";
+import { updateFirebaseUserProfile } from "services/user/updateFirebaseUserProfile";
 
 export function useUpdateProfile() {
   const { user } = useUser(); // 현재 로그인 사용자
@@ -39,70 +31,36 @@ export function useUpdateProfile() {
 
     try {
       // 1. Firebase Auth 프로필 업데이트
-      await updateFirebaseProfile(auth.currentUser, {
-        displayName,
-        ...(photoURL !== undefined && { photoURL }),
-      });
+      await updateFirebaseUserProfile({ displayName, photoURL });
 
       // 2. Firestore 공개 프로필 정보 업데이트
-      const publicData = {
+      await updatePublicUserProfile({
+        uid: user.uid,
         displayName,
-        updatedAt: serverTimestamp(),
-      };
-      if (photoURL !== undefined) publicData.photoURL = photoURL;
-
-      await setDoc(doc(db, "users_public", user.uid), publicData, {
-        merge: true,
+        photoURL,
       });
 
       // 3. Firestore 비공개 프로필 정보 업데이트
-      await setDoc(
-        doc(db, "users_private", user.uid),
-        {
-          bio,
-          updatedAt: serverTimestamp(),
-        },
-        { merge: true }
-      );
+      await updatePrivateUserProfile({
+        uid: user.uid,
+        bio,
+      });
 
       // 4. 작성 콘텐츠에 반영 (리뷰, 일정, 채팅 등)
-      const collections = [
-        { name: "reviews", path: "createdBy" },
-        { name: "itineraries", path: "createdBy" },
-        { name: "chatRooms", path: "createdBy" },
-        { name: "chatMessages", path: "sender" },
-      ];
-
-      await Promise.all(
-        collections.map(async ({ name, path }) => {
-          const q = query(
-            collection(db, name),
-            where(`${path}.uid`, "==", user.uid)
-          );
-          const snap = await getDocs(q);
-          return Promise.all(
-            snap.docs.map((doc) =>
-              updateDoc(doc.ref, {
-                [`${path}.displayName`]: displayName,
-                ...(photoURL !== undefined && {
-                  [`${path}.photoURL`]: photoURL,
-                }),
-              })
-            )
-          );
-        })
-      );
+      await updateUserContentProfile({
+        uid: user.uid,
+        displayName,
+        photoURL,
+      });
 
       // 5. Redux 상태 업데이트
-      dispatch(
-        setUser({
-          uid: user.uid,
-          email: user.email,
-          displayName,
-          photoURL: photoURL !== undefined ? photoURL : user.photoURL,
-          bio,
-        })
-      );
+      updateUserState({
+        dispatch,
+        user,
+        displayName,
+        photoURL,
+        bio,
+      });
 
       // 6. React Query 캐시 무효화
       queryClient.invalidateQueries(["reviews"]);
