@@ -1,8 +1,8 @@
 import { Edit2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatDateOnly } from "utils/formatDate";
-import LikeButton from "components/review/LikeButton";
 import SkeletonImage from "components/common/SkeletonImage";
+import LikeButtonContainer from "containers/review/LikeButtonContainer";
 
 export default function MyReviewCard({ review = {} }) {
   const navigate = useNavigate();
@@ -74,7 +74,10 @@ export default function MyReviewCard({ review = {} }) {
 
           {/* 좋아요 + 수정 버튼 */}
           <div className="flex items-center gap-3 text-sm text-gray-500">
-            <LikeButton reviewId={review.id} likesCount={review.likesCount} />
+            <LikeButtonContainer
+              reviewId={review.id}
+              likesCount={review.likesCount}
+            />
             <button
               type="button"
               onClick={(e) => {

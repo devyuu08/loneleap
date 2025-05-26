@@ -1,9 +1,9 @@
 import ReportButton from "components/Review/ReportButton";
-import LikeButton from "components/review/LikeButton";
 
 import ReviewHero from "components/review/ReviewHero";
 import FloatingButtons from "components/common/FloatingButtons";
 import CommentListContainer from "containers/review/CommentListContainer";
+import LikeButtonContainer from "containers/review/LikeButtonContainer";
 
 export default function ReviewDetail({
   reviewId,
@@ -54,7 +54,7 @@ export default function ReviewDetail({
         {/* 좋아요 / 신고 */}
         <div className="flex justify-end items-center mt-10 text-sm text-gray-600 gap-6">
           <div className="transition hover:scale-105">
-            <LikeButton
+            <LikeButtonContainer
               reviewId={reviewId}
               likesCount={likesCount}
               variant="detail"

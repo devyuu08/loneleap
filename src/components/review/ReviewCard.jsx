@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import LikeButton from "components/review/LikeButton";
 import SkeletonImage from "components/common/SkeletonImage";
+import LikeButtonContainer from "containers/review/LikeButtonContainer";
 
 /**
  * 리뷰 정보를 카드 형태로 표시하는 컴포넌트
@@ -104,7 +104,10 @@ export default function ReviewCard({ review }) {
               }}
             />
           </div>
-          <LikeButton reviewId={review.id} likesCount={review.likesCount} />
+          <LikeButtonContainer
+            reviewId={review.id}
+            likesCount={review.likesCount}
+          />
         </div>
       </div>
     </div>

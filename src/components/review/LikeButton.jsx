@@ -1,41 +1,24 @@
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useUser } from "hooks/useUser";
-import {
-  useReviewLikeStatus,
-  useToggleReviewLike,
-} from "hooks/review/useReviewLike";
+import PropTypes from "prop-types";
 import { cn } from "utils/utils";
 
 export default function LikeButton({
-  reviewId,
+  hasLiked,
   likesCount = 0,
   variant = "card",
+  disabled = false,
+  onClick,
 }) {
-  const { user } = useUser();
-  const userId = user?.uid;
-
-  const { data: hasLiked } = useReviewLikeStatus(reviewId, userId);
-  const { mutate, isPending: isMutating } = useToggleReviewLike(
-    reviewId,
-    userId
-  );
-
-  const handleLikeBtnClick = (e) => {
-    e.stopPropagation();
-    if (!user || isMutating) return;
-    mutate();
-  };
-
   const baseClass = "flex items-center gap-1 transition-all";
-  const disabledClass = isMutating ? "opacity-50 cursor-not-allowed" : "";
+  const disabledClass = disabled ? "opacity-50 cursor-not-allowed" : "";
   const variantClass =
     variant === "detail"
       ? "px-3 py-1.5 rounded-full border border-gray-300 text-sm bg-white/60 text-gray-800 backdrop-blur-sm shadow-sm hover:bg-white/80 transition"
       : "text-sm text-gray-500 hover:text-red-500 transition";
   return (
     <button
-      onClick={handleLikeBtnClick}
-      disabled={!user || isMutating}
+      onClick={onClick}
+      disabled={disabled}
       className={cn(baseClass, disabledClass, variantClass)}
       aria-label={hasLiked ? "좋아요 취소" : "좋아요 누르기"}
     >
@@ -58,3 +41,11 @@ export default function LikeButton({
     </button>
   );
 }
+
+LikeButton.propTypes = {
+  hasLiked: PropTypes.bool,
+  likesCount: PropTypes.number,
+  variant: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+};
