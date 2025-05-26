@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserItineraries } from "services/itineraryService";
+import { fetchUserItineraries } from "services/itinerary/fetchUserItineraries";
 import { auth } from "services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 

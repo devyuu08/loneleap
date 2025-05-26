@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { updateDoc, doc, increment } from "firebase/firestore";
 import { db } from "services/firebase";
-import { createItinerary } from "services/itineraryService";
+import { createItinerary } from "services/itinerary/createItinerary";
 import { uploadImage } from "utils/uploadImage";
 
 /**

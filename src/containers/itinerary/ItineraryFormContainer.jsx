@@ -4,7 +4,7 @@ import { auth } from "services/firebase";
 import { useMutation } from "@tanstack/react-query";
 import { uploadImage } from "utils/uploadImage";
 import { useAddItinerary } from "hooks/itinerary/useAddItinerary";
-import { updateItinerary } from "services/itineraryService";
+import { updateItinerary } from "services/itinerary/updateItinerary";
 import { useItineraryDetail } from "hooks/itinerary/useItineraryDetail";
 import LoadingSpinner from "components/common/LoadingSpinner";
 import NotFoundMessage from "components/common/NotFoundMessage";
