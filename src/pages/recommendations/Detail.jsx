@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useRecommendationDetail } from "hooks/useRecommendationDetail";
+import { useRecommendationDetail } from "hooks/recommendation/useRecommendationDetail";
 import RecommendationDetail from "components/recommendation/RecommendationDetail";
 import LayoutWrapper from "components/common/LayoutWrapper";
 

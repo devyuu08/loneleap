@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useRecommendationList } from "hooks/useRecommendationList";
+import { useRecommendationList } from "hooks/recommendation/useRecommendationList";
 import RecommendationCard from "./RecommendationCard";
 import HeroSection from "components/common/HeroSection";
 

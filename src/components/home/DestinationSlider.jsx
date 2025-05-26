@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import { Link } from "react-router-dom";
-import { useRecommendationList } from "hooks/useRecommendationList";
+import { useRecommendationList } from "hooks/recommendation/useRecommendationList";
 import SkeletonImage from "components/common/SkeletonImage";
 
 export default function DestinationSlider() {
