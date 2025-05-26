@@ -8,12 +8,13 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { app } from "services/firebase";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 const db = getFirestore(app);
 
 export const useRecentReviews = () => {
   return useQuery({
-    queryKey: ["recentReviews"],
+    queryKey: [QUERY_KEYS.RECENT_REVIEWS],
     queryFn: async () => {
       const ref = collection(db, "reviews");
       const q = query(ref, orderBy("createdAt", "desc"), limit(5));

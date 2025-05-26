@@ -1,14 +1,8 @@
+import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "services/firebase";
-import {
-  doc,
-  getDoc,
-  deleteDoc,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
 import { uploadImage } from "utils/uploadImage";
 
-export const updateReviewData = async (id, updatedData) => {
+export async function updateReview(id, updatedData) {
   try {
     const docRef = doc(db, "reviews", id);
     const docSnap = await getDoc(docRef);
@@ -53,23 +47,4 @@ export const updateReviewData = async (id, updatedData) => {
     console.error("리뷰 수정 중 오류 발생:", error);
     throw error;
   }
-};
-
-export const deleteReview = async (id) => {
-  try {
-    // 문서 존재 확인
-    const docRef = doc(db, "reviews", id);
-    const docSnap = await getDoc(docRef);
-
-    if (!docSnap.exists()) {
-      throw new Error("존재하지 않는 리뷰입니다.");
-    }
-
-    // 삭제 실행
-    await deleteDoc(docRef);
-    return true;
-  } catch (error) {
-    console.error("리뷰 삭제 중 오류:", error);
-    throw error;
-  }
-};
+}

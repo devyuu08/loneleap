@@ -1,9 +1,5 @@
-import ReviewList from "components/Review/ReviewList";
+import ReviewListContainer from "containers/review/ReviewListContainer";
 
 export default function ReviewListPage() {
-  return (
-    <div>
-      <ReviewList />;
-    </div>
-  );
+  return <ReviewListContainer />;
 }
