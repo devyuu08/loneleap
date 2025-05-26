@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "services/firebase";
 import { useSelector } from "react-redux";
 import MessageInput from "components/chat/MessageInput";
+import { sendChatMessage } from "services/chat/sendMessage";
 
 export default function MessageInputContainer({ roomId }) {
   const [message, setMessage] = useState("");
@@ -20,17 +19,7 @@ export default function MessageInputContainer({ roomId }) {
     setIsSubmitting(true);
 
     try {
-      await addDoc(collection(db, "chatMessages"), {
-        type: "text",
-        roomId,
-        message: message.trim(),
-        sender: {
-          uid: user.uid,
-          displayName: user.displayName || "익명",
-          photoURL: user.photoURL || "",
-        },
-        createdAt: serverTimestamp(),
-      });
+      await sendChatMessage({ roomId, message, user });
       setMessage("");
     } catch (error) {
       console.error("메시지 전송 오류:", error);
@@ -39,7 +28,6 @@ export default function MessageInputContainer({ roomId }) {
       setIsSubmitting(false);
     }
   };
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
