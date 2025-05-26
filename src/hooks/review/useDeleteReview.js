@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteReview } from "services/review/deleteReview";
 import { auth, db } from "services/firebase";
 import { doc, updateDoc, increment } from "firebase/firestore";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 export const useDeleteReview = () => {
   const navigate = useNavigate();
@@ -25,8 +26,15 @@ export const useDeleteReview = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reviews"] });
-      queryClient.invalidateQueries({ queryKey: ["myReviews"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWS] });
+
+      const uid = auth.currentUser?.uid;
+      if (uid) {
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.MY_REVIEWS(uid),
+        });
+      }
+
       alert("리뷰가 삭제되었습니다.");
       navigate("/reviews");
     },

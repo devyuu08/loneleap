@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import { db } from "services/firebase";
 import { uploadImage } from "utils/uploadImage";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 /**
  * 리뷰 추가 기능을 제공하는 커스텀 훅
@@ -104,7 +105,7 @@ export default function useAddReview({
 
     onSuccess: (newId) => {
       alert("리뷰가 성공적으로 등록되었습니다!");
-      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWS] });
       onSuccessCallback(newId);
     },
 

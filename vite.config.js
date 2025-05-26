@@ -16,6 +16,7 @@ export default defineConfig({
       data: path.resolve(__dirname, "src/data"),
       lib: path.resolve(__dirname, "src/lib"),
       containers: path.resolve(__dirname, "src/containers"),
+      constants: path.resolve(__dirname, "src/constants"),
     },
   },
 });
