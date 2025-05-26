@@ -4,6 +4,7 @@ import { updateDoc, doc, increment } from "firebase/firestore";
 import { db } from "services/firebase";
 import { createItinerary } from "services/itinerary/createItinerary";
 import { uploadImage } from "utils/uploadImage";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 /**
  * 일정 생성 훅
@@ -56,7 +57,7 @@ export const useAddItinerary = ({
         console.warn("itineraryCount 증가 실패:", err);
       }
       alert("일정이 성공적으로 등록되었습니다!");
-      queryClient.invalidateQueries({ queryKey: ["itineraries"] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ITINERARIES] });
 
       onSuccessCallback(newId);
     },

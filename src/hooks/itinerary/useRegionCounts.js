@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "services/firebase";
+import { QUERY_KEYS } from "constants/queryKeys";
 
 const LOCATION_MAP = {
   서울: "seoul",
@@ -38,7 +39,7 @@ const fetchRegionCounts = async () => {
 
 export const useRegionCounts = () => {
   return useQuery({
-    queryKey: ["regionCounts"],
+    queryKey: [QUERY_KEYS.REGION_COUNTS],
     queryFn: fetchRegionCounts,
     staleTime: 5 * 60 * 1000,
   });
