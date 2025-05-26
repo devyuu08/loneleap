@@ -1,7 +1,7 @@
-import ChatMessage from "./ChatMessage";
 import ChatHeader from "components/chat/ChatHeader";
 import ParticipantListContainer from "containers/chat/ParticipantListContainer";
 import MessageInputContainer from "containers/chat/MessageInputContainer";
+import ChatMessageContainer from "containers/chat/ChatMessageContainer";
 
 export default function ChatRoomDetail({
   roomInfo,
@@ -43,7 +43,7 @@ export default function ChatRoomDetail({
             aria-label="채팅 메시지"
           >
             {messages.map((msg) => (
-              <ChatMessage key={msg.id} message={msg} />
+              <ChatMessageContainer key={msg.id} message={msg} />
             ))}
           </div>
 
