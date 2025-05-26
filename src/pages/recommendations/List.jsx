@@ -1,9 +1,5 @@
-import RecommendationList from "components/recommendation/RecommendationList";
+import RecommendationListContainer from "containers/recommendation/RecommendationListContainer";
 
 export default function RecommendationListPage() {
-  return (
-    <div>
-      <RecommendationList />
-    </div>
-  );
+  return <RecommendationListContainer />;
 }
