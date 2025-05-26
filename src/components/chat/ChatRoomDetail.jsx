@@ -1,7 +1,7 @@
 import MessageInput from "./MessageInput";
 import ChatMessage from "./ChatMessage";
 import ChatHeader from "components/chat/ChatHeader";
-import ParticipantList from "components/chat/ParticipantList";
+import ParticipantListContainer from "containers/chat/ParticipantListContainer";
 
 export default function ChatRoomDetail({
   roomInfo,
@@ -22,7 +22,7 @@ export default function ChatRoomDetail({
       <div className="relative z-10 w-full max-w-6xl h-full md:h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex">
         {/* 참여자 목록 (좌측 사이드) */}
         <aside className="hidden md:block w-64 border-r border-gray-200 bg-white/70 backdrop-blur-md p-4">
-          <ParticipantList roomId={roomId} />
+          <ParticipantListContainer roomId={roomId} />
         </aside>
 
         {/* 채팅 영역 */}
