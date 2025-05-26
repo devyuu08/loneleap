@@ -11,6 +11,8 @@ export const useMyReviews = (options = {}) => {
     queryKey: QUERY_KEYS.MY_REVIEWS(user?.uid),
     enabled: !loading && !!user?.uid && options.enabled !== false,
     queryFn: async () => {
+      if (!user?.uid) throw new Error("사용자 정보가 없습니다.");
+
       const q = query(
         collection(db, "reviews"),
         where("createdBy.uid", "==", user.uid),
@@ -18,7 +20,6 @@ export const useMyReviews = (options = {}) => {
       );
 
       const snapshot = await getDocs(q);
-
       return snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
