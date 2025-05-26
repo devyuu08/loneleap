@@ -15,6 +15,7 @@ export default defineConfig({
       utils: path.resolve(__dirname, "src/utils"),
       data: path.resolve(__dirname, "src/data"),
       lib: path.resolve(__dirname, "src/lib"),
+      containers: path.resolve(__dirname, "src/containers"),
     },
   },
 });
