@@ -10,8 +10,8 @@ import {
 } from "lucide-react";
 import FloatingButtons from "components/common/FloatingButtons";
 import ItineraryHero from "components/itinerary/ItineraryHero";
-import ChecklistSection from "./ChecklistSection";
 import DayScheduleListContainer from "containers/itinerary/DayScheduleListContainer";
+import ChecklistSectionContainer from "containers/itinerary/ChecklistSectionContainer";
 
 export default function ItineraryDetail({
   itineraryId,
@@ -83,7 +83,7 @@ export default function ItineraryDetail({
               onDelete={() => onDelete(itineraryId)}
               isDeletePending={isDeletePending}
             />
-            <ChecklistSection checklist={checklist} />
+            <ChecklistSectionContainer checklist={checklist} />
           </>
         )}
       </div>
