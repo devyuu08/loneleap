@@ -1,32 +1,20 @@
 import { useState } from "react";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import {
-  deleteUser,
-  EmailAuthProvider,
-  reauthenticateWithCredential,
-  updateProfile,
-} from "firebase/auth";
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { auth, storage, db } from "services/firebase";
-import { anonymizePublicProfile } from "utils/deleteAccount";
-
-import { setUser, clearUser } from "store/userSlice";
-
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { doc, setDoc } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
+
+import { auth, db } from "services/firebase";
 import { logout } from "services/auth";
 import { changeUserPassword } from "services/userService";
+
+import { setUser, clearUser } from "store/userSlice";
 import { useUserStats } from "hooks/mypage/useUserStats";
-import { anonymizeUserContent } from "utils/deleteAccount";
 import ProfileSection from "components/mypage/ProfileSection";
+import { uploadUserProfileImage } from "services/user/uploadUserProfileImage";
+import { updateUserPhotoInContent } from "services/user/updateUserPhotoInContent";
+import { deleteUserAccount } from "services/user/deleteUserAccount";
 
 export default function ProfileSectionContainer() {
   const user = useSelector((state) => state.user.user);
@@ -63,51 +51,24 @@ export default function ProfileSectionContainer() {
     if (!file || !user) return;
     try {
       // Firebase Storage 업로드
-      const storageRef = ref(storage, `profile_images/${user.uid}`);
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
+      const downloadURL = await uploadUserProfileImage(file, user.uid);
 
       // Auth 프로필 업데이트
-      await updateProfile(auth.currentUser, {
-        photoURL: downloadURL,
-      });
-
+      await updateProfile(auth.currentUser, { photoURL: downloadURL });
       await auth.currentUser.reload();
-      const updatedUser = auth.currentUser;
 
-      // Firestore 문서 업데이트 (users_public 기준)
+      // Firestore users_public 문서 업데이트
       await setDoc(
         doc(db, "users_public", user.uid),
         { photoURL: downloadURL },
         { merge: true }
       );
 
-      const collections = [
-        { name: "reviews", path: "createdBy" },
-        { name: "itineraries", path: "createdBy" },
-        { name: "chatRooms", path: "createdBy" },
-        { name: "chatMessages", path: "sender" },
-      ];
-
-      await Promise.all(
-        collections.map(async ({ name, path }) => {
-          const q = query(
-            collection(db, name),
-            where(`${path}.uid`, "==", user.uid)
-          );
-          const snap = await getDocs(q);
-          return Promise.all(
-            snap.docs.map((doc) =>
-              updateDoc(doc.ref, {
-                [`${path}.photoURL`]: downloadURL,
-              })
-            )
-          );
-        })
-      );
+      // 사용자 콘텐츠 업데이트
+      await updateUserPhotoInContent(user.uid, downloadURL);
 
       // Redux 상태 동기화
-      dispatch(setUser({ ...user, photoURL: updatedUser.photoURL }));
+      dispatch(setUser({ ...user, photoURL: auth.currentUser.photoURL }));
     } catch (err) {
       console.error("프로필 이미지 업로드 오류:", err);
       alert("이미지 업로드에 실패했습니다.");
@@ -139,26 +100,11 @@ export default function ProfileSectionContainer() {
   };
 
   const handleDeleteAccount = async (currentPassword) => {
-    const user = auth.currentUser;
-    const uid = user?.uid;
-    if (!user || !uid) return;
+    const email = user?.email;
+    if (!email || !currentPassword) return;
 
     try {
-      // 1. 재인증
-      const credential = EmailAuthProvider.credential(
-        user.email,
-        currentPassword
-      );
-      await reauthenticateWithCredential(user, credential);
-
-      // 2. 익명화
-      await anonymizePublicProfile(uid);
-      await anonymizeUserContent(uid);
-
-      // 3. 계정 삭제
-      await deleteUser(user);
-
-      // 4. 상태 초기화
+      await deleteUserAccount(email, currentPassword);
       dispatch(clearUser());
       navigate("/");
     } catch (err) {
