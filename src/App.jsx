@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setUser, clearUser } from "store/userSlice";
 
-import { observeAuth } from "services/auth";
-import { fetchUserWithProfile } from "services/userService";
+import { observeAuth } from "services/auth/auth";
+import { fetchUserWithProfile } from "services/user/fetchUserWithProfile";
 
 import Header from "components/layout/Header";
 import Footer from "components/layout/Footer";
 
-import AuthForm from "components/auth/AuthForm";
+import Login from "pages/auth/Login";
 
 import ProtectedRoute from "components/common/ProtectedRoute";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
@@ -74,7 +74,7 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<AuthForm />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/itinerary">
             <Route

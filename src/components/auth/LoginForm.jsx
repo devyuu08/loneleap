@@ -1,67 +1,16 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { setUser } from "store/userSlice";
 
-import { signIn } from "services/auth";
-import { signInWithGoogle } from "services/auth";
-
-export default function AuthForm() {
-  const [error, setError] = useState("");
-  const [isEmailLoading, setIsEmailLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleEmailPasswordLogin = async (e) => {
-    e.preventDefault();
-    setIsEmailLoading(true);
-    setError(""); // 에러 초기화
-    try {
-      const result = await signIn(email, password);
-      dispatch(
-        setUser({
-          uid: result.user.uid,
-          email: result.user.email,
-          displayName: result.user.displayName,
-          photoURL: result.user.photoURL,
-        })
-      );
-      navigate("/");
-    } catch (err) {
-      console.error("이메일 로그인 실패:", err.message);
-      setError("이메일 또는 비밀번호가 잘못되었습니다.");
-    } finally {
-      setIsEmailLoading(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    setIsGoogleLoading(true); // 로딩 상태 시작
-    setError(""); // 기존 에러 초기화
-    try {
-      const result = await signInWithGoogle();
-      dispatch(
-        setUser({
-          uid: result.user.uid,
-          email: result.user.email,
-          displayName: result.user.displayName,
-          photoURL: result.user.photoURL,
-        })
-      );
-      navigate("/");
-    } catch (err) {
-      console.error("Google 로그인 실패:", err.message);
-      setError("Google 로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
-    } finally {
-      setIsGoogleLoading(false); // 로딩 상태 종료
-    }
-  };
-
+export default function LoginForm({
+  email,
+  password,
+  isEmailLoading,
+  isGoogleLoading,
+  error,
+  onEmailChange,
+  onPasswordChange,
+  onSubmit,
+  onGoogleLogin,
+}) {
   return (
     <div className="relative min-h-screen bg-gray-100">
       {/* 배경 이미지 */}
@@ -86,7 +35,7 @@ export default function AuthForm() {
             </p>
           </div>
 
-          <form className="space-y-5" onSubmit={handleEmailPasswordLogin}>
+          <form className="space-y-5" onSubmit={onSubmit}>
             <div>
               <label htmlFor="email" className="block mb-1 text-sm font-medium">
                 이메일
@@ -96,7 +45,8 @@ export default function AuthForm() {
                 name="email"
                 type="email"
                 placeholder="your@email.com"
-                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                onChange={onEmailChange}
                 className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
               />
             </div>
@@ -112,7 +62,8 @@ export default function AuthForm() {
                 id="password"
                 name="password"
                 type="password"
-                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                onChange={onPasswordChange}
                 className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
               />
             </div>
@@ -135,7 +86,7 @@ export default function AuthForm() {
 
             <button
               type="button"
-              onClick={handleGoogleLogin}
+              onClick={onGoogleLogin}
               disabled={isGoogleLoading}
               className="w-full flex items-center justify-center gap-3 border border-gray-100 py-2 rounded-md hover:bg-gray-50 transition"
             >
@@ -151,13 +102,6 @@ export default function AuthForm() {
               <img src="/naver-btn.png" alt="Naver" className="w-5 h-5" />
               네이버로 계속하기
             </button>
-
-            {/* <button
-            type="button"
-            className="w-full border border-gray-300 rounded py-2 flex items-center justify-center gap-2 hover:bg-gray-50"
-          >
-            <span className="text-xl"></span> Apple로 계속하기
-          </button> */}
           </form>
 
           <div className="flex items-center justify-between mt-6 text-sm text-gray-600">

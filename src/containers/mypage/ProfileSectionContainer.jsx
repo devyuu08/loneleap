@@ -6,8 +6,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 
 import { auth, db } from "services/firebase";
-import { logout } from "services/auth";
-import { changeUserPassword } from "services/userService";
+import { logout } from "services/auth/auth";
+import { changeUserPassword } from "services/user/changeUserPassword";
 
 import { setUser, clearUser } from "store/userSlice";
 import { useUserStats } from "hooks/mypage/useUserStats";

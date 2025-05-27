@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUser } from "hooks/useUser";
+import { useUser } from "hooks/auth/useUser";
 import { useComments } from "hooks/review/useComments";
 import { useAddComment } from "hooks/review/useAddComment";
 import CommentList from "components/review/CommentList";

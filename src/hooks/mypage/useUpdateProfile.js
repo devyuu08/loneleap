@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { useUser } from "hooks/useUser";
+import { useUser } from "hooks/auth/useUser";
 import { updatePublicUserProfile } from "services/user/updatePublicUserProfile";
 import { updatePrivateUserProfile } from "services/user/updatePrivateUserProfile";
 import { updateUserContentProfile } from "services/user/updateUserContentProfile";
