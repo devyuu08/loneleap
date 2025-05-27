@@ -11,7 +11,7 @@ import { fetchUserWithProfile } from "services/userService";
 import Header from "components/layout/Header";
 import Footer from "components/layout/Footer";
 
-import AuthForm from "components/auth/AuthForm";
+import Login from "pages/auth/Login";
 
 import ProtectedRoute from "components/common/ProtectedRoute";
 import LoadingSpinner from "components/common/LoadingSpinner.jsx";
@@ -74,7 +74,7 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<AuthForm />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/itinerary">
             <Route
