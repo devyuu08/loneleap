@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-import { useUser } from "hooks/useUser";
+import { useUser } from "hooks/auth/useUser";
 import { useDeleteReview } from "hooks/review/useDeleteReview";
 
 import { useReviewDetail } from "hooks/review/useReviewDetail";
