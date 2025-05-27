@@ -1,20 +1,20 @@
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { setUser } from "store/userSlice";
-import { auth, db } from "services/firebase";
+import { db } from "services/firebase";
 import { extractSafeUser } from "utils/extractSafeUser";
-import {
-  updatePassword,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
-} from "firebase/auth";
 
+/**
+ * Firebase에서 public + private 사용자 정보 병합 후 Redux 저장
+ * @param {User} firebaseUser
+ * @param {Dispatch} dispatch
+ */
 export const fetchUserWithProfile = async (firebaseUser, dispatch) => {
   if (!firebaseUser) return;
 
   const uid = firebaseUser.uid;
 
   try {
-    // 공개 정보
+    // 공개 정보 (없으면 초기 생성)
     const publicRef = doc(db, "users_public", uid);
     const publicSnap = await getDoc(publicRef);
 
@@ -28,7 +28,7 @@ export const fetchUserWithProfile = async (firebaseUser, dispatch) => {
 
     const publicData = (await getDoc(publicRef)).data();
 
-    // 비공개 정보
+    // 비공개 정보 (없으면 초기 생성)
     const privateRef = doc(db, "users_private", uid);
     const privateSnap = await getDoc(privateRef);
 
@@ -56,11 +56,7 @@ export const fetchUserWithProfile = async (firebaseUser, dispatch) => {
     const photoURL = publicData.photoURL || firebaseUser.photoURL || "";
 
     const safeUser = extractSafeUser(
-      {
-        ...firebaseUser,
-        displayName,
-        photoURL,
-      },
+      { ...firebaseUser, displayName, photoURL },
       bio
     );
 
@@ -68,26 +64,4 @@ export const fetchUserWithProfile = async (firebaseUser, dispatch) => {
   } catch (error) {
     console.error("사용자 정보 불러오기 실패:", error);
   }
-};
-
-/**
- * Firebase에서 비밀번호 변경 처리
- * @param {string} newPassword 새 비밀번호
- * @param {string} currentPassword 기존 비밀번호 (reauthenticate용)
- */
-export const changeUserPassword = async (newPassword, currentPassword) => {
-  const user = auth.currentUser;
-
-  if (!user || !user.email) {
-    throw new Error("사용자 정보를 불러올 수 없습니다.");
-  }
-
-  // 인증 정보 생성
-  const credential = EmailAuthProvider.credential(user.email, currentPassword);
-
-  // 기존 비밀번호로 재인증
-  await reauthenticateWithCredential(user, credential);
-
-  // 새 비밀번호로 변경
-  await updatePassword(user, newPassword);
 };
