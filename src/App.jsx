@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { setUser, clearUser } from "store/userSlice";
 
-import { observeAuth } from "services/auth";
+import { observeAuth } from "services/auth/auth";
 import { fetchUserWithProfile } from "services/userService";
 
 import Header from "components/layout/Header";

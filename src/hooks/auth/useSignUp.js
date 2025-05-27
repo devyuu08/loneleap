@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { setUser } from "store/userSlice";
-import { signUp } from "services/auth";
+import { signUpUser } from "services/auth/signUpUser";
 
 export function useSignUp() {
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ export function useSignUp() {
     setLoading(true);
 
     try {
-      const result = await signUp(
+      const result = await signUpUser(
         trimmedEmail,
         trimmedPassword,
         trimmedNickname

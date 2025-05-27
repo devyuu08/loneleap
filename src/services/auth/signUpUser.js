@@ -1,17 +1,15 @@
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-  onAuthStateChanged,
-  updateProfile,
-} from "firebase/auth";
-import { auth, db } from "./firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "services/firebase";
 
-// 회원가입
-export const signUp = async (email, password, displayName) => {
+/**
+ * 이메일/비밀번호로 Firebase 회원가입 + Firestore 유저 초기화
+ * @param {string} email
+ * @param {string} password
+ * @param {string} displayName
+ * @returns {Promise<UserCredential>}
+ */
+export const signUpUser = async (email, password, displayName) => {
   const result = await createUserWithEmailAndPassword(auth, email, password);
 
   try {
@@ -47,25 +45,4 @@ export const signUp = async (email, password, displayName) => {
   }
 
   return result;
-};
-
-// 로그인
-export const signIn = async (email, password) => {
-  return await signInWithEmailAndPassword(auth, email, password);
-};
-
-// Google 로그인
-export const signInWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  return await signInWithPopup(auth, provider);
-};
-
-// 로그아웃
-export const logout = async () => {
-  return await signOut(auth);
-};
-
-// 로그인 상태 감지
-export const observeAuth = (callback) => {
-  return onAuthStateChanged(auth, callback);
 };
