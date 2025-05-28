@@ -31,11 +31,7 @@ export default function HeroSection({
 HeroSection.propTypes = {
   imageSrc: PropTypes.string.isRequired,
   imageAlt: PropTypes.string,
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
-  showHeader: PropTypes.bool,
   children: PropTypes.node,
   height: PropTypes.string,
   overlayColor: PropTypes.string,
-  textAlign: PropTypes.string,
 };
