@@ -15,6 +15,7 @@ export default function HeroWithFilterSearch({
   searchKeyword,
   onSearchChange,
   searchPlaceholder = "검색어 입력",
+  showSearch = true,
 }) {
   return (
     <HeroSection imageSrc={imageSrc}>
@@ -45,16 +46,18 @@ export default function HeroWithFilterSearch({
           </div>
 
           {/* 검색창 */}
-          <div className="relative w-full max-w-xs">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 w-4 h-4" />
-            <input
-              type="text"
-              value={searchKeyword}
-              onChange={(e) => onSearchChange(e.target.value)}
-              placeholder={searchPlaceholder}
-              className="w-full pl-10 pr-4 py-2 rounded-full bg-white/90 text-gray-800 text-sm border border-white focus:outline-none focus:ring-1 focus:ring-white"
-            />
-          </div>
+          {showSearch && (
+            <div className="relative w-full max-w-xs">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 w-4 h-4" />
+              <input
+                type="text"
+                value={searchKeyword}
+                onChange={(e) => onSearchChange(e.target.value)}
+                placeholder={searchPlaceholder}
+                className="w-full pl-10 pr-4 py-2 rounded-full bg-white/90 text-gray-800 text-sm border border-white focus:outline-none focus:ring-1 focus:ring-white"
+              />
+            </div>
+          )}
         </div>
       </div>
     </HeroSection>
