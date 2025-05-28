@@ -3,6 +3,8 @@ import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import { BookOpenText, Camera, Clock, MapPin } from "lucide-react";
 import ImageUploader from "@/components/common/upload/ImageUploader";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import FormInput from "@/components/common/form/FormInput";
+import FormTextarea from "@/components/common/form/FormTextarea";
 
 export default function ItineraryForm({
   title,
@@ -51,36 +53,28 @@ export default function ItineraryForm({
           >
             {/* 여행 제목 */}
             <div>
-              <label className="block text-sm font-semibold mb-1">
-                여행 제목
-              </label>
-              <input
-                type="text"
+              <FormInput
+                label="여행 제목"
+                id="title"
+                name="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="나만의 특별한 여행을 표현해보세요"
-                className={`w-full bg-white/70 border ${
-                  errors.title ? "border-gray-700" : "border-gray-300"
-                } rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-700`}
+                error={errors.title}
               />
-              <ErrorMessage message={errors.title} />
             </div>
 
             {/* 지역 */}
             <div>
-              <label className="block text-sm font-semibold mb-1">
-                여행 지역
-              </label>
-              <input
-                type="text"
+              <FormInput
+                label="여행 지역"
+                id="location"
+                name="location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="여행할 지역을 입력하세요"
-                className={`w-full bg-white/70 border ${
-                  errors.location ? "border-gray-700" : "border-gray-300"
-                } rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-700`}
+                error={errors.location}
               />
-              <ErrorMessage message={errors.location} />
             </div>
 
             {/* 날짜 */}
@@ -103,18 +97,16 @@ export default function ItineraryForm({
 
             {/* 한 줄 소개 */}
             <div>
-              <label className="block text-sm font-semibold mb-1">
-                여행 한 줄 소개
-              </label>
-              <textarea
+              <FormTextarea
+                label="여행 한 줄 소개"
+                id="summary"
+                name="summary"
                 value={summary}
                 onChange={(e) => setSummary(e.target.value)}
                 placeholder="예: 조용한 바람과 함께 걷는 혼행의 시작"
-                className={`w-full bg-white/70 border ${
-                  errors.summary ? "border-gray-700" : "border-gray-300"
-                } rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-700`}
+                error={errors.summary}
+                rows="2"
               />
-              <ErrorMessage message={errors.summary} />
             </div>
 
             {/* 공개 설정 */}
