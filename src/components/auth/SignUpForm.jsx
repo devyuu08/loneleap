@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import FormInput from "@/components/common/form/FormInput";
+import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 
 export default function SignUpForm({
   email,
@@ -42,58 +45,43 @@ export default function SignUpForm({
             </p>
           </div>
 
-          {error && (
-            <div className="text-red-500 text-sm mb-4 text-center">{error}</div>
-          )}
-
           <form className="space-y-5" onSubmit={onSubmit}>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium">
-                이메일
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
-                onChange={onEmailChange}
-                required
-              />
-            </div>
+            <FormInput
+              id="email"
+              name="email"
+              type="email"
+              label="이메일"
+              placeholder="your@email.com"
+              value={email}
+              onChange={onEmailChange}
+            />
 
             <div>
-              <label htmlFor="nickname" className="block text-sm font-medium">
-                닉네임
-              </label>
-              <input
+              <FormInput
                 id="nickname"
+                name="nickname"
                 type="text"
+                label="닉네임"
                 placeholder="닉네임을 입력하세요"
-                className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
                 value={nickname}
                 onChange={onNicknameChange}
-                required
               />
             </div>
 
             <div className="relative">
-              <label htmlFor="password" className="block text-sm font-medium">
-                비밀번호
-              </label>
-              <input
+              <FormInput
                 id="password"
+                name="password"
                 type={showPassword ? "text" : "password"}
+                label="비밀번호"
                 value={password}
-                className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
                 onChange={onPasswordChange}
-                required
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 onClick={onTogglePassword}
                 aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
+                className="absolute right-3 top-10 text-gray-500 hover:text-gray-700"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -104,23 +92,18 @@ export default function SignUpForm({
             </div>
 
             <div className="relative">
-              <label
-                htmlFor="passwordConfirm"
-                className="block text-sm font-medium"
-              >
-                비밀번호 확인
-              </label>
-              <input
+              <FormInput
                 id="passwordConfirm"
+                name="passwordConfirm"
                 type={showPasswordConfirm ? "text" : "password"}
+                label="비밀번호 확인"
                 value={passwordConfirm}
-                className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
                 onChange={onPasswordConfirmChange}
-                required
               />
+
               <button
                 type="button"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                className="absolute right-3 top-10 transform text-gray-500 hover:text-gray-700"
                 onClick={onTogglePasswordConfirm}
                 aria-label={
                   showPasswordConfirm
@@ -136,12 +119,13 @@ export default function SignUpForm({
               </button>
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-[#6D8591] text-white rounded-md hover:bg-[#4d5e66] transition"
-            >
-              {loading ? "가입 중..." : "가입하기"}
-            </button>
+            {error && <ErrorMessage message={error} align="center" />}
+
+            <FormSubmitButton
+              isLoading={loading}
+              label="가입하기"
+              variant="light"
+            />
           </form>
 
           <p className="flex items-center justify-between text-sm text-gray-600 mt-6">

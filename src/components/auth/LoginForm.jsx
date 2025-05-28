@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import FormInput from "@/components/common/form/FormInput";
+import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 
 export default function LoginForm({
   email,
@@ -36,47 +39,31 @@ export default function LoginForm({
           </div>
 
           <form className="space-y-5" onSubmit={onSubmit}>
-            <div>
-              <label htmlFor="email" className="block mb-1 text-sm font-medium">
-                이메일
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={onEmailChange}
-                className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
-              />
-            </div>
+            <FormInput
+              label="이메일"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="your@email.com"
+              value={email}
+              onChange={onEmailChange}
+            />
+            <FormInput
+              label="비밀번호"
+              id="password"
+              name="password"
+              type="password"
+              value={password}
+              onChange={onPasswordChange}
+            />
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block mb-1 text-sm font-medium"
-              >
-                비밀번호
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={password}
-                onChange={onPasswordChange}
-                className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
-              />
-            </div>
+            <FormSubmitButton
+              isLoading={isEmailLoading}
+              label="로그인"
+              variant="light"
+            />
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-[#6D8591] text-white rounded-md hover:bg-[#4d5e66] transition"
-            >
-              {isEmailLoading ? "로그인 중..." : "로그인"}
-            </button>
-            {error && (
-              <p className="text-sm text-red-500 text-center">{error}</p>
-            )}
+            {error && <ErrorMessage message={error} align="center" />}
 
             <div className="flex items-center gap-2 text-sm text-gray-700">
               <div className="h-px flex-1 bg-gray-500" />
@@ -91,7 +78,7 @@ export default function LoginForm({
               className="w-full flex items-center justify-center gap-3 border border-gray-100 py-2 rounded-md hover:bg-gray-50 transition"
             >
               <span className="text-xl">G</span>
-              {isGoogleLoading ? "로그인 중..." : "Google로 계속하기"}
+              {isGoogleLoading ? "처리 중..." : "Google로 계속하기"}
             </button>
 
             <button
