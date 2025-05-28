@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 
 export default function OpenChatSection() {
   return (
-    <section className="bg-gray-50 py-32 px-4 sm:px-6 lg:px-8">
+    <MainSectionWrapper bg="bg-gray-50" className="overflow-hidden">
       <div className="max-w-screen-2xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
         {/* 왼쪽 텍스트 설명 */}
         <div className="flex-1 max-w-2xl lg:ml-7 text-center lg:text-left">
@@ -56,6 +57,6 @@ export default function OpenChatSection() {
           />
         </div>
       </div>
-    </section>
+    </MainSectionWrapper>
   );
 }

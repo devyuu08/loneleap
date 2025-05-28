@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import { Link } from "react-router-dom";
 import { useRecentReviews } from "@/hooks/review/useRecentReviews";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
+import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 
 export default function ReviewPreview() {
   const { data: reviews, isLoading } = useRecentReviews();
@@ -20,19 +21,19 @@ export default function ReviewPreview() {
   };
 
   return (
-    <section className="relative py-32 px-6 bg-gray-900 overflow-hidden">
+    <MainSectionWrapper className="overflow-hidden">
       {/* 배경 이미지 */}
       <img
         src="/images/review-bg.jpg"
         alt="여행자 리뷰 배경"
-        className="absolute inset-0 w-full h-full object-cover opacity-40"
+        className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
       />
 
       {/* 어두운 오버레이 */}
-      <div className="absolute inset-0 bg-black/20" />
+      <div className="absolute inset-0 bg-black/40 z-10" />
 
       {/* 콘텐츠 */}
-      <div className="relative z-10 max-w-screen-2xl mx-auto">
+      <div className="relative max-w-screen-2xl mx-auto z-20">
         {/* 제목 + 설명 */}
         <div className="text-center mb-12 text-white">
           <h2 className="text-3xl font-bold">여행의 흔적, 혼자 남긴 이야기</h2>
@@ -141,6 +142,6 @@ export default function ReviewPreview() {
           ))}
         </Swiper>
       </div>
-    </section>
+    </MainSectionWrapper>
   );
 }

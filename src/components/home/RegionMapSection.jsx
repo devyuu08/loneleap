@@ -3,6 +3,7 @@ import { regions } from "@/data/regions";
 import { useState } from "react";
 
 import { useRegionCounts } from "@/hooks/itinerary/useRegionCounts";
+import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 
 export default function RegionMapSection() {
   const [activeRegion, setActiveRegion] = useState(null);
@@ -18,7 +19,7 @@ export default function RegionMapSection() {
   const totalCount = Object.values(regionCounts).reduce((acc, v) => acc + v, 0);
 
   return (
-    <section className="bg-gray-100 py-20 px-4 sm:px-6 lg:px-8">
+    <MainSectionWrapper bg="bg-gray-100" className="overflow-hidden">
       <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10">
         {/* 왼쪽 설명 */}
         <div className="flex-1 max-w-2xl pl-7">
@@ -88,6 +89,6 @@ export default function RegionMapSection() {
           ))}
         </div>
       </div>
-    </section>
+    </MainSectionWrapper>
   );
 }
