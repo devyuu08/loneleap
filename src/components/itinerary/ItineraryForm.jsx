@@ -84,15 +84,15 @@ export default function ItineraryForm({
                 name="startDate"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
+                error={errors.startDate}
               />
               <DatePicker
                 label="종료일"
                 name="endDate"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
+                error={errors.endDate}
               />
-              <ErrorMessage message={errors.startDate} />
-              <ErrorMessage message={errors.endDate} />
             </div>
 
             {/* 한 줄 소개 */}
