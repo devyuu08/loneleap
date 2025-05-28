@@ -1,18 +1,18 @@
-import PropTypes from "prop-types";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import PropTypes from "prop-types";
 
-export default function FormInput({
+export default function FormTextarea({
   label,
   id,
   name,
-  type = "text",
   value,
   onChange,
   placeholder = "",
   error,
+  rows = 3,
 }) {
-  const inputBaseStyle =
-    "w-full px-4 py-3 rounded-md border text-sm focus:outline-none focus:ring-2";
+  const baseStyle =
+    "w-full px-4 py-3 rounded-md border text-sm focus:outline-none focus:ring-1";
   const borderColor = error ? "border-red-400" : "border-gray-300";
   const visualStyle =
     "bg-white/70 text-gray-800 placeholder:text-gray-400 focus:ring-gray-700";
@@ -27,28 +27,27 @@ export default function FormInput({
           {label}
         </label>
       )}
-      <input
+      <textarea
         id={id}
         name={name}
-        type={type}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        required
-        className={`${inputBaseStyle} ${borderColor} ${visualStyle}`}
+        rows={rows}
+        className={`${baseStyle} ${borderColor} ${visualStyle}`}
       />
       {error && <ErrorMessage message={error} />}
     </div>
   );
 }
 
-FormInput.propTypes = {
+FormTextarea.propTypes = {
   label: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
-  type: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   error: PropTypes.string,
+  rows: PropTypes.number,
 };

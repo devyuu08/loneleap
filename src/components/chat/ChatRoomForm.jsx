@@ -1,6 +1,8 @@
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import { Lightbulb } from "lucide-react";
+import FormInput from "@/components/common/form/FormInput";
+import FormTextarea from "@/components/common/form/FormTextarea";
 
 export default function ChatRoomForm({
   title,
@@ -16,7 +18,7 @@ export default function ChatRoomForm({
   return (
     <article
       className="relative min-h-screen bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/images/chat-form-bg.jpg')" }} // 감성적인 메시지/대화 이미지 추천
+      style={{ backgroundImage: "url('/images/chat-form-bg.jpg')" }}
     >
       {/* 어두운 오버레이 */}
       <div className="absolute inset-0 bg-black/40" />
@@ -39,33 +41,28 @@ export default function ChatRoomForm({
         >
           {/* 제목 */}
           <div>
-            <label className="block text-sm font-semibold mb-1">
-              채팅방 제목
-            </label>
-            <input
-              type="text"
+            <FormInput
+              id="title"
+              label="채팅방 제목"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="예: 4월 제주 혼행 동행 구함"
-              className={`w-full bg-white/70 border ${
-                errors.title ? "border-gray-700" : "border-gray-300"
-              } rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-700`}
+              error={errors.title}
+              variant="default"
             />
-            <ErrorMessage message={errors.title} />
           </div>
 
           {/* 설명 */}
           <div>
-            <label className="block text-sm font-semibold mb-1">설명</label>
-            <textarea
+            <FormTextarea
+              id="description"
+              name="description"
+              label="설명"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="여행 정보나 동행 조건을 자유롭게 적어보세요"
-              className={`w-full bg-white/70 border ${
-                errors.description ? "border-gray-700" : "border-gray-300"
-              } rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-700`}
+              error={errors.description}
             />
-            <ErrorMessage message={errors.description} />
           </div>
 
           {/* 카테고리 선택 */}
