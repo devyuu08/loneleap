@@ -1,4 +1,6 @@
 import ItineraryCard from "@/components/itinerary/ItineraryCard";
+import EmptyState from "@/components/common/feedback/EmptyState";
+import { CalendarX } from "lucide-react";
 
 export default function ItineraryList({ filteredItineraries }) {
   return (
@@ -9,11 +11,12 @@ export default function ItineraryList({ filteredItineraries }) {
             <ItineraryCard key={itinerary.id} itinerary={itinerary} />
           ))
         ) : (
-          <div className="col-span-full text-center text-gray-500 py-32">
-            <p className="text-lg font-semibold mb-2">일정을 찾을 수 없어요</p>
-            <p className="text-sm">
-              다른 필터를 선택하거나 검색어를 바꿔보세요.
-            </p>
+          <div className="col-span-full">
+            <EmptyState
+              icon={<CalendarX className="w-8 h-8" />}
+              title="일정을 찾을 수 없어요"
+              description="다른 필터를 선택하거나 검색어를 바꿔보세요."
+            />
           </div>
         )}
       </div>

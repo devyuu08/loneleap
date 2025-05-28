@@ -83,7 +83,9 @@ export default function ItineraryDetail({
               onDelete={() => onDelete(itineraryId)}
               isDeletePending={isDeletePending}
             />
-            <ChecklistSectionContainer checklist={checklist} />
+            <div className="pt-10">
+              <ChecklistSectionContainer checklist={checklist} />
+            </div>
           </>
         )}
       </div>
