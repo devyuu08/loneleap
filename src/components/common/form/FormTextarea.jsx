@@ -12,7 +12,7 @@ export default function FormTextarea({
   rows = 3,
 }) {
   const baseStyle =
-    "w-full px-4 py-3 rounded-md border text-sm focus:outline-none focus:ring-1";
+    "w-full px-4 py-3 rounded-md border text-sm focus:outline-none focus:ring-2";
   const borderColor = error ? "border-red-400" : "border-gray-300";
   const visualStyle =
     "bg-white/70 text-gray-800 placeholder:text-gray-400 focus:ring-gray-700";
