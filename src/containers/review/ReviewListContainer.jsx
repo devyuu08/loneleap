@@ -6,7 +6,7 @@ import EmptyState from "@/components/common/feedback/EmptyState";
 import ReviewList from "@/components/review/ReviewList";
 import HeroSection from "@/components/common/layout/HeroSection";
 
-import { Search } from "lucide-react";
+import { AlertTriangle, Search } from "lucide-react";
 
 export default function ReviewListContainer() {
   const [sort, setSort] = useState("latest");
@@ -44,7 +44,7 @@ export default function ReviewListContainer() {
   if (error)
     return (
       <EmptyState
-        icon="⚠️"
+        icon={<AlertTriangle className="w-8 h-8 text-red-400" />}
         title="리뷰를 불러오는데 문제가 발생했습니다"
         description="잠시 후 다시 시도해주세요."
       />

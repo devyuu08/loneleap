@@ -1,7 +1,7 @@
 import ChatRoomCard from "@/components/chat/ChatRoomCard";
 import EmptyState from "@/components/common/feedback/EmptyState";
 import HeroSection from "@/components/common/layout/HeroSection";
-import { Search } from "lucide-react";
+import { Search, MessageSquare } from "lucide-react";
 
 export default function ChatRoomList({
   chatrooms,
@@ -64,7 +64,7 @@ export default function ChatRoomList({
       <div className="max-w-6xl mx-auto px-6 py-12">
         {filteredRooms.length === 0 ? (
           <EmptyState
-            icon="💬"
+            icon={<MessageSquare className="w-8 h-8 text-gray-500" />}
             title="조건에 맞는 채팅방이 없습니다."
             description="필터나 검색어를 변경해보세요!"
           />
