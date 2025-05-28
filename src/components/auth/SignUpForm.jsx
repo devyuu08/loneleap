@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormInput from "@/components/common/form/FormInput";
+import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 
 export default function SignUpForm({
   email,
@@ -120,12 +121,11 @@ export default function SignUpForm({
 
             {error && <ErrorMessage message={error} align="center" />}
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-[#6D8591] text-white rounded-md hover:bg-[#4d5e66] transition"
-            >
-              {loading ? "가입 중..." : "가입하기"}
-            </button>
+            <FormSubmitButton
+              isLoading={loading}
+              label="가입하기"
+              variant="light"
+            />
           </form>
 
           <p className="flex items-center justify-between text-sm text-gray-600 mt-6">

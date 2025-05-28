@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormInput from "@/components/common/form/FormInput";
+import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 
 export default function LoginForm({
   email,
@@ -56,12 +57,11 @@ export default function LoginForm({
               onChange={onPasswordChange}
             />
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-[#6D8591] text-white rounded-md hover:bg-[#4d5e66] transition"
-            >
-              {isEmailLoading ? "로그인 중..." : "로그인"}
-            </button>
+            <FormSubmitButton
+              isLoading={isEmailLoading}
+              label="로그인"
+              variant="light"
+            />
 
             {error && <ErrorMessage message={error} align="center" />}
 
@@ -78,7 +78,7 @@ export default function LoginForm({
               className="w-full flex items-center justify-center gap-3 border border-gray-100 py-2 rounded-md hover:bg-gray-50 transition"
             >
               <span className="text-xl">G</span>
-              {isGoogleLoading ? "로그인 중..." : "Google로 계속하기"}
+              {isGoogleLoading ? "처리 중..." : "Google로 계속하기"}
             </button>
 
             <button
