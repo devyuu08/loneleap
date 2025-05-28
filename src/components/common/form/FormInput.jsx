@@ -11,12 +11,18 @@ export default function FormInput({
   placeholder = "",
   error,
 }) {
+  const inputBaseStyle =
+    "w-full px-4 py-3 rounded-md border text-sm focus:outline-none focus:ring-2";
+  const borderColor = error ? "border-red-400" : "border-gray-300";
+  const visualStyle =
+    "bg-white/70 text-gray-800 placeholder:text-gray-400 focus:ring-gray-700";
+
   return (
     <div>
       {label && (
         <label
           htmlFor={id}
-          className="block mb-1 text-sm font-medium text-gray-700"
+          className="block mb-1 text-sm font-bold text-gray-700"
         >
           {label}
         </label>
@@ -29,9 +35,7 @@ export default function FormInput({
         onChange={onChange}
         placeholder={placeholder}
         required
-        className={`w-full px-4 py-3 rounded-md border ${
-          error ? "border-red-400" : "border-gray-300"
-        } bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300`}
+        className={`${inputBaseStyle} ${borderColor} ${visualStyle}`}
       />
       {error && <ErrorMessage message={error} />}
     </div>

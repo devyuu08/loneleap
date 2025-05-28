@@ -1,6 +1,7 @@
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import { Lightbulb } from "lucide-react";
+import FormInput from "../common/form/FormInput";
 
 export default function ChatRoomForm({
   title,
@@ -39,17 +40,13 @@ export default function ChatRoomForm({
         >
           {/* 제목 */}
           <div>
-            <label className="block text-sm font-semibold mb-1">
-              채팅방 제목
-            </label>
-            <input
-              type="text"
+            <FormInput
+              label="채팅방 제목"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="예: 4월 제주 혼행 동행 구함"
-              className={`w-full bg-white/70 border ${
-                errors.title ? "border-gray-700" : "border-gray-300"
-              } rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-700`}
+              error={errors.title}
+              variant="default"
             />
             <ErrorMessage message={errors.title} />
           </div>
