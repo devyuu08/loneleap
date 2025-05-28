@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import { useRecommendationDetail } from "hooks/recommendation/useRecommendationDetail";
-import RecommendationDetail from "components/recommendation/RecommendationDetail";
-import LayoutWrapper from "components/common/LayoutWrapper";
+import { useRecommendationDetail } from "@/hooks/recommendation/useRecommendationDetail";
+import RecommendationDetail from "@/components/recommendation/RecommendationDetail";
+import LayoutWrapper from "@/components/common/layout/LayoutWrapper";
 
 export default function RecommendationDetailPage() {
   const { id } = useParams();

@@ -4,8 +4,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import { Link } from "react-router-dom";
-import { useRecentReviews } from "hooks/review/useRecentReviews";
-import SkeletonImage from "components/common/SkeletonImage";
+import { useRecentReviews } from "@/hooks/review/useRecentReviews";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function ReviewPreview() {
   const { data: reviews, isLoading } = useRecentReviews();

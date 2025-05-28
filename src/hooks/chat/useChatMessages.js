@@ -8,7 +8,7 @@ import {
   getDocs,
   limit,
 } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 import dayjs from "dayjs";
 
 export const useChatMessages = (roomId) => {

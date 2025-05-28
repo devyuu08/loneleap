@@ -1,5 +1,5 @@
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 // 특정 일정 상세 조회 함수
 export async function fetchItineraryById(id) {

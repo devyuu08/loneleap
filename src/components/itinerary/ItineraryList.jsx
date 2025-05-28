@@ -1,6 +1,6 @@
-import ItineraryCard from "./ItineraryCard";
+import ItineraryCard from "@/components/itinerary/ItineraryCard";
 import { Search } from "lucide-react";
-import HeroSection from "components/common/HeroSection";
+import HeroSection from "@/components/common/layout/HeroSection";
 
 const FILTERS = ["최신순", "과거순"];
 

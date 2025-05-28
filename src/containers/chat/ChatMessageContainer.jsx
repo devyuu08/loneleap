@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { useReportMessage } from "hooks/chat/useReportMessage";
-import ChatMessage from "components/chat/ChatMessage";
+import { useReportMessage } from "@/hooks/chat/useReportMessage";
+import ChatMessage from "@/components/chat/ChatMessage";
 
 export default function ChatMessageContainer({ message }) {
   const user = useSelector((state) => state.user.user);

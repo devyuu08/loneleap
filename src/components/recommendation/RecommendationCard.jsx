@@ -1,6 +1,6 @@
 import { ArrowRight, Heart, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
-import SkeletonImage from "components/common/SkeletonImage";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function RecommendationCard({ recommendation }) {
   const { id, name, location, imageUrl, summary } = recommendation;

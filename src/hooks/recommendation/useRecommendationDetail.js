@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchRecommendationDetail } from "services/recommendation/fetchRecommendationDetail";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { fetchRecommendationDetail } from "@/services/recommendation/fetchRecommendationDetail";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export function useRecommendationDetail(id) {
   return useQuery({

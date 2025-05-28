@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import RecommendationCard from "./RecommendationCard";
-import HeroSection from "components/common/HeroSection";
+import RecommendationCard from "@/components/recommendation/RecommendationCard";
+import HeroSection from "@/components/common/layout/HeroSection";
 
 const FILTERS = [
   "전체 지역",

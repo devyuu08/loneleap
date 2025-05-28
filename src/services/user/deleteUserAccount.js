@@ -3,11 +3,11 @@ import {
   reauthenticateWithCredential,
   deleteUser,
 } from "firebase/auth";
-import { auth } from "services/firebase";
+import { auth } from "@/services/firebase";
 import {
   anonymizePublicProfile,
   anonymizeUserContent,
-} from "utils/deleteAccount";
+} from "@/utils/deleteAccount";
 
 /**
  * 계정 탈퇴 처리: 재인증, 익명화, 삭제

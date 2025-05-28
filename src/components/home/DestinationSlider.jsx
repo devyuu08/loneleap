@@ -4,8 +4,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import { Link } from "react-router-dom";
-import { useRecommendationList } from "hooks/recommendation/useRecommendationList";
-import SkeletonImage from "components/common/SkeletonImage";
+import { useRecommendationList } from "@/hooks/recommendation/useRecommendationList";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function DestinationSlider() {
   const { data: destinations, isLoading } = useRecommendationList();

@@ -3,36 +3,36 @@ import { Routes, Route, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { setUser, clearUser } from "store/userSlice";
+import { setUser, clearUser } from "@/store/userSlice";
 
-import { observeAuth } from "services/auth/auth";
-import { fetchUserWithProfile } from "services/user/fetchUserWithProfile";
+import { observeAuth } from "@/services/auth/auth";
+import { fetchUserWithProfile } from "@/services/user/fetchUserWithProfile";
 
-import Header from "components/layout/Header";
-import Footer from "components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
-import Login from "pages/auth/Login";
+import Login from "@/pages/auth/Login";
 
-import ProtectedRoute from "components/common/ProtectedRoute";
-import LoadingSpinner from "components/common/LoadingSpinner.jsx";
+import ProtectedRoute from "@/components/common/route/ProtectedRoute";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
 
-import Home from "pages/home/Home";
-import CreateItineraryPage from "pages/itinerary/Create";
-import ItineraryListPage from "pages/itinerary/List";
-import ItineraryDetailPage from "pages/itinerary/Detail";
-import EditItineraryPage from "pages/itinerary/Edit";
-import CreateReviewPage from "pages/review/Create";
-import SignUp from "pages/auth/SignUp";
-import ReviewListPage from "pages/review/List";
-import ReviewDetailPage from "pages/review/Detail";
-import CreateChatRoomPage from "pages/chat/Create";
-import ChatRoomListPage from "pages/chat/List";
-import ChatRoomDetailPage from "pages/chat/Detail";
-import MyPage from "pages/mypage/MyPage";
-import RecommendationListPage from "pages/recommendations/List";
-import RecommendationDetailPage from "pages/recommendations/Detail";
-import EditReviewPage from "pages/review/Edit";
-import FloatingButtons from "components/common/FloatingButtons";
+import Home from "@/pages/home/Home";
+import CreateItineraryPage from "@/pages/itinerary/Create";
+import ItineraryListPage from "@/pages/itinerary/List";
+import ItineraryDetailPage from "@/pages/itinerary/Detail";
+import EditItineraryPage from "@/pages/itinerary/Edit";
+import CreateReviewPage from "@/pages/review/Create";
+import SignUp from "@/pages/auth/SignUp";
+import ReviewListPage from "@/pages/review/List";
+import ReviewDetailPage from "@/pages/review/Detail";
+import CreateChatRoomPage from "@/pages/chat/Create";
+import ChatRoomListPage from "@/pages/chat/List";
+import ChatRoomDetailPage from "@/pages/chat/Detail";
+import MyPage from "@/pages/mypage/MyPage";
+import RecommendationListPage from "@/pages/recommendations/List";
+import RecommendationDetailPage from "@/pages/recommendations/Detail";
+import EditReviewPage from "@/pages/review/Edit";
+import FloatingButtons from "@/components/common/button/FloatingButtons";
 
 function App() {
   const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import { useItineraries } from "hooks/itinerary/useItineraries";
+import { useItineraries } from "@/hooks/itinerary/useItineraries";
 
-import ItineraryList from "components/itinerary/ItineraryList";
-import LoadingSpinner from "components/common/LoadingSpinner";
+import ItineraryList from "@/components/itinerary/ItineraryList";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 
 export default function ItineraryListContainer() {
   const [activeFilter, setActiveFilter] = useState("최신순");

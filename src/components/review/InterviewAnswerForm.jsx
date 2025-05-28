@@ -1,4 +1,4 @@
-import ErrorMessage from "components/common/ErrorMessage";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 
 export default function InterviewAnswerForm({
   questions,

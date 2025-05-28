@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { formatDateOnly } from "utils/formatDate";
+import { formatDateOnly } from "@/utils/formatDate";
 import { Bell } from "lucide-react";
 
 export default function MyChatRoomCard({ room }) {

@@ -1,4 +1,4 @@
-import ChatRoomListContainer from "containers/chat/ChatRoomListContainer";
+import ChatRoomListContainer from "@/containers/chat/ChatRoomListContainer";
 
 export default function ChatRoomListPage() {
   return <ChatRoomListContainer />;

@@ -1,5 +1,5 @@
-import ErrorMessage from "components/common/ErrorMessage";
-import FormSubmitButton from "components/common/FormSubmitButton";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import { Lightbulb } from "lucide-react";
 
 export default function ChatRoomForm({

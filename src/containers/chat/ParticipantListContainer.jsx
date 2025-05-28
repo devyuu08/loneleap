@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "services/firebase";
-import { useUsersByIds } from "hooks/chat/useUsersByIds";
-import ParticipantList from "components/chat/ParticipantList";
+import { db } from "@/services/firebase";
+import { useUsersByIds } from "@/hooks/chat/useUsersByIds";
+import ParticipantList from "@/components/chat/ParticipantList";
 
 export default function ParticipantListContainer({ roomId }) {
   const [userIds, setUserIds] = useState([]);

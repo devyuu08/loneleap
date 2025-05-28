@@ -4,7 +4,7 @@ import {
   where,
   getCountFromServer,
 } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 /**
  * 사용자의 작성 콘텐츠 개수를 Firestore에서 조회

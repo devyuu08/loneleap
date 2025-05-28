@@ -1,4 +1,4 @@
-import ReviewFormContainer from "containers/review/ReviewFormContainer";
+import ReviewFormContainer from "@/containers/review/ReviewFormContainer";
 
 export default function CreateReviewPage() {
   return (

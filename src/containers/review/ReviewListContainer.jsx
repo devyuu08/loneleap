@@ -1,10 +1,10 @@
 import { useState, useMemo } from "react";
-import { useReviews } from "hooks/review/useReviews";
+import { useReviews } from "@/hooks/review/useReviews";
 
-import LoadingSpinner from "components/common/LoadingSpinner";
-import EmptyState from "components/common/EmptyState";
-import ReviewList from "components/review/ReviewList";
-import HeroSection from "components/common/HeroSection";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
+import EmptyState from "@/components/common/feedback/EmptyState";
+import ReviewList from "@/components/review/ReviewList";
+import HeroSection from "@/components/common/layout/HeroSection";
 
 import { Search } from "lucide-react";
 

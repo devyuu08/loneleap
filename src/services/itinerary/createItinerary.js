@@ -1,5 +1,5 @@
 import { eachDayOfInterval, format } from "date-fns";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 // 일정 생성 함수

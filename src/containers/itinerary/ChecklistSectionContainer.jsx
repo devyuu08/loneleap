@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { debounce } from "lodash";
-import { updateChecklist } from "services/itinerary/updateChecklist";
+import { updateChecklist } from "@/services/itinerary/updateChecklist";
 import { useParams } from "react-router-dom";
-import ChecklistSection from "components/itinerary/ChecklistSection";
+import ChecklistSection from "@/components/itinerary/ChecklistSection";
 
 export default function ChecklistSectionContainer({ checklist }) {
   const { id: itineraryId } = useParams();

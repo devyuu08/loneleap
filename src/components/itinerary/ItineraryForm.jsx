@@ -1,8 +1,8 @@
-import DatePicker from "./DatePicker";
-import FormSubmitButton from "components/common/FormSubmitButton";
+import DatePicker from "@/components/itinerary/DatePicker";
+import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import { BookOpenText, Camera, Clock, MapPin } from "lucide-react";
-import ImageUploader from "components/common/ImageUploader";
-import ErrorMessage from "components/common/ErrorMessage";
+import ImageUploader from "@/components/common/upload/ImageUploader";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 
 export default function ItineraryForm({
   title,

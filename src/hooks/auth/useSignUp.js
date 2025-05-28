@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { setUser } from "store/userSlice";
-import { signUpUser } from "services/auth/signUpUser";
+import { setUser } from "@/store/userSlice";
+import { signUpUser } from "@/services/auth/signUpUser";
 
 export function useSignUp() {
   const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 export async function fetchRecommendationList() {
   const q = query(

@@ -1,8 +1,8 @@
-import ReviewHero from "components/review/ReviewHero";
-import FloatingButtons from "components/common/FloatingButtons";
-import CommentListContainer from "containers/review/CommentListContainer";
-import LikeButtonContainer from "containers/review/LikeButtonContainer";
-import ReportButtonContainer from "containers/review/ReportButtonContainer";
+import ReviewHero from "@/components/review/ReviewHero";
+import FloatingButtons from "@/components/common/button/FloatingButtons";
+import CommentListContainer from "@/containers/review/CommentListContainer";
+import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
+import ReportButtonContainer from "@/containers/review/ReportButtonContainer";
 
 export default function ReviewDetail({
   reviewId,

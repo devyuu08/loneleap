@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { deleteItinerary } from "services/itinerary/deleteItinerary";
+import { deleteItinerary } from "@/services/itinerary/deleteItinerary";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { updateDoc, doc, increment } from "firebase/firestore";
-import { db, auth } from "services/firebase";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { db, auth } from "@/services/firebase";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export const useDeleteItinerary = () => {
   const navigate = useNavigate();

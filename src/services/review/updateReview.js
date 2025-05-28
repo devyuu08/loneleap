@@ -1,6 +1,6 @@
 import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "services/firebase";
-import { uploadImage } from "utils/uploadImage";
+import { db } from "@/services/firebase";
+import { uploadImage } from "@/utils/uploadImage";
 
 export async function updateReview(id, updatedData) {
   try {

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import ChatRoomDetailContainer from "containers/chat/ChatRoomDetailContainer";
+import ChatRoomDetailContainer from "@/containers/chat/ChatRoomDetailContainer";
 
 export default function ChatRoomDetailPage() {
   const { id } = useParams();

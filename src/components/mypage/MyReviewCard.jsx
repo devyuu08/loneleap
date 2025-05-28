@@ -1,8 +1,8 @@
 import { Edit2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { formatDateOnly } from "utils/formatDate";
-import SkeletonImage from "components/common/SkeletonImage";
-import LikeButtonContainer from "containers/review/LikeButtonContainer";
+import { formatDateOnly } from "@/utils/formatDate";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
+import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
 
 export default function MyReviewCard({ review = {} }) {
   const navigate = useNavigate();

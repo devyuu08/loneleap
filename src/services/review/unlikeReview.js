@@ -1,4 +1,4 @@
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 import { doc, deleteDoc, updateDoc, increment } from "firebase/firestore";
 
 export async function unlikeReview(reviewId, userId) {

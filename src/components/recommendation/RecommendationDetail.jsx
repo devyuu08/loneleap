@@ -1,6 +1,6 @@
-import RecommendationHero from "./RecommendationHero";
-import RecommendationDescription from "./RecommendationDescription";
-import RecommendationLocation from "./RecommendationLocation";
+import RecommendationHero from "@/components/recommendation/RecommendationHero";
+import RecommendationDescription from "@/components/recommendation/RecommendationDescription";
+import RecommendationLocation from "@/components/recommendation/RecommendationLocation";
 import { Link } from "react-router-dom";
 
 export default function RecommendationDetail({ data }) {

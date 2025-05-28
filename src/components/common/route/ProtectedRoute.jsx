@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import LoadingSpinner from "components/common/LoadingSpinner";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 
 export default function ProtectedRoute({ children }) {
   const user = useSelector((state) => state.user.user);

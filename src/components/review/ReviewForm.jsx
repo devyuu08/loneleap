@@ -1,8 +1,8 @@
-import RatingInput from "./RatingInput";
-import ImageUploader from "components/common/ImageUploader";
-import InterviewAnswerForm from "components/review/InterviewAnswerForm";
-import ErrorMessage from "components/common/ErrorMessage";
-import FormSubmitButton from "components/common/FormSubmitButton";
+import RatingInput from "@/components/review/RatingInput";
+import ImageUploader from "@/components/common/upload/ImageUploader";
+import InterviewAnswerForm from "@/components/review/InterviewAnswerForm";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 
 export default function ReviewForm({
   step,

@@ -1,7 +1,7 @@
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
-import { setUser } from "store/userSlice";
-import { db } from "services/firebase";
-import { extractSafeUser } from "utils/extractSafeUser";
+import { setUser } from "@/store/userSlice";
+import { db } from "@/services/firebase";
+import { extractSafeUser } from "@/utils/extractSafeUser";
 
 /**
  * Firebase에서 public + private 사용자 정보 병합 후 Redux 저장

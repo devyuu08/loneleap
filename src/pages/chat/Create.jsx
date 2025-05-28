@@ -1,4 +1,4 @@
-import ChatRoomFormContainer from "containers/chat/ChatRoomFormContainer";
+import ChatRoomFormContainer from "@/containers/chat/ChatRoomFormContainer";
 
 export default function CreateChatRoomPage() {
   return (

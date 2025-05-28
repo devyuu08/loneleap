@@ -1,7 +1,7 @@
 import { Edit2, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { formatDateOnly } from "utils/formatDate";
-import SkeletonImage from "components/common/SkeletonImage";
+import { formatDateOnly } from "@/utils/formatDate";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function MyItineraryCard({ itinerary }) {
   const navigate = useNavigate();

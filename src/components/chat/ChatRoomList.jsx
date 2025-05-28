@@ -1,6 +1,6 @@
-import ChatRoomCard from "./ChatRoomCard";
-import EmptyState from "components/common/EmptyState";
-import HeroSection from "components/common/HeroSection";
+import ChatRoomCard from "@/components/chat/ChatRoomCard";
+import EmptyState from "@/components/common/feedback/EmptyState";
+import HeroSection from "@/components/common/layout/HeroSection";
 import { Search } from "lucide-react";
 
 export default function ChatRoomList({

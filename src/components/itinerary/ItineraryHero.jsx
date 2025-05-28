@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { Calendar } from "lucide-react";
-import SkeletonImage from "components/common/SkeletonImage";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function ItineraryHero({ data }) {
   const { title, imageUrl, startDate, endDate, createdBy } = data || {};

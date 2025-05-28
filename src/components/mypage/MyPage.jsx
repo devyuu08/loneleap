@@ -1,12 +1,12 @@
-import SectionTabs from "components/mypage/SectionTabs";
-import ProfileSectionContainer from "containers/mypage/ProfileSectionContainer";
-import MyItineraryCard from "components/mypage/MyItineraryCard";
-import MyReviewCard from "components/mypage/MyReviewCard";
-import MyChatRoomCard from "components/mypage/MyChatRoomCard";
-import LayoutWrapper from "components/common/LayoutWrapper";
-import FloatingButtons from "components/common/FloatingButtons";
-import EmptyState from "components/common/EmptyState";
-import ErrorState from "components/common/ErrorState";
+import SectionTabs from "@/components/mypage/SectionTabs";
+import ProfileSectionContainer from "@/containers/mypage/ProfileSectionContainer";
+import MyItineraryCard from "@/components/mypage/MyItineraryCard";
+import MyReviewCard from "@/components/mypage/MyReviewCard";
+import MyChatRoomCard from "@/components/mypage/MyChatRoomCard";
+import LayoutWrapper from "@/components/common/layout/LayoutWrapper";
+import FloatingButtons from "@/components/common/button/FloatingButtons";
+import EmptyState from "@/components/common/feedback/EmptyState";
+import ErrorState from "@/components/common/feedback/ErrorState";
 
 import { CalendarDays, MessageSquareText, MessagesSquare } from "lucide-react";
 

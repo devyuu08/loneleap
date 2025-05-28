@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "store/userSlice";
+import { setUser } from "@/store/userSlice";
 
-import { signIn, signInWithGoogle } from "services/auth/auth";
+import { signIn, signInWithGoogle } from "@/services/auth/auth";
 
 export function useLogin() {
   const [email, setEmail] = useState("");

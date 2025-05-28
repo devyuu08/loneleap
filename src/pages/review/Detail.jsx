@@ -1,5 +1,5 @@
-import LayoutWrapper from "components/common/LayoutWrapper";
-import ReviewDetailContainer from "containers/review/ReviewDetailContainer";
+import LayoutWrapper from "@/components/common/layout/LayoutWrapper";
+import ReviewDetailContainer from "@/containers/review/ReviewDetailContainer";
 
 export default function ReviewDetailPage() {
   return (

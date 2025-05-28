@@ -12,7 +12,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 import { useSelector } from "react-redux";
 
 export const useReportReview = () => {

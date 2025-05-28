@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { collection, serverTimestamp, addDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
-import { db } from "services/firebase";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { db } from "@/services/firebase";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export const useAddComment = (reviewId) => {
   const queryClient = useQueryClient();

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useReportReview } from "hooks/review/useReportReview";
-import ReportButton from "components/review/ReportButton";
+import { useReportReview } from "@/hooks/review/useReportReview";
+import ReportButton from "@/components/review/ReportButton";
 
 export default function ReportButtonContainer({ reviewId }) {
   const [isOpen, setIsOpen] = useState(false);

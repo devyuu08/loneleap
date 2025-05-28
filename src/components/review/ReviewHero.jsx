@@ -1,6 +1,6 @@
-import { formatDate } from "utils/formatDate";
+import { formatDate } from "@/utils/formatDate";
 import { Star, MapPin } from "lucide-react";
-import SkeletonImage from "components/common/SkeletonImage";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function ReviewHero({ review }) {
   const { title, destination, rating, createdBy, createdAt, imageUrl } =

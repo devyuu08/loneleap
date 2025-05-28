@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import SkeletonImage from "components/common/SkeletonImage";
-import LikeButtonContainer from "containers/review/LikeButtonContainer";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
+import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
 
 /**
  * 리뷰 정보를 카드 형태로 표시하는 컴포넌트

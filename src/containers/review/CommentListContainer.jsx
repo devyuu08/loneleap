@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useUser } from "hooks/auth/useUser";
-import { useComments } from "hooks/review/useComments";
-import { useAddComment } from "hooks/review/useAddComment";
-import CommentList from "components/review/CommentList";
+import { useUser } from "@/hooks/auth/useUser";
+import { useComments } from "@/hooks/review/useComments";
+import { useAddComment } from "@/hooks/review/useAddComment";
+import CommentList from "@/components/review/CommentList";
 
 export default function CommentListContainer({ reviewId }) {
   const { user } = useUser();

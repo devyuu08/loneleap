@@ -6,7 +6,7 @@ import {
   serverTimestamp,
   collection,
 } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 export async function leaveRoom({ roomId, user }) {
   const roomRef = doc(db, "chatRooms", roomId);

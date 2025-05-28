@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { updateDoc, doc, increment } from "firebase/firestore";
-import { db } from "services/firebase";
-import { createItinerary } from "services/itinerary/createItinerary";
-import { uploadImage } from "utils/uploadImage";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { db } from "@/services/firebase";
+import { createItinerary } from "@/services/itinerary/createItinerary";
+import { uploadImage } from "@/utils/uploadImage";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 /**
  * 일정 생성 훅

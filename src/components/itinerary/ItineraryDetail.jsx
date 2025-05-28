@@ -8,10 +8,10 @@ import {
   EyeOff,
   Quote,
 } from "lucide-react";
-import FloatingButtons from "components/common/FloatingButtons";
-import ItineraryHero from "components/itinerary/ItineraryHero";
-import DayScheduleListContainer from "containers/itinerary/DayScheduleListContainer";
-import ChecklistSectionContainer from "containers/itinerary/ChecklistSectionContainer";
+import FloatingButtons from "@/components/common/button/FloatingButtons";
+import ItineraryHero from "@/components/itinerary/ItineraryHero";
+import DayScheduleListContainer from "@/containers/itinerary/DayScheduleListContainer";
+import ChecklistSectionContainer from "@/containers/itinerary/ChecklistSectionContainer";
 
 export default function ItineraryDetail({
   itineraryId,

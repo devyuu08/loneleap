@@ -1,5 +1,5 @@
 import { deleteDoc, doc, getDoc } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 // 일정 삭제 함수
 export async function deleteItinerary(id) {

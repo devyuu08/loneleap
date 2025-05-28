@@ -7,8 +7,8 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
-import { db } from "services/firebase";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { db } from "@/services/firebase";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export const useMyChatRooms = (uid, options = {}) => {
   return useQuery({

@@ -1,5 +1,5 @@
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 export async function fetchRoomInfo(roomId) {
   const docRef = doc(db, "chatRooms", roomId);

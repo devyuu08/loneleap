@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { auth } from "services/firebase";
+import { auth } from "@/services/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 export const useMyItineraries = (options = {}) => {
   const [user, loading] = useAuthState(auth);

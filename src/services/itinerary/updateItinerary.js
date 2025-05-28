@@ -1,6 +1,6 @@
 import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { db } from "services/firebase";
-import { uploadImage } from "utils/uploadImage";
+import { db } from "@/services/firebase";
+import { uploadImage } from "@/utils/uploadImage";
 
 // 일정 수정 함수
 export async function updateItinerary(id, updatedData) {

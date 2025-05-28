@@ -1,5 +1,5 @@
-import { useSignUp } from "hooks/auth/useSignUp";
-import SignUpForm from "components/auth/SignUpForm";
+import { useSignUp } from "@/hooks/auth/useSignUp";
+import SignUpForm from "@/components/auth/SignUpForm";
 
 export default function SignUpFormContainer() {
   const {

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import ReportModal from "components/common/ReportModal";
-import ModalPortal from "components/common/ModalPortal";
+import ReportModal from "@/components/common/modal/ReportModal";
+import ModalPortal from "@/components/common/modal/ModalPortal";
 
 export default function ReportButton({
   isOpen,
