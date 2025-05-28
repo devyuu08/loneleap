@@ -1,18 +1,6 @@
 import { Link } from "react-router-dom";
-import RecommendationCard from "./RecommendationCard";
-import HeroSection from "components/common/HeroSection";
-
-const FILTERS = [
-  "전체 지역",
-  "서울",
-  "인천",
-  "경기도",
-  "충청도",
-  "전라도",
-  "경상도",
-  "강원도",
-  "제주도",
-];
+import RecommendationCard from "@/components/recommendation/RecommendationCard";
+import HeroWithFilterSearch from "@/components/common/layout/HeroWithFilterSearch";
 
 export default function RecommendationList({
   recommendations,
@@ -34,36 +22,27 @@ export default function RecommendationList({
 
   return (
     <>
-      {/* 추천 여행지 제목 + 필터 */}
-      <HeroSection
+      <HeroWithFilterSearch
         imageSrc="/images/recommendation-list-hero.jpg"
-        align="center"
-      >
-        <div className="text-center space-y-2">
-          <h2 className="text-3xl font-extrabold drop-shadow">
-            이런 지역은 어때요?
-          </h2>
-          <p className="text-sm text-white/90">
-            혼자 여행하기 좋은 장소만 골라 소개합니다
-          </p>
-        </div>
-
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          {FILTERS.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-4 py-1.5 rounded-full text-sm border ${
-                activeFilter === filter
-                  ? "bg-white text-black"
-                  : "bg-white/20 text-white hover:bg-white/30"
-              } transition`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-      </HeroSection>
+        title="이런 지역은 어때요?"
+        subtitle="혼자 여행하기 좋은 장소만 골라 소개합니다"
+        countLabel="추천 여행지"
+        count={originalData.length}
+        filters={[
+          "전체 지역",
+          "서울",
+          "인천",
+          "경기도",
+          "충청도",
+          "전라도",
+          "경상도",
+          "강원도",
+          "제주도",
+        ]}
+        activeFilter={activeFilter}
+        onFilterChange={setActiveFilter}
+        showSearch={false}
+      />
 
       {/* 추천 여행지 카드 섹션 */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">

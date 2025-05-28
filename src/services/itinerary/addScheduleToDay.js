@@ -1,4 +1,4 @@
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 import { getDoc, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 
 // 특정 일자의 일정(schedules)에 새로운 일정 하나 추가

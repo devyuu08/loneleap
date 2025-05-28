@@ -1,5 +1,5 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "services/firebase";
+import { storage } from "@/services/firebase";
 
 /**
  * 이미지를 Firebase Storage에 업로드하고 다운로드 URL 반환

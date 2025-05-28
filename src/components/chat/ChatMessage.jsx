@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
 
-import ReportModal from "components/common/ReportModal.jsx";
-import ModalPortal from "components/common/ModalPortal";
+import ReportModal from "@/components/common/modal/ReportModal.jsx";
+import ModalPortal from "@/components/common/modal/ModalPortal";
 
 export default function ChatMessage({
   message,

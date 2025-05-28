@@ -5,7 +5,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 /**
  * 사용자가 생성한 콘텐츠에 프로필 정보(displayName, photoURL) 반영

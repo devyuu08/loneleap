@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 
-import { useUser } from "hooks/auth/useUser";
-import { useDeleteReview } from "hooks/review/useDeleteReview";
+import { useUser } from "@/hooks/auth/useUser";
+import { useDeleteReview } from "@/hooks/review/useDeleteReview";
 
-import { useReviewDetail } from "hooks/review/useReviewDetail";
-import LoadingSpinner from "components/common/LoadingSpinner";
-import NotFoundMessage from "components/common/NotFoundMessage";
-import ReviewDetail from "components/review/ReviewDetail";
+import { useReviewDetail } from "@/hooks/review/useReviewDetail";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
+import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
+import ReviewDetail from "@/components/review/ReviewDetail";
 
 export default function ReviewDetailContainer() {
   const { id: reviewId } = useParams();

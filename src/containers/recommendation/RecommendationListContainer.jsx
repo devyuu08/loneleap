@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useRecommendationList } from "hooks/recommendation/useRecommendationList";
-import RecommendationList from "components/recommendation/RecommendationList";
+import { useRecommendationList } from "@/hooks/recommendation/useRecommendationList";
+import RecommendationList from "@/components/recommendation/RecommendationList";
 
 export default function RecommendationListContainer() {
   const { data: recommendations, isLoading, isError } = useRecommendationList();

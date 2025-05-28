@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchItineraryById } from "services/itinerary/fetchItineraryById";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { fetchItineraryById } from "@/services/itinerary/fetchItineraryById";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export const useItineraryDetail = (id) => {
   return useQuery({

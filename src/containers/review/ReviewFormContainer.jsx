@@ -2,13 +2,15 @@ import { useState, useCallback, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 
-import { useReviewDetail } from "hooks/review/useReviewDetail";
-import useAddReview from "hooks/review/useAddReview";
+import { useReviewDetail } from "@/hooks/review/useReviewDetail";
+import useAddReview from "@/hooks/review/useAddReview";
 
-import { FIXED_QUESTIONS, RANDOM_QUESTIONS } from "data/interviewQuestions";
-import { updateReview as updateReviewData } from "services/review/updateReview";
-import { uploadImage } from "utils/uploadImage";
-import ReviewForm from "components/review/ReviewForm";
+import { FIXED_QUESTIONS, RANDOM_QUESTIONS } from "@/data/interviewQuestions";
+import { updateReview as updateReviewData } from "@/services/review/updateReview";
+import { uploadImage } from "@/utils/uploadImage";
+import ReviewForm from "@/components/review/ReviewForm";
+import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 
 export default function ReviewFormContainer({ isEditMode = false }) {
   const navigate = useNavigate();

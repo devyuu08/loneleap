@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addScheduleToDay } from "services/itinerary/addScheduleToDay";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { addScheduleToDay } from "@/services/itinerary/addScheduleToDay";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export function useAddScheduleToDay() {
   const queryClient = useQueryClient();

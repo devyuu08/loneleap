@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { auth, db } from "services/firebase";
+import { auth, db } from "@/services/firebase";
 
 /**
  * 이메일/비밀번호로 Firebase 회원가입 + Firestore 유저 초기화

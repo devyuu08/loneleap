@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { useUser } from "hooks/auth/useUser";
-import { updatePublicUserProfile } from "services/user/updatePublicUserProfile";
-import { updatePrivateUserProfile } from "services/user/updatePrivateUserProfile";
-import { updateUserContentProfile } from "services/user/updateUserContentProfile";
-import { updateUserState } from "services/user/updateUserState";
-import { updateFirebaseUserProfile } from "services/user/updateFirebaseUserProfile";
+import { useUser } from "@/hooks/auth/useUser";
+import { updatePublicUserProfile } from "@/services/user/updatePublicUserProfile";
+import { updatePrivateUserProfile } from "@/services/user/updatePrivateUserProfile";
+import { updateUserContentProfile } from "@/services/user/updateUserContentProfile";
+import { updateUserState } from "@/services/user/updateUserState";
+import { updateFirebaseUserProfile } from "@/services/user/updateFirebaseUserProfile";
 
 export function useUpdateProfile() {
   const { user } = useUser(); // 현재 로그인 사용자

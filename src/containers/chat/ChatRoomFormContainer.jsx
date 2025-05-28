@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useCreateChatRoom } from "hooks/chat/useCreateChatRoom";
-import LoadingSpinner from "components/common/LoadingSpinner.jsx";
-import ChatRoomForm from "components/chat/ChatRoomForm";
+import { useCreateChatRoom } from "@/hooks/chat/useCreateChatRoom";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
+import ChatRoomForm from "@/components/chat/ChatRoomForm";
 
 export default function ChatRoomFormContainer() {
   const [title, setTitle] = useState("");

@@ -7,8 +7,8 @@ import {
   limit,
   getDocs,
 } from "firebase/firestore";
-import { app } from "services/firebase";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { app } from "@/services/firebase";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 const db = getFirestore(app);
 

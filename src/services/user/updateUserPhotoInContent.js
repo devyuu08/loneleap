@@ -5,7 +5,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 /**
  * 사용자의 모든 콘텐츠에 새로운 photoURL 반영

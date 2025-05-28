@@ -9,9 +9,9 @@ import {
   collection,
   serverTimestamp,
 } from "firebase/firestore";
-import { db } from "services/firebase";
-import { uploadImage } from "utils/uploadImage";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { db } from "@/services/firebase";
+import { uploadImage } from "@/utils/uploadImage";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 /**
  * 리뷰 추가 기능을 제공하는 커스텀 훅

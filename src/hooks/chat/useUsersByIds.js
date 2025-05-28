@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 import { getDoc, doc } from "firebase/firestore";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 /**
  * 여러 유저의 공개 프로필 정보를 가져오는 훅

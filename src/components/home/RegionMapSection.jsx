@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { regions } from "data/regions";
+import { regions } from "@/data/regions";
 import { useState } from "react";
 
-import { useRegionCounts } from "hooks/itinerary/useRegionCounts";
+import { useRegionCounts } from "@/hooks/itinerary/useRegionCounts";
 
 export default function RegionMapSection() {
   const [activeRegion, setActiveRegion] = useState(null);

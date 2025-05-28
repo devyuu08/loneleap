@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 import { useState } from "react";
 
-import { useAddScheduleToDay } from "hooks/itinerary/useAddScheduleToDay";
-import DayScheduleList from "components/itinerary/DayScheduleList";
+import { useAddScheduleToDay } from "@/hooks/itinerary/useAddScheduleToDay";
+import DayScheduleList from "@/components/itinerary/DayScheduleList";
 
 export default function DayScheduleListContainer({
   days = [],

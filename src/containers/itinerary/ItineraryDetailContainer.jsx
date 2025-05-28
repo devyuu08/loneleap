@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { useItineraryDetail } from "hooks/itinerary/useItineraryDetail";
-import { useDeleteItinerary } from "hooks/itinerary/useDeleteItinerary";
+import { useItineraryDetail } from "@/hooks/itinerary/useItineraryDetail";
+import { useDeleteItinerary } from "@/hooks/itinerary/useDeleteItinerary";
 
-import LoadingSpinner from "components/common/LoadingSpinner";
-import NotFoundMessage from "components/common/NotFoundMessage";
-import ItineraryDetail from "components/itinerary/ItineraryDetail";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
+import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
+import ItineraryDetail from "@/components/itinerary/ItineraryDetail";
 
 export default function ItineraryDetailContainer() {
   const { id } = useParams();

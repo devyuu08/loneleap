@@ -6,7 +6,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 /**
  * 공개 프로필 익명화 (닉네임, 프로필 이미지)

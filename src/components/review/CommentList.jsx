@@ -1,4 +1,4 @@
-import CommentItem from "components/review/CommentItem";
+import CommentItem from "@/components/review/CommentItem";
 import { Send } from "lucide-react";
 
 export default function CommentList({

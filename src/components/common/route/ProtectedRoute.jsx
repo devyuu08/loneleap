@@ -1,21 +1,23 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import LoadingSpinner from "components/common/LoadingSpinner";
+import { useEffect, useState } from "react";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 
 export default function ProtectedRoute({ children }) {
   const user = useSelector((state) => state.user.user);
   const isLoading = useSelector((state) => state.user.isLoading);
   const navigate = useNavigate();
+  const [redirected, setRedirected] = useState(false);
 
   useEffect(() => {
     if (!isLoading && !user) {
       navigate("/login", { replace: true });
+      setRedirected(true);
     }
   }, [user, isLoading, navigate]);
 
-  if (isLoading) return <LoadingSpinner />; // 아직 Firebase 확인 중이라면 스피너
-  if (!user) return null; // 로그인 안 된 경우는 리다이렉트 후 아무것도 안 보여줌
+  if (isLoading) return <LoadingSpinner />;
+  if (!user || redirected) return null;
 
   return children;
 }

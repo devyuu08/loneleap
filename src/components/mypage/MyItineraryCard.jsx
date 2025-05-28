@@ -1,7 +1,7 @@
 import { Edit2, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { formatDateOnly } from "utils/formatDate";
-import SkeletonImage from "components/common/SkeletonImage";
+import { formatDateOnly } from "@/utils/formatDate";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function MyItineraryCard({ itinerary }) {
   const navigate = useNavigate();
@@ -22,11 +22,7 @@ export default function MyItineraryCard({ itinerary }) {
       {/* 이미지 영역 */}
       <div className="relative h-48 bg-gray-100">
         {imageUrl ? (
-          <SkeletonImage
-            src={imageUrl || "/assets/default-itinerary-image.png"}
-            alt={title}
-            className="w-full h-full object-cover"
-          />
+          <SkeletonImage src={imageUrl} alt={title} objectFit="cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
             이미지 없음

@@ -5,16 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { doc, setDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 
-import { auth, db } from "services/firebase";
-import { logout } from "services/auth/auth";
-import { changeUserPassword } from "services/user/changeUserPassword";
+import { auth, db } from "@/services/firebase";
+import { logout } from "@/services/auth/auth";
+import { changeUserPassword } from "@/services/user/changeUserPassword";
 
-import { setUser, clearUser } from "store/userSlice";
-import { useUserStats } from "hooks/mypage/useUserStats";
-import ProfileSection from "components/mypage/ProfileSection";
-import { uploadUserProfileImage } from "services/user/uploadUserProfileImage";
-import { updateUserPhotoInContent } from "services/user/updateUserPhotoInContent";
-import { deleteUserAccount } from "services/user/deleteUserAccount";
+import { setUser, clearUser } from "@/store/userSlice";
+import { useUserStats } from "@/hooks/mypage/useUserStats";
+import ProfileSection from "@/components/mypage/ProfileSection";
+import { uploadUserProfileImage } from "@/services/user/uploadUserProfileImage";
+import { updateUserPhotoInContent } from "@/services/user/updateUserPhotoInContent";
+import { deleteUserAccount } from "@/services/user/deleteUserAccount";
 
 export default function ProfileSectionContainer() {
   const user = useSelector((state) => state.user.user);

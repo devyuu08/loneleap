@@ -1,7 +1,7 @@
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 /**
  * 새로운 채팅방을 생성하는 커스텀 훅

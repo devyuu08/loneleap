@@ -1,9 +1,9 @@
-import { useUser } from "hooks/auth/useUser";
+import { useUser } from "@/hooks/auth/useUser";
 import {
   useReviewLikeStatus,
   useToggleReviewLike,
-} from "hooks/review/useReviewLike";
-import LikeButton from "components/review/LikeButton";
+} from "@/hooks/review/useReviewLike";
+import LikeButton from "@/components/review/LikeButton";
 
 export default function LikeButtonContainer({
   reviewId,

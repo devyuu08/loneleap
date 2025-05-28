@@ -1,4 +1,4 @@
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 import { doc, getDoc, deleteDoc } from "firebase/firestore";
 
 export async function deleteReview(id) {

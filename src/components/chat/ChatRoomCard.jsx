@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { MessageCircle, Users } from "lucide-react";
-import { formatRelativeTime } from "utils/formatRelativeTime";
+import { formatRelativeTime } from "@/utils/formatRelativeTime";
 
 export default function ChatRoomCard({ room = {} }) {
   const navigate = useNavigate();

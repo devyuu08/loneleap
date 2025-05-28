@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 
-import { useChatMessages } from "hooks/chat/useChatMessages";
-import LoadingSpinner from "components/common/LoadingSpinner.jsx";
-import ChatRoomDetail from "components/chat/ChatRoomDetail";
-import { joinRoom } from "services/chat/joinRoom";
-import { leaveRoom } from "services/chat/leaveRoom";
-import { fetchRoomInfo } from "services/chat/fetchRoomInfo";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { useChatMessages } from "@/hooks/chat/useChatMessages";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
+import ChatRoomDetail from "@/components/chat/ChatRoomDetail";
+import { joinRoom } from "@/services/chat/joinRoom";
+import { leaveRoom } from "@/services/chat/leaveRoom";
+import { fetchRoomInfo } from "@/services/chat/fetchRoomInfo";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export default function ChatRoomDetailContainer({ roomId }) {
   const scrollRef = useRef(null);

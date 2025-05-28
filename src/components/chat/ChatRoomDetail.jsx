@@ -1,7 +1,7 @@
-import ChatHeader from "components/chat/ChatHeader";
-import ParticipantListContainer from "containers/chat/ParticipantListContainer";
-import MessageInputContainer from "containers/chat/MessageInputContainer";
-import ChatMessageContainer from "containers/chat/ChatMessageContainer";
+import ChatHeader from "@/components/chat/ChatHeader";
+import ParticipantListContainer from "@/containers/chat/ParticipantListContainer";
+import MessageInputContainer from "@/containers/chat/MessageInputContainer";
+import ChatMessageContainer from "@/containers/chat/ChatMessageContainer";
 
 export default function ChatRoomDetail({
   roomInfo,

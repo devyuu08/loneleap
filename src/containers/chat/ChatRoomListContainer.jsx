@@ -1,10 +1,10 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { useChatRooms } from "hooks/chat/useChatRooms";
+import { useChatRooms } from "@/hooks/chat/useChatRooms";
 
-import ChatRoomList from "components/chat/ChatRoomList";
-import LoadingSpinner from "components/common/LoadingSpinner.jsx";
+import ChatRoomList from "@/components/chat/ChatRoomList";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
 
 export default function ChatRoomListContainer() {
   const [activeFilter, setActiveFilter] = useState("전체");

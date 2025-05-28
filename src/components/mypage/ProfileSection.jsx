@@ -1,10 +1,10 @@
-import ProfileEditModal from "components/modal/ProfileEditModal";
-import ModalPortal from "components/common/ModalPortal";
-import RoundedButton from "components/common/RoundedButton";
+import ProfileEditModal from "@/components/modal/ProfileEditModal";
+import ModalPortal from "@/components/common/modal/ModalPortal";
+import RoundedButton from "@/components/common/button/RoundedButton";
 import { Camera, Edit, LogOut, Settings } from "lucide-react";
-import SettingModal from "components/modal/SettingModal";
-import ChangePasswordModal from "components/modal/ChangePasswordModal";
-import DeleteAccountModal from "components/modal/DeleteAccountModal";
+import SettingModal from "@/components/modal/SettingModal";
+import ChangePasswordModal from "@/components/modal/ChangePasswordModal";
+import DeleteAccountModal from "@/components/modal/DeleteAccountModal";
 
 export default function ProfileSection({
   user,

@@ -1,4 +1,4 @@
-import DayScheduleItem from "./DayScheduleItem";
+import DayScheduleItem from "@/components/itinerary/DayScheduleItem";
 import { ChevronDown } from "lucide-react";
 
 export default function DayScheduleList({

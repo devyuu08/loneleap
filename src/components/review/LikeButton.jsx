@@ -1,6 +1,6 @@
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import PropTypes from "prop-types";
-import { cn } from "utils/utils";
+import { cn } from "@/utils/utils";
 
 export default function LikeButton({
   hasLiked,

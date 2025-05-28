@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export const useComments = (reviewId) => {
   return useQuery({

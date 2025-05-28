@@ -1,5 +1,5 @@
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 export async function sendChatMessage({ roomId, message, user }) {
   if (!roomId || !user?.uid || !message.trim()) {

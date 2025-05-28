@@ -1,8 +1,8 @@
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useQuery } from "@tanstack/react-query";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
-import { db, auth } from "services/firebase";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { db, auth } from "@/services/firebase";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export const useMyReviews = (options = {}) => {
   const [user, loading] = useAuthState(auth);

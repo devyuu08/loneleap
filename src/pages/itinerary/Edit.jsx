@@ -1,4 +1,4 @@
-import ItineraryFormContainer from "containers/itinerary/ItineraryFormContainer";
+import ItineraryFormContainer from "@/containers/itinerary/ItineraryFormContainer";
 
 export default function EditItineraryPage() {
   return (

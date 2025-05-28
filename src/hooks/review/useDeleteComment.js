@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { doc, deleteDoc } from "firebase/firestore";
-import { db } from "services/firebase";
-import { QUERY_KEYS } from "constants/queryKeys";
+import { db } from "@/services/firebase";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export const useDeleteComment = (reviewId) => {
   const queryClient = useQueryClient();

@@ -1,4 +1,4 @@
-import { setUser } from "store/userSlice";
+import { setUser } from "@/store/userSlice";
 
 /**
  * Redux 상태에서 사용자 정보를 업데이트

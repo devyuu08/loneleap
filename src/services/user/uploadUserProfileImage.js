@@ -1,5 +1,5 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "services/firebase";
+import { storage } from "@/services/firebase";
 
 /**
  * Firebase Storage에 사용자 프로필 이미지를 업로드하고 URL 반환

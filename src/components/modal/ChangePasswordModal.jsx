@@ -3,7 +3,7 @@ import { X } from "lucide-react";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-import ErrorMessage from "components/common/ErrorMessage";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 
 export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
   const [currentPassword, setCurrentPassword] = useState("");

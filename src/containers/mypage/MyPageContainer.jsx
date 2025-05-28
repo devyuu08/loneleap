@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-import { useMyItineraries } from "hooks/itinerary/useMyItineraries";
-import { useMyReviews } from "hooks/review/useMyReviews";
-import { useMyChatRooms } from "hooks/chat/useMyChatRooms";
-import MyPage from "components/mypage/MyPage";
+import { useMyItineraries } from "@/hooks/itinerary/useMyItineraries";
+import { useMyReviews } from "@/hooks/review/useMyReviews";
+import { useMyChatRooms } from "@/hooks/chat/useMyChatRooms";
+import MyPage from "@/components/mypage/MyPage";
 
 export default function MyPageContainer() {
   const [activeTab, setActiveTab] = useState("itinerary");

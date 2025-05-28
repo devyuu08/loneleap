@@ -1,8 +1,11 @@
 import { useState, useMemo } from "react";
-import { useItineraries } from "hooks/itinerary/useItineraries";
+import { useItineraries } from "@/hooks/itinerary/useItineraries";
 
-import ItineraryList from "components/itinerary/ItineraryList";
-import LoadingSpinner from "components/common/LoadingSpinner";
+import ItineraryList from "@/components/itinerary/ItineraryList";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
+import HeroWithFilterSearch from "@/components/common/layout/HeroWithFilterSearch";
+
+const FILTERS = ["최신순", "오래된순"];
 
 export default function ItineraryListContainer() {
   const [activeFilter, setActiveFilter] = useState("최신순");
@@ -13,24 +16,14 @@ export default function ItineraryListContainer() {
     if (!Array.isArray(itineraries)) return [];
 
     let result = [...itineraries];
+    const convertToDate = (ts) => (ts ? new Date(ts) : new Date(0));
 
-    // 필터링
-    const convertToDate = (ts) => {
-      if (!ts) return new Date(0);
-      return new Date(ts);
-    };
+    result.sort((a, b) =>
+      activeFilter === "최신순"
+        ? convertToDate(b.createdAt) - convertToDate(a.createdAt)
+        : convertToDate(a.createdAt) - convertToDate(b.createdAt)
+    );
 
-    if (activeFilter === "최신순") {
-      result.sort(
-        (a, b) => convertToDate(b.createdAt) - convertToDate(a.createdAt)
-      );
-    } else {
-      result.sort(
-        (a, b) => convertToDate(a.createdAt) - convertToDate(b.createdAt)
-      );
-    }
-
-    // 검색 적용
     if (searchKeyword.trim()) {
       result = result.filter((itinerary) =>
         itinerary.location
@@ -50,7 +43,7 @@ export default function ItineraryListContainer() {
         <p className="text-red-500 font-medium">일정 불러오기 실패</p>
         <p className="text-sm text-gray-500 mt-2">나중에 다시 시도해주세요.</p>
         <button
-          onClick={() => refetch()}
+          onClick={refetch}
           className="mt-4 px-4 py-2 bg-gray-200 rounded text-sm hover:bg-gray-300 transition"
         >
           새로고침
@@ -58,16 +51,26 @@ export default function ItineraryListContainer() {
       </div>
     );
 
-  if (isLoading) return <LoadingSpinner />;
-
   return (
-    <ItineraryList
-      itineraries={itineraries}
-      filteredItineraries={filteredItineraries}
-      activeFilter={activeFilter}
-      setActiveFilter={setActiveFilter}
-      searchKeyword={searchKeyword}
-      setSearchKeyword={setSearchKeyword}
-    />
+    <>
+      <HeroWithFilterSearch
+        imageSrc="/images/itinerary-list-hero.jpg"
+        title="여행자들의 시간표, 당신의 다음 한 걸음"
+        subtitle="누군가의 특별한 여행을 탐험하고, 나만의 일정을 만들어보세요."
+        countLabel="일정"
+        count={itineraries.length}
+        filters={FILTERS}
+        activeFilter={activeFilter}
+        onFilterChange={setActiveFilter}
+        searchKeyword={searchKeyword}
+        onSearchChange={setSearchKeyword}
+        searchPlaceholder="여행지 뱃지로 검색"
+      />
+
+      <ItineraryList
+        itineraries={itineraries}
+        filteredItineraries={filteredItineraries}
+      />
+    </>
   );
 }

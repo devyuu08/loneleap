@@ -1,5 +1,5 @@
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db } from "@/services/firebase";
 
 export async function fetchRecommendationDetail(id) {
   const docRef = doc(db, "recommended_places", id);

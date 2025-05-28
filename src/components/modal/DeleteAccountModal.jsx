@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { X, AlertTriangle } from "lucide-react";
 import PropTypes from "prop-types";
-import ErrorMessage from "components/common/ErrorMessage";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "services/firebase";
+import { auth } from "@/services/firebase";
 
 export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
   const [password, setPassword] = useState("");

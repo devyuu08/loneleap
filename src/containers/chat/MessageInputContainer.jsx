@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import MessageInput from "components/chat/MessageInput";
-import { sendChatMessage } from "services/chat/sendMessage";
+import MessageInput from "@/components/chat/MessageInput";
+import { sendChatMessage } from "@/services/chat/sendMessage";
 
 export default function MessageInputContainer({ roomId }) {
   const [message, setMessage] = useState("");
