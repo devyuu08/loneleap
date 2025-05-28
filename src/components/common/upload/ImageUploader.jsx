@@ -15,22 +15,37 @@ export default function ImageUploader({ imageFile, onChange }) {
 
     const objectUrl = URL.createObjectURL(imageFile);
     setPreviewUrl(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
+
+    return () => {
+      URL.revokeObjectURL(objectUrl);
+    };
   }, [imageFile]);
+
+  const isValidImage = (file) => {
+    if (!file.type.startsWith("image/")) {
+      alert("이미지 파일만 업로드 가능합니다.");
+      return false;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert("5MB 이하의 파일만 업로드 가능합니다.");
+      return false;
+    }
+    return true;
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-    if (!file.type.startsWith("image/") || file.size > 5 * 1024 * 1024) {
-      alert("5MB 이하의 이미지 파일만 업로드 가능합니다.");
-      return;
+    if (file && isValidImage(file)) {
+      onChange(file);
     }
-    onChange(file);
   };
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700">
+      <label
+        htmlFor="image-upload"
+        className="block text-sm font-medium text-gray-700"
+      >
         대표 이미지 (선택)
       </label>
       <div className="mt-2 border-2 border-dashed border-gray-300 rounded-md p-6 text-center text-sm text-gray-500">
@@ -57,6 +72,7 @@ export default function ImageUploader({ imageFile, onChange }) {
             이미지 선택
           </button>
           <input
+            id="image-upload"
             ref={fileInputRef}
             type="file"
             accept="image/*"
