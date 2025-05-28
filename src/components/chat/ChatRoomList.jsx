@@ -3,6 +3,8 @@ import EmptyState from "@/components/common/feedback/EmptyState";
 import { MessageSquare } from "lucide-react";
 import HeroWithFilterSearch from "@/components/common/layout/HeroWithFilterSearch";
 
+const CHATROOM_FILTERS = ["전체", "동행", "정보"];
+
 export default function ChatRoomList({
   chatrooms,
   filteredRooms,
@@ -20,7 +22,7 @@ export default function ChatRoomList({
         subtitle="여행 정보를 공유하고, 동행자를 만나보세요."
         countLabel="채팅방"
         count={chatrooms?.length || 0}
-        filters={["전체", "동행", "정보"]}
+        filters={CHATROOM_FILTERS}
         activeFilter={activeFilter}
         onFilterChange={setActiveFilter}
         searchKeyword={searchKeyword}
