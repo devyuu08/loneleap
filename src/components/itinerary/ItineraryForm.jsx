@@ -151,7 +151,11 @@ export default function ItineraryForm({
 
             {/* 버튼 */}
             <div className="flex justify-end">
-              <FormSubmitButton isLoading={isSubmitting} label={submitLabel} />
+              <FormSubmitButton
+                isLoading={isSubmitting}
+                label={submitLabel}
+                fullWidth={false}
+              />
             </div>
           </form>
 

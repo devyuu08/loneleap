@@ -133,6 +133,7 @@ export default function ReviewForm({
                 <FormSubmitButton
                   isLoading={isSubmitting}
                   label={submitLabel}
+                  fullWidth={false}
                 />
               </div>
 

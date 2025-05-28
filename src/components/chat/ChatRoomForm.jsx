@@ -92,7 +92,11 @@ export default function ChatRoomForm({
 
           {/* 전송 버튼 */}
           <div className="flex justify-end">
-            <FormSubmitButton isLoading={isSubmitting} label="채팅방 만들기" />
+            <FormSubmitButton
+              isLoading={isSubmitting}
+              label="채팅방 만들기"
+              fullWidth={false}
+            />
           </div>
         </form>
 
