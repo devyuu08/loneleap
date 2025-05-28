@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import { Link } from "react-router-dom";
 import { useRecommendationList } from "@/hooks/recommendation/useRecommendationList";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
+import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 
 export default function DestinationSlider() {
   const { data: destinations, isLoading } = useRecommendationList();
@@ -13,7 +14,7 @@ export default function DestinationSlider() {
   if (isLoading || !destinations) return null;
 
   return (
-    <section className="py-24 px-6 bg-gray-50 overflow-hidden">
+    <MainSectionWrapper bg="bg-gray-50" className="overflow-hidden">
       <div className="max-w-screen-2xl mx-auto">
         {/* 제목 + 설명 */}
         <div className="text-center mb-12">
@@ -61,6 +62,6 @@ export default function DestinationSlider() {
           ))}
         </Swiper>
       </div>
-    </section>
+    </MainSectionWrapper>
   );
 }
