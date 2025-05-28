@@ -69,9 +69,10 @@ export default function ReviewPreview() {
                   {/* 왼쪽: 리뷰 이미지 */}
                   <div className="w-2/5 min-w-[160px] h-full">
                     <SkeletonImage
-                      src={review.imageUrl || "/images/no_image.png"}
+                      src={review.imageUrl}
                       alt="리뷰 이미지"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full"
+                      objectFit="cover"
                     />
                   </div>
 

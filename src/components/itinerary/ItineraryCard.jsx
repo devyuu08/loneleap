@@ -36,8 +36,9 @@ export default function ItineraryCard({ itinerary }) {
       {/* 썸네일 이미지 섹션 */}
       <div className="relative h-56">
         <SkeletonImage
-          src={imageUrl || "/images/no_image.png"}
+          src={imageUrl}
           alt={`${location} 대표 이미지`}
+          objectFit="cover"
         />
 
         {/* 위치 태그 */}

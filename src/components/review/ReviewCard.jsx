@@ -44,14 +44,11 @@ export default function ReviewCard({ review }) {
     >
       {/* 이미지 썸네일 */}
       <div className="relative h-56">
-        <img
-          src={imageUrl || "/images/no_image.png"}
+        <SkeletonImage
+          src={imageUrl}
           alt={`${title} 썸네일`}
-          className="w-full h-full object-cover bg-gray-100"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "/images/no_image.png";
-          }}
+          className="w-full h-full"
+          objectFit="cover"
         />
         {/* 여행지 태그 */}
         <span className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">

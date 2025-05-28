@@ -10,9 +10,10 @@ export default function RecommendationHero({ data }) {
       {/* 이미지 + 오버레이 레이어 */}
       <div className="absolute inset-0 z-0">
         <SkeletonImage
-          src={imageUrl || "/images/no_image.png"}
+          src={imageUrl}
           alt={name}
-          className="w-full h-full object-cover"
+          className="w-full h-full"
+          objectFit="cover"
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>

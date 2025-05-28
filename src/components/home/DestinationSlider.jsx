@@ -50,10 +50,7 @@ export default function DestinationSlider() {
                 to={`/recommendations/${place.id}`}
                 className="relative block w-full h-72 rounded-xl overflow-hidden shadow hover:brightness-105 transition bg-gray-200"
               >
-                <SkeletonImage
-                  src={place.imageUrl || "/images/placeholder.jpg"}
-                  alt={place.name}
-                />
+                <SkeletonImage src={place.imageUrl} alt={place.name} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white z-10">
                   <h3 className="font-semibold text-lg">{place.name}</h3>
