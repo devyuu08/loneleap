@@ -2,7 +2,6 @@ import DatePicker from "@/components/itinerary/DatePicker";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import { BookOpenText, Camera, Clock, MapPin } from "lucide-react";
 import ImageUploader from "@/components/common/upload/ImageUploader";
-import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormInput from "@/components/common/form/FormInput";
 import FormTextarea from "@/components/common/form/FormTextarea";
 
