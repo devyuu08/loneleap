@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { X, AlertTriangle } from "lucide-react";
 import PropTypes from "prop-types";
-import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/services/firebase";
+import FormInput from "@/components/common/form/FormInput";
+import ModalFooterButton from "@/components/common/button/ModalFooterButton";
 
 export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
   const [password, setPassword] = useState("");
@@ -100,14 +101,15 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
                 <p className="text-sm text-gray-700">
                   탈퇴를 위해 비밀번호를 다시 입력해주세요.
                 </p>
-                <input
+                <FormInput
+                  id="password"
+                  name="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="현재 비밀번호"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
+                  error={error}
                 />
-                <ErrorMessage message={error} />
               </>
             ) : (
               <p className="text-sm text-gray-700">
@@ -116,27 +118,14 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
               </p>
             )}
 
-            <div className="flex justify-end gap-3 mt-4">
-              <button
-                onClick={onClose}
-                className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-100"
-              >
-                취소
-              </button>
-              <button
-                onClick={() => (isPasswordUser ? handleConfirm() : onConfirm())}
-                disabled={isLoading || (isPasswordUser && !password)}
-                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition disabled:opacity-60 min-w-[80px] flex items-center justify-center"
-              >
-                {isLoading ? (
-                  <span className="w-4 h-4 flex items-center justify-center">
-                    <ButtonSpinner size={16} color="white" />
-                  </span>
-                ) : (
-                  <span>탈퇴하기</span>
-                )}
-              </button>
-            </div>
+            <ModalFooterButton
+              onClose={onClose}
+              onConfirm={isPasswordUser ? handleConfirm : onConfirm}
+              confirmLabel="탈퇴하기"
+              confirmColor="red"
+              isLoading={isLoading}
+              disabled={isPasswordUser && !password}
+            />
           </div>
         </div>
       </div>
