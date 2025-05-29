@@ -17,13 +17,9 @@ export default function ReportButton({
         disabled={isPending}
         className="px-3 py-1.5 rounded-full border border-gray-300 text-sm bg-white/60 text-gray-800 backdrop-blur-sm shadow-sm hover:bg-white/80 transition disabled:opacity-50"
       >
-        {isPending ? (
-          <>
-            <ButtonSpinner size={16} color="#4B5563" />
-          </>
-        ) : (
-          "신고하기"
-        )}
+        <span className="inline-flex items-center justify-center w-[64px] h-[20px]">
+          {isPending ? <ButtonSpinner size={16} color="#4B5563" /> : "신고하기"}
+        </span>
       </button>
 
       {isOpen && (

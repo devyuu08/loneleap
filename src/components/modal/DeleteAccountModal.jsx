@@ -126,9 +126,15 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
               <button
                 onClick={() => (isPasswordUser ? handleConfirm() : onConfirm())}
                 disabled={isLoading || (isPasswordUser && !password)}
-                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
+                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition disabled:opacity-60 min-w-[80px] flex items-center justify-center"
               >
-                {isLoading ? "탈퇴 중..." : "탈퇴하기"}
+                {isLoading ? (
+                  <span className="w-4 h-4 flex items-center justify-center">
+                    <ButtonSpinner size={16} color="white" />
+                  </span>
+                ) : (
+                  <span>탈퇴하기</span>
+                )}
               </button>
             </div>
           </div>

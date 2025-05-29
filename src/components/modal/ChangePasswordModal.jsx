@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 
 export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -105,9 +106,15 @@ export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
               <button
                 onClick={handleSubmit}
                 disabled={isLoading}
-                className="px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-900"
+                className="px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-900 transition disabled:opacity-60 min-w-[72px] flex items-center justify-center"
               >
-                {isLoading ? "처리 중..." : "저장"}
+                {isLoading ? (
+                  <span className="w-4 h-4 flex items-center justify-center">
+                    <ButtonSpinner size={16} color="white" />
+                  </span>
+                ) : (
+                  <span>저장</span>
+                )}
               </button>
             </div>
           </div>

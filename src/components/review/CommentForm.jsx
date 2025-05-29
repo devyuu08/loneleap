@@ -33,14 +33,14 @@ export default function CommentForm({
         <button
           type="submit"
           disabled={isPending || !content.trim()}
-          className="text-sm px-4 py-1.5 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition disabled:opacity-50"
+          className="text-sm px-4 py-1.5 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition disabled:opacity-50 min-w-[72px] flex items-center justify-center"
         >
           {isPending ? (
-            <>
+            <span className="w-4 h-4 flex items-center justify-center">
               <ButtonSpinner size={16} color="white" />
-            </>
+            </span>
           ) : (
-            "등록"
+            <span>등록</span>
           )}
         </button>
       </div>

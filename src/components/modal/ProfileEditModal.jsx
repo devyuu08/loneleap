@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useUpdateProfile } from "@/hooks/mypage/useUpdateProfile";
+import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 
 export default function ProfileEditModal({ isOpen, onClose, user }) {
   const [displayName, setDisplayName] = useState(user?.displayName || "");
@@ -52,9 +53,15 @@ export default function ProfileEditModal({ isOpen, onClose, user }) {
             <button
               type="submit"
               disabled={isLoading}
-              className="px-4 py-2 rounded bg-black text-white hover:bg-gray-900"
+              className="px-4 py-2 rounded bg-black text-white hover:bg-gray-900 transition disabled:opacity-60 min-w-[80px] flex items-center justify-center"
             >
-              {isLoading ? "저장 중..." : "저장"}
+              {isLoading ? (
+                <span className="w-4 h-4 flex items-center justify-center">
+                  <ButtonSpinner size={16} color="white" />
+                </span>
+              ) : (
+                <span>저장</span>
+              )}
             </button>
           </div>
         </form>

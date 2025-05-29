@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormInput from "@/components/common/form/FormInput";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
+import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 
 export default function LoginForm({
   email,
@@ -75,10 +76,16 @@ export default function LoginForm({
               type="button"
               onClick={onGoogleLogin}
               disabled={isGoogleLoading}
-              className="w-full flex items-center justify-center gap-3 border border-gray-100 py-2 rounded-md hover:bg-gray-50 transition"
+              className="w-full flex items-center justify-center gap-3 border border-gray-100 py-2 rounded-md hover:bg-gray-50 transition min-h-[44px]"
             >
-              <span className="text-xl">G</span>
-              {isGoogleLoading ? "처리 중..." : "Google로 계속하기"}
+              {isGoogleLoading ? (
+                <ButtonSpinner size={20} color="black" />
+              ) : (
+                <>
+                  <span className="text-xl">G</span>
+                  <span>Google로 계속하기</span>
+                </>
+              )}
             </button>
 
             <button
