@@ -3,6 +3,7 @@ import FloatingButtons from "@/components/common/button/FloatingButtons";
 import CommentListContainer from "@/containers/review/CommentListContainer";
 import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
 import ReportButtonContainer from "@/containers/review/ReportButtonContainer";
+import QuestionAnswerBlock from "@/components/review/QuestionAnswerBlock";
 
 export default function ReviewDetail({
   reviewId,
@@ -30,21 +31,12 @@ export default function ReviewDetail({
           ) : (
             <div className="bg-white/70 backdrop-blur-sm p-10 rounded-2xl shadow border border-gray-100 space-y-12">
               {review.interviewQuestions.map((q, index) => (
-                <div
+                <QuestionAnswerBlock
                   key={q.id}
-                  className={
-                    index !== 0 ? "pt-10 border-t border-gray-300/30" : ""
-                  }
-                >
-                  <h4 className="text-[18px] font-semibold text-gray-800 tracking-tight leading-snug">
-                    Q. {q.text}
-                  </h4>
-                  <div className="mt-4 pl-4 border-l-2 border-gray-200">
-                    <p className="text-[16px] text-gray-700 leading-loose whitespace-pre-line tracking-wide">
-                      {review.interviewAnswers?.[q.id] || "답변 없음"}
-                    </p>
-                  </div>
-                </div>
+                  question={q.text}
+                  answer={review.interviewAnswers?.[q.id]}
+                  isFirst={index === 0}
+                />
               ))}
             </div>
           )}
