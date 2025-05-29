@@ -3,6 +3,7 @@ import ImageUploader from "@/components/common/upload/ImageUploader";
 import InterviewAnswerForm from "@/components/review/InterviewAnswerForm";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
+import FormInput from "@/components/common/form/FormInput";
 
 export default function ReviewForm({
   step,
@@ -51,36 +52,28 @@ export default function ReviewForm({
             <form className="mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-10 rounded-3xl shadow-md border border-white/30 text-gray-800">
               {/* 제목 */}
               <div>
-                <label className="block text-sm font-semibold mb-1">
-                  리뷰 제목
-                </label>
-                <input
-                  type="text"
+                <FormInput
+                  label="리뷰 제목"
+                  id="title"
+                  name="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="예: 비 오는 날의 제주 혼행기"
-                  className={`w-full bg-white/70 border ${
-                    errors.title ? "border-gray-700" : "border-gray-300"
-                  } rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-700`}
+                  error={errors.title}
                 />
-                <ErrorMessage message={errors.title} />
               </div>
 
               {/* 여행지명 */}
               <div>
-                <label className="block text-sm font-semibold mb-1">
-                  여행지명
-                </label>
-                <input
-                  type="text"
+                <FormInput
+                  label="여행지명"
+                  id="destination"
+                  name="destination"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                   placeholder="예: 성산일출봉, 한라산, 월정리 해변"
-                  className={`w-full bg-white/70 border ${
-                    errors.destination ? "border-gray-700" : "border-gray-300"
-                  } rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-700`}
+                  error={errors.destination}
                 />
-                <ErrorMessage message={errors.destination} />
               </div>
 
               {/* 별점 */}
