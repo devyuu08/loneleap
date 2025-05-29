@@ -21,7 +21,7 @@ export default function RecommendationList({
         title="이런 지역은 어때요?"
         subtitle="혼자 여행하기 좋은 장소만 골라 소개합니다"
         countLabel="추천 여행지"
-        count={originalData.length}
+        count={originalData?.length || 0}
         filters={[
           "전체 지역",
           "서울",
