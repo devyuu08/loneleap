@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import ReportModal from "@/components/common/modal/ReportModal";
 import ModalPortal from "@/components/common/modal/ModalPortal";
+import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 
 export default function ReportButton({
   isOpen,
@@ -16,7 +17,13 @@ export default function ReportButton({
         disabled={isPending}
         className="px-3 py-1.5 rounded-full border border-gray-300 text-sm bg-white/60 text-gray-800 backdrop-blur-sm shadow-sm hover:bg-white/80 transition disabled:opacity-50"
       >
-        {isPending ? "신고 중..." : "신고하기"}
+        {isPending ? (
+          <>
+            <ButtonSpinner size={16} color="#4B5563" />
+          </>
+        ) : (
+          "신고하기"
+        )}
       </button>
 
       {isOpen && (
