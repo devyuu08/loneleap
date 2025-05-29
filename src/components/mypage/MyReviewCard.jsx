@@ -17,6 +17,14 @@ export default function MyReviewCard({ review = {} }) {
     reported = false,
   } = review;
 
+  if (!review?.id || !review?.title) {
+    return (
+      <div className="bg-gray-100 rounded-xl p-6 shadow-sm text-center text-gray-500">
+        리뷰 정보를 불러올 수 없습니다.
+      </div>
+    );
+  }
+
   return (
     <div
       onClick={() => navigate(`/reviews/${id}`)}
@@ -31,13 +39,7 @@ export default function MyReviewCard({ review = {} }) {
     >
       {/* 이미지 영역 */}
       <div className="relative h-48 bg-gray-100">
-        {imageUrl ? (
-          <SkeletonImage src={imageUrl} alt={title} objectFit="cover" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
-            이미지 없음
-          </div>
-        )}
+        <SkeletonImage src={imageUrl} alt={title} objectFit="cover" />
 
         {/* 작성일자 배지 */}
         <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
