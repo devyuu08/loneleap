@@ -1,5 +1,6 @@
 import CommentItem from "@/components/review/CommentItem";
 import { Send } from "lucide-react";
+import ButtonSpinner from "../common/loading/ButtonSpinner";
 
 export default function CommentList({
   currentUserId,
@@ -28,6 +29,7 @@ export default function CommentList({
               className="w-10 h-10 rounded-full object-cover"
             />
             <textarea
+              id="comment-textarea"
               rows={3}
               className="w-full resize-none border border-gray-300 rounded-md p-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-black"
               placeholder="이 여행지에서의 당신의 감정을 들려주세요..."
@@ -46,7 +48,13 @@ export default function CommentList({
               disabled={isPending || !content.trim()}
               className="text-sm px-4 py-1.5 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition disabled:opacity-50"
             >
-              {isPending ? "등록 중..." : "등록"}
+              {isPending ? (
+                <>
+                  <ButtonSpinner size={16} color="white" />
+                </>
+              ) : (
+                "등록"
+              )}
             </button>
           </div>
         </form>
