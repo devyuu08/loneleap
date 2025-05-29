@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
+import FormInput from "../common/form/FormInput";
 
 export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -69,28 +70,31 @@ export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
           </div>
 
           <div className="space-y-4">
-            <input
+            <FormInput
+              id="currentPassword"
+              name="currentPassword"
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="현재 비밀번호"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
             />
 
-            <input
+            <FormInput
+              id="newPassword"
+              name="newPassword"
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="새 비밀번호"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
             />
 
-            <input
+            <FormInput
+              id="confirmPassword"
+              name="confirmPassword"
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="비밀번호 확인"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
             />
 
             <ErrorMessage message={error} />
