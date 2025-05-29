@@ -1,3 +1,5 @@
+import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
+
 export default function RoundedButton({
   label,
   onClick,
@@ -15,14 +17,16 @@ export default function RoundedButton({
           : "bg-black/80 text-white hover:bg-black hover:shadow-xl"
       }`}
     >
-      {isLoading ? (
-        "처리 중..."
-      ) : (
-        <>
-          {icon}
-          {label}
-        </>
-      )}
+      <div className="relative h-5 flex items-center justify-center gap-2">
+        {isLoading ? (
+          <ButtonSpinner size={16} color="white" />
+        ) : (
+          <>
+            {icon}
+            <span>{label}</span>
+          </>
+        )}
+      </div>
     </button>
   );
 }

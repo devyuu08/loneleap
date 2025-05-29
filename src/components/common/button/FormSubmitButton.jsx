@@ -1,5 +1,5 @@
-import { Loader2 } from "lucide-react";
 import clsx from "clsx";
+import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 
 export default function FormSubmitButton({
   isLoading,
@@ -29,8 +29,13 @@ export default function FormSubmitButton({
         variants[variant]
       )}
     >
-      {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-      <span>{isLoading ? "처리 중..." : label}</span>
+      <div className="relative h-5 flex items-center justify-center min-w-[4rem]">
+        {isLoading ? (
+          <ButtonSpinner size={16} color="white" />
+        ) : (
+          <span>{label}</span>
+        )}
+      </div>
     </button>
   );
 }
