@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useUpdateProfile } from "@/hooks/mypage/useUpdateProfile";
-import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 import FormInput from "@/components/common/form/FormInput";
 import FormTextarea from "@/components/common/form/FormTextarea";
+import ModalFooterButton from "@/components/common/button/ModalFooterButton";
 
 export default function ProfileEditModal({ isOpen, onClose, user }) {
   const [displayName, setDisplayName] = useState(user?.displayName || "");
@@ -39,28 +39,13 @@ export default function ProfileEditModal({ isOpen, onClose, user }) {
             onChange={(e) => setBio(e.target.value)}
             rows={3}
           />
-          <div className="flex justify-end gap-2 mt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-100"
-            >
-              취소
-            </button>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="px-4 py-2 rounded bg-black text-white hover:bg-gray-900 transition disabled:opacity-60 min-w-[80px] flex items-center justify-center"
-            >
-              {isLoading ? (
-                <span className="w-4 h-4 flex items-center justify-center">
-                  <ButtonSpinner size={16} color="white" />
-                </span>
-              ) : (
-                <span>저장</span>
-              )}
-            </button>
-          </div>
+
+          <ModalFooterButton
+            onClose={onClose}
+            onConfirm={handleSubmit}
+            confirmLabel="저장"
+            isLoading={isLoading}
+          />
         </form>
       </div>
     </div>

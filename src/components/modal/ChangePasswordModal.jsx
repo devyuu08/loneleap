@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
-import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
-import FormInput from "../common/form/FormInput";
+import FormInput from "@/components/common/form/FormInput";
+import ModalFooterButton from "@/components/common/button/ModalFooterButton";
 
 export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -99,28 +99,12 @@ export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
 
             <ErrorMessage message={error} />
 
-            <div className="flex justify-end gap-3 mt-4">
-              <button
-                onClick={onClose}
-                className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-100"
-              >
-                취소
-              </button>
-
-              <button
-                onClick={handleSubmit}
-                disabled={isLoading}
-                className="px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-900 transition disabled:opacity-60 min-w-[72px] flex items-center justify-center"
-              >
-                {isLoading ? (
-                  <span className="w-4 h-4 flex items-center justify-center">
-                    <ButtonSpinner size={16} color="white" />
-                  </span>
-                ) : (
-                  <span>저장</span>
-                )}
-              </button>
-            </div>
+            <ModalFooterButton
+              onClose={onClose}
+              onConfirm={handleSubmit}
+              confirmLabel="저장"
+              isLoading={isLoading}
+            />
           </div>
         </div>
       </div>
