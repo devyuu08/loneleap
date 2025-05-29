@@ -17,6 +17,14 @@ export default function MyReviewCard({ review = {} }) {
     reported = false,
   } = review;
 
+  if (!review?.id || !review?.title) {
+    return (
+      <div className="bg-gray-100 rounded-xl p-6 shadow-sm text-center text-gray-500">
+        리뷰 정보를 불러올 수 없습니다.
+      </div>
+    );
+  }
+
   return (
     <div
       onClick={() => navigate(`/reviews/${id}`)}
