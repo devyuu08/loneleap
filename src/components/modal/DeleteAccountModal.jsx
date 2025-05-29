@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { X, AlertTriangle } from "lucide-react";
 import PropTypes from "prop-types";
-import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/services/firebase";
+import FormInput from "@/components/common/form/FormInput";
 
 export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
   const [password, setPassword] = useState("");
@@ -100,14 +100,15 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
                 <p className="text-sm text-gray-700">
                   탈퇴를 위해 비밀번호를 다시 입력해주세요.
                 </p>
-                <input
+                <FormInput
+                  id="password"
+                  name="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="현재 비밀번호"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
+                  error={error}
                 />
-                <ErrorMessage message={error} />
               </>
             ) : (
               <p className="text-sm text-gray-700">
