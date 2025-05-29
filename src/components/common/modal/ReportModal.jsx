@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 
 export default function ReportModal({ onClose, onSubmit, isPending }) {
   const [reason, setReason] = useState("");
@@ -76,8 +77,15 @@ export default function ReportModal({ onClose, onSubmit, isPending }) {
             className={`px-4 py-2 bg-red-500 text-white rounded-md text-sm ${
               isPending ? "opacity-50 cursor-not-allowed" : ""
             }`}
+            style={{ minWidth: "96px" }}
           >
-            {isPending ? "신고 중..." : "신고하기"}
+            <span className="flex items-center justify-center w-[64px] h-[20px]">
+              {isPending ? (
+                <ButtonSpinner size={16} color="white" />
+              ) : (
+                "신고하기"
+              )}
+            </span>
           </button>
         </div>
       </div>

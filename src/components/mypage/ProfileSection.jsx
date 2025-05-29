@@ -5,7 +5,6 @@ import { Edit, LogOut, Settings } from "lucide-react";
 import SettingModal from "@/components/modal/SettingModal";
 import ChangePasswordModal from "@/components/modal/ChangePasswordModal";
 import DeleteAccountModal from "@/components/modal/DeleteAccountModal";
-import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 import ProfileInfoCard from "@/components/mypage/ProfileInfoCard";
 
 export default function ProfileSection({
@@ -46,15 +45,7 @@ export default function ProfileSection({
             label="Logout"
             onClick={onLogout}
             isLoading={isLoggingOut}
-            icon={
-              <span className="w-4 h-4 flex items-center justify-center">
-                {isLoggingOut ? (
-                  <ButtonSpinner size={16} color="white" />
-                ) : (
-                  <LogOut className="w-4 h-4" />
-                )}
-              </span>
-            }
+            icon={!isLoggingOut && <LogOut className="w-4 h-4" />}
           />
         </div>
 
