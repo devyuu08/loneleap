@@ -1,4 +1,6 @@
 import ReviewCard from "@/components/review/ReviewCard";
+import EmptyState from "@/components/common/feedback/EmptyState";
+import { MessageSquareWarning } from "lucide-react";
 
 export default function ReviewList({ reviews }) {
   return (
@@ -13,11 +15,12 @@ export default function ReviewList({ reviews }) {
               <ReviewCard key={review.id} review={review} />
             ))
           ) : (
-            <div className="col-span-full text-center text-gray-500 py-32">
-              <p className="text-lg font-semibold mb-2">리뷰가 없습니다</p>
-              <p className="text-sm">
-                다른 지역을 선택하거나 검색어를 바꿔보세요.
-              </p>
+            <div className="col-span-full">
+              <EmptyState
+                icon={<MessageSquareWarning className="w-8 h-8" />}
+                title="리뷰가 없습니다"
+                description="다른 지역을 선택하거나 검색어를 바꿔보세요."
+              />
             </div>
           )}
         </div>
