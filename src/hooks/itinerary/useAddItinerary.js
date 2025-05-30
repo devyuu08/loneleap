@@ -1,10 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import { updateDoc, doc, increment } from "firebase/firestore";
-import { db } from "@/services/firebase";
-import { createItinerary } from "@/services/itinerary/createItinerary";
-import { uploadImage } from "@/utils/uploadImage";
 import { QUERY_KEYS } from "@/constants/queryKeys";
+import { createItineraryWithImage } from "@/services/itinerary/createItineraryWithImage";
 
 /**
  * 일정 생성 훅
@@ -20,46 +17,10 @@ export const useAddItinerary = ({
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (formData) => {
-      if (!user) throw new Error("로그인이 필요합니다.");
-
-      let imageUrl = "";
-
-      if (formData.image instanceof File) {
-        try {
-          imageUrl = await uploadImage(formData.image, "itineraries");
-        } catch (err) {
-          throw new Error(err.message);
-        }
-      } else if (typeof formData.image === "string") {
-        imageUrl = formData.image; // 기존 URL 유지
-      }
-
-      const itineraryData = {
-        ...formData,
-        imageUrl,
-        createdBy: {
-          uid: user.uid,
-          displayName: user.displayName || "익명",
-          photoURL: user.photoURL || "",
-          userId: user.uid,
-        },
-      };
-      return createItinerary(itineraryData);
-    },
-    onSuccess: async (newId) => {
-      try {
-        if (user?.uid) {
-          await updateDoc(doc(db, "users_private", user.uid), {
-            itineraryCount: increment(1),
-          });
-        }
-      } catch (err) {
-        console.warn("itineraryCount 증가 실패:", err);
-      }
+    mutationFn: (formData) => createItineraryWithImage(formData, user),
+    onSuccess: (newId) => {
       alert("일정이 성공적으로 등록되었습니다!");
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ITINERARIES] });
-
       onSuccessCallback(newId);
     },
     onError: (error) => {
