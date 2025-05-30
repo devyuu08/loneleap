@@ -14,6 +14,10 @@ export default function ItineraryDetailContainer() {
   const { data, isLoading, isError } = useItineraryDetail(id);
   const { mutate, isPending } = useDeleteItinerary();
 
+  const handleDelete = () => {
+    mutate({ itineraryId: id });
+  };
+
   if (isLoading || currentUser.isLoading) return <LoadingSpinner />;
   if (isError || !data)
     return <NotFoundMessage message="일정을 찾을 수 없습니다." />;
@@ -25,7 +29,7 @@ export default function ItineraryDetailContainer() {
       itineraryId={id}
       itinerary={data}
       isOwner={isOwner}
-      onDelete={mutate}
+      onDelete={handleDelete}
       isDeletePending={isPending}
     />
   );
