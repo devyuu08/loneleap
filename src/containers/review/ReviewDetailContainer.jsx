@@ -10,7 +10,7 @@ import ReviewDetail from "@/components/review/ReviewDetail";
 
 export default function ReviewDetailContainer() {
   const { id: reviewId } = useParams();
-  const { user } = useUser();
+  const { user, isLoading: isUserLoading } = useUser();
   const { data, isLoading, isError } = useReviewDetail(reviewId);
   const { mutate: deleteReview, isPending } = useDeleteReview();
 
@@ -18,7 +18,7 @@ export default function ReviewDetailContainer() {
   if (isError || !data)
     return <NotFoundMessage message="리뷰를 찾을 수 없습니다." />;
 
-  const isOwner = user?.uid === data.createdBy?.uid;
+  const isOwner = !isUserLoading && user?.uid === data.createdBy?.uid;
 
   return (
     <ReviewDetail
