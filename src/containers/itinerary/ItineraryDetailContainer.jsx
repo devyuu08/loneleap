@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { useItineraryDetail } from "@/hooks/itinerary/useItineraryDetail";
@@ -12,7 +12,20 @@ export default function ItineraryDetailContainer() {
   const { id } = useParams();
   const currentUser = useSelector((state) => state.user);
   const { data, isLoading, isError } = useItineraryDetail(id);
-  const { mutate, isPending } = useDeleteItinerary();
+
+  const { mutate, isPending } = useDeleteItinerary({
+    onSuccess: () => {
+      alert("일정이 삭제되었습니다.");
+      Navigate("/itinerary");
+    },
+    onError: () => {
+      alert("일정 삭제 중 오류가 발생했습니다.");
+    },
+  });
+
+  const handleDelete = () => {
+    mutate({ itineraryId: id });
+  };
 
   if (isLoading || currentUser.isLoading) return <LoadingSpinner />;
   if (isError || !data)
@@ -25,7 +38,7 @@ export default function ItineraryDetailContainer() {
       itineraryId={id}
       itinerary={data}
       isOwner={isOwner}
-      onDelete={mutate}
+      onDelete={handleDelete}
       isDeletePending={isPending}
     />
   );

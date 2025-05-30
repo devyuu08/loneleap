@@ -10,7 +10,7 @@ import { updateUserState } from "@/services/user/updateUserState";
 import { updateFirebaseUserProfile } from "@/services/user/updateFirebaseUserProfile";
 
 export function useUpdateProfile() {
-  const { user } = useUser(); // 현재 로그인 사용자
+  const { user, isLoading: isUserLoading } = useUser(); // 현재 로그인 사용자
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,7 +24,7 @@ export function useUpdateProfile() {
    * @param {string} params.photoURL - 새 프로필 이미지 URL
    */
   const updateProfile = async ({ displayName, bio, photoURL }) => {
-    if (!user) return;
+    if (isUserLoading || !user) return;
 
     setIsLoading(true);
     setError(null);

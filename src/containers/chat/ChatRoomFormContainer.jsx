@@ -14,7 +14,9 @@ export default function ChatRoomFormContainer() {
   const isLoading = useSelector((state) => state.user.isLoading);
 
   const navigate = useNavigate();
-  const { mutateAsync, isPending } = useCreateChatRoom(navigate);
+  const { mutateAsync: createRoom, isPending } = useCreateChatRoom((url) =>
+    navigate(url)
+  );
 
   const [errors, setErrors] = useState({});
   const [didAlert, setDidAlert] = useState(false);
@@ -44,7 +46,7 @@ export default function ChatRoomFormContainer() {
     if (!validateForm()) return;
 
     try {
-      await mutateAsync({ title, description, category, user });
+      await createRoom({ title, description, category, user });
     } catch (err) {
       console.error("채팅방 생성 오류:", err);
       alert("채팅방 생성 중 오류가 발생했습니다.");

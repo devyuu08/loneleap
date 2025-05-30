@@ -9,11 +9,12 @@ import {
   limit,
 } from "firebase/firestore";
 import { db } from "@/services/firebase";
-import dayjs from "dayjs";
+import { insertDateSeparators } from "@/utils/chatUtils";
 
 export const useChatMessages = (roomId) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [lastDoc, setLastDoc] = useState(null);
 
   const messagesPerPage = useRef(50); // 한 번에 불러올 수
@@ -21,8 +22,8 @@ export const useChatMessages = (roomId) => {
   // 실시간 최신 메시지 구독
   useEffect(() => {
     if (!roomId) return;
-    setLoading(true);
 
+    setLoading(true);
     const q = query(
       collection(db, "chatMessages"),
       where("roomId", "==", roomId),
@@ -34,26 +35,22 @@ export const useChatMessages = (roomId) => {
       q,
       (snapshot) => {
         try {
-          const msgs = snapshot.docs.map((doc) => ({
+          const docs = snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
-
-          const ordered = msgs.reverse(); // 시간 순 정렬
-          const withDates = insertDateSeparators(ordered); // 날짜 구분 삽입
-          setMessages(withDates);
-
-          if (snapshot.docs.length > 0) {
-            setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
-          }
+          const ordered = docs.reverse();
+          setMessages(insertDateSeparators(ordered));
+          setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
         } catch (err) {
-          console.error("채팅 메시지 처리 중 오류:", err);
+          setError(err);
         } finally {
           setLoading(false);
         }
       },
-      (error) => {
-        console.error("채팅 메시지 구독 실패:", error);
+      (err) => {
+        console.error("실시간 구독 에러:", err);
+        setError(err);
         setLoading(false);
       }
     );
@@ -75,53 +72,17 @@ export const useChatMessages = (roomId) => {
       );
 
       const snapshot = await getDocs(moreQuery);
-      const moreMessages = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const more = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
-      setMessages((prev) => [...prev, ...moreMessages.reverse()]); // 역순으로 추가
-
-      if (snapshot.docs.length > 0) {
-        setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
-      }
+      setMessages((prev) => insertDateSeparators([...more.reverse(), ...prev]));
+      setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
     } catch (err) {
       console.error("이전 메시지 로드 중 오류:", err);
+      setError(err);
     } finally {
       setLoading(false);
     }
   }, [roomId, lastDoc]);
 
-  // 날짜 구분 메시지 삽입 함수
-  const insertDateSeparators = (messages) => {
-    const result = [];
-    let lastDate = null;
-
-    messages.forEach((msg) => {
-      const date = dayjs(msg.createdAt?.toDate?.() || msg.createdAt).format(
-        "YYYY-MM-DD"
-      );
-
-      if (date !== lastDate) {
-        result.push({
-          id: `date-${date}`,
-          type: "system",
-          systemType: "date",
-          message: dayjs(date).format("YYYY년 M월 D일"),
-          createdAt: msg.createdAt,
-        });
-        lastDate = date;
-      }
-
-      result.push(msg);
-    });
-
-    return result;
-  };
-
-  return {
-    messages,
-    loading,
-    loadMoreMessages,
-  };
+  return { messages, loading, error, loadMoreMessages };
 };

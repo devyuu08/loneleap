@@ -5,14 +5,14 @@ import { useAddComment } from "@/hooks/review/useAddComment";
 import CommentList from "@/components/review/CommentList";
 
 export default function CommentListContainer({ reviewId }) {
-  const { user } = useUser();
+  const { user, isLoading: isUserLoading } = useUser();
   const [content, setContent] = useState("");
   const { data: comments, isLoading } = useComments(reviewId);
   const { mutate, isPending } = useAddComment(reviewId);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!user || !content.trim()) return;
+    if (isUserLoading || !user || !content.trim()) return;
 
     mutate(
       {

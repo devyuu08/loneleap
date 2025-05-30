@@ -10,7 +10,7 @@ export default function LikeButtonContainer({
   likesCount = 0,
   variant = "card",
 }) {
-  const { user } = useUser();
+  const { user, isLoading: isUserLoading } = useUser();
   const userId = user?.uid;
 
   const { data: hasLiked } = useReviewLikeStatus(reviewId, userId);
@@ -27,7 +27,7 @@ export default function LikeButtonContainer({
       hasLiked={hasLiked}
       likesCount={likesCount}
       variant={variant}
-      disabled={!user || isPending}
+      disabled={isUserLoading || !user || isPending}
       onClick={handleClick}
     />
   );

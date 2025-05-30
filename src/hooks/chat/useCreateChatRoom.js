@@ -4,26 +4,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 
 /**
- * 새로운 채팅방을 생성하는 커스텀 훅
- * @returns {Object} useMutation 객체
- * @example
- * const { mutateAsync, isLoading, error } = useCreateChatRoom();
- *
- * const handleSubmit = async (data) => {
- *   try {
- *     const chatRoomId = await mutateAsync({
- *       title: data.title,
- *       description: data.description,
- *       uid: currentUser.uid
- *     });
- *     // 성공 처리
- *   } catch (error) {
- *     // 오류 처리
- *   }
- * };
+ * 채팅방 생성 훅
+ * @param {Function} onSuccessNavigate - 생성 후 이동 콜백 (예: navigate 함수)
  */
 
-export const useCreateChatRoom = (navigate) => {
+export const useCreateChatRoom = (onSuccessNavigate) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -62,7 +47,7 @@ export const useCreateChatRoom = (navigate) => {
     onSuccess: (newRoom) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.CHAT_ROOMS] });
 
-      queryClient.setQueryData([QUERY_KEYS.CHAT_ROOMS], (oldData) => {
+      queryClient.setQueryData([QUERY_KEYS.CHAT_ROOMS], (prev) => {
         const newRoomData = {
           id: newRoom.id,
           name: newRoom.title,
@@ -76,9 +61,12 @@ export const useCreateChatRoom = (navigate) => {
           createdAt: new Date().toISOString(),
           isActive: true,
         };
-        return oldData ? [...oldData, newRoomData] : [newRoomData];
+        return prev ? [...prev, newRoomData] : [newRoomData];
       });
-      navigate(`/chat/${newRoom.id}`);
+      // 네비게이션
+      if (onSuccessNavigate) {
+        onSuccessNavigate(`/chat/${newRoom.id}`);
+      }
     },
   });
 };

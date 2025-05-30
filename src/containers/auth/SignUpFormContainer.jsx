@@ -1,24 +1,30 @@
+import { useState } from "react";
 import { useSignUp } from "@/hooks/auth/useSignUp";
 import SignUpForm from "@/components/auth/SignUpForm";
 
 export default function SignUpFormContainer() {
-  const {
-    email,
-    nickname,
-    password,
-    passwordConfirm,
-    error,
-    loading,
-    showPassword,
-    showPasswordConfirm,
-    setEmail,
-    setNickname,
-    setPassword,
-    setPasswordConfirm,
-    toggleShowPassword,
-    toggleShowPasswordConfirm,
-    handleSignUp,
-  } = useSignUp();
+  const [email, setEmail] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
+  const { mutate: handleSignUp, isPending, error } = useSignUp();
+
+  const toggleShowPassword = () => setShowPassword((prev) => !prev);
+  const toggleShowPasswordConfirm = () =>
+    setShowPasswordConfirm((prev) => !prev);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    handleSignUp({
+      email,
+      nickname,
+      password,
+      passwordConfirm,
+    });
+  };
 
   return (
     <SignUpForm
@@ -26,8 +32,8 @@ export default function SignUpFormContainer() {
       nickname={nickname}
       password={password}
       passwordConfirm={passwordConfirm}
-      error={error}
-      loading={loading}
+      error={error?.message || ""}
+      loading={isPending}
       showPassword={showPassword}
       showPasswordConfirm={showPasswordConfirm}
       onEmailChange={(e) => setEmail(e.target.value)}
@@ -36,7 +42,7 @@ export default function SignUpFormContainer() {
       onPasswordConfirmChange={(e) => setPasswordConfirm(e.target.value)}
       onTogglePassword={toggleShowPassword}
       onTogglePasswordConfirm={toggleShowPasswordConfirm}
-      onSubmit={handleSignUp}
+      onSubmit={onSubmit}
     />
   );
 }

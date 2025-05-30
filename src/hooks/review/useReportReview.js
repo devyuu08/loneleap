@@ -1,86 +1,30 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  where,
-  getDocs,
-  query,
-  doc,
-  updateDoc,
-  increment,
-  getDoc,
-} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { db } from "@/services/firebase";
 import { useSelector } from "react-redux";
+import { useMutationWithFeedback } from "@/hooks/common/useMutationWithFeedback";
+import { reportReview } from "@/services/review/reportReview";
 
-export const useReportReview = () => {
+export const useReportReview = ({
+  onSuccessCallback,
+  onErrorCallback,
+} = {}) => {
   const user = useSelector((state) => state.user.user);
-  const queryClient = useQueryClient();
 
-  const checkExistingReport = async (reviewId, reporterId) => {
-    const q = query(
-      collection(db, "review_reports"),
-      where("reviewId", "==", reviewId),
-      where("reporterId", "==", reporterId)
-    );
-    const snapshot = await getDocs(q);
-    return !snapshot.empty;
+  const checkAuth = () => {
+    if (!user) {
+      throw new Error("로그인이 필요합니다.");
+    }
   };
 
-  return useMutation({
+  return useMutationWithFeedback({
     mutationFn: async ({ reviewId, reason }) => {
-      const auth = getAuth();
-      const currentUser = auth.currentUser;
-
-      if (!currentUser) {
-        throw new Error("로그인이 필요합니다.");
-      }
-
-      await currentUser.getIdToken(true); // ID 토큰 강제 갱신
-
-      if (!reviewId) throw new Error("리뷰 ID가 필요합니다.");
-      if (!reason || reason.trim() === "")
-        throw new Error("신고 사유가 필요합니다.");
-      if (reason.length > 500)
-        throw new Error("신고 사유는 500자 이내로 작성해주세요.");
-
-      const reporterId = currentUser.uid;
-
-      const alreadyReported = await checkExistingReport(reviewId, reporterId);
-      if (alreadyReported) {
-        throw new Error("이미 신고한 리뷰입니다.");
-      }
-
-      // 1. 리뷰 문서에서 작성자 조회
-      const reviewRef = doc(db, "reviews", reviewId);
-      const reviewSnap = await getDoc(reviewRef);
-
-      if (!reviewSnap.exists()) {
-        throw new Error("신고 대상 리뷰를 찾을 수 없습니다.");
-      }
-
-      const reviewData = reviewSnap.data();
-      const authorUid = reviewData.createdBy?.uid;
-
-      if (!authorUid) {
-        throw new Error("리뷰 작성자의 UID를 찾을 수 없습니다.");
-      }
-
-      // 2. 신고 문서 추가
-      await addDoc(collection(db, "review_reports"), {
-        reviewId,
-        reason,
-        reporterId: user.uid,
-        reportedAt: serverTimestamp(),
-        status: "pending",
-      });
-
-      // 3. 리뷰 작성자의 신고당한 횟수 증가
-      await updateDoc(doc(db, "users_private", authorUid), {
-        reportedCount: increment(1),
-      });
+      checkAuth();
+      await getAuth().currentUser.getIdToken(true); // 강제 갱신
+      return await reportReview({ reviewId, reason, reporterId: user.uid });
     },
+    successMessage: "리뷰가 성공적으로 신고되었습니다.",
+    errorMessage: "리뷰 신고 중 오류가 발생했습니다.",
+    queryKeysToInvalidate: [],
+    onSuccessCallback,
+    onErrorCallback,
   });
 };
