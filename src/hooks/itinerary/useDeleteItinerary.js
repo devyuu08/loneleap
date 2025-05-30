@@ -1,12 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { auth } from "@/services/firebase";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { deleteItineraryAndDecreaseCount } from "@/services/itinerary/deleteItineraryWithCount";
 
-export const useDeleteItinerary = () => {
-  const navigate = useNavigate();
+export const useDeleteItinerary = ({
+  onSuccess = () => {},
+  onError = () => {},
+} = {}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -24,12 +25,9 @@ export const useDeleteItinerary = () => {
         });
       }
 
-      alert("일정이 삭제되었습니다.");
-      navigate("/itinerary");
+      onSuccess(); // UI 쪽에서 정의한 행동 실행
     },
 
-    onError: () => {
-      alert("일정 삭제 중 오류가 발생했습니다.");
-    },
+    onError: onError,
   });
 };
