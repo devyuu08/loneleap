@@ -11,7 +11,12 @@ export const useUser = () => {
   useEffect(() => {
     const unsubscribe = observeAuth((firebaseUser) => {
       if (firebaseUser) {
-        dispatch(setUser(firebaseUser));
+        dispatch(
+          setUser({
+            displayName: firebaseUser.displayName || "익명",
+            photoURL: firebaseUser.photoURL || "/images/default-profile.png",
+          })
+        );
       } else {
         dispatch(clearUser());
       }
