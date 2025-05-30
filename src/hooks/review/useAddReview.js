@@ -1,8 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { createReview } from "@/services/review/createReview";
+import { useMutationWithFeedback } from "@/hooks/common/useMutationWithFeedback";
 
 /**
  * 리뷰 추가 기능을 제공하는 커스텀 훅
@@ -15,37 +14,24 @@ export default function useAddReview({
   onSuccessCallback,
   onErrorCallback,
 } = {}) {
-  const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
-  const queryClient = useQueryClient();
 
   const checkAuth = () => {
     if (!user) {
-      navigate("/login", { state: { from: "/reviews/create" } });
       throw new Error("로그인이 필요한 서비스입니다.");
     }
   };
 
-  const {
-    mutate: addReview,
-    isLoading,
-    isError,
-    error,
-  } = useMutation({
+  return useMutationWithFeedback({
     mutationFn: async (review) => {
       checkAuth();
       return await createReview(review, user);
     },
-    onSuccess: (newId) => {
-      alert("리뷰가 성공적으로 등록되었습니다!");
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REVIEWS] });
-      onSuccessCallback?.(newId);
-    },
-    onError: (error) => {
-      alert(`리뷰 등록 중 오류가 발생했습니다: ${error.message}`);
-      onErrorCallback?.(error);
-    },
+    successMessage: "리뷰가 성공적으로 등록되었습니다!",
+    errorMessage: "리뷰 등록 중 오류가 발생했습니다.",
+    queryKeysToInvalidate: [[QUERY_KEYS.REVIEWS]],
+    redirectTo: "",
+    onSuccessCallback,
+    onErrorCallback,
   });
-
-  return { addReview, isLoading, isError, error };
 }
