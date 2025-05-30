@@ -11,7 +11,7 @@ import { db } from "@/services/firebase";
 /**
  * 사용자가 참여한 채팅방 조회
  */
-export async function getMyChatRooms(uid) {
+export async function fetchMyChatRooms(uid) {
   const q = query(
     collection(db, "chatRooms"),
     where("participants", "array-contains", uid),

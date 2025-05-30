@@ -11,7 +11,7 @@ import { db } from "@/services/firebase";
 /**
  * 조건에 따라 채팅방 리스트를 조회
  */
-export async function getChatRooms({
+export async function fetchChatRooms({
   limitCount = 10,
   orderDirection = "desc",
   filterBy = null,
