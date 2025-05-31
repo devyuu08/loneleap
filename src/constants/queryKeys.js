@@ -24,4 +24,5 @@ export const QUERY_KEYS = {
   USERS_BY_IDS: (userIds) => ["usersByIds", userIds],
   RECOMMENDATIONS: "recommendations",
   RECOMMENDATION_DETAIL: (id) => ["recommendation", id],
+  USER_STATS: (uid) => ["userStats", uid],
 };

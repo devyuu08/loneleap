@@ -8,7 +8,12 @@ import { db } from "@/services/firebase";
  * @param {string} params.displayName - 사용자 이름
  * @param {string} [params.photoURL] - 프로필 이미지 URL (선택)
  */
-export async function updatePublicUserProfile({ uid, displayName, photoURL }) {
+export async function updatePublicUserProfile({
+  uid,
+  displayName,
+  photoURL,
+  bio,
+}) {
   const publicData = {
     displayName,
     updatedAt: serverTimestamp(),
@@ -17,6 +22,8 @@ export async function updatePublicUserProfile({ uid, displayName, photoURL }) {
   if (photoURL !== undefined) {
     publicData.photoURL = photoURL;
   }
+
+  if (bio !== undefined) publicData.bio = bio;
 
   await setDoc(doc(db, "users_public", uid), publicData, { merge: true });
 }

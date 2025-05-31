@@ -1,13 +1,13 @@
 import { setUser } from "@/store/userSlice";
 
 /**
- * Redux 상태에서 사용자 정보를 업데이트
+ * Redux 사용자 상태를 업데이트하는 헬퍼 함수
  * @param {Object} params
- * @param {Function} dispatch - redux dispatch 함수
- * @param {Object} user - 기존 사용자 정보
- * @param {string} displayName - 새 사용자 이름
- * @param {string} [photoURL] - 새 프로필 이미지 URL
- * @param {string} bio - 새 자기소개
+ * @param {Function} params.dispatch - Redux dispatch 함수
+ * @param {Object} params.user - 기존 사용자 객체
+ * @param {string} params.displayName - 새 사용자 이름
+ * @param {string} [params.photoURL] - 새 프로필 사진 URL (선택)
+ * @param {string} [params.bio] - 새 소개글 (선택)
  */
 export function updateUserState({
   dispatch,
@@ -16,13 +16,13 @@ export function updateUserState({
   photoURL,
   bio,
 }) {
-  dispatch(
-    setUser({
-      uid: user.uid,
-      email: user.email,
-      displayName,
-      photoURL: photoURL !== undefined ? photoURL : user.photoURL,
-      bio,
-    })
-  );
+  const newUser = {
+    uid: user.uid,
+    email: user.email,
+    displayName,
+    photoURL: photoURL ?? user.photoURL ?? "",
+    bio: bio ?? user.bio ?? "",
+  };
+
+  dispatch(setUser(newUser));
 }
