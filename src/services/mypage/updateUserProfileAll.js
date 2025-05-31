@@ -16,10 +16,10 @@ export const updateUserProfileAll = async ({
   await updateFirebaseUserProfile({ displayName, photoURL });
 
   // 공개 Firestore
-  await updatePublicUserProfile({ uid, displayName, photoURL });
+  await updatePublicUserProfile({ displayName, photoURL, bio });
 
   // 비공개 Firestore
-  await updatePrivateUserProfile({ uid, bio });
+  await updatePrivateUserProfile({ uid });
 
   // 사용자 콘텐츠(리뷰, 일정, 채팅)
   await updateUserContentProfile({ uid, displayName, photoURL });
