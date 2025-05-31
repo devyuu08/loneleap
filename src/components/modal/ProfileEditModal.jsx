@@ -7,11 +7,11 @@ import ModalFooterButton from "@/components/common/button/ModalFooterButton";
 export default function ProfileEditModal({ isOpen, onClose, user }) {
   const [displayName, setDisplayName] = useState(user?.displayName || "");
   const [bio, setBio] = useState(user?.bio || "");
-  const { updateProfile, isLoading } = useUpdateProfile();
+  const mutation = useUpdateProfile();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await updateProfile({ displayName, bio });
+    mutation.mutate({ displayName, bio });
     onClose();
   };
 
@@ -44,7 +44,7 @@ export default function ProfileEditModal({ isOpen, onClose, user }) {
             onClose={onClose}
             onConfirm={handleSubmit}
             confirmLabel="저장"
-            isLoading={isLoading}
+            isLoading={mutation.isLoading}
           />
         </form>
       </div>
