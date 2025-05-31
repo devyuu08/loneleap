@@ -16,7 +16,7 @@ export const updateUserProfileAll = async ({
   await updateFirebaseUserProfile({ displayName, photoURL });
 
   // 공개 Firestore
-  await updatePublicUserProfile({ displayName, photoURL, bio });
+  await updatePublicUserProfile({ uid, displayName, photoURL, bio }); // 공개 여부 상관없이 uid로 경로 지정
 
   // 비공개 Firestore
   await updatePrivateUserProfile({ uid });
