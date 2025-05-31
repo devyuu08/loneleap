@@ -7,9 +7,8 @@ import { db } from "@/services/firebase";
  * @param {string} params.uid - 사용자 UID
  * @param {string} params.bio - 자기소개
  */
-export async function updatePrivateUserProfile({ uid, bio }) {
+export async function updatePrivateUserProfile({ uid }) {
   const privateData = {
-    bio,
     updatedAt: serverTimestamp(),
   };
 
