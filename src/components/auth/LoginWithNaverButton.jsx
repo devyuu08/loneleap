@@ -1,12 +1,16 @@
-const NAVER_CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
-const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
-
 export default function LoginWithNaverButton() {
   const handleLogin = () => {
-    const state = crypto.randomUUID(); // CSRF 방지용
-    const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${encodeURIComponent(
-      REDIRECT_URI
+    const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
+    const redirectUri = import.meta.env.VITE_REDIRECT_URI;
+    const state = crypto.randomUUID();
+
+    // CSRF 보호용 상태값 저장
+    sessionStorage.setItem("naver_oauth_state", state);
+
+    const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
     )}&state=${state}`;
+
     window.location.href = naverAuthUrl;
   };
 
