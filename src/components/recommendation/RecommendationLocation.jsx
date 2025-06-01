@@ -1,10 +1,13 @@
 import { MapPin, Wand2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import KakaoMap from "@/components/recommendation/KakaoMap";
 
 export default function RecommendationLocation({
   directions = [],
   nearbyInfo = [],
+  lat,
+  lng,
 }) {
   return (
     <section className="py-24 px-6">
@@ -17,10 +20,14 @@ export default function RecommendationLocation({
           </p>
         </div>
 
-        {/* 지도 더미 */}
-        <div className="w-full h-[320px] bg-gray-200 rounded-2xl flex items-center justify-center text-gray-400 text-sm tracking-wide">
-          지도 영역 (1024×320)
-        </div>
+        {/* 카카오 지도 */}
+        {lat && lng ? (
+          <KakaoMap lat={lat} lng={lng} />
+        ) : (
+          <div className="w-full h-[320px] bg-gray-200 rounded-2xl flex items-center justify-center text-gray-400 text-sm tracking-wide">
+            지도 정보가 없습니다
+          </div>
+        )}
 
         {/* 찾아가는 방법 & 주변 정보 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-sm text-gray-700">
