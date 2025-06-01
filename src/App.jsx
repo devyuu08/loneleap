@@ -12,6 +12,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 import Login from "@/pages/auth/Login";
+import Callback from "@/pages/auth/Callback";
 
 import ProtectedRoute from "@/components/common/route/ProtectedRoute";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
@@ -76,6 +77,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/oauth/callback" element={<Callback />} />
           <Route path="/itinerary">
             <Route
               index
