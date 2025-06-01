@@ -14,6 +14,7 @@ export default function RecommendationDetail({ data }) {
       <RecommendationLocation
         directions={data.directions}
         nearbyInfo={data.nearbyInfo}
+        locationInfo={data.locationInfo}
       />
 
       {/* 일정 만들기 CTA 섹션 */}
