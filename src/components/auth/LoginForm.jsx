@@ -3,6 +3,7 @@ import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormInput from "@/components/common/form/FormInput";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
+import LoginWithNaverButton from "@/components/auth/LoginWithNaverButton";
 
 export default function LoginForm({
   email,
@@ -88,14 +89,7 @@ export default function LoginForm({
               )}
             </button>
 
-            <button
-              type="button"
-              onClick={() => alert("Naver 로그인은 다음 버전에서 지원됩니다.")}
-              className="w-full flex items-center justify-center gap-3 border border-gray-100 py-2 rounded-md hover:bg-gray-50 transition"
-            >
-              <img src="/naver-btn.png" alt="Naver" className="w-5 h-5" />
-              네이버로 계속하기
-            </button>
+            <LoginWithNaverButton />
           </form>
 
           <div className="flex items-center justify-between mt-6 text-sm text-gray-600">
