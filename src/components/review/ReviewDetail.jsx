@@ -1,36 +1,28 @@
-import { useReviewDetail } from "services/queries/review/useReviewDetail";
-import LoadingSpinner from "components/common/LoadingSpinner";
-import NotFoundMessage from "components/common/NotFoundMessage";
-import ReportButton from "components/Review/ReportButton";
-import LikeButton from "components/review/LikeButton";
-import CommentList from "components/review/CommentList";
-import { useUser } from "hooks/useUser";
-import ReviewHero from "components/review/ReviewHero";
-import { useDeleteReview } from "services/queries/review/useDeleteReview";
-import FloatingButtons from "components/common/FloatingButtons";
+import ReviewHero from "@/components/review/ReviewHero";
+import FloatingButtons from "@/components/common/button/FloatingButtons";
+import CommentListContainer from "@/containers/review/CommentListContainer";
+import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
+import ReportButtonContainer from "@/containers/review/ReportButtonContainer";
+import QuestionAnswerBlock from "@/components/review/QuestionAnswerBlock";
 
-export default function ReviewDetail({ reviewId }) {
-  const { user } = useUser();
-  const { data, isLoading, isError } = useReviewDetail(reviewId);
-  const { mutate: deleteReview, isPending } = useDeleteReview();
-
-  if (isLoading) return <LoadingSpinner />;
-  if (isError || !data)
-    return <NotFoundMessage message="리뷰를 찾을 수 없습니다." />;
-
-  const { content, likesCount } = data;
-
-  const isOwner = user?.uid === data.createdBy?.uid;
+export default function ReviewDetail({
+  reviewId,
+  review,
+  onDelete,
+  isDeletePending,
+  isOwner,
+}) {
+  const { content, likesCount } = review;
 
   return (
     <article className="pb-16">
       {/* Hero 섹션 */}
-      <ReviewHero review={data} />
+      <ReviewHero review={review} />
 
       <div className="px-4 mt-12">
         {/* 본문 내용 */}
         <div className="space-y-8">
-          {data.type === "standard" ? (
+          {review.type === "standard" ? (
             <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
               <p className="text-base leading-relaxed text-gray-700 whitespace-pre-line">
                 {content || "리뷰 내용이 없습니다."}
@@ -38,22 +30,13 @@ export default function ReviewDetail({ reviewId }) {
             </div>
           ) : (
             <div className="bg-white/70 backdrop-blur-sm p-10 rounded-2xl shadow border border-gray-100 space-y-12">
-              {data.interviewQuestions.map((q, index) => (
-                <div
+              {review.interviewQuestions.map((q, index) => (
+                <QuestionAnswerBlock
                   key={q.id}
-                  className={
-                    index !== 0 ? "pt-10 border-t border-gray-300/30" : ""
-                  }
-                >
-                  <h4 className="text-[18px] font-semibold text-gray-800 tracking-tight leading-snug">
-                    Q. {q.text}
-                  </h4>
-                  <div className="mt-4 pl-4 border-l-2 border-gray-200">
-                    <p className="text-[16px] text-gray-700 leading-loose whitespace-pre-line tracking-wide">
-                      {data.interviewAnswers?.[q.id] || "답변 없음"}
-                    </p>
-                  </div>
-                </div>
+                  question={q.text}
+                  answer={review.interviewAnswers?.[q.id]}
+                  isFirst={index === 0}
+                />
               ))}
             </div>
           )}
@@ -62,22 +45,22 @@ export default function ReviewDetail({ reviewId }) {
         {/* 좋아요 / 신고 */}
         <div className="flex justify-end items-center mt-10 text-sm text-gray-600 gap-6">
           <div className="transition hover:scale-105">
-            <LikeButton
+            <LikeButtonContainer
               reviewId={reviewId}
               likesCount={likesCount}
               variant="detail"
             />
           </div>
           <div className="transition hover:scale-105">
-            <ReportButton reviewId={reviewId} />
+            <ReportButtonContainer reviewId={reviewId} />
           </div>
         </div>
 
         {isOwner && (
           <FloatingButtons
             editPath={`/reviews/edit/${reviewId}`}
-            onDelete={() => deleteReview(reviewId)}
-            isDeletePending={isPending}
+            onDelete={() => onDelete(reviewId)}
+            isDeletePending={isDeletePending}
           />
         )}
 
@@ -96,7 +79,7 @@ export default function ReviewDetail({ reviewId }) {
                 같은 장소, 다른 감정. 다른 여행자의 시선을 통해 더 깊이
                 바라보세요.
               </p>
-              <CommentList currentUserId={user?.uid} reviewId={reviewId} />
+              <CommentListContainer reviewId={reviewId} />
             </div>
           </div>
 

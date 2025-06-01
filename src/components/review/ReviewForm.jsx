@@ -1,114 +1,31 @@
-import { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import RatingInput from "./RatingInput";
-import ImageUploader from "components/common/ImageUploader";
-import InterviewAnswerForm from "components/review/InterviewAnswerForm";
-import useAddReview from "services/queries/review/useAddReview";
-import { FIXED_QUESTIONS, RANDOM_QUESTIONS } from "data/interviewQuestions";
-import ErrorMessage from "components/common/ErrorMessage";
-import FormSubmitButton from "components/common/FormSubmitButton";
-import { useMutation } from "@tanstack/react-query";
-import { updateReviewData } from "services/reviewService";
+import RatingInput from "@/components/review/RatingInput";
+import ImageUploader from "@/components/common/upload/ImageUploader";
+import InterviewAnswerForm from "@/components/review/InterviewAnswerForm";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import FormSubmitButton from "@/components/common/button/FormSubmitButton";
+import FormInput from "@/components/common/form/FormInput";
 
-export default function ReviewForm({ initialData = null, isEditMode = false }) {
-  const [step, setStep] = useState(1);
-  const [title, setTitle] = useState(initialData?.title || "");
-  const [destination, setDestination] = useState(
-    initialData?.destination || ""
-  );
-  const [rating, setRating] = useState(initialData?.rating || 0);
-  const [image, setImage] = useState(
-    initialData?.imageUrl ? initialData.imageUrl : null
-  );
-  const [answers, setAnswers] = useState(initialData?.interviewAnswers || {});
-  const [errors, setErrors] = useState({});
-  const [submitError, setSubmitError] = useState(null);
-
-  const navigate = useNavigate();
-
-  const [questions] = useState(
-    () =>
-      initialData?.interviewQuestions || [
-        ...FIXED_QUESTIONS,
-        ...RANDOM_QUESTIONS.sort(() => Math.random() - 0.5).slice(0, 3),
-      ]
-  );
-
-  const { addReview, isLoading } = useAddReview({
-    onErrorCallback: (err) => setSubmitError(err.message),
-  });
-
-  const { mutate: updateReview, isPending: isUpdating } = useMutation({
-    mutationFn: ({ id, updatedData }) => updateReviewData(id, updatedData), // 만들어둔 함수
-    onSuccess: () => navigate(`/reviews/${initialData?.id}`),
-    onError: () => alert("리뷰 수정 중 오류가 발생했습니다."),
-  });
-
-  const handleNextStep = () => {
-    const newErrors = {};
-    if (!title) newErrors.title = "제목을 입력해주세요.";
-    if (!destination) newErrors.destination = "여행지명을 입력해주세요.";
-    if (rating === 0) newErrors.rating = "별점을 선택해주세요.";
-    if (Object.keys(newErrors).length > 0) return setErrors(newErrors);
-    setStep(2);
-  };
-
-  const handleChangeAnswer = (id, value) => {
-    setAnswers((prev) => ({ ...prev, [id]: value }));
-  };
-
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-
-      const newErrors = {};
-      questions.forEach((q) => {
-        if (!answers[q.id]?.trim()) {
-          newErrors[q.id] = "답변을 작성해주세요.";
-        }
-      });
-
-      if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        return;
-      }
-
-      setErrors({});
-
-      const reviewData = {
-        title,
-        destination,
-        rating,
-        image,
-        type: "interview",
-        interviewAnswers: answers,
-        interviewQuestions: questions,
-      };
-
-      if (isEditMode && initialData?.id) {
-        updateReview({ id: initialData.id, updatedData: reviewData });
-      } else {
-        addReview(reviewData, {
-          onSuccess: (newId) => navigate(`/reviews/${newId}`),
-          onError: (err) => setSubmitError(err.message),
-        });
-      }
-    },
-    [
-      title,
-      destination,
-      rating,
-      image,
-      answers,
-      questions,
-      addReview,
-      updateReview,
-      isEditMode,
-      initialData,
-      navigate,
-    ]
-  );
-
+export default function ReviewForm({
+  step,
+  setStep,
+  title,
+  setTitle,
+  destination,
+  setDestination,
+  rating,
+  setRating,
+  image,
+  setImage,
+  questions,
+  answers,
+  onChangeAnswer,
+  handleNextStep,
+  handleSubmit,
+  isSubmitting,
+  submitLabel,
+  errors,
+  submitError,
+}) {
   return (
     <section
       className="relative min-h-screen bg-cover bg-center bg-no-repeat"
@@ -135,36 +52,28 @@ export default function ReviewForm({ initialData = null, isEditMode = false }) {
             <form className="mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-10 rounded-3xl shadow-md border border-white/30 text-gray-800">
               {/* 제목 */}
               <div>
-                <label className="block text-sm font-semibold mb-1">
-                  리뷰 제목
-                </label>
-                <input
-                  type="text"
+                <FormInput
+                  label="리뷰 제목"
+                  id="title"
+                  name="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="예: 비 오는 날의 제주 혼행기"
-                  className={`w-full bg-white/70 border ${
-                    errors.title ? "border-gray-700" : "border-gray-300"
-                  } rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-700`}
+                  error={errors.title}
                 />
-                <ErrorMessage message={errors.title} />
               </div>
 
               {/* 여행지명 */}
               <div>
-                <label className="block text-sm font-semibold mb-1">
-                  여행지명
-                </label>
-                <input
-                  type="text"
+                <FormInput
+                  label="여행지명"
+                  id="destination"
+                  name="destination"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                   placeholder="예: 성산일출봉, 한라산, 월정리 해변"
-                  className={`w-full bg-white/70 border ${
-                    errors.destination ? "border-gray-700" : "border-gray-300"
-                  } rounded-md px-4 py-2 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-700`}
+                  error={errors.destination}
                 />
-                <ErrorMessage message={errors.destination} />
               </div>
 
               {/* 별점 */}
@@ -202,7 +111,7 @@ export default function ReviewForm({ initialData = null, isEditMode = false }) {
               <InterviewAnswerForm
                 questions={questions}
                 answers={answers}
-                onChange={handleChangeAnswer}
+                onChange={onChangeAnswer}
                 errors={errors}
               />
 
@@ -215,8 +124,9 @@ export default function ReviewForm({ initialData = null, isEditMode = false }) {
                   ← 이전 단계로 돌아가기
                 </button>
                 <FormSubmitButton
-                  isLoading={isEditMode ? isUpdating : isLoading}
-                  label={isEditMode ? "리뷰 수정 완료" : "리뷰 등록 완료"}
+                  isLoading={isSubmitting}
+                  label={submitLabel}
+                  fullWidth={false}
                 />
               </div>
 

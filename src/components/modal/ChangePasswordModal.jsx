@@ -3,7 +3,9 @@ import { X } from "lucide-react";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
-import ErrorMessage from "components/common/ErrorMessage";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import FormInput from "@/components/common/form/FormInput";
+import ModalFooterButton from "@/components/common/button/ModalFooterButton";
 
 export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -68,48 +70,41 @@ export default function ChangePasswordModal({ isOpen, onClose, onSubmit }) {
           </div>
 
           <div className="space-y-4">
-            <input
+            <FormInput
+              id="currentPassword"
+              name="currentPassword"
               type="password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="현재 비밀번호"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
             />
 
-            <input
+            <FormInput
+              id="newPassword"
+              name="newPassword"
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="새 비밀번호"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
             />
 
-            <input
+            <FormInput
+              id="confirmPassword"
+              name="confirmPassword"
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="비밀번호 확인"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring"
             />
 
             <ErrorMessage message={error} />
 
-            <div className="flex justify-end gap-3 mt-4">
-              <button
-                onClick={onClose}
-                className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-100"
-              >
-                취소
-              </button>
-
-              <button
-                onClick={handleSubmit}
-                disabled={isLoading}
-                className="px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-900"
-              >
-                {isLoading ? "처리 중..." : "저장"}
-              </button>
-            </div>
+            <ModalFooterButton
+              onClose={onClose}
+              onConfirm={handleSubmit}
+              confirmLabel="저장"
+              isLoading={isLoading}
+            />
           </div>
         </div>
       </div>

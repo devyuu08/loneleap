@@ -1,6 +1,6 @@
-import { formatDate } from "utils/formatDate";
+import { formatDate } from "@/utils/formatDate";
 import { Star, MapPin } from "lucide-react";
-import SkeletonImage from "components/common/SkeletonImage";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function ReviewHero({ review }) {
   const { title, destination, rating, createdBy, createdAt, imageUrl } =
@@ -11,9 +11,10 @@ export default function ReviewHero({ review }) {
       {/* 이미지 + 오버레이 레이어 */}
       <div className="absolute inset-0 z-0">
         <SkeletonImage
-          src={imageUrl || "/images/no_image.png"}
+          src={imageUrl}
           alt={title}
-          className="w-full h-full object-cover"
+          className="w-full h-full"
+          objectFit="cover"
         />
         <div className="absolute inset-0 bg-black/35" />
       </div>

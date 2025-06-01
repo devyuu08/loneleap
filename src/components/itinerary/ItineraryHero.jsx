@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { Calendar } from "lucide-react";
-import SkeletonImage from "components/common/SkeletonImage";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function ItineraryHero({ data }) {
   const { title, imageUrl, startDate, endDate, createdBy } = data || {};
@@ -17,11 +17,7 @@ export default function ItineraryHero({ data }) {
     <div className="relative h-[420px] w-full rounded-3xl overflow-hidden">
       {/* 배경 이미지 (absolute z-0) */}
       <div className="absolute inset-0 z-0">
-        <SkeletonImage
-          src={imageUrl || "/images/no_image.png"}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
+        <SkeletonImage src={imageUrl} alt={title} objectFit="cover" />
         <div className="absolute inset-0 bg-black/35" />
       </div>
 

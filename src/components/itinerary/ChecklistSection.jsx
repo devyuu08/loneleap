@@ -1,7 +1,3 @@
-import { useEffect, useState } from "react";
-import { debounce } from "lodash";
-import { updateChecklist } from "services/itineraryService";
-import { useParams } from "react-router-dom";
 import {
   ClipboardCheck,
   Plus,
@@ -11,82 +7,13 @@ import {
 } from "lucide-react";
 
 export default function ChecklistSection({
-  checklist = { required: [], optional: [] },
+  localChecklist,
+  newItem,
+  setNewItem,
+  handleAddItem,
+  toggleCheck,
+  handleDeleteItem,
 }) {
-  const { id: itineraryId } = useParams();
-  const [localChecklist, setLocalChecklist] = useState({
-    required: [],
-    optional: [],
-  });
-  const [newItem, setNewItem] = useState({ type: "required", text: "" });
-
-  // checklist 데이터가 문자열 배열일 경우 대비해서 변환
-  useEffect(() => {
-    const convertItems = (items) =>
-      items.map((item) =>
-        typeof item === "string" ? { text: item, checked: false } : item
-      );
-    const converted = {
-      required: convertItems(checklist.required || []),
-      optional: convertItems(checklist.optional || []),
-    };
-    setLocalChecklist(converted);
-  }, [checklist]);
-
-  // 자동 저장
-  const debouncedSave = debounce((checklistToSave) => {
-    if (!itineraryId) return;
-    updateChecklist(itineraryId, checklistToSave).catch((err) =>
-      console.error("자동 저장 실패:", err)
-    );
-  }, 500);
-
-  useEffect(() => {
-    if (
-      localChecklist.required.length === 0 &&
-      localChecklist.optional.length === 0
-    )
-      return;
-    debouncedSave(localChecklist);
-    return () => debouncedSave.cancel();
-  }, [localChecklist, debouncedSave]);
-
-  // 항목 추가
-  const handleAddItem = () => {
-    if (!newItem.text.trim()) return;
-    setLocalChecklist((prev) => ({
-      ...prev,
-      [newItem.type]: [
-        ...prev[newItem.type],
-        { text: newItem.text.trim(), checked: false },
-      ],
-    }));
-    setNewItem({ ...newItem, text: "" });
-  };
-
-  // 체크 상태 토글
-  const toggleCheck = (type, index) => {
-    setLocalChecklist((prev) => {
-      const updated = [...prev[type]];
-      updated[index] = {
-        ...updated[index],
-        checked: !updated[index].checked,
-      };
-      return {
-        ...prev,
-        [type]: updated,
-      };
-    });
-  };
-
-  // 항목 삭제
-  const handleDeleteItem = (type, index) => {
-    setLocalChecklist((prev) => ({
-      ...prev,
-      [type]: prev[type].filter((_, i) => i !== index),
-    }));
-  };
-
   return (
     <div className="bg-white border border-gray-200 rounded-xl px-6 py-5 shadow-sm">
       <h3 className="text-sm text-gray-500 font-semibold mb-4 flex items-center gap-2">

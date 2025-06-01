@@ -1,69 +1,18 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useAddScheduleToDay } from "services/queries/itinerary/useAddScheduleToDay";
-import DayScheduleItem from "./DayScheduleItem";
+import DayScheduleItem from "@/components/itinerary/DayScheduleItem";
 import { ChevronDown } from "lucide-react";
-import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { db } from "services/firebase";
-import { useQueryClient } from "@tanstack/react-query";
 
-export default function DayScheduleList({ days = [], isOwner = false }) {
-  const [openDay, setOpenDay] = useState(days[0]?.day || null);
-  const [openFormForDay, setOpenFormForDay] = useState(null);
-  const [formData, setFormData] = useState({
-    time: "",
-    activity: "",
-    description: "",
-  });
-  const { id: itineraryId } = useParams();
-  const { mutate: addSchedule } = useAddScheduleToDay();
-  const queryClient = useQueryClient();
-
-  const handleFormChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleFormSubmit = (dayIndex) => {
-    if (!formData.time || !formData.activity)
-      return alert("시간과 활동은 필수입니다.");
-
-    addSchedule({
-      itineraryId,
-      dayIndex,
-      newSchedule: { ...formData },
-    });
-
-    setFormData({ time: "", activity: "", description: "" });
-    setOpenFormForDay(null);
-  };
-
-  const handleDeleteSchedule = async (dayIndex, scheduleId) => {
-    const ok = confirm("정말 이 세부 일정을 삭제하시겠습니까?");
-    if (!ok) return;
-
-    try {
-      const itineraryRef = doc(db, "itineraries", itineraryId);
-      const docSnap = await getDoc(itineraryRef);
-      const data = docSnap.data();
-
-      const updatedDays = [...data.days];
-      updatedDays[dayIndex].schedules = updatedDays[dayIndex].schedules.filter(
-        (s) => s.id !== scheduleId
-      );
-
-      await updateDoc(itineraryRef, {
-        days: updatedDays,
-        updatedAt: serverTimestamp(),
-      });
-      queryClient.invalidateQueries(["itineraryDetail", itineraryId]);
-
-      // 수동으로 리렌더링이 필요하다면 invalidateQueries
-    } catch (error) {
-      console.error("일정 삭제 실패:", error);
-      alert("일정 삭제에 실패했습니다.");
-    }
-  };
-
+export default function DayScheduleList({
+  days,
+  isOwner,
+  openDay,
+  setOpenDay,
+  openFormForDay,
+  setOpenFormForDay,
+  formData,
+  handleFormChange,
+  handleFormSubmit,
+  handleDeleteSchedule,
+}) {
   return (
     <div className="mt-10 space-y-4">
       {days.map((day, index) => (

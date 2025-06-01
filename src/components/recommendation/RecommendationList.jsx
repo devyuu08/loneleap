@@ -1,87 +1,58 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useRecommendationList } from "hooks/useRecommendationList";
-import RecommendationCard from "./RecommendationCard";
-import HeroSection from "components/common/HeroSection";
+import RecommendationCard from "@/components/recommendation/RecommendationCard";
+import HeroWithFilterSearch from "@/components/common/layout/HeroWithFilterSearch";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import EmptyState from "@/components/common/feedback/EmptyState";
+import { MapPin } from "lucide-react";
 
-const FILTERS = [
-  "전체 지역",
-  "서울",
-  "인천",
-  "경기도",
-  "충청도",
-  "전라도",
-  "경상도",
-  "강원도",
-  "제주도",
-];
-
-export default function RecommendationList() {
-  const { data: recommendations, isLoading, isError } = useRecommendationList();
-  const [activeFilter, setActiveFilter] = useState("전체 지역");
-
-  const filtered =
-    activeFilter === "전체 지역"
-      ? recommendations
-      : recommendations?.filter((item) => item.location === activeFilter);
-
-  if (isLoading) return <div className="p-10 text-center">불러오는 중...</div>;
-  if (isError) return <div className="p-10 text-center">오류 발생</div>;
-  if (!recommendations || recommendations.length === 0) {
-    return (
-      <div className="py-32 text-center text-gray-500">
-        추천 여행지가 없습니다
-      </div>
-    );
-  }
-
+export default function RecommendationList({
+  recommendations,
+  originalData,
+  isLoading,
+  isError,
+  activeFilter,
+  setActiveFilter,
+}) {
   return (
     <>
-      {/* 추천 여행지 제목 + 필터 */}
-      <HeroSection
+      <HeroWithFilterSearch
         imageSrc="/images/recommendation-list-hero.jpg"
-        align="center"
-      >
-        <div className="text-center space-y-2">
-          <h2 className="text-3xl font-extrabold drop-shadow">
-            이런 지역은 어때요?
-          </h2>
-          <p className="text-sm text-white/90">
-            혼자 여행하기 좋은 장소만 골라 소개합니다
-          </p>
-        </div>
-
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          {FILTERS.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-4 py-1.5 rounded-full text-sm border ${
-                activeFilter === filter
-                  ? "bg-white text-black"
-                  : "bg-white/20 text-white hover:bg-white/30"
-              } transition`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-      </HeroSection>
+        title="이런 지역은 어때요?"
+        subtitle="혼자 여행하기 좋은 장소만 골라 소개합니다"
+        countLabel="추천 여행지"
+        count={originalData?.length || 0}
+        filters={[
+          "전체 지역",
+          "서울",
+          "인천",
+          "경기도",
+          "충청도",
+          "전라도",
+          "경상도",
+          "강원도",
+          "제주도",
+        ]}
+        activeFilter={activeFilter}
+        onFilterChange={setActiveFilter}
+        showSearch={false}
+      />
 
       {/* 추천 여행지 카드 섹션 */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
-        {!filtered || filtered.length === 0 ? (
-          <div className="py-32 text-center text-gray-500">
-            <p className="text-lg font-semibold mb-2">
-              추천 여행지를 찾을 수 없어요
-            </p>
-            <p className="text-sm">
-              추천 여행지를 준비 중입니다. 다른 지역을 선택해주세요.
-            </p>
-          </div>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : isError ? (
+          <ErrorMessage message="추천 여행지를 불러오지 못했어요." />
+        ) : !recommendations?.length ? (
+          <EmptyState
+            icon={<MapPin className="w-10 h-10 text-gray-400" />}
+            title="추천 여행지를 찾을 수 없어요"
+            description="추천 여행지를 준비 중입니다. 다른 지역을 선택해주세요."
+          />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((place) => (
+            {recommendations.map((place) => (
               <RecommendationCard key={place.id} recommendation={place} />
             ))}
           </div>

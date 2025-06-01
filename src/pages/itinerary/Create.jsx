@@ -1,9 +1,9 @@
-import ItineraryForm from "components/itinerary/ItineraryForm";
+import ItineraryFormContainer from "@/containers/itinerary/ItineraryFormContainer";
 
 export default function CreateItineraryPage() {
   return (
     <div className="pt-16">
-      <ItineraryForm />
+      <ItineraryFormContainer isEditMode={false} />
     </div>
   );
 }

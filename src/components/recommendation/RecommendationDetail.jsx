@@ -1,6 +1,6 @@
-import RecommendationHero from "./RecommendationHero";
-import RecommendationDescription from "./RecommendationDescription";
-import RecommendationLocation from "./RecommendationLocation";
+import RecommendationHero from "@/components/recommendation/RecommendationHero";
+import RecommendationDescription from "@/components/recommendation/RecommendationDescription";
+import RecommendationLocation from "@/components/recommendation/RecommendationLocation";
 import { Link } from "react-router-dom";
 
 export default function RecommendationDetail({ data }) {
@@ -14,6 +14,7 @@ export default function RecommendationDetail({ data }) {
       <RecommendationLocation
         directions={data.directions}
         nearbyInfo={data.nearbyInfo}
+        locationInfo={data.locationInfo}
       />
 
       {/* 일정 만들기 CTA 섹션 */}

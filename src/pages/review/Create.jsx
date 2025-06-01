@@ -1,9 +1,9 @@
-import ReviewForm from "components/review/ReviewForm";
+import ReviewFormContainer from "@/containers/review/ReviewFormContainer";
 
 export default function CreateReviewPage() {
   return (
     <div className="pt-16">
-      <ReviewForm />
+      <ReviewFormContainer />
     </div>
   );
 }

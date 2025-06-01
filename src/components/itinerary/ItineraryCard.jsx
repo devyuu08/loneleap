@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Map } from "lucide-react";
-import SkeletonImage from "components/common/SkeletonImage";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function ItineraryCard({ itinerary }) {
   const navigate = useNavigate();
@@ -36,8 +36,9 @@ export default function ItineraryCard({ itinerary }) {
       {/* 썸네일 이미지 섹션 */}
       <div className="relative h-56">
         <SkeletonImage
-          src={imageUrl || "/images/no_image.png"}
+          src={imageUrl}
           alt={`${location} 대표 이미지`}
+          objectFit="cover"
         />
 
         {/* 위치 태그 */}

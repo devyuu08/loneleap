@@ -1,4 +1,5 @@
 import { useState } from "react";
+import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 
 export default function NewsletterSection() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ export default function NewsletterSection() {
   };
 
   return (
-    <section className="relative h-[520px] px-6 py-12 overflow-hidden flex items-center justify-center">
+    <MainSectionWrapper className="overflow-hidden min-h-[520px]">
       {/* 배경 이미지 */}
       <img
         src="/images/newsletter-bg.jpg"
@@ -25,14 +26,11 @@ export default function NewsletterSection() {
       <div className="absolute inset-0 bg-black/40" />
 
       {/* 콘텐츠 */}
-      <div className="relative z-10 max-w-xl mx-auto text-center text-white">
+      <div className="relative z-10 flex flex-col items-center justify-center max-w-xl mx-auto text-center text-white py-12">
         <h2 className="text-2xl font-bold mb-4">
-          {" "}
           혼자 떠나는 이들을 위한 작은 안내서
         </h2>
-
         <p className="text-sm mb-8">
-          {" "}
           매월 엄선된 혼자 여행 코스와 혼행자들의 이야기를 받아보세요.
         </p>
 
@@ -73,6 +71,6 @@ export default function NewsletterSection() {
           * 실제 구독 기능은 작동하지 않으며, 포트폴리오 목적의 폼입니다.
         </p>
       </div>
-    </section>
+    </MainSectionWrapper>
   );
 }

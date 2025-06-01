@@ -1,13 +1,10 @@
-import { useParams } from "react-router-dom";
-import ReviewDetail from "components/review/ReviewDetail";
-import LayoutWrapper from "components/common/LayoutWrapper";
+import LayoutWrapper from "@/components/common/layout/LayoutWrapper";
+import ReviewDetailContainer from "@/containers/review/ReviewDetailContainer";
 
 export default function ReviewDetailPage() {
-  const { id } = useParams();
-
   return (
     <LayoutWrapper>
-      <ReviewDetail reviewId={id} />
+      <ReviewDetailContainer />
     </LayoutWrapper>
   );
 }
