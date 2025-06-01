@@ -6,8 +6,7 @@ import KakaoMap from "@/components/recommendation/KakaoMap";
 export default function RecommendationLocation({
   directions = [],
   nearbyInfo = [],
-  lat,
-  lng,
+  locationInfo,
 }) {
   return (
     <section className="py-24 px-6">
@@ -21,8 +20,8 @@ export default function RecommendationLocation({
         </div>
 
         {/* 카카오 지도 */}
-        {lat && lng ? (
-          <KakaoMap lat={lat} lng={lng} />
+        {locationInfo ? (
+          <KakaoMap address={locationInfo} />
         ) : (
           <div className="w-full h-[320px] bg-gray-200 rounded-2xl flex items-center justify-center text-gray-400 text-sm tracking-wide">
             지도 정보가 없습니다
