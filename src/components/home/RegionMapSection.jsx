@@ -13,7 +13,7 @@ function RegionMapSection() {
   const mappedRegions = useMemo(() => {
     return regions.map((r) => ({
       ...r,
-      count: regionCounts[r.slug] || 0,
+      count: regionCounts?.[r.slug] || 0,
     }));
   }, [regionCounts]);
 
