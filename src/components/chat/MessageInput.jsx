@@ -1,7 +1,8 @@
+import React from "react";
 import PropTypes from "prop-types";
 import { Send, Image as ImageIcon } from "lucide-react";
 
-export default function MessageInput({
+const MessageInput = React.memo(function MessageInput({
   message,
   setMessage,
   handleSend,
@@ -43,7 +44,7 @@ export default function MessageInput({
       </button>
     </div>
   );
-}
+});
 
 MessageInput.propTypes = {
   message: PropTypes.string.isRequired,
