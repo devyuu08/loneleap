@@ -1,11 +1,7 @@
 import { Footprints, Trash2 } from "lucide-react";
+import React from "react";
 
-export default function DayScheduleItem({
-  time,
-  activity,
-  description,
-  onDelete,
-}) {
+function DayScheduleItem({ time, activity, description, onDelete }) {
   return (
     <li className="flex justify-between items-start space-x-4">
       {/* 좌측: 시간 */}
@@ -37,3 +33,5 @@ export default function DayScheduleItem({
     </li>
   );
 }
+
+export default React.memo(DayScheduleItem);
