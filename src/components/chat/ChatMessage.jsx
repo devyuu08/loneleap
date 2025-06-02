@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -22,6 +22,19 @@ const ChatMessage = React.memo(function ChatMessage({
     systemType,
     userName,
   } = message;
+
+  const formattedTime = useMemo(() => {
+    if (!createdAt) return "시간 정보 없음";
+    const dateObj =
+      typeof createdAt.toDate === "function"
+        ? createdAt.toDate()
+        : new Date(createdAt);
+    return formatRelative(dateObj, new Date(), { locale: ko });
+  }, [createdAt]);
+
+  const handleOpenModal = useCallback(() => {
+    setOpenReportModal(true);
+  }, [setOpenReportModal]);
 
   if (type === "system") {
     const systemTextStyles = "text-center text-[12px] my-4";
@@ -56,15 +69,6 @@ const ChatMessage = React.memo(function ChatMessage({
     }
   }
 
-  const formattedTime = useMemo(() => {
-    if (!createdAt) return "시간 정보 없음";
-    const dateObj =
-      typeof createdAt.toDate === "function"
-        ? createdAt.toDate()
-        : new Date(createdAt);
-    return formatRelative(dateObj, new Date(), { locale: ko });
-  }, [createdAt]);
-
   return (
     <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
@@ -94,7 +98,7 @@ const ChatMessage = React.memo(function ChatMessage({
         {!isMine && (
           <div className="group relative">
             <button
-              onClick={() => setOpenReportModal(true)}
+              onClick={handleOpenModal}
               className="text-xs text-gray-500 mt-1 hover:underline opacity-50 group-hover:opacity-100 transition-opacity"
               aria-label="이 메시지 신고하기"
             >
