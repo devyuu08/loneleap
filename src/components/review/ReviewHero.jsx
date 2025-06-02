@@ -1,8 +1,9 @@
+import React from "react";
 import { formatDate } from "@/utils/formatDate";
 import { Star, MapPin } from "lucide-react";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
-export default function ReviewHero({ review }) {
+function ReviewHero({ review }) {
   const { title, destination, rating, createdBy, createdAt, imageUrl } =
     review || {};
 
@@ -50,3 +51,5 @@ export default function ReviewHero({ review }) {
     </div>
   );
 }
+
+export default React.memo(ReviewHero);
