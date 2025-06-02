@@ -6,7 +6,7 @@ import { ko } from "date-fns/locale";
 import ReportModal from "@/components/common/modal/ReportModal.jsx";
 import ModalPortal from "@/components/common/modal/ModalPortal";
 
-const ChatMessage = React.memo(function ChatMessage({
+function ChatMessage({
   message,
   isMine,
   onReport,
@@ -124,7 +124,7 @@ const ChatMessage = React.memo(function ChatMessage({
       </div>
     </div>
   );
-});
+}
 
 ChatMessage.propTypes = {
   message: PropTypes.object.isRequired,
@@ -135,4 +135,4 @@ ChatMessage.propTypes = {
   isReporting: PropTypes.bool.isRequired,
 };
 
-export default ChatMessage;
+export default React.memo(ChatMessage);

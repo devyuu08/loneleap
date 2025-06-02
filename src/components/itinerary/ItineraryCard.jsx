@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Map } from "lucide-react";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
-const ItineraryCard = React.memo(function ItineraryCard({ itinerary }) {
+function ItineraryCard({ itinerary }) {
   const navigate = useNavigate();
   const {
     id,
@@ -99,7 +99,7 @@ const ItineraryCard = React.memo(function ItineraryCard({ itinerary }) {
       </div>
     </div>
   );
-});
+}
 
 ItineraryCard.propTypes = {
   itinerary: PropTypes.shape({
@@ -118,3 +118,5 @@ ItineraryCard.propTypes = {
     }),
   }).isRequired,
 };
+
+export default React.memo(ItineraryCard);

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { MessageCircle, Users } from "lucide-react";
 import { formatRelativeTime } from "@/utils/formatRelativeTime";
 
-const ChatRoomCard = React.memo(function ChatRoomCard({ room = {} }) {
+function ChatRoomCard({ room = {} }) {
   const navigate = useNavigate();
 
   const roomId = room?.id;
@@ -74,7 +74,7 @@ const ChatRoomCard = React.memo(function ChatRoomCard({ room = {} }) {
       </div>
     </article>
   );
-});
+}
 
 ChatRoomCard.propTypes = {
   room: PropTypes.shape({
@@ -86,4 +86,4 @@ ChatRoomCard.propTypes = {
   }).isRequired,
 };
 
-export default ChatRoomCard;
+export default React.memo(ChatRoomCard);
