@@ -42,5 +42,9 @@ export const useRegionCounts = () => {
     queryKey: [QUERY_KEYS.REGION_COUNTS],
     queryFn: fetchRegionCounts,
     staleTime: 5 * 60 * 1000,
+    select: (data) => ({
+      ...data,
+      total: Object.values(data).reduce((a, b) => a + b, 0),
+    }),
   });
 };
