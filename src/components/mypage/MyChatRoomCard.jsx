@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { formatDateOnly } from "@/utils/formatDate";
 import { Bell } from "lucide-react";
 
-const MyChatRoomCard = React.memo(function MyChatRoomCard({ room }) {
+function MyChatRoomCard({ room }) {
   const navigate = useNavigate();
 
   const handleNavigate = useCallback(() => {
@@ -88,7 +88,7 @@ const MyChatRoomCard = React.memo(function MyChatRoomCard({ room }) {
       </div>
     </div>
   );
-});
+}
 
 MyChatRoomCard.propTypes = {
   room: PropTypes.shape({
@@ -100,4 +100,4 @@ MyChatRoomCard.propTypes = {
   }).isRequired,
 };
 
-export default MyChatRoomCard;
+export default React.memo(MyChatRoomCard);

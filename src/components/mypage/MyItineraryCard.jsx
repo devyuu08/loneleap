@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDateOnly } from "@/utils/formatDate";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
-const MyItineraryCard = React.memo(function MyItineraryCard({ itinerary }) {
+function MyItineraryCard({ itinerary }) {
   const navigate = useNavigate();
   const { id, title, startDate, endDate, imageUrl } = itinerary;
 
@@ -90,6 +90,6 @@ const MyItineraryCard = React.memo(function MyItineraryCard({ itinerary }) {
       </div>
     </div>
   );
-});
+}
 
-export default MyItineraryCard;
+export default React.memo(MyItineraryCard);

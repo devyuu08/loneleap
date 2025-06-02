@@ -5,7 +5,7 @@ import { formatDateOnly } from "@/utils/formatDate";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
 
-const MyReviewCard = React.memo(function MyReviewCard({ review = {} }) {
+function MyReviewCard({ review = {} }) {
   const navigate = useNavigate();
   const {
     id = "",
@@ -99,6 +99,6 @@ const MyReviewCard = React.memo(function MyReviewCard({ review = {} }) {
       </div>
     </div>
   );
-});
+}
 
-export default MyReviewCard;
+export default React.memo(MyReviewCard);
