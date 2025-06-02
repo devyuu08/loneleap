@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
@@ -20,7 +21,7 @@ import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
  * @param {string} props.review.imageUrl - 이미지 URL (선택적)
  */
 
-export default function ReviewCard({ review }) {
+function ReviewCard({ review }) {
   const navigate = useNavigate();
   const { id, title, destination, rating, createdBy, createdAt, imageUrl } =
     review || {};
@@ -110,3 +111,5 @@ export default function ReviewCard({ review }) {
     </div>
   );
 }
+
+export default React.memo(ReviewCard);
