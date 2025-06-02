@@ -51,6 +51,7 @@ function App() {
 
   const pathParts = location.pathname.split("/");
   const isHome = location.pathname === "/";
+  const isOAuthCallbackPage = location.pathname === "/oauth/callback";
 
   const isChatDetailPage =
     pathParts[1] === "chat" &&
@@ -74,7 +75,7 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {!isChatDetailPage && <Header />}
+      {!isChatDetailPage && !isOAuthCallbackPage && <Header />}
 
       {/* main에 flex-grow를 줘서 Routes가 영역을 채우게 함 */}
       <main className="flex-grow">
@@ -211,8 +212,7 @@ function App() {
       </main>
 
       {!isHome && <FloatingButtons />}
-
-      {!isChatDetailPage && <Footer />}
+      {!isChatDetailPage && !isOAuthCallbackPage && <Footer />}
     </div>
   );
 }

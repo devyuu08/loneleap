@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { signInWithCustomToken } from "firebase/auth";
 import { auth } from "@/services/firebase";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 
 export default function OAuthCallbackPage() {
   const [searchParams] = useSearchParams();
@@ -44,16 +45,12 @@ export default function OAuthCallbackPage() {
         alert("로그인 중 오류가 발생했습니다.");
         navigate("/login");
       } finally {
-        sessionStorage.removeItem("naver_oauth_state"); // 💡 사용 후 삭제
+        sessionStorage.removeItem("naver_oauth_state");
       }
     };
 
     fetchCustomToken();
   }, []);
 
-  return (
-    <div className="p-6 text-center">
-      <p className="text-gray-600">로그인 처리 중입니다...</p>
-    </div>
-  );
+  return <LoadingSpinner size="md" />;
 }
