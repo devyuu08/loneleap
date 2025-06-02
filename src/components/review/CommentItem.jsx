@@ -1,17 +1,17 @@
+import React, { useCallback } from "react";
 import { useDeleteComment } from "@/hooks/review/useDeleteComment";
-
 import { Trash2 } from "lucide-react";
 import { cn } from "@/utils/utils";
 
-export default function CommentItem({ comment, currentUserId, reviewId }) {
+function CommentItem({ comment, currentUserId, reviewId }) {
   const { id, content, createdAt, author } = comment;
   const isAuthor = currentUserId === author?.uid;
   const { mutate, isPending } = useDeleteComment(reviewId);
 
-  const handleCommentDelete = () => {
+  const handleCommentDelete = useCallback(() => {
     if (!confirm("댓글을 삭제하시겠습니까?")) return;
     mutate(id);
-  };
+  }, [mutate, id]);
 
   return (
     <div className="relative bg-white/70 backdrop-blur-sm border border-gray-200 rounded-xl p-5 shadow-sm">
@@ -55,3 +55,5 @@ export default function CommentItem({ comment, currentUserId, reviewId }) {
     </div>
   );
 }
+
+export default React.memo(CommentItem);
