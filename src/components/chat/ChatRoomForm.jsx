@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import { Lightbulb } from "lucide-react";
@@ -16,17 +15,10 @@ export default function ChatRoomForm({
   handleSubmit,
   isSubmitting,
 }) {
-  const backgroundStyle = useMemo(
-    () => ({
-      backgroundImage: "url('/images/chat-form-bg.jpg')",
-    }),
-    []
-  );
-
   return (
     <article
       className="relative min-h-screen bg-cover bg-center bg-no-repeat"
-      style={backgroundStyle}
+      style={{ backgroundImage: "url('/images/chat-form-bg.jpg')" }}
     >
       {/* 어두운 오버레이 */}
       <div className="absolute inset-0 bg-black/40" />

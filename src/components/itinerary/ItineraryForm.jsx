@@ -4,7 +4,6 @@ import { BookOpenText, Camera, Clock, MapPin } from "lucide-react";
 import ImageUploader from "@/components/common/upload/ImageUploader";
 import FormInput from "@/components/common/form/FormInput";
 import FormTextarea from "@/components/common/form/FormTextarea";
-import { useMemo } from "react";
 
 export default function ItineraryForm({
   title,
@@ -26,18 +25,11 @@ export default function ItineraryForm({
   isSubmitting,
   submitLabel,
 }) {
-  const backgroundStyle = useMemo(
-    () => ({
-      backgroundImage: "url('/images/itinerary-form-bg.jpg')",
-    }),
-    []
-  );
-
   return (
     <>
       <article
         className="relative min-h-screen bg-cover bg-center bg-no-repeat"
-        style={backgroundStyle}
+        style={{ backgroundImage: "url('/images/itinerary-form-bg.jpg')" }}
       >
         {/* 어두운 오버레이 */}
         <div className="absolute inset-0 bg-black/40" />
