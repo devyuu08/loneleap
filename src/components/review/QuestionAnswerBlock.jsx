@@ -1,4 +1,6 @@
-export default function QuestionAnswerBlock({ question, answer, isFirst }) {
+import React from "react";
+
+function QuestionAnswerBlock({ question, answer, isFirst }) {
   return (
     <div className={isFirst ? "" : "pt-10 border-t border-gray-300/30"}>
       <h4 className="text-[18px] font-semibold text-gray-800 tracking-tight leading-snug">
@@ -12,3 +14,5 @@ export default function QuestionAnswerBlock({ question, answer, isFirst }) {
     </div>
   );
 }
+
+export default React.memo(QuestionAnswerBlock);
