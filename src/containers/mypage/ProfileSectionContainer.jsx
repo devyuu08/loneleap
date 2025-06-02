@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -35,47 +35,53 @@ export default function ProfileSectionContainer() {
     isDeleteModalOpen,
   };
 
-  const toggleModal = {
-    openEdit: () => setIsEditModalOpen(true),
-    closeEdit: () => setIsEditModalOpen(false),
-    openSetting: () => setIsSettingModalOpen(true),
-    closeSetting: () => setIsSettingModalOpen(false),
-    openPassword: () => setIsPasswordModalOpen(true),
-    closePassword: () => setIsPasswordModalOpen(false),
-    openDelete: () => setIsDeleteModalOpen(true),
-    closeDelete: () => setIsDeleteModalOpen(false),
-  };
+  const toggleModal = useMemo(
+    () => ({
+      openEdit: () => setIsEditModalOpen(true),
+      closeEdit: () => setIsEditModalOpen(false),
+      openSetting: () => setIsSettingModalOpen(true),
+      closeSetting: () => setIsSettingModalOpen(false),
+      openPassword: () => setIsPasswordModalOpen(true),
+      closePassword: () => setIsPasswordModalOpen(false),
+      openDelete: () => setIsDeleteModalOpen(true),
+      closeDelete: () => setIsDeleteModalOpen(false),
+    }),
+    []
+  );
 
-  const handleImageChange = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file || !user) return;
-    try {
-      // Firebase Storage 업로드
-      const downloadURL = await uploadUserProfileImage(file, user.uid);
+  const handleImageChange = useCallback(
+    async (e) => {
+      const file = e.target.files?.[0];
+      if (!file || !user) return;
+      try {
+        // Firebase Storage 업로드
+        const downloadURL = await uploadUserProfileImage(file, user.uid);
 
-      // Auth 프로필 업데이트
-      await updateProfile(auth.currentUser, { photoURL: downloadURL });
-      await auth.currentUser.reload();
+        // Auth 프로필 업데이트
+        await updateProfile(auth.currentUser, { photoURL: downloadURL });
+        await auth.currentUser.reload();
 
-      // Firestore users_public 문서 업데이트
-      await setDoc(
-        doc(db, "users_public", user.uid),
-        { photoURL: downloadURL },
-        { merge: true }
-      );
+        // Firestore users_public 문서 업데이트
+        await setDoc(
+          doc(db, "users_public", user.uid),
+          { photoURL: downloadURL },
+          { merge: true }
+        );
 
-      // 사용자 콘텐츠 업데이트
-      await updateUserPhotoInContent(user.uid, downloadURL);
+        // 사용자 콘텐츠 업데이트
+        await updateUserPhotoInContent(user.uid, downloadURL);
 
-      // Redux 상태 동기화
-      dispatch(setUser({ ...user, photoURL: auth.currentUser.photoURL }));
-    } catch (err) {
-      console.error("프로필 이미지 업로드 오류:", err);
-      alert("이미지 업로드에 실패했습니다.");
-    }
-  };
+        // Redux 상태 동기화
+        dispatch(setUser({ ...user, photoURL: auth.currentUser.photoURL }));
+      } catch (err) {
+        console.error("프로필 이미지 업로드 오류:", err);
+        alert("이미지 업로드에 실패했습니다.");
+      }
+    },
+    [user, dispatch]
+  );
 
-  const handlePasswordChange = async (currentPw, newPw) => {
+  const handlePasswordChange = useCallback(async (currentPw, newPw) => {
     try {
       await changeUserPassword(newPw, currentPw);
       alert("비밀번호가 성공적으로 변경되었습니다.");
@@ -83,9 +89,9 @@ export default function ProfileSectionContainer() {
       console.error("비밀번호 변경 실패:", err);
       alert("비밀번호 변경에 실패했습니다. 현재 비밀번호를 다시 확인해주세요.");
     }
-  };
+  }, []);
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     setIsLoggingOut(true);
     try {
       await logout(); // Firebase 로그아웃
@@ -97,20 +103,23 @@ export default function ProfileSectionContainer() {
     } finally {
       setIsLoggingOut(false);
     }
-  };
+  }, [dispatch, navigate]);
 
-  const handleDeleteAccount = async (currentPassword) => {
-    const email = user?.email;
-    if (!email || !currentPassword) return;
+  const handleDeleteAccount = useCallback(
+    async (currentPassword) => {
+      const email = user?.email;
+      if (!email || !currentPassword) return;
 
-    try {
-      await deleteUserAccount(email, currentPassword);
-      dispatch(clearUser());
-      navigate("/");
-    } catch (err) {
-      alert("계정 탈퇴 중 오류가 발생했습니다: " + err.message);
-    }
-  };
+      try {
+        await deleteUserAccount(email, currentPassword);
+        dispatch(clearUser());
+        navigate("/");
+      } catch (err) {
+        alert("계정 탈퇴 중 오류가 발생했습니다: " + err.message);
+      }
+    },
+    [dispatch, navigate, user?.email]
+  );
 
   return (
     <ProfileSection
