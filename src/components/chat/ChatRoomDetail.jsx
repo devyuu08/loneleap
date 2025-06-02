@@ -2,6 +2,7 @@ import ChatHeader from "@/components/chat/ChatHeader";
 import ParticipantListContainer from "@/containers/chat/ParticipantListContainer";
 import MessageInputContainer from "@/containers/chat/MessageInputContainer";
 import ChatMessageContainer from "@/containers/chat/ChatMessageContainer";
+import { useMemo } from "react";
 
 export default function ChatRoomDetail({
   roomInfo,
@@ -10,10 +11,20 @@ export default function ChatRoomDetail({
   scrollRef,
   roomId,
 }) {
+  const backgroundStyle = useMemo(
+    () => ({
+      backgroundImage: "url('/images/chat-detail-bg.jpg')",
+    }),
+    []
+  );
+
+  const roomName = roomInfo.name || "채팅방";
+  const creatorName = roomInfo.createdBy?.displayName || "익명";
+
   return (
     <section
       className="relative h-screen bg-cover bg-center flex items-center justify-center px-4"
-      style={{ backgroundImage: "url('/images/chat-detail-bg.jpg')" }}
+      style={backgroundStyle}
     >
       {/* 어두운 오버레이 */}
       <div className="absolute inset-0 bg-black/20 z-0" />
@@ -29,8 +40,8 @@ export default function ChatRoomDetail({
         <div className="flex-1 flex flex-col">
           {/* 상단 헤더 */}
           <ChatHeader
-            title={roomInfo.name || "채팅방"}
-            userName={roomInfo.createdBy?.displayName || "익명"}
+            title={roomName}
+            userName={creatorName}
             onLeave={onLeave}
           />
 
