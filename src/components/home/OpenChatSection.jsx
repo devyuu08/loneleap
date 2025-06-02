@@ -1,7 +1,23 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 
-export default function OpenChatSection() {
+const features = [
+  {
+    title: "지역별 채팅방",
+    description: "여행 지역에 따라 소규모 오픈채팅에서 소통해요.",
+  },
+  {
+    title: "실시간 일정 공유",
+    description: "당일 여행 계획이나 팁을 빠르게 주고받을 수 있어요.",
+  },
+  {
+    title: "가볍고 안전한 소통",
+    description: "인증된 링크로만 참여할 수 있어 신뢰할 수 있어요.",
+  },
+];
+
+function OpenChatSection() {
   return (
     <MainSectionWrapper bg="bg-gray-50" className="overflow-hidden">
       <div className="max-w-screen-2xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
@@ -17,27 +33,14 @@ export default function OpenChatSection() {
           </p>
 
           <ul className="space-y-4 text-sm text-gray-700 text-left max-w-md">
-            <li className="flex items-start gap-2">
-              <span className="text-blue-500 text-lg">✔</span>
-              <span>
-                <strong>지역별 채팅방</strong> 여행 지역에 따라 소규모
-                오픈채팅에서 소통해요.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-500 text-lg">✔</span>
-              <span>
-                <strong>실시간 일정 공유</strong> 당일 여행 계획이나 팁을 빠르게
-                주고받을 수 있어요.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-blue-500 text-lg">✔</span>
-              <span>
-                <strong>가볍고 안전한 소통</strong> 인증된 링크로만 참여할 수
-                있어 신뢰할 수 있어요.
-              </span>
-            </li>
+            {features.map(({ title, description }) => (
+              <li key={title} className="flex items-start gap-2">
+                <span className="text-blue-500 text-lg">✔</span>
+                <span>
+                  <strong>{title}</strong> {description}
+                </span>
+              </li>
+            ))}
           </ul>
 
           <Link
@@ -54,9 +57,12 @@ export default function OpenChatSection() {
             src="/images/chat-banner.jpg"
             alt="오픈채팅 소개"
             className="w-full h-auto rounded-xl shadow-md object-cover"
+            loading="lazy"
           />
         </div>
       </div>
     </MainSectionWrapper>
   );
 }
+
+export default React.memo(OpenChatSection);
