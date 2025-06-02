@@ -7,9 +7,14 @@ import { Link } from "react-router-dom";
 import { useRecommendationList } from "@/hooks/recommendation/useRecommendationList";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
+import React, { useMemo } from "react";
 
-export default function DestinationSlider() {
+function DestinationSlider() {
   const { data: destinations, isLoading } = useRecommendationList();
+
+  const displayedDestinations = useMemo(() => {
+    return destinations?.slice(0, 8) ?? [];
+  }, [destinations]);
 
   if (isLoading || !destinations) return null;
 
@@ -45,7 +50,7 @@ export default function DestinationSlider() {
             1024: { slidesPerView: 4 },
           }}
         >
-          {destinations.slice(0, 8).map((place) => (
+          {displayedDestinations.map((place) => (
             <SwiperSlide key={place.id}>
               <Link
                 to={`/recommendations/${place.id}`}
@@ -65,3 +70,5 @@ export default function DestinationSlider() {
     </MainSectionWrapper>
   );
 }
+
+export default React.memo(DestinationSlider);
