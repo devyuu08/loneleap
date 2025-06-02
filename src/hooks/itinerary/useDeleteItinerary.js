@@ -3,11 +3,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { auth } from "@/services/firebase";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { deleteItineraryAndDecreaseCount } from "@/services/itinerary/deleteItineraryWithCount";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export const useDeleteItinerary = ({
   onSuccess = () => {},
   onError = () => {},
 } = {}) => {
+  const [user] = useAuthState(auth);
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -18,14 +20,13 @@ export const useDeleteItinerary = ({
 
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ITINERARIES] });
 
-      const uid = auth.currentUser?.uid;
-      if (uid) {
+      if (user?.uid) {
         queryClient.invalidateQueries({
-          queryKey: QUERY_KEYS.MY_ITINERARIES(uid),
+          queryKey: QUERY_KEYS.MY_ITINERARIES(user.uid),
         });
       }
 
-      onSuccess(); // UI 쪽에서 정의한 행동 실행
+      onSuccess(); // UI 정의 동작 실행
     },
 
     onError: onError,
