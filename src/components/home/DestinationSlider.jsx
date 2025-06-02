@@ -50,17 +50,17 @@ function DestinationSlider() {
             1024: { slidesPerView: 4 },
           }}
         >
-          {displayedDestinations.map((place) => (
-            <SwiperSlide key={place.id}>
+          {displayedDestinations.map(({ id, name, summary, imageUrl }) => (
+            <SwiperSlide key={id}>
               <Link
-                to={`/recommendations/${place.id}`}
+                to={`/recommendations/${id}`}
                 className="relative block w-full h-72 rounded-xl overflow-hidden shadow hover:brightness-105 transition bg-gray-200"
               >
-                <SkeletonImage src={place.imageUrl} alt={place.name} />
+                <SkeletonImage src={imageUrl} alt={name} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white z-10">
-                  <h3 className="font-semibold text-lg">{place.name}</h3>
-                  <p className="text-sm line-clamp-2">{place.summary}</p>
+                  <h3 className="font-semibold text-lg">{name}</h3>
+                  <p className="text-sm line-clamp-2">{summary}</p>
                 </div>
               </Link>
             </SwiperSlide>
