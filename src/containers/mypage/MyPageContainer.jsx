@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useSelector } from "react-redux";
 
 import { useMyItineraries } from "@/hooks/itinerary/useMyItineraries";
@@ -9,6 +9,10 @@ import MyPage from "@/components/mypage/MyPage";
 export default function MyPageContainer() {
   const [activeTab, setActiveTab] = useState("itinerary");
   const user = useSelector((state) => state.user.user);
+
+  const handleTabChange = useCallback((tab) => {
+    setActiveTab(tab);
+  }, []);
 
   const myItinerariesQuery = useMyItineraries(user?.uid, {
     enabled: activeTab === "itinerary",
@@ -27,6 +31,7 @@ export default function MyPageContainer() {
       user={user}
       activeTab={activeTab}
       setActiveTab={setActiveTab}
+      onTabChange={handleTabChange}
       myItinerariesQuery={myItinerariesQuery}
       myReviewsQuery={myReviewsQuery}
       myChatRoomsQuery={myChatRoomsQuery}
