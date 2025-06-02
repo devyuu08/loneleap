@@ -7,20 +7,27 @@ export default function ParticipantList({ users, isLoading }) {
         현재 참여자 {users.length}명
       </p>
 
-      <ul className="space-y-3 max-h-60 overflow-y-auto pr-1">
-        {users.map((user) => (
-          <li key={user.uid} className="flex items-center gap-3">
-            <img
-              src={user.photoURL || "/images/default-profile.png"}
-              alt={user.displayName || "참여자"}
-              className="w-8 h-8 rounded-full object-cover"
-            />
-            <span className="text-sm font-medium text-gray-800 leading-tight truncate">
-              {user.displayName || user.email.split("@")[0]}
-            </span>
-          </li>
-        ))}
-      </ul>
+      {users.length === 0 ? (
+        <p className="text-sm text-gray-500">아직 참여자가 없습니다.</p>
+      ) : (
+        <ul
+          className="space-y-3 max-h-60 overflow-y-auto pr-1"
+          aria-label="참여자 목록"
+        >
+          {users.map((user) => (
+            <li key={user.uid} className="flex items-center gap-3">
+              <img
+                src={user.photoURL || "/images/default-profile.png"}
+                alt={user.displayName || "참여자"}
+                className="w-8 h-8 rounded-full object-cover"
+              />
+              <span className="text-sm font-medium text-gray-800 leading-tight truncate">
+                {user.displayName || user.email?.split("@")[0] || "알 수 없음"}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
