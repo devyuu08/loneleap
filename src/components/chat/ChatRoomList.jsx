@@ -15,20 +15,6 @@ export default function ChatRoomList({
   setSearchKeyword,
   onCreate,
 }) {
-  const handleFilterChange = useCallback(
-    (filter) => {
-      setActiveFilter(filter);
-    },
-    [setActiveFilter]
-  );
-
-  const handleSearchChange = useCallback(
-    (keyword) => {
-      setSearchKeyword(keyword);
-    },
-    [setSearchKeyword]
-  );
-
   const handleCreateClick = useCallback(() => {
     onCreate();
   }, [onCreate]);
@@ -43,9 +29,9 @@ export default function ChatRoomList({
         count={chatrooms?.length || 0}
         filters={CHATROOM_FILTERS}
         activeFilter={activeFilter}
-        onFilterChange={handleFilterChange}
+        onFilterChange={setActiveFilter}
         searchKeyword={searchKeyword}
-        onSearchChange={handleSearchChange}
+        onSearchChange={setSearchKeyword}
         searchPlaceholder="채팅방 제목으로 검색"
       />
       <div className="max-w-6xl mx-auto px-6 py-12">
