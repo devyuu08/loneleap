@@ -23,7 +23,9 @@ export default function ParticipantListContainer({ roomId }) {
     return () => unsub();
   }, [roomId]);
 
-  const { data: users, isLoading } = useUsersByIds(userIds);
+  const { data: users, isLoading } = useUsersByIds(userIds, {
+    enabled: userIds.length > 0, // 불필요한 쿼리 방지
+  });
 
   return <ParticipantList users={users} isLoading={isLoading} />;
 }
