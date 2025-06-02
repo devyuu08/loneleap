@@ -1,3 +1,4 @@
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -5,7 +6,7 @@ import { ko } from "date-fns/locale";
 import ReportModal from "@/components/common/modal/ReportModal.jsx";
 import ModalPortal from "@/components/common/modal/ModalPortal";
 
-export default function ChatMessage({
+const ChatMessage = React.memo(function ChatMessage({
   message,
   isMine,
   onReport,
@@ -55,6 +56,15 @@ export default function ChatMessage({
     }
   }
 
+  const formattedTime = useMemo(() => {
+    if (!createdAt) return "시간 정보 없음";
+    const dateObj =
+      typeof createdAt.toDate === "function"
+        ? createdAt.toDate()
+        : new Date(createdAt);
+    return formatRelative(dateObj, new Date(), { locale: ko });
+  }, [createdAt]);
+
   return (
     <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
@@ -94,11 +104,7 @@ export default function ChatMessage({
         )}
 
         <p className="text-[10px] text-gray-400 mt-1 text-right">
-          {createdAt
-            ? typeof createdAt.toDate === "function"
-              ? formatRelative(createdAt.toDate(), new Date(), { locale: ko })
-              : formatRelative(new Date(createdAt), new Date(), { locale: ko })
-            : "시간 정보 없음"}
+          {formattedTime}
         </p>
 
         {/* 공통 신고 모달 */}
@@ -114,7 +120,7 @@ export default function ChatMessage({
       </div>
     </div>
   );
-}
+});
 
 ChatMessage.propTypes = {
   message: PropTypes.object.isRequired,
