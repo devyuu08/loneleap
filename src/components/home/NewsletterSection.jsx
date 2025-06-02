@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 
 export default function NewsletterSection() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleFakeSubmit = (e) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubmitted(true);
-    setEmail("");
-    setTimeout(() => setSubmitted(false), 3000); // 3초 후 메시지 사라짐
-  };
+  const handleFakeSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!email) return;
+
+      setSubmitted(true);
+      setEmail("");
+      setTimeout(() => setSubmitted(false), 3000);
+    },
+    [email]
+  );
 
   return (
     <MainSectionWrapper className="overflow-hidden min-h-[520px]">
@@ -20,6 +24,7 @@ export default function NewsletterSection() {
         src="/images/newsletter-bg.jpg"
         alt="배경 이미지"
         className="absolute inset-0 w-full h-full object-cover"
+        loading="lazy"
       />
 
       {/* 어두운 오버레이 */}
@@ -62,7 +67,7 @@ export default function NewsletterSection() {
         </form>
 
         {submitted && (
-          <p className="text-sm text-green-300 mb-2">
+          <p className="text-sm text-green-300 mb-2" role="status">
             구독 신청 완료! (실제 이메일 전송은 없습니다)
           </p>
         )}

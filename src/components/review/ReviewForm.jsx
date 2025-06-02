@@ -1,3 +1,4 @@
+import React from "react";
 import RatingInput from "@/components/review/RatingInput";
 import ImageUploader from "@/components/common/upload/ImageUploader";
 import InterviewAnswerForm from "@/components/review/InterviewAnswerForm";
@@ -5,7 +6,7 @@ import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import FormInput from "@/components/common/form/FormInput";
 
-export default function ReviewForm({
+function ReviewForm({
   step,
   setStep,
   title,
@@ -169,3 +170,5 @@ export default function ReviewForm({
     </section>
   );
 }
+
+export default React.memo(ReviewForm);

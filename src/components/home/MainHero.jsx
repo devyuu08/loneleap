@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -8,7 +8,7 @@ const images = [
   "/images/seoul_night.jpg",
 ];
 
-export default function MainHero() {
+function MainHero() {
   const { user, isLoading } = useSelector((state) => state.user);
   const [current, setCurrent] = useState(0);
 
@@ -59,3 +59,5 @@ export default function MainHero() {
     </section>
   );
 }
+
+export default React.memo(MainHero);

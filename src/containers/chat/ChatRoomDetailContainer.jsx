@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
@@ -64,15 +64,8 @@ export default function ChatRoomDetailContainer({ roomId }) {
     }
   }, [messages]);
 
-  if (!roomId) {
-    return (
-      <div className="text-center text-gray-500">채팅방 ID가 없습니다.</div>
-    );
-  }
-
-  const handleLeaveRoom = async () => {
+  const handleLeaveRoom = useCallback(async () => {
     if (!confirm("정말 채팅방을 나가시겠어요?")) return;
-
     try {
       await leaveRoom({ roomId, user: currentUser });
       await queryClient.invalidateQueries(
@@ -83,7 +76,13 @@ export default function ChatRoomDetailContainer({ roomId }) {
       alert("채팅방 나가기 중 오류 발생");
       console.error(err);
     }
-  };
+  }, [roomId, currentUser, queryClient, navigate]);
+
+  if (!roomId) {
+    return (
+      <div className="text-center text-gray-500">채팅방 ID가 없습니다.</div>
+    );
+  }
 
   if (messageLoading || roomInfoLoading) return <LoadingSpinner />;
 

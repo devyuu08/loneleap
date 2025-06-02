@@ -1,7 +1,8 @@
+import React from "react";
 import PropTypes from "prop-types";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 
-export default function FormInput({
+function FormInput({
   label,
   id,
   name,
@@ -52,3 +53,5 @@ FormInput.propTypes = {
   placeholder: PropTypes.string,
   error: PropTypes.string,
 };
+
+export default React.memo(FormInput);

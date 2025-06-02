@@ -4,6 +4,7 @@ import CommentListContainer from "@/containers/review/CommentListContainer";
 import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
 import ReportButtonContainer from "@/containers/review/ReportButtonContainer";
 import QuestionAnswerBlock from "@/components/review/QuestionAnswerBlock";
+import { useCallback } from "react";
 
 export default function ReviewDetail({
   reviewId,
@@ -12,7 +13,12 @@ export default function ReviewDetail({
   isDeletePending,
   isOwner,
 }) {
-  const { content, likesCount } = review;
+  const { content, likesCount, interviewQuestions, interviewAnswers, type } =
+    review;
+
+  const handleDelete = useCallback(() => {
+    onDelete(reviewId);
+  }, [onDelete, reviewId]);
 
   return (
     <article className="pb-16">
@@ -22,7 +28,7 @@ export default function ReviewDetail({
       <div className="px-4 mt-12">
         {/* 본문 내용 */}
         <div className="space-y-8">
-          {review.type === "standard" ? (
+          {type === "standard" ? (
             <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
               <p className="text-base leading-relaxed text-gray-700 whitespace-pre-line">
                 {content || "리뷰 내용이 없습니다."}
@@ -30,11 +36,11 @@ export default function ReviewDetail({
             </div>
           ) : (
             <div className="bg-white/70 backdrop-blur-sm p-10 rounded-2xl shadow border border-gray-100 space-y-12">
-              {review.interviewQuestions.map((q, index) => (
+              {interviewQuestions.map((q, index) => (
                 <QuestionAnswerBlock
                   key={q.id}
                   question={q.text}
-                  answer={review.interviewAnswers?.[q.id]}
+                  answer={interviewAnswers?.[q.id]}
                   isFirst={index === 0}
                 />
               ))}
@@ -59,7 +65,7 @@ export default function ReviewDetail({
         {isOwner && (
           <FloatingButtons
             editPath={`/reviews/edit/${reviewId}`}
-            onDelete={() => onDelete(reviewId)}
+            onDelete={handleDelete}
             isDeletePending={isDeletePending}
           />
         )}

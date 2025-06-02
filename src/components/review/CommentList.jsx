@@ -1,7 +1,8 @@
+import React from "react";
 import CommentForm from "@/components/review/CommentForm";
 import CommentListSection from "@/components/review/CommentListSection";
 
-export default function CommentList({
+function CommentList({
   currentUserId,
   reviewId,
   user,
@@ -48,3 +49,5 @@ export default function CommentList({
     </div>
   );
 }
+
+export default React.memo(CommentList);

@@ -1,11 +1,25 @@
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { formatDateOnly } from "@/utils/formatDate";
 import { Bell } from "lucide-react";
 
-export default function MyChatRoomCard({ room }) {
+function MyChatRoomCard({ room }) {
   const navigate = useNavigate();
+
+  const handleNavigate = useCallback(() => {
+    navigate(`/chat/${room.id}`);
+  }, [navigate, room.id]);
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        navigate(`/chat/${room.id}`);
+      }
+    },
+    [navigate, room.id]
+  );
 
   if (!room?.id || !room?.name) {
     return (
@@ -17,14 +31,10 @@ export default function MyChatRoomCard({ room }) {
 
   return (
     <div
-      onClick={() => navigate(`/chat/${room.id}`)}
+      onClick={handleNavigate}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          navigate(`/chat/${room.id}`);
-        }
-      }}
+      onKeyDown={handleKeyDown}
       className="group bg-white rounded-xl shadow-lg hover:shadow-md hover:-translate-y-1 transition overflow-hidden cursor-pointer p-6 flex flex-col justify-between h-full"
     >
       {/* 상단: 제목 + 알림 뱃지 */}
@@ -89,3 +99,5 @@ MyChatRoomCard.propTypes = {
     participants: PropTypes.array,
   }).isRequired,
 };
+
+export default React.memo(MyChatRoomCard);

@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 
-export default function SectionTabs({ activeTab, setActiveTab }) {
+export default function SectionTabs({ activeTab, onChange }) {
   const tabs = [
     { key: "itinerary", label: "내 일정" },
     { key: "review", label: "내 리뷰" },
@@ -30,7 +30,7 @@ export default function SectionTabs({ activeTab, setActiveTab }) {
           <button
             key={tab.key}
             data-tab={tab.key}
-            onClick={() => setActiveTab(tab.key)}
+            onClick={() => onChange(tab.key)}
             className={`pb-2 w-full text-sm md:text-base font-medium text-center transition-colors ${
               activeTab === tab.key
                 ? "text-white"

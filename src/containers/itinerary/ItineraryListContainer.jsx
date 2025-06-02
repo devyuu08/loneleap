@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useItineraries } from "@/hooks/itinerary/useItineraries";
 
 import ItineraryList from "@/components/itinerary/ItineraryList";
@@ -15,25 +15,28 @@ export default function ItineraryListContainer() {
   const filteredItineraries = useMemo(() => {
     if (!Array.isArray(itineraries)) return [];
 
-    let result = [...itineraries];
     const convertToDate = (ts) => (ts ? new Date(ts) : new Date(0));
 
-    result.sort((a, b) =>
-      activeFilter === "최신순"
-        ? convertToDate(b.createdAt) - convertToDate(a.createdAt)
-        : convertToDate(a.createdAt) - convertToDate(b.createdAt)
-    );
-
-    if (searchKeyword.trim()) {
-      result = result.filter((itinerary) =>
+    return [...itineraries]
+      .sort((a, b) =>
+        activeFilter === "최신순"
+          ? convertToDate(b.createdAt) - convertToDate(a.createdAt)
+          : convertToDate(a.createdAt) - convertToDate(b.createdAt)
+      )
+      .filter((itinerary) =>
         itinerary.location
           ?.toLowerCase()
           .includes(searchKeyword.trim().toLowerCase())
       );
-    }
-
-    return result;
   }, [itineraries, activeFilter, searchKeyword]);
+
+  const handleFilterChange = useCallback((filter) => {
+    setActiveFilter(filter);
+  }, []);
+
+  const handleSearchChange = useCallback((keyword) => {
+    setSearchKeyword(keyword);
+  }, []);
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -61,9 +64,9 @@ export default function ItineraryListContainer() {
         count={itineraries.length}
         filters={FILTERS}
         activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
+        onFilterChange={handleFilterChange}
         searchKeyword={searchKeyword}
-        onSearchChange={setSearchKeyword}
+        onSearchChange={handleSearchChange}
         searchPlaceholder="여행지 뱃지로 검색"
       />
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import MessageInput from "@/components/chat/MessageInput";
 import { sendChatMessage } from "@/services/chat/sendMessage";
@@ -14,7 +14,7 @@ export default function MessageInputContainer({ roomId }) {
     inputRef.current?.focus();
   }, []);
 
-  const handleSend = async () => {
+  const handleSend = useCallback(async () => {
     if (!message.trim() || !user || isSubmitting) return;
     setIsSubmitting(true);
 
@@ -27,13 +27,17 @@ export default function MessageInputContainer({ roomId }) {
     } finally {
       setIsSubmitting(false);
     }
-  };
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
+  }, [message, user, isSubmitting, roomId]);
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleSend();
+      }
+    },
+    [handleSend]
+  );
 
   return (
     <MessageInput

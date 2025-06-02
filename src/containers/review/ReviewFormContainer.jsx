@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 
@@ -34,6 +34,13 @@ export default function ReviewFormContainer({ isEditMode = false }) {
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState(null);
 
+  const randomQuestions = useMemo(() => {
+    return [
+      ...FIXED_QUESTIONS,
+      ...RANDOM_QUESTIONS.sort(() => Math.random() - 0.5).slice(0, 3),
+    ];
+  }, []);
+
   useEffect(() => {
     if (isEditMode && initialData) {
       setTitle(initialData.title);
@@ -43,15 +50,12 @@ export default function ReviewFormContainer({ isEditMode = false }) {
       setAnswers(initialData.interviewAnswers || {});
       setQuestions(initialData.interviewQuestions || []);
     } else {
-      setQuestions([
-        ...FIXED_QUESTIONS,
-        ...RANDOM_QUESTIONS.sort(() => Math.random() - 0.5).slice(0, 3),
-      ]);
+      setQuestions(randomQuestions);
     }
-  }, [initialData, isEditMode]);
+  }, [initialData, isEditMode, randomQuestions]);
 
-  const { addReview, isLoading: isCreating } = useAddReview({
-    onErrorCallback: (err) => setSubmitError(err.message),
+  const { mutate: addReview, isPending: isCreating } = useAddReview({
+    onError: (err) => setSubmitError(err.message),
   });
 
   const { mutate: updateReview, isPending: isUpdating } = useMutation({
@@ -63,18 +67,18 @@ export default function ReviewFormContainer({ isEditMode = false }) {
   const isSubmitting = isEditMode ? isUpdating : isCreating;
   const submitLabel = isEditMode ? "리뷰 수정 완료" : "리뷰 등록 완료";
 
-  const handleNextStep = () => {
+  const handleNextStep = useCallback(() => {
     const newErrors = {};
     if (!title) newErrors.title = "제목을 입력해주세요.";
     if (!destination) newErrors.destination = "여행지명을 입력해주세요.";
     if (rating === 0) newErrors.rating = "별점을 선택해주세요.";
     if (Object.keys(newErrors).length > 0) return setErrors(newErrors);
     setStep(2);
-  };
+  }, [title, destination, rating]);
 
-  const handleChangeAnswer = (id, value) => {
+  const handleChangeAnswer = useCallback((id, value) => {
     setAnswers((prev) => ({ ...prev, [id]: value }));
-  };
+  }, []);
 
   const handleSubmit = useCallback(
     async (e) => {
@@ -120,7 +124,19 @@ export default function ReviewFormContainer({ isEditMode = false }) {
         });
       }
     },
-    [title, destination, rating, image, questions, answers, isEditMode, id]
+    [
+      title,
+      destination,
+      rating,
+      image,
+      questions,
+      answers,
+      isEditMode,
+      id,
+      updateReview,
+      addReview,
+      navigate,
+    ]
   );
 
   if (isEditMode && isLoading) return <LoadingSpinner />;

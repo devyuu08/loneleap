@@ -39,8 +39,8 @@ h1, h2, h3, h4 {
 .swiper-button-next,
 .swiper-button-prev {
   top: 60%;
-  width: 36px;
-  height: 36px;
+  width: 36px !important;
+  height: 36px !important;
   background: rgba(0, 0, 0, 0.4);
   border-radius: 9999px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -54,7 +54,20 @@ h1, h2, h3, h4 {
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  font-size: 16px;
+  font-size: 16px !important;
   color: #fff; /* 흰색 아이콘 */
 }
 
+@media (max-width: 768px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    top: 70%;
+    width: 28px;
+    height: 28px;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 12px;
+  }
+}

@@ -1,8 +1,9 @@
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import PropTypes from "prop-types";
 import { cn } from "@/utils/utils";
+import React from "react";
 
-export default function LikeButton({
+function LikeButton({
   hasLiked,
   likesCount = 0,
   variant = "card",
@@ -49,3 +50,5 @@ LikeButton.propTypes = {
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
+
+export default React.memo(LikeButton);

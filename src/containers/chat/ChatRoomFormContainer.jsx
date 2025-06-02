@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useCreateChatRoom } from "@/hooks/chat/useCreateChatRoom";
@@ -30,7 +30,7 @@ export default function ChatRoomFormContainer() {
     }
   }, [user, isLoading, navigate, didAlert]);
 
-  const validateForm = () => {
+  const validateForm = useCallback(() => {
     const newErrors = {};
     if (!title.trim()) newErrors.title = "제목을 입력해주세요.";
     if (!description.trim()) newErrors.description = "설명을 입력해주세요.";
@@ -39,19 +39,22 @@ export default function ChatRoomFormContainer() {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
+  }, [title, description, category, user]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (!validateForm()) return;
 
-    try {
-      await createRoom({ title, description, category, user });
-    } catch (err) {
-      console.error("채팅방 생성 오류:", err);
-      alert("채팅방 생성 중 오류가 발생했습니다.");
-    }
-  };
+      try {
+        await createRoom({ title, description, category, user });
+      } catch (err) {
+        console.error("채팅방 생성 오류:", err);
+        alert("채팅방 생성 중 오류가 발생했습니다.");
+      }
+    },
+    [validateForm, title, description, category, user, createRoom]
+  );
 
   if (isLoading || !user) return <LoadingSpinner />;
 

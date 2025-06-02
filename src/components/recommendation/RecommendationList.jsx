@@ -6,6 +6,18 @@ import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import EmptyState from "@/components/common/feedback/EmptyState";
 import { MapPin } from "lucide-react";
 
+const REGION_FILTERS = [
+  "전체 지역",
+  "서울",
+  "인천",
+  "경기도",
+  "충청도",
+  "전라도",
+  "경상도",
+  "강원도",
+  "제주도",
+];
+
 export default function RecommendationList({
   recommendations,
   originalData,
@@ -22,17 +34,7 @@ export default function RecommendationList({
         subtitle="혼자 여행하기 좋은 장소만 골라 소개합니다"
         countLabel="추천 여행지"
         count={originalData?.length || 0}
-        filters={[
-          "전체 지역",
-          "서울",
-          "인천",
-          "경기도",
-          "충청도",
-          "전라도",
-          "경상도",
-          "강원도",
-          "제주도",
-        ]}
+        filters={REGION_FILTERS}
         activeFilter={activeFilter}
         onFilterChange={setActiveFilter}
         showSearch={false}

@@ -1,11 +1,9 @@
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Map, MapPin, Quote } from "lucide-react";
+import { MapPin } from "lucide-react";
 
-export default function RecommendationDescription({
-  description,
-  locationInfo,
-}) {
+function RecommendationDescription({ description, locationInfo }) {
   return (
     <section className="py-16 border-b px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
@@ -37,3 +35,5 @@ export default function RecommendationDescription({
     </section>
   );
 }
+
+export default React.memo(RecommendationDescription);

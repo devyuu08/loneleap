@@ -1,7 +1,7 @@
 import { ArrowLeft, MoreVertical } from "lucide-react";
 
 import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { LogOut } from "lucide-react";
 
@@ -14,16 +14,17 @@ export default function ChatHeader({
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
 
+  const handleClickOutside = useCallback((e) => {
+    if (menuRef.current && !menuRef.current.contains(e.target)) {
+      setMenuOpen(false);
+    }
+  }, []);
+
   // 바깥 클릭 시 닫기
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setMenuOpen(false);
-      }
-    };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [handleClickOutside]);
 
   return (
     <header className="relative flex items-center justify-between px-4 py-2 border-b border-gray-100 bg-white">
@@ -43,7 +44,10 @@ export default function ChatHeader({
       </div>
 
       <div className="relative" ref={menuRef}>
-        <button onClick={() => setMenuOpen(!menuOpen)} aria-label="더보기">
+        <button
+          onClick={() => setMenuOpen((prev) => !prev)}
+          aria-label="더보기"
+        >
           <MoreVertical className="w-5 h-5 text-gray-500" />
         </button>
 

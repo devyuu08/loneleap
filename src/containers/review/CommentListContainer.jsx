@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useUser } from "@/hooks/auth/useUser";
 import { useComments } from "@/hooks/review/useComments";
 import { useAddComment } from "@/hooks/review/useAddComment";
@@ -10,24 +10,27 @@ export default function CommentListContainer({ reviewId }) {
   const { data: comments, isLoading } = useComments(reviewId);
   const { mutate, isPending } = useAddComment(reviewId);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isUserLoading || !user || !content.trim()) return;
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (isUserLoading || !user || !content.trim()) return;
 
-    mutate(
-      {
-        content,
-        author: {
-          uid: user.uid,
-          displayName: user.displayName || "익명",
-          photoURL: user.photoURL || "",
+      mutate(
+        {
+          content,
+          author: {
+            uid: user.uid,
+            displayName: user.displayName || "익명",
+            photoURL: user.photoURL || "",
+          },
         },
-      },
-      {
-        onSuccess: () => setContent(""),
-      }
-    );
-  };
+        {
+          onSuccess: () => setContent(""),
+        }
+      );
+    },
+    [user, content, isUserLoading, mutate]
+  );
   return (
     <CommentList
       currentUserId={user?.uid}

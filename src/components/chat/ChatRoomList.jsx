@@ -2,6 +2,7 @@ import ChatRoomCard from "@/components/chat/ChatRoomCard";
 import EmptyState from "@/components/common/feedback/EmptyState";
 import { MessageSquare } from "lucide-react";
 import HeroWithFilterSearch from "@/components/common/layout/HeroWithFilterSearch";
+import { useCallback } from "react";
 
 const CHATROOM_FILTERS = ["전체", "동행", "정보"];
 
@@ -14,6 +15,10 @@ export default function ChatRoomList({
   setSearchKeyword,
   onCreate,
 }) {
+  const handleCreateClick = useCallback(() => {
+    onCreate();
+  }, [onCreate]);
+
   return (
     <>
       <HeroWithFilterSearch
@@ -46,7 +51,7 @@ export default function ChatRoomList({
       </div>
       <button
         className="fixed bottom-6 right-6 z-50 px-5 py-3 bg-black text-white text-sm font-medium rounded-full shadow-lg hover:bg-gray-800 transition"
-        onClick={onCreate}
+        onClick={handleCreateClick}
         aria-label="새 채팅방 만들기"
       >
         + 새 채팅방

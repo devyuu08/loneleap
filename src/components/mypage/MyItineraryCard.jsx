@@ -1,11 +1,38 @@
+import React, { useCallback } from "react";
 import { Edit2, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatDateOnly } from "@/utils/formatDate";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
-export default function MyItineraryCard({ itinerary }) {
+function MyItineraryCard({ itinerary }) {
   const navigate = useNavigate();
   const { id, title, startDate, endDate, imageUrl } = itinerary;
+
+  const handleCardClick = useCallback(() => {
+    navigate(`/itinerary/${id}`);
+  }, [navigate, id]);
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        navigate(`/itinerary/${id}`);
+      }
+    },
+    [navigate, id]
+  );
+
+  const handleEditClick = useCallback(
+    (e) => {
+      e.stopPropagation();
+      navigate(`/itinerary/edit/${id}`);
+    },
+    [navigate, id]
+  );
+
+  const handleShareClick = useCallback((e) => {
+    e.stopPropagation();
+    alert("공유 기능은 추후 지원됩니다.");
+  }, []);
 
   if (!itinerary?.id || !itinerary?.title) {
     return (
@@ -17,14 +44,10 @@ export default function MyItineraryCard({ itinerary }) {
 
   return (
     <div
-      onClick={() => navigate(`/itinerary/${id}`)}
+      onClick={handleCardClick}
       role="button"
       tabIndex="0"
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          navigate(`/itinerary/${id}`);
-        }
-      }}
+      onKeyDown={handleKeyDown}
       className="bg-white rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-transform duration-300 overflow-hidden text-black w-full max-w-xs cursor-pointer"
     >
       {/* 이미지 영역 */}
@@ -50,20 +73,14 @@ export default function MyItineraryCard({ itinerary }) {
           <div className="flex items-center gap-3">
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation(); // 상위 카드 클릭 막기
-                navigate(`/itinerary/edit/${id}`);
-              }}
+              onClick={handleEditClick}
               className="hover:underline"
             >
               <Edit2 className="h-4 w-4" />
             </button>
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                alert("공유 기능은 추후 지원됩니다.");
-              }}
+              onClick={handleShareClick}
               className="flex items-center gap-1 hover:underline"
             >
               <Share2 className="w-4 h-4" />
@@ -74,3 +91,5 @@ export default function MyItineraryCard({ itinerary }) {
     </div>
   );
 }
+
+export default React.memo(MyItineraryCard);

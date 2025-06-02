@@ -1,3 +1,4 @@
+import React, { useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -5,7 +6,7 @@ import { ko } from "date-fns/locale";
 import ReportModal from "@/components/common/modal/ReportModal.jsx";
 import ModalPortal from "@/components/common/modal/ModalPortal";
 
-export default function ChatMessage({
+function ChatMessage({
   message,
   isMine,
   onReport,
@@ -21,6 +22,19 @@ export default function ChatMessage({
     systemType,
     userName,
   } = message;
+
+  const formattedTime = useMemo(() => {
+    if (!createdAt) return "시간 정보 없음";
+    const dateObj =
+      typeof createdAt.toDate === "function"
+        ? createdAt.toDate()
+        : new Date(createdAt);
+    return formatRelative(dateObj, new Date(), { locale: ko });
+  }, [createdAt]);
+
+  const handleOpenModal = useCallback(() => {
+    setOpenReportModal(true);
+  }, [setOpenReportModal]);
 
   if (type === "system") {
     const systemTextStyles = "text-center text-[12px] my-4";
@@ -84,7 +98,7 @@ export default function ChatMessage({
         {!isMine && (
           <div className="group relative">
             <button
-              onClick={() => setOpenReportModal(true)}
+              onClick={handleOpenModal}
               className="text-xs text-gray-500 mt-1 hover:underline opacity-50 group-hover:opacity-100 transition-opacity"
               aria-label="이 메시지 신고하기"
             >
@@ -94,11 +108,7 @@ export default function ChatMessage({
         )}
 
         <p className="text-[10px] text-gray-400 mt-1 text-right">
-          {createdAt
-            ? typeof createdAt.toDate === "function"
-              ? formatRelative(createdAt.toDate(), new Date(), { locale: ko })
-              : formatRelative(new Date(createdAt), new Date(), { locale: ko })
-            : "시간 정보 없음"}
+          {formattedTime}
         </p>
 
         {/* 공통 신고 모달 */}
@@ -124,3 +134,5 @@ ChatMessage.propTypes = {
   setOpenReportModal: PropTypes.func.isRequired,
   isReporting: PropTypes.bool.isRequired,
 };
+
+export default React.memo(ChatMessage);

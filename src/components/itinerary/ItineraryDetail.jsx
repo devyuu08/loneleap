@@ -1,5 +1,5 @@
+import React from "react";
 import { format } from "date-fns";
-
 import {
   MapPin,
   CalendarDays,
@@ -93,7 +93,12 @@ export default function ItineraryDetail({
   );
 }
 
-function InfoCard({ icon, label, value, valueClass = "text-gray-800" }) {
+const InfoCard = React.memo(function InfoCard({
+  icon,
+  label,
+  value,
+  valueClass = "text-gray-800",
+}) {
   return (
     <div className="bg-white border border-gray-200 rounded-xl px-6 py-4 shadow-sm">
       <div className="flex justify-between items-center text-sm text-gray-700">
@@ -105,4 +110,4 @@ function InfoCard({ icon, label, value, valueClass = "text-gray-800" }) {
       </div>
     </div>
   );
-}
+});

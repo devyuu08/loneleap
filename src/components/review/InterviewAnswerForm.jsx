@@ -1,11 +1,7 @@
+import React from "react";
 import FormTextarea from "@/components/common/form/FormTextarea";
 
-export default function InterviewAnswerForm({
-  questions,
-  answers,
-  onChange,
-  errors = {},
-}) {
+function InterviewAnswerForm({ questions, answers, onChange, errors = {} }) {
   return (
     <div className="space-y-10">
       {questions.map((q) => (
@@ -24,3 +20,5 @@ export default function InterviewAnswerForm({
     </div>
   );
 }
+
+export default React.memo(InterviewAnswerForm);

@@ -13,7 +13,7 @@ import { CalendarDays, MessageSquareText, MessagesSquare } from "lucide-react";
 export default function MyPage({
   user,
   activeTab,
-  setActiveTab,
+  onTabChange,
   myItinerariesQuery,
   myReviewsQuery,
   myChatRoomsQuery,
@@ -113,7 +113,7 @@ export default function MyPage({
 
           <section>
             <div className="max-w-5xl mx-auto">
-              <SectionTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+              <SectionTabs activeTab={activeTab} onChange={onTabChange} />
               <div className="px-6 py-10">{renderContent()}</div>
             </div>
           </section>

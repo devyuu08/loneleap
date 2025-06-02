@@ -1,7 +1,8 @@
+import React from "react";
 import DayScheduleItem from "@/components/itinerary/DayScheduleItem";
 import { ChevronDown } from "lucide-react";
 
-export default function DayScheduleList({
+function DayScheduleList({
   days,
   isOwner,
   openDay,
@@ -106,3 +107,5 @@ export default function DayScheduleList({
     </div>
   );
 }
+
+export default React.memo(DayScheduleList);

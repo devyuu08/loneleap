@@ -1,12 +1,7 @@
+import React from "react";
 import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 
-export default function CommentForm({
-  user,
-  content,
-  setContent,
-  isPending,
-  onSubmit,
-}) {
+function CommentForm({ user, content, setContent, isPending, onSubmit }) {
   return (
     <form onSubmit={onSubmit} className="space-y-2">
       <div className="flex items-start gap-3">
@@ -47,3 +42,5 @@ export default function CommentForm({
     </form>
   );
 }
+
+export default React.memo(CommentForm);

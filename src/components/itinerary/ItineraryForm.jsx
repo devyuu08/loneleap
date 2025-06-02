@@ -104,7 +104,7 @@ export default function ItineraryForm({
                 onChange={(e) => setSummary(e.target.value)}
                 placeholder="예: 조용한 바람과 함께 걷는 혼행의 시작"
                 error={errors.summary}
-                rows="2"
+                rows={2}
               />
             </div>
 

@@ -1,21 +1,24 @@
 import { Link } from "react-router-dom";
 import { regions } from "@/data/regions";
-import { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { useRegionCounts } from "@/hooks/itinerary/useRegionCounts";
 import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 
-export default function RegionMapSection() {
+function RegionMapSection() {
   const [activeRegion, setActiveRegion] = useState(null);
 
   const { data: regionCounts, isLoading } = useRegionCounts();
 
+  const mappedRegions = useMemo(() => {
+    return regions.map((r) => ({
+      ...r,
+      count: regionCounts?.[r.slug] || 0,
+    }));
+  }, [regionCounts]);
+
   if (!regionCounts) return null;
 
-  const mappedRegions = regions.map((r) => ({
-    ...r,
-    count: regionCounts[r.slug] || 0,
-  }));
   const totalCount = Object.values(regionCounts).reduce((acc, v) => acc + v, 0);
 
   return (
@@ -92,3 +95,5 @@ export default function RegionMapSection() {
     </MainSectionWrapper>
   );
 }
+
+export default React.memo(RegionMapSection);

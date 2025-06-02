@@ -1,42 +1,44 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+
+let kakaoScriptLoaded = false;
 
 export default function KakaoMap({ address }) {
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${
-      import.meta.env.VITE_KAKAO_MAP_KEY
-    }&autoload=false&libraries=services`;
-    script.async = true;
-    document.head.appendChild(script);
+  const mapRef = useRef(null);
 
-    script.onload = () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById("map");
-        const options = {
-          center: new window.kakao.maps.LatLng(37.5665, 126.978),
-          level: 3,
-        };
-        const map = new window.kakao.maps.Map(container, options);
-        // 주소 → 좌표 변환
-        const geocoder = new window.kakao.maps.services.Geocoder();
-        geocoder.addressSearch(address, (result, status) => {
-          if (status === window.kakao.maps.services.Status.OK) {
-            const coords = new window.kakao.maps.LatLng(
-              result[0].y,
-              result[0].x
-            );
-            new window.kakao.maps.Marker({
-              map,
-              position: coords,
-            });
-            map.setCenter(coords);
-          } else {
-            console.warn("주소 변환 실패:", status);
-          }
-        });
+  useEffect(() => {
+    const loadMap = () => {
+      if (!window.kakao) return;
+      const container = mapRef.current;
+      const map = new window.kakao.maps.Map(container, {
+        center: new window.kakao.maps.LatLng(37.5665, 126.978),
+        level: 3,
+      });
+
+      const geocoder = new window.kakao.maps.services.Geocoder();
+      geocoder.addressSearch(address, (result, status) => {
+        if (status === window.kakao.maps.services.Status.OK) {
+          const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+          new window.kakao.maps.Marker({ map, position: coords });
+          map.setCenter(coords);
+        }
       });
     };
+
+    if (!kakaoScriptLoaded) {
+      const script = document.createElement("script");
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${
+        import.meta.env.VITE_KAKAO_MAP_KEY
+      }&autoload=false&libraries=services`;
+      script.async = true;
+      script.onload = () => {
+        window.kakao.maps.load(loadMap);
+      };
+      document.head.appendChild(script);
+      kakaoScriptLoaded = true;
+    } else {
+      window.kakao?.maps.load(loadMap);
+    }
   }, [address]);
 
-  return <div id="map" className="w-full h-[400px] rounded-2xl" />;
+  return <div ref={mapRef} className="w-full h-[400px] rounded-2xl" />;
 }
