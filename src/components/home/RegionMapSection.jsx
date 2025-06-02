@@ -19,7 +19,7 @@ function RegionMapSection() {
 
   if (!regionCounts) return null;
 
-  const totalCount = Object.values(regionCounts).reduce((acc, v) => acc + v, 0);
+  const totalCount = regionCounts.total;
 
   return (
     <MainSectionWrapper bg="bg-gray-100" className="overflow-hidden">
