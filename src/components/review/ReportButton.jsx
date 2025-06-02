@@ -1,15 +1,10 @@
+import React from "react";
 import PropTypes from "prop-types";
 import ReportModal from "@/components/common/modal/ReportModal";
 import ModalPortal from "@/components/common/modal/ModalPortal";
 import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 
-export default function ReportButton({
-  isOpen,
-  isPending,
-  onOpen,
-  onClose,
-  onSubmit,
-}) {
+function ReportButton({ isOpen, isPending, onOpen, onClose, onSubmit }) {
   return (
     <>
       <button
@@ -42,3 +37,5 @@ ReportButton.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
+
+export default React.memo(ReportButton);
