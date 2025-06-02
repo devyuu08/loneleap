@@ -12,22 +12,20 @@ export const useReviewDetail = (reviewId) => {
   return useQuery({
     queryKey: QUERY_KEYS.REVIEW_DETAIL(reviewId),
     queryFn: async () => {
-      try {
-        const docRef = doc(db, "reviews", reviewId);
-        const snapshot = await getDoc(docRef);
+      const docRef = doc(db, "reviews", reviewId);
+      const snapshot = await getDoc(docRef);
 
-        if (!snapshot.exists()) {
-          throw new Error("리뷰가 존재하지 않습니다.");
-        }
-
-        return { id: snapshot.id, ...snapshot.data() };
-      } catch (error) {
-        if (error.message === "리뷰가 존재하지 않습니다.") {
-          throw error;
-        }
-        throw new Error(`리뷰 조회 중 오류가 발생했습니다: ${error.message}`);
+      if (!snapshot.exists()) {
+        throw new Error("리뷰가 존재하지 않습니다.");
       }
+
+      return { id: snapshot.id, ...snapshot.data() };
     },
     enabled: !!reviewId,
+    staleTime: 5 * 60 * 1000, // 5분
+    cacheTime: 30 * 60 * 1000, // 30분
+    onError: (err) => {
+      console.error("리뷰 상세 조회 오류:", err);
+    },
   });
 };
