@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 
-import { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { MessageCircle, Users } from "lucide-react";
 import { formatRelativeTime } from "@/utils/formatRelativeTime";
 
-export default function ChatRoomCard({ room = {} }) {
+const ChatRoomCard = React.memo(function ChatRoomCard({ room = {} }) {
   const navigate = useNavigate();
 
   const roomId = room?.id;
@@ -16,6 +16,18 @@ export default function ChatRoomCard({ room = {} }) {
     }
   }, [navigate, roomId]);
 
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter") handleClick();
+      if (e.key === "Escape") e.target.blur();
+    },
+    [handleClick]
+  );
+
+  const formattedTime = useMemo(() => {
+    return formatRelativeTime(room.createdAt);
+  }, [room.createdAt]);
+
   return (
     <article
       onClick={handleClick}
@@ -23,10 +35,7 @@ export default function ChatRoomCard({ room = {} }) {
       role="button"
       tabIndex="0"
       aria-label={`${room.name} 채팅방`}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") handleClick();
-        if (e.key === "Escape") e.target.blur();
-      }}
+      onKeyDown={handleKeyDown}
     >
       {/* 왼쪽: 텍스트 정보 */}
       <div className="flex-1 space-y-2">
@@ -60,12 +69,12 @@ export default function ChatRoomCard({ room = {} }) {
             <Users className="w-4 h-4 text-gray-500" />
             {room.participants?.length || 0}명 참여중
           </span>
-          <span>{formatRelativeTime(room.createdAt)}</span>
+          <span>{formattedTime}</span>
         </div>
       </div>
     </article>
   );
-}
+});
 
 ChatRoomCard.propTypes = {
   room: PropTypes.shape({
@@ -76,3 +85,5 @@ ChatRoomCard.propTypes = {
     category: PropTypes.string, // "동행" or "정보"
   }).isRequired,
 };
+
+export default ChatRoomCard;
