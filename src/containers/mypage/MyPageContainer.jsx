@@ -22,7 +22,7 @@ export default function MyPageContainer() {
     enabled: activeTab === "review",
   });
 
-  const myChatRoomsQuery = useMyChatRooms(user?.uid, {
+  const myChatRoomsQuery = useMyChatRooms({
     enabled: activeTab === "chat",
   });
 
