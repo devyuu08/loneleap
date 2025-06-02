@@ -1,4 +1,9 @@
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  Timestamp,
+} from "firebase/firestore";
 import { db } from "@/services/firebase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
@@ -45,28 +50,41 @@ export const useCreateChatRoom = (onSuccessNavigate) => {
     },
 
     onSuccess: (newRoom) => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.CHAT_ROOMS] });
-
-      queryClient.setQueryData([QUERY_KEYS.CHAT_ROOMS], (prev) => {
-        const newRoomData = {
-          id: newRoom.id,
-          name: newRoom.title,
-          description: newRoom.description,
-          createdBy: {
-            uid: newRoom.user.uid,
-            displayName: newRoom.user.displayName,
-            photoURL: newRoom.user.photoURL,
-          },
-          participants: [newRoom.user.uid],
-          createdAt: new Date().toISOString(),
-          isActive: true,
-        };
-        return prev ? [...prev, newRoomData] : [newRoomData];
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.CHAT_ROOMS],
+        predicate: (query) => query.queryKey[0] === QUERY_KEYS.CHAT_ROOMS,
       });
+
+      queryClient.setQueriesData(
+        {
+          queryKey: [QUERY_KEYS.CHAT_ROOMS],
+          predicate: (query) => query.queryKey[0] === QUERY_KEYS.CHAT_ROOMS,
+        },
+        (prev) => {
+          const newRoomData = {
+            id: newRoom.id,
+            name: newRoom.title,
+            description: newRoom.description,
+            createdBy: {
+              uid: newRoom.user.uid,
+              displayName: newRoom.user.displayName,
+              photoURL: newRoom.user.photoURL,
+            },
+            participants: [newRoom.user.uid],
+            createdAt: Timestamp.now(),
+            isActive: true,
+          };
+          return prev ? [...prev, newRoomData] : [newRoomData];
+        }
+      );
       // 네비게이션
       if (onSuccessNavigate) {
         onSuccessNavigate(`/chat/${newRoom.id}`);
       }
+    },
+    onError: (error) => {
+      console.error("채팅방 생성 오류:", error.message);
+      alert("채팅방 생성 중 오류가 발생했습니다.");
     },
   });
 };
