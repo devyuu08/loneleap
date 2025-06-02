@@ -54,8 +54,8 @@ export default function ReviewFormContainer({ isEditMode = false }) {
     }
   }, [initialData, isEditMode, randomQuestions]);
 
-  const { addReview, isLoading: isCreating } = useAddReview({
-    onErrorCallback: (err) => setSubmitError(err.message),
+  const { mutate: addReview, isPending: isCreating } = useAddReview({
+    onError: (err) => setSubmitError(err.message),
   });
 
   const { mutate: updateReview, isPending: isUpdating } = useMutation({
