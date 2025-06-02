@@ -1,10 +1,11 @@
+import React, { useCallback } from "react";
 import { Edit2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatDateOnly } from "@/utils/formatDate";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
 
-export default function MyReviewCard({ review = {} }) {
+const MyReviewCard = React.memo(function MyReviewCard({ review = {} }) {
   const navigate = useNavigate();
   const {
     id = "",
@@ -15,9 +16,31 @@ export default function MyReviewCard({ review = {} }) {
     createdAt = new Date(),
     imageUrl = "",
     reported = false,
+    likesCount = 0,
   } = review;
 
-  if (!review?.id || !review?.title) {
+  const handleNavigate = useCallback(() => {
+    navigate(`/reviews/${id}`);
+  }, [navigate, id]);
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        navigate(`/reviews/${id}`);
+      }
+    },
+    [navigate, id]
+  );
+
+  const handleEditClick = useCallback(
+    (e) => {
+      e.stopPropagation();
+      navigate(`/reviews/edit/${id}`);
+    },
+    [navigate, id]
+  );
+
+  if (!id || !title) {
     return (
       <div className="bg-gray-100 rounded-xl p-6 shadow-sm text-center text-gray-500">
         리뷰 정보를 불러올 수 없습니다.
@@ -27,21 +50,15 @@ export default function MyReviewCard({ review = {} }) {
 
   return (
     <div
-      onClick={() => navigate(`/reviews/${id}`)}
+      onClick={handleNavigate}
+      onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          navigate(`/reviews/${id}`);
-        }
-      }}
       className="bg-white rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-transform duration-300 overflow-hidden text-black w-full max-w-xs cursor-pointer"
     >
       {/* 이미지 영역 */}
       <div className="relative h-48 bg-gray-100">
         <SkeletonImage src={imageUrl} alt={title} objectFit="cover" />
-
-        {/* 작성일자 배지 */}
         <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
           {formatDateOnly(createdAt)}
         </div>
@@ -62,26 +79,17 @@ export default function MyReviewCard({ review = {} }) {
           </div>
         )}
 
-        {/* 별점 + 버튼 그룹 */}
         <div className="flex justify-between items-center mt-2">
-          {/* 별점 */}
           <div className="text-sm text-yellow-500">
             {"★".repeat(rating)}
             <span className="text-gray-500 ml-1">{rating}점</span>
           </div>
 
-          {/* 좋아요 + 수정 버튼 */}
           <div className="flex items-center gap-3 text-sm text-gray-500">
-            <LikeButtonContainer
-              reviewId={review.id}
-              likesCount={review.likesCount}
-            />
+            <LikeButtonContainer reviewId={id} likesCount={likesCount} />
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/reviews/edit/${id}`);
-              }}
+              onClick={handleEditClick}
               className="hover:underline"
             >
               <Edit2 className="h-4 w-4" />
@@ -91,4 +99,6 @@ export default function MyReviewCard({ review = {} }) {
       </div>
     </div>
   );
-}
+});
+
+export default MyReviewCard;
