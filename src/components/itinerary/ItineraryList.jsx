@@ -1,8 +1,11 @@
+import React from "react";
 import ItineraryCard from "@/components/itinerary/ItineraryCard";
 import EmptyState from "@/components/common/feedback/EmptyState";
 import { CalendarX } from "lucide-react";
 
-export default function ItineraryList({ filteredItineraries }) {
+const ItineraryList = React.memo(function ItineraryList({
+  filteredItineraries,
+}) {
   return (
     <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -22,4 +25,6 @@ export default function ItineraryList({ filteredItineraries }) {
       </div>
     </section>
   );
-}
+});
+
+export default ItineraryList;
