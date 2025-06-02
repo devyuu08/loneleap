@@ -11,6 +11,8 @@ export const useChatRooms = ({
   limitCount = 10,
   orderDirection = "desc",
   filterBy = null,
+  enabled = true,
+  ...options
 } = {}) => {
   return useQuery({
     queryKey: QUERY_KEYS.CHAT_ROOMS_FILTERED(
@@ -18,8 +20,17 @@ export const useChatRooms = ({
       orderDirection,
       filterBy
     ),
-    queryFn: () => fetchChatRooms({ limitCount, orderDirection, filterBy }),
-    refetchInterval: 30000,
-    staleTime: 10000,
+    queryFn: () =>
+      fetchChatRooms({
+        limitCount,
+        orderDirection,
+        filterBy,
+      }),
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 30 * 60 * 1000,
+    refetchInterval: 30000, // 30초 polling 유지 (실시간성 고려)
+    refetchOnWindowFocus: true, // 창에 다시 포커스 시 갱신
+    enabled,
+    ...options,
   });
 };
