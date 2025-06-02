@@ -1,3 +1,4 @@
+import React from "react";
 import {
   ClipboardCheck,
   Plus,
@@ -6,7 +7,7 @@ import {
   Trash2,
 } from "lucide-react";
 
-export default function ChecklistSection({
+function ChecklistSection({
   localChecklist,
   newItem,
   setNewItem,
@@ -128,3 +129,5 @@ export default function ChecklistSection({
     </div>
   );
 }
+
+export default React.memo(ChecklistSection);
