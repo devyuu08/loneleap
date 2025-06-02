@@ -14,7 +14,7 @@ export default function MyPageContainer() {
     setActiveTab(tab);
   }, []);
 
-  const myItinerariesQuery = useMyItineraries(user?.uid, {
+  const myItinerariesQuery = useMyItineraries({
     enabled: activeTab === "itinerary",
   });
 
