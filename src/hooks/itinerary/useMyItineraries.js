@@ -9,8 +9,9 @@ export const useMyItineraries = (options = {}) => {
 
   return useQuery({
     queryKey: QUERY_KEYS.MY_ITINERARIES(user?.uid),
-    enabled: !loading && !!user?.uid && options.enabled !== false,
     queryFn: () => fetchMyItineraries(user.uid),
+    staleTime: 5 * 60 * 1000,
+    enabled: !loading && !!user?.uid && options.enabled !== false,
     ...options,
   });
 };

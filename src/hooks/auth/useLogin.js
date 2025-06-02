@@ -13,6 +13,7 @@ export function useLogin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // 이메일/비밀번호 로그인
   const {
     mutate: handleEmailPasswordLogin,
     isPending: isEmailLoading,
@@ -35,8 +36,10 @@ export function useLogin() {
       console.error("이메일 로그인 실패:", err.message);
       alert("이메일 또는 비밀번호가 잘못되었습니다.");
     },
+    retry: 0,
   });
 
+  // 구글 로그인
   const { mutate: handleGoogleLogin, isPending: isGoogleLoading } = useMutation(
     {
       mutationFn: signInWithGoogle,
@@ -56,6 +59,7 @@ export function useLogin() {
         console.error("Google 로그인 실패:", err.message);
         alert("Google 로그인 중 오류가 발생했습니다.");
       },
+      retry: 1,
     }
   );
 

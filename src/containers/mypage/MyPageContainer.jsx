@@ -14,7 +14,7 @@ export default function MyPageContainer() {
     setActiveTab(tab);
   }, []);
 
-  const myItinerariesQuery = useMyItineraries(user?.uid, {
+  const myItinerariesQuery = useMyItineraries({
     enabled: activeTab === "itinerary",
   });
 
@@ -22,7 +22,7 @@ export default function MyPageContainer() {
     enabled: activeTab === "review",
   });
 
-  const myChatRoomsQuery = useMyChatRooms(user?.uid, {
+  const myChatRoomsQuery = useMyChatRooms({
     enabled: activeTab === "chat",
   });
 

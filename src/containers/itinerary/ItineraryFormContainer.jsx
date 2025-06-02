@@ -40,7 +40,10 @@ export default function ItineraryFormContainer({ isEditMode = false }) {
     }
   }, [initialData, isEditMode]);
 
-  const { mutate: addMutate, isPending: isAdding } = useAddItinerary();
+  const { mutate: addMutate, isPending: isAdding } = useAddItinerary({
+    onSuccessCallback: (newId) => navigate(`/itinerary/${newId}`),
+  });
+
   const { mutate: updateMutate, isPending: isUpdating } = useMutation({
     mutationFn: ({ id, updatedData }) => updateItinerary(id, updatedData),
     onSuccess: () => navigate(`/itinerary/${id}`),
@@ -102,10 +105,9 @@ export default function ItineraryFormContainer({ isEditMode = false }) {
 
       isEditMode
         ? updateMutate({ id, updatedData: itineraryData })
-        : addMutate(itineraryData, {
-            onSuccess: (newId) => navigate(`/itinerary/${newId}`),
-          });
+        : addMutate(itineraryData);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       validateForm,
       title,

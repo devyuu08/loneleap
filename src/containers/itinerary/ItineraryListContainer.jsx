@@ -16,18 +16,19 @@ export default function ItineraryListContainer() {
     if (!Array.isArray(itineraries)) return [];
 
     const convertToDate = (ts) => (ts ? new Date(ts) : new Date(0));
+    let sorted = itineraries;
 
-    return [...itineraries]
-      .sort((a, b) =>
-        activeFilter === "최신순"
-          ? convertToDate(b.createdAt) - convertToDate(a.createdAt)
-          : convertToDate(a.createdAt) - convertToDate(b.createdAt)
-      )
-      .filter((itinerary) =>
-        itinerary.location
-          ?.toLowerCase()
-          .includes(searchKeyword.trim().toLowerCase())
+    if (activeFilter === "오래된순") {
+      sorted = [...itineraries].sort(
+        (a, b) => convertToDate(a.createdAt) - convertToDate(b.createdAt)
       );
+    }
+
+    return sorted.filter((itinerary) =>
+      itinerary.location
+        ?.toLowerCase()
+        .includes(searchKeyword.trim().toLowerCase())
+    );
   }, [itineraries, activeFilter, searchKeyword]);
 
   const handleFilterChange = useCallback((filter) => {

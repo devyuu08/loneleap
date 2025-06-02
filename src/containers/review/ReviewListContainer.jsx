@@ -22,9 +22,7 @@ export default function ReviewListContainer() {
     let result = [...reviews];
 
     // 정렬
-    if (sort === "최신순") {
-      result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    } else if (sort === "별점순") {
+    if (sort === "별점순") {
       result.sort((a, b) => b.rating - a.rating);
     } else if (sort === "좋아요순") {
       result.sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0));

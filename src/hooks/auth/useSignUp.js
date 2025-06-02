@@ -36,26 +36,26 @@ export function useSignUp() {
         throw new Error("비밀번호가 일치하지 않습니다.");
       }
 
-      const result = await signUpUser(
-        trimmedEmail,
-        trimmedPassword,
-        trimmedNickname
-      );
-      return result;
+      return await signUpUser(trimmedEmail, trimmedPassword, trimmedNickname);
     },
     successMessage: "회원가입이 완료되었습니다!",
+    errorMessage: "회원가입에 실패했습니다.",
     redirectTo: "/",
-    onSuccessCallback: (result) => {
+
+    onSuccessCallback: ({ user }) => {
       dispatch(
         setUser({
-          uid: result.user.uid,
-          email: result.user.email,
-          displayName: result.user.displayName,
-          photoURL: result.user.photoURL,
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
         })
       );
     },
-    errorMessage: "회원가입에 실패했습니다.",
+
+    mutationOptions: {
+      retry: 0,
+    },
   });
 
   return mutation;

@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
+import { auth } from "@/services/firebase";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { createItineraryWithImage } from "@/services/itinerary/createItineraryWithImage";
 
@@ -21,6 +22,14 @@ export const useAddItinerary = ({
     onSuccess: (newId) => {
       alert("일정이 성공적으로 등록되었습니다!");
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ITINERARIES] });
+
+      const uid = auth.currentUser?.uid;
+      if (uid) {
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.MY_ITINERARIES(uid),
+        });
+      }
+
       onSuccessCallback(newId);
     },
     onError: (error) => {
