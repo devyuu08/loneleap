@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRecommendationList } from "@/hooks/recommendation/useRecommendationList";
 import RecommendationList from "@/components/recommendation/RecommendationList";
 
+const FILTER_ALL = "전체 지역";
+
 export default function RecommendationListContainer() {
   const { data: recommendations, isLoading, isError } = useRecommendationList();
-  const [activeFilter, setActiveFilter] = useState("전체 지역");
+  const [activeFilter, setActiveFilter] = useState(FILTER_ALL);
 
-  const filtered =
-    activeFilter === "전체 지역"
-      ? recommendations
-      : recommendations?.filter((item) => item.location === activeFilter);
+  const filtered = useMemo(() => {
+    if (!recommendations) return [];
+    if (activeFilter === FILTER_ALL) return recommendations;
+    return recommendations.filter((item) => item.location === activeFilter);
+  }, [recommendations, activeFilter]);
 
   return (
     <RecommendationList
