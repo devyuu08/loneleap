@@ -130,3 +130,5 @@ ChatMessage.propTypes = {
   setOpenReportModal: PropTypes.func.isRequired,
   isReporting: PropTypes.bool.isRequired,
 };
+
+export default ChatMessage;
