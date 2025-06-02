@@ -1,9 +1,9 @@
+import { useMemo } from "react";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import { Lightbulb } from "lucide-react";
 import FormInput from "@/components/common/form/FormInput";
 import FormTextarea from "@/components/common/form/FormTextarea";
-import { useCallback, useMemo } from "react";
 
 export default function ChatRoomForm({
   title,
@@ -21,19 +21,6 @@ export default function ChatRoomForm({
       backgroundImage: "url('/images/chat-form-bg.jpg')",
     }),
     []
-  );
-
-  const handleTitleChange = useCallback(
-    (e) => setTitle(e.target.value),
-    [setTitle]
-  );
-  const handleDescriptionChange = useCallback(
-    (e) => setDescription(e.target.value),
-    [setDescription]
-  );
-  const handleCategoryChange = useCallback(
-    (option) => setCategory(option),
-    [setCategory]
   );
 
   return (
@@ -66,7 +53,7 @@ export default function ChatRoomForm({
               id="title"
               label="채팅방 제목"
               value={title}
-              onChange={handleTitleChange}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder="예: 4월 제주 혼행 동행 구함"
               error={errors.title}
               variant="default"
@@ -80,7 +67,7 @@ export default function ChatRoomForm({
               name="description"
               label="설명"
               value={description}
-              onChange={handleDescriptionChange}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="여행 정보나 동행 조건을 자유롭게 적어보세요"
               error={errors.description}
             />
@@ -94,7 +81,7 @@ export default function ChatRoomForm({
                 <button
                   key={option}
                   type="button"
-                  onClick={handleCategoryChange}
+                  onClick={() => setCategory(option)}
                   className={`px-4 py-2 rounded-full text-sm border transition ${
                     category === option
                       ? "bg-black text-white border-black"
