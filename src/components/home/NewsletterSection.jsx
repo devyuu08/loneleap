@@ -23,8 +23,9 @@ export default function NewsletterSection() {
       <img
         src="/images/newsletter-bg.jpg"
         alt="배경 이미지"
-        className="absolute inset-0 w-full h-full object-cover"
         loading="lazy"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
       />
 
       {/* 어두운 오버레이 */}
