@@ -10,8 +10,8 @@ export default function Home() {
     <>
       <MainHero />
       <DestinationSlider />
-      <ReviewPreview />
       <RegionMapSection />
+      <ReviewPreview />
       <OpenChatSection />
       <NewsletterSection />
     </>
