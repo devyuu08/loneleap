@@ -32,11 +32,14 @@ export default function ItineraryHero({ data }) {
 
         {createdBy && (
           <div className="flex items-center gap-2 mt-4 text-sm text-white/80">
-            <img
-              src={createdBy.photoURL || "/images/default-profile.png"}
-              alt="작성자"
-              className="w-6 h-6 rounded-full object-cover"
-            />
+            <div className="w-7 h-7">
+              <SkeletonImage
+                src={createdBy.photoURL || "/images/default-profile.png"}
+                alt="작성자"
+                className="rounded-full"
+                objectFit="cover"
+              />
+            </div>
             <span>{createdBy.displayName || "익명"}</span>
           </div>
         )}
