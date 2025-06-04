@@ -28,6 +28,7 @@ function MainHero() {
       {/* 슬라이드 이미지 */}
       {images.map((src, index) => (
         <img
+          key={src}
           src={src}
           alt={`슬라이드 이미지 ${index + 1}`}
           loading="lazy"
