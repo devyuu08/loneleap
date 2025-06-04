@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useRecentReviews } from "@/hooks/review/useRecentReviews";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
+import { Quote } from "lucide-react";
 
 export default function ReviewPreview() {
   const { data: reviews } = useRecentReviews();
@@ -20,6 +21,20 @@ export default function ReviewPreview() {
     return review.content || "내용 없음";
   }, []);
 
+  const formatDate = (date) => {
+    try {
+      const d =
+        typeof date?.toDate === "function" ? date.toDate() : new Date(date);
+      return d.toLocaleDateString("ko-KR", {
+        year: "2-digit",
+        month: "2-digit",
+        day: "2-digit",
+      });
+    } catch {
+      return "날짜 없음";
+    }
+  };
+
   const slides = useMemo(() => {
     if (!Array.isArray(reviews)) return [];
     return reviews.map((review) => (
@@ -29,21 +44,15 @@ export default function ReviewPreview() {
             to={`/reviews/${review.id}`}
             className="relative w-full max-w-3xl h-80 min-h-[320px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition flex bg-white backdrop-blur-sm"
           >
-            {/* 왼쪽: 리뷰 이미지 */}
-            <div className="w-2/5 min-w-[160px] h-full">
-              <SkeletonImage
-                src={review.imageUrl}
-                alt="리뷰 이미지"
-                className="w-full h-full"
-                objectFit="cover"
-              />
+            {/* 오른쪽 상단 아이콘 */}
+            <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-gray-100/60 flex items-center justify-center shadow-inner">
+              <Quote className="w-7 h-7 text-gray-600 opacity-60" />
             </div>
 
-            {/* 오른쪽: 리뷰 내용 */}
             <div className="flex-1 px-6 py-6 text-gray-900 flex flex-col justify-between">
               {/* 유저 정보 */}
               <div className="flex gap-4 items-center">
-                <div className="w-12 h-12">
+                <div className="w-12 h-12 shrink-0">
                   <SkeletonImage
                     src={
                       review.createdBy?.photoURL ||
@@ -54,22 +63,14 @@ export default function ReviewPreview() {
                     objectFit="cover"
                   />
                 </div>
-                <div>
-                  <p className="font-bold text-base">
+
+                <div className="flex flex-col justify-center">
+                  <p className="text-lg font-semibold text-gray-800 leading-tight">
                     {review.createdBy?.displayName || "익명"}
                   </p>
-                  <p className="text-xs opacity-70">
+                  <p className="text-xs text-gray-500 mt-1">
                     {review.destination || "여행지"} ·{" "}
-                    {review.createdAt?.toDate
-                      ? new Date(review.createdAt.toDate()).toLocaleDateString(
-                          "ko-KR",
-                          {
-                            year: "2-digit",
-                            month: "2-digit",
-                            day: "2-digit",
-                          }
-                        )
-                      : "날짜 없음"}
+                    {formatDate(review.createdAt)}
                   </p>
                 </div>
               </div>
@@ -146,10 +147,20 @@ export default function ReviewPreview() {
           modules={[Navigation, Pagination]}
           navigation
           pagination={{ clickable: true }}
-          centeredSlides
-          slidesPerView={1.2}
-          spaceBetween={40}
+          centeredSlides={false}
           loop={reviews.length >= 3}
+          spaceBetween={30}
+          breakpoints={{
+            0: {
+              slidesPerView: 1,
+            },
+            768: {
+              slidesPerView: 1.5,
+            },
+            1024: {
+              slidesPerView: 2,
+            },
+          }}
           className="max-w-6xl mx-auto"
         >
           {slides}
