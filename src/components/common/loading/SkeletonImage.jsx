@@ -28,11 +28,13 @@ export default function SkeletonImage({
         src={src}
         alt={alt}
         loading="lazy"
+        decoding="async"
         onLoad={() => setLoaded(true)}
         onError={() => setError(true)}
         className={`transition-opacity duration-300 w-full h-full absolute inset-0 object-${objectFit} ${
           loaded && !error ? "opacity-100" : "opacity-0"
         } ${className}`}
+        style={{ willChange: "opacity" }}
       />
     </div>
   );
