@@ -28,12 +28,14 @@ function MainHero() {
       {/* 슬라이드 이미지 */}
       {images.map((src, index) => (
         <img
-          key={index}
           src={src}
           alt={`슬라이드 이미지 ${index + 1}`}
+          loading="lazy"
+          decoding="async"
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[5000ms] ${
             index === current ? "opacity-100" : "opacity-0"
           }`}
+          style={{ willChange: "opacity", transform: "translateZ(0)" }} // GPU 힌트
         />
       ))}
 
