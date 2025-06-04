@@ -56,8 +56,9 @@ function OpenChatSection() {
           <img
             src="/images/chat-banner.jpg"
             alt="오픈채팅 소개"
-            className="w-full h-auto rounded-xl shadow-md object-cover"
             loading="lazy"
+            decoding="async"
+            className="w-full h-auto rounded-xl shadow-md object-cover"
           />
         </div>
       </div>
