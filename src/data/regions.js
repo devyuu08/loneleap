@@ -32,6 +32,6 @@ export const regions = [
   {
     name: "제주",
     slug: "jeju",
-    position: { top: "91%", left: "36%" },
+    position: { top: "88%", left: "36%" },
   },
 ];
