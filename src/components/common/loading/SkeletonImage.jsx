@@ -21,10 +21,12 @@ export default function SkeletonImage({
   `;
 
   return (
-    <div className={wrapperClass}>
+    <div className={`${wrapperClass} ${className}`}>
       {/* 로딩 스켈레톤 */}
       {!loaded && !error && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse z-0" />
+        <div
+          className={`absolute inset-0 bg-gray-200 animate-pulse z-0 ${className}`}
+        />
       )}
 
       {/* 에러 fallback */}
