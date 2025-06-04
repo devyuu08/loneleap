@@ -8,7 +8,7 @@ import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 function RegionMapSection() {
   const [activeRegion, setActiveRegion] = useState(null);
 
-  const { data: regionCounts, isLoading } = useRegionCounts();
+  const { data: regionCounts } = useRegionCounts();
 
   const mappedRegions = useMemo(() => {
     return regions.map((r) => ({
@@ -63,6 +63,8 @@ function RegionMapSection() {
           <img
             src="/images/korea-map.png"
             alt="대한민국 지도"
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-contain"
           />
 
