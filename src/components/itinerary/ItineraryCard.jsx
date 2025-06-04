@@ -79,7 +79,7 @@ function ItineraryCard({ itinerary }) {
               <span className="text-xs text-gray-500 truncate max-w-[100px]">
                 {itinerary.createdBy.displayName || "익명"}
               </span>
-              <div className="w-5 h-5">
+              <div className="w-6 h-6">
                 <SkeletonImage
                   src={
                     itinerary.createdBy?.photoURL ||
