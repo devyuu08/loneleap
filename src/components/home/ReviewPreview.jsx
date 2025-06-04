@@ -42,7 +42,7 @@ export default function ReviewPreview() {
         <div className="flex justify-center">
           <Link
             to={`/reviews/${review.id}`}
-            className="relative w-full max-w-3xl h-80 min-h-[320px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition flex bg-white backdrop-blur-sm"
+            className="relative w-full max-w-3xl h-80 min-h-[320px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition flex bg-white"
           >
             {/* 오른쪽 상단 아이콘 */}
             <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-gray-100/60 flex items-center justify-center shadow-inner">
@@ -123,7 +123,7 @@ export default function ReviewPreview() {
       />
 
       {/* 어두운 오버레이 */}
-      <div className="absolute inset-0 bg-black/40 z-10" />
+      <div className="absolute inset-0 bg-black/40 z-10 pointer-events-none" />
 
       {/* 콘텐츠 */}
       <div className="relative max-w-screen-2xl mx-auto z-20">
@@ -150,6 +150,8 @@ export default function ReviewPreview() {
           centeredSlides={false}
           loop={reviews.length >= 3}
           spaceBetween={30}
+          observer={true}
+          observeParents={true}
           breakpoints={{
             0: {
               slidesPerView: 1,
