@@ -71,22 +71,20 @@ function RegionMapSection() {
           {mappedRegions.map((r) => (
             <div
               key={r.slug}
-              className="absolute -translate-x-1/2 -translate-y-1/2"
+              className="absolute -translate-x-1/2 -translate-y-1/2 text-center"
               style={{ top: r.position.top, left: r.position.left }}
             >
-              {/* 설명 박스 */}
-              {activeRegion === r.slug && (
-                <div className="absolute bottom-[56px] left-1/2 -translate-x-1/2 bg-gray-600 text-white rounded-xl shadow-xl px-4 py-3 w-[200px]">
-                  <p className="font-semibold text-sm">{r.name}</p>
-                  <p className="text-xs text-white mt-1">{r.desc}</p>
-                </div>
-              )}
+              {/* 지역명 */}
+              <p className="text-[10px] text-gray-700 font-semibold mb-1">
+                {r.name}
+              </p>
 
+              {/* 버튼 */}
               <button
                 onClick={() =>
                   setActiveRegion(activeRegion === r.slug ? null : r.slug)
                 }
-                className="relative w-10 h-10 rounded-full bg-white/80 text-gray-900 font-semibold text-sm shadow-lg ring-2 ring-white backdrop-blur-sm flex items-center justify-center transition hover:scale-110"
+                className="w-9 h-9 rounded-full bg-white/80 text-gray-900 font-semibold text-sm shadow ring-1 ring-gray-300 flex items-center justify-center transition hover:scale-110"
               >
                 {r.count}
               </button>
