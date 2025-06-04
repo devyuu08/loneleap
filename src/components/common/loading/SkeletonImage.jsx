@@ -6,11 +6,12 @@ export default function SkeletonImage({
   className = "",
   objectFit = "cover",
   absolute = false,
+  size = "w-full h-full",
 }) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
-  const wrapperClass = absolute ? `absolute inset-0` : `relative w-full h-full`;
+  const wrapperClass = `${absolute ? "absolute inset-0" : "relative"} ${size}`;
 
   const imageClass = `
     transition-opacity duration-300 w-full h-full 

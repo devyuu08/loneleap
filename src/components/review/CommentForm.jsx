@@ -6,14 +6,13 @@ function CommentForm({ user, content, setContent, isPending, onSubmit }) {
   return (
     <form onSubmit={onSubmit} className="space-y-2">
       <div className="flex items-start gap-3">
-        <div className="w-10 h-10">
-          <SkeletonImage
-            src={user?.photoURL || "/images/default-profile.png"}
-            alt="프로필"
-            className="rounded-full border border-white/20"
-            objectFit="cover"
-          />
-        </div>
+        <SkeletonImage
+          src={user?.photoURL || "/images/default-profile.png"}
+          alt="프로필"
+          className="rounded-full border border-white/20"
+          objectFit="cover"
+          size="w-12 h-11"
+        />
         <textarea
           id="comment-textarea"
           rows={3}

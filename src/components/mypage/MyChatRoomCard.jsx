@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { formatDateOnly } from "@/utils/formatDate";
 import { Bell } from "lucide-react";
+import SkeletonImage from "../common/loading/SkeletonImage";
 
 function MyChatRoomCard({ room }) {
   const navigate = useNavigate();
@@ -63,17 +64,16 @@ function MyChatRoomCard({ room }) {
         {/* 참여자 */}
         <div className="flex -space-x-2">
           {room.participants?.slice(0, 5).map((user, index) => (
-            <img
+            <SkeletonImage
               key={index}
               src={user.photoURL || "/images/default-profile.png"}
               alt="참여자"
-              className="w-6 h-6 rounded-full border-2 border-white object-cover"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "/images/default-profile.png";
-              }}
+              className="rounded-full border-2 border-white"
+              objectFit="cover"
+              size=" w-6 h-6"
             />
           ))}
+
           {room.participants?.length > 5 && (
             <span className="text-xs text-gray-500 ml-2">
               +{room.participants.length - 5}

@@ -18,14 +18,13 @@ function CommentItem({ comment, currentUserId, reviewId }) {
     <div className="relative bg-white/70 backdrop-blur-sm border border-gray-200 rounded-xl p-5 shadow-sm">
       {/* 작성자 & 시간 */}
       <div className="flex items-center gap-3 mb-2 text-sm text-gray-600">
-        <div className="w-6 h-6">
-          <SkeletonImage
-            src={author?.photoURL || "/images/default-profile.png"}
-            alt="작성자 프로필"
-            className="rounded-full border border-white/20"
-            objectFit="cover"
-          />
-        </div>
+        <SkeletonImage
+          src={author?.photoURL || "/images/default-profile.png"}
+          alt="작성자 프로필"
+          className="rounded-full border border-white/20"
+          objectFit="cover"
+          size="w-6 h-6"
+        />
         <span className="font-semibold text-gray-800">
           {" "}
           {author?.displayName || "익명"}
