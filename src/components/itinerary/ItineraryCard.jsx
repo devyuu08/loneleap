@@ -79,19 +79,15 @@ function ItineraryCard({ itinerary }) {
               <span className="text-xs text-gray-500 truncate max-w-[100px]">
                 {itinerary.createdBy.displayName || "익명"}
               </span>
-              <img
+
+              <SkeletonImage
                 src={
                   itinerary.createdBy?.photoURL || "/images/default-profile.png"
                 }
                 alt="작성자"
-                className="w-5 h-5 rounded-full object-cover"
-                onError={(e) => {
-                  const fallback = "/images/default-profile.png";
-                  if (!e.target.dataset.errorHandled) {
-                    e.target.src = fallback;
-                    e.target.dataset.errorHandled = "true";
-                  }
-                }}
+                className="rounded-full object-cover"
+                objectFit="cover"
+                size="w-6 h-6"
               />
             </div>
           )}

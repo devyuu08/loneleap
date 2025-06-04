@@ -10,7 +10,7 @@ import SkeletonImage from "@/components/common/loading/SkeletonImage";
 import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 
 export default function ReviewPreview() {
-  const { data: reviews, isLoading } = useRecentReviews();
+  const { data: reviews } = useRecentReviews();
 
   const getPreviewText = useCallback((review) => {
     if (review.type === "interview") {
@@ -43,13 +43,17 @@ export default function ReviewPreview() {
             <div className="flex-1 px-6 py-6 text-gray-900 flex flex-col justify-between">
               {/* 유저 정보 */}
               <div className="flex gap-4 items-center">
-                <img
-                  src={
-                    review.createdBy?.photoURL || "/images/default-profile.png"
-                  }
-                  alt="작성자"
-                  className="w-12 h-12 object-cover rounded-full border border-white/20"
-                />
+                <div className="w-12 h-12">
+                  <SkeletonImage
+                    src={
+                      review.createdBy?.photoURL ||
+                      "/images/default-profile.png"
+                    }
+                    alt="작성자"
+                    className="rounded-full border border-white/20"
+                    objectFit="cover"
+                  />
+                </div>
                 <div>
                   <p className="font-bold text-base">
                     {review.createdBy?.displayName || "익명"}
@@ -104,7 +108,7 @@ export default function ReviewPreview() {
     ));
   }, [reviews, getPreviewText]);
 
-  if (isLoading || !reviews) return null;
+  if (!reviews) return null;
 
   return (
     <MainSectionWrapper className="overflow-hidden">
@@ -112,6 +116,8 @@ export default function ReviewPreview() {
       <img
         src="/images/review-bg.jpg"
         alt="여행자 리뷰 배경"
+        loading="lazy"
+        decoding="async"
         className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
       />
 

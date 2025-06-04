@@ -39,11 +39,14 @@ function ReviewHero({ review }) {
 
         {/* 작성자 + 날짜 */}
         <div className="flex items-center gap-3 mt-4 text-sm text-white/80">
-          <img
+          <SkeletonImage
             src={createdBy?.photoURL || "/images/default-profile.png"}
-            alt="작성자"
-            className="w-6 h-6 rounded-full object-cover"
+            alt="작성자 프로필 이미지"
+            className="rounded-full border border-white/20"
+            objectFit="cover"
+            size="w-7 h-7"
           />
+
           <span>{createdBy?.displayName || "익명"}</span>
           <span className="text-xs">· {formatDate(createdAt)}</span>
         </div>

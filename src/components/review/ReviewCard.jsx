@@ -89,17 +89,13 @@ function ReviewCard({ review }) {
             <span className="text-xs text-gray-500 truncate max-w-[100px]">
               {createdBy?.displayName || "익명"}
             </span>
-            <img
+
+            <SkeletonImage
               src={createdBy?.photoURL || "/images/default-profile.png"}
               alt="작성자"
-              className="w-5 h-5 rounded-full object-cover"
-              onError={(e) => {
-                const fallback = "/images/default-profile.png";
-                if (!e.target.dataset.fallback) {
-                  e.target.src = fallback;
-                  e.target.dataset.fallback = "true";
-                }
-              }}
+              className="w-5 h-5 rounded-full border border-white/10"
+              objectFit="cover"
+              size="w-6 h-6"
             />
           </div>
           <LikeButtonContainer

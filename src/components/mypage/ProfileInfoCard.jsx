@@ -1,13 +1,16 @@
 import { Camera } from "lucide-react";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function ProfileInfoCard({ user, onImageChange }) {
   return (
     <div className="flex flex-col items-center text-center">
       <div className="relative group w-32 h-32 mb-4">
-        <img
+        <SkeletonImage
           src={user?.photoURL || "/images/default-profile.png"}
           alt="프로필 이미지"
-          className="w-32 h-32 object-cover rounded-full border-2 border-white shadow-md"
+          className="rounded-full border-2 border-white shadow-md"
+          size="w-32 h-32"
+          objectFit="cover"
         />
         <label
           htmlFor="profile-image-upload"

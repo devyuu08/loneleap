@@ -1,3 +1,5 @@
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
+
 export default function ParticipantList({ users, isLoading }) {
   if (isLoading || !Array.isArray(users)) return null;
 
@@ -16,11 +18,13 @@ export default function ParticipantList({ users, isLoading }) {
         >
           {users.map((user) => (
             <li key={user.uid} className="flex items-center gap-3">
-              <img
+              <SkeletonImage
                 src={user.photoURL || "/images/default-profile.png"}
                 alt={user.displayName || "참여자"}
-                className="w-8 h-8 rounded-full object-cover"
+                className="rounded-full object-cover"
+                size="w-8 h-8"
               />
+
               <span className="text-sm font-medium text-gray-800 leading-tight truncate">
                 {user.displayName || user.email?.split("@")[0] || "알 수 없음"}
               </span>

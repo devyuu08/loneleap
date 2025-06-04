@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { useDeleteComment } from "@/hooks/review/useDeleteComment";
 import { Trash2 } from "lucide-react";
 import { cn } from "@/utils/utils";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 function CommentItem({ comment, currentUserId, reviewId }) {
   const { id, content, createdAt, author } = comment;
@@ -17,10 +18,12 @@ function CommentItem({ comment, currentUserId, reviewId }) {
     <div className="relative bg-white/70 backdrop-blur-sm border border-gray-200 rounded-xl p-5 shadow-sm">
       {/* 작성자 & 시간 */}
       <div className="flex items-center gap-3 mb-2 text-sm text-gray-600">
-        <img
+        <SkeletonImage
           src={author?.photoURL || "/images/default-profile.png"}
           alt="작성자 프로필"
-          className="w-6 h-6 rounded-full object-cover"
+          className="rounded-full border border-white/20"
+          objectFit="cover"
+          size="w-6 h-6"
         />
         <span className="font-semibold text-gray-800">
           {" "}

@@ -43,6 +43,7 @@ function DayScheduleList({
                 <DayScheduleItem
                   key={item.id || `${day.day}-${idx}`}
                   {...item}
+                  isOwner={isOwner}
                   onDelete={() =>
                     isOwner && handleDeleteSchedule(index, item.id)
                   }

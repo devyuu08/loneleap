@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function HeroSection({
   imageSrc,
@@ -12,10 +13,11 @@ export default function HeroSection({
       className={`relative ${height} pt-16 text-white flex items-center justify-center overflow-hidden`}
     >
       {imageSrc && (
-        <img
+        <SkeletonImage
           src={imageSrc}
           alt={imageAlt}
-          className="absolute inset-0 w-full h-full object-cover"
+          objectFit="cover"
+          absolute={true}
         />
       )}
 

@@ -1,7 +1,8 @@
-import { Footprints, Trash2 } from "lucide-react";
 import React from "react";
+import { Footprints, Trash2 } from "lucide-react";
+import PropTypes from "prop-types";
 
-function DayScheduleItem({ time, activity, description, onDelete }) {
+function DayScheduleItem({ time, activity, description, onDelete, isOwner }) {
   return (
     <li className="flex justify-between items-start space-x-4">
       {/* 좌측: 시간 */}
@@ -20,8 +21,8 @@ function DayScheduleItem({ time, activity, description, onDelete }) {
         )}
       </div>
 
-      {/* 우측: 삭제 버튼 */}
-      {onDelete && (
+      {/* 우측: 삭제 버튼 (소유자일 때만 표시) */}
+      {isOwner && onDelete && (
         <button
           onClick={onDelete}
           className="text-gray-400 hover:text-red-500 transition"
@@ -33,5 +34,13 @@ function DayScheduleItem({ time, activity, description, onDelete }) {
     </li>
   );
 }
+
+DayScheduleItem.propTypes = {
+  time: PropTypes.string,
+  activity: PropTypes.string,
+  description: PropTypes.string,
+  onDelete: PropTypes.func,
+  isOwner: PropTypes.bool,
+};
 
 export default React.memo(DayScheduleItem);
