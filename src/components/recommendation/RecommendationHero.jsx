@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import { Heart, Copy, Share2 } from "lucide-react";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 export default function RecommendationHero({ data }) {
