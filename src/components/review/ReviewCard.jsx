@@ -48,8 +48,8 @@ function ReviewCard({ review }) {
         <SkeletonImage
           src={imageUrl}
           alt={`${title} 썸네일`}
-          className="w-full h-full"
           objectFit="cover"
+          size="w-full h-full"
         />
         {/* 여행지 태그 */}
         <span className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
@@ -93,9 +93,9 @@ function ReviewCard({ review }) {
             <SkeletonImage
               src={createdBy?.photoURL || "/images/default-profile.png"}
               alt="작성자"
-              className="w-5 h-5 rounded-full border border-white/10"
               objectFit="cover"
               size="w-6 h-6"
+              className="rounded-full border border-white/10"
             />
           </div>
           <LikeButtonContainer

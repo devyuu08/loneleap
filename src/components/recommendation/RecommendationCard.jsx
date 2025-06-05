@@ -16,8 +16,8 @@ function RecommendationCard({ recommendation }) {
         <SkeletonImage
           src={imageUrl}
           alt={name}
-          className="w-full h-full"
           objectFit="cover"
+          size="w-full h-full"
         />
         <span className="absolute bottom-3 left-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
           {location}
