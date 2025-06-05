@@ -76,21 +76,24 @@ export default function ReviewDetail({
         {/* 댓글 */}
         <section className="max-w-6xl mx-auto px-4 mt-16 flex flex-col md:flex-row gap-8">
           {/* 댓글 작성 & 리스트 - 왼쪽 영역 */}
-          <div className="md:w-2/3">
+          <div className="w-full md:w-2/3">
             <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
               <h2 className="text-xl font-bold text-gray-900 mb-2">
                 혼행자의 감상 한 줄
               </h2>
-              <p className="text-sm text-gray-500 mb-6">
+
+              {/* PC에서만 보이도록 */}
+              <p className="text-sm text-gray-500 mb-6 hidden md:block">
                 같은 장소, 다른 감정. 다른 여행자의 시선을 통해 더 깊이
                 바라보세요.
               </p>
+
               <CommentListContainer reviewId={reviewId} />
             </div>
           </div>
 
-          {/* 유의사항 카드 - 오른쪽 영역 */}
-          <aside className="md:w-1/3">
+          {/* 유의사항 카드 - PC에서만 표시 */}
+          <aside className="w-full md:w-1/3 hidden md:block">
             <div className="bg-gray-100/60 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-5 text-sm text-gray-700 leading-relaxed shadow-md">
               <p className="font-semibold text-gray-800 mb-2">
                 댓글 작성 시 유의사항
