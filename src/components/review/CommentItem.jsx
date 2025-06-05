@@ -21,9 +21,8 @@ function CommentItem({ comment, currentUserId, reviewId }) {
         <SkeletonImage
           src={author?.photoURL || "/images/default-profile.png"}
           alt="작성자 프로필"
-          className="rounded-full border border-white/20"
-          objectFit="cover"
           size="w-6 h-6"
+          className="rounded-full border border-white/20"
         />
         <span className="font-semibold text-gray-800">
           {" "}

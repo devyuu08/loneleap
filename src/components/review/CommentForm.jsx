@@ -9,9 +9,8 @@ function CommentForm({ user, content, setContent, isPending, onSubmit }) {
         <SkeletonImage
           src={user?.photoURL || "/images/default-profile.png"}
           alt="프로필"
-          className="rounded-full border border-white/20"
-          objectFit="cover"
           size="w-12 h-11"
+          className="rounded-full border border-white/20"
         />
         <textarea
           id="comment-textarea"
