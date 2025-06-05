@@ -24,20 +24,20 @@ function RegionMapSection() {
   return (
     <MainSectionWrapper
       bg="bg-gradient-to-br from-white to-gray-50 py-20"
-      containerClass="max-w-screen-xl px-4 flex flex-col lg:flex-row items-center justify-between gap-12"
+      containerClass="max-w-screen-xl px-4 flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 sm:gap-10 lg:gap-12"
     >
       {/* 왼쪽: 텍스트 + CTA */}
-      <div className="max-w-lg text-left flex-1">
-        <h2 className="text-3xl font-bold text-gray-900 leading-snug mb-5">
+      <div className="max-w-lg text-center lg:text-left flex-1">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-snug mb-5">
           지역별 여행 일정 현황을 한눈에!
         </h2>
-        <p className="text-gray-600 text-sm mb-7 leading-relaxed">
+        <p className="text-xs sm:text-sm text-gray-600 mb-7 leading-relaxed">
           대한민국 구석구석, 혼자 떠나기 좋은 일정이 가득해요. <br />
           지역별로 어떤 일정이 준비되어 있는지 직접 확인해보세요.
         </p>
 
         {/* 정보 박스 */}
-        <div className="relative bg-slate-50 border border-dashed border-gray-300 px-6 py-5 rounded-2xl shadow-sm mb-6">
+        <div className="relative bg-slate-50 border border-dashed border-gray-300 px-6 py-5 rounded-2xl shadow-sm mb-6 mx-auto">
           <div className="absolute -top-3 left-6 text-xs text-gray-400 px-2 backdrop-blur-sm rounded-md">
             지금 등록된 일정은?
           </div>
@@ -55,14 +55,14 @@ function RegionMapSection() {
         {/* CTA 버튼 */}
         <Link
           to="/itinerary"
-          className="inline-block px-6 py-3 bg-black text-white rounded-lg text-sm hover:bg-gray-800 transition"
+          className="inline-block px-4 py-2 sm:px-6 sm:py-3 bg-black text-white rounded-lg text-xs sm:text-sm hover:bg-gray-800 transition mx-auto"
         >
           전체 일정 보기 →
         </Link>
       </div>
 
       {/* 오른쪽: 지도 */}
-      <div className="relative w-[500px] h-[500px] rounded-3xl bg-white shadow-xl p-6 ring-1 ring-gray-200 flex-shrink-0">
+      <div className="relative w-full max-w-[500px] aspect-[5/4] rounded-3xl bg-white shadow-xl p-6 ring-1 ring-gray-200 mt-8 lg:mt-0 flex-shrink-0">
         <img
           src="/images/korea-map.png"
           alt="대한민국 지도"
@@ -84,7 +84,7 @@ function RegionMapSection() {
               onClick={() =>
                 setActiveRegion(activeRegion === r.slug ? null : r.slug)
               }
-              className="w-9 h-9 rounded-full bg-white/80 text-gray-900 font-semibold text-sm shadow ring-1 ring-gray-300 flex items-center justify-center transition hover:scale-110"
+              className="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-white/80 text-gray-900 font-semibold text-xs sm:text-sm shadow ring-1 ring-gray-300 flex items-center justify-center transition hover:scale-110"
             >
               {r.count}
             </button>
