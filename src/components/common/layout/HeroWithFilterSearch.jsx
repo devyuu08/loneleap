@@ -48,7 +48,7 @@ export default function HeroWithFilterSearch({
           {/* 검색창 */}
           {showSearch && (
             <div className="relative w-full sm:w-auto max-w-xs min-w-[200px]">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 w-4 h-4" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/70 w-4 h-4" />
               <input
                 type="text"
                 value={searchKeyword}
