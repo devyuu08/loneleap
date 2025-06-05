@@ -20,6 +20,23 @@ export default function SectionTabs({ activeTab, onChange }) {
     }
   }, [activeTab]);
 
+  useEffect(() => {
+    const updateUnderline = () => {
+      const activeButton = containerRef.current?.querySelector(
+        `[data-tab="${activeTab}"]`
+      );
+      if (activeButton) {
+        const { offsetLeft, offsetWidth } = activeButton;
+        setUnderlineStyle({ left: offsetLeft, width: offsetWidth });
+      }
+    };
+
+    updateUnderline(); // 초기 실행
+    window.addEventListener("resize", updateUnderline); // 리사이즈 대응
+
+    return () => window.removeEventListener("resize", updateUnderline);
+  }, [activeTab]);
+
   return (
     <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-2 border-b border-white/30">
       <div
