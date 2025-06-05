@@ -24,12 +24,12 @@ export default function ChatRoomForm({
       <div className="absolute inset-0 bg-black/40" />
 
       {/* 내용 전체 */}
-      <div className="relative z-10 max-w-3xl mx-auto px-4 py-20 text-white">
+      <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 text-white">
         {/* 헤더 문구 */}
-        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r from-white/90 to-gray-300 bg-clip-text text-transparent drop-shadow-sm">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center bg-gradient-to-r from-white/90 to-gray-300 bg-clip-text text-transparent drop-shadow-sm">
           대화를 시작해보세요
         </h2>
-        <p className="text-md mt-4 text-white/80 text-center leading-relaxed">
+        <p className="text-sm sm:text-base mt-3 sm:mt-4 text-white/80 text-center leading-relaxed">
           LoneLeap에서 여행을 함께할 사람들과 <br />
           이야기를 나누는 첫 번째 공간을 만들어보세요.
         </p>
@@ -37,7 +37,7 @@ export default function ChatRoomForm({
         {/* 채팅방 생성 폼 */}
         <form
           onSubmit={handleSubmit}
-          className="mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-10 rounded-3xl shadow-md border border-white/30 text-gray-800"
+          className="mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-6 sm:p-8 md:p-10 rounded-3xl shadow-md border border-white/30 text-gray-800"
         >
           {/* 제목 */}
           <div>
@@ -98,12 +98,12 @@ export default function ChatRoomForm({
         </form>
 
         {/* 안내 문구 */}
-        <p className="text-center text-xs text-white/80 mt-6">
+        <p className="text-center text-xs sm:text-sm text-white/80 mt-6">
           채팅방 생성 후, 채팅 목록에서 메시지를 주고받을 수 있습니다.
         </p>
 
         <section className="mt-16">
-          <div className="bg-white/80 backdrop-blur-md border border-white/20 rounded-xl p-6 shadow-md">
+          <div className="bg-white/80 backdrop-blur-md border border-white/20 rounded-xl p-6 sm:p-8 md:p-10 shadow-md">
             <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <Lightbulb className="w-4 h-4 text-yellow-500" />
               채팅방 가이드라인
