@@ -41,19 +41,21 @@ export default function RecommendationList({
       />
 
       {/* 추천 여행지 카드 섹션 */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+      <section className="max-w-7xl mx-auto px-6 md:px-12 py-12 sm:py-16 lg:py-20">
         {isLoading ? (
           <LoadingSpinner />
         ) : isError ? (
           <ErrorMessage message="추천 여행지를 불러오지 못했어요." />
         ) : !recommendations?.length ? (
-          <EmptyState
-            icon={<MapPin className="w-10 h-10 text-gray-400" />}
-            title="추천 여행지를 찾을 수 없어요"
-            description="추천 여행지를 준비 중입니다. 다른 지역을 선택해주세요."
-          />
+          <div className="col-span-full flex flex-col items-center justify-center h-60 text-center">
+            <EmptyState
+              icon={<MapPin className="w-10 h-10 text-gray-400" />}
+              title="추천 여행지를 찾을 수 없어요"
+              description="추천 여행지를 준비 중입니다. 다른 지역을 선택해주세요."
+            />
+          </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {recommendations.map((place) => (
               <RecommendationCard key={place.id} recommendation={place} />
             ))}
