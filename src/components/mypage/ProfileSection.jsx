@@ -21,24 +21,24 @@ export default function ProfileSection({
 }) {
   return (
     <>
-      <section className="flex flex-col items-center text-center px-6 py-16">
+      <section className="flex flex-col items-center text-center px-4 sm:px-6 py-12 sm:py-16">
         {/* 프로필 정보 */}
-        <div className="py-10">
+        <div className="py-8 sm:py-10">
           <ProfileInfoCard user={user} onImageChange={onImageChange} />
         </div>
 
         {/* 버튼 그룹 */}
-        <div className="flex justify-center gap-4 mb-12 flex-wrap">
+        <div className="flex justify-center gap-3 sm:gap-4 mb-10 flex-wrap">
           <RoundedButton
             label="Profile"
             onClick={toggleModal.openEdit}
-            icon={<Edit className="text-sm" />}
+            icon={<Edit className="w-4 h-4 sm:text-sm" />}
           />
 
           <RoundedButton
             label="Setting"
             onClick={toggleModal.openSetting}
-            icon={<Settings className="text-sm" />}
+            icon={<Settings className="w-4 h-4 sm:text-sm" />}
           />
 
           <RoundedButton
@@ -50,7 +50,7 @@ export default function ProfileSection({
         </div>
 
         {/* 하단 통계 */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full max-w-5xl px-6">
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 w-full max-w-5xl px-0 sm:px-6">
           {[
             { label: "여행 일정", count: stats?.itineraryCount },
             { label: "여행 리뷰", count: stats?.reviewCount },
@@ -58,12 +58,12 @@ export default function ProfileSection({
           ].map((item) => (
             <div
               key={item.label}
-              className="bg-white/50 backdrop-blur-lg rounded-lg py-4 text-center"
+              className="min-w-[30%] sm:min-w-0 bg-white/50 backdrop-blur-lg rounded-lg py-4 px-3 text-center flex-1 basis-[30%] sm:basis-0"
             >
-              <p className="text-lg text-white font-semibold">
+              <p className="text-base sm:text-lg text-white font-semibold">
                 {statsLoading ? "..." : item.count ?? "-"}
               </p>
-              <p className="text-sm text-gray-200">{item.label}</p>
+              <p className="text-xs sm:text-sm text-gray-200">{item.label}</p>
             </div>
           ))}
         </div>
