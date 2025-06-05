@@ -42,7 +42,7 @@ export default function ReviewPreview() {
         <div className="flex justify-center">
           <Link
             to={`/reviews/${review.id}`}
-            className="relative w-full max-w-3xl h-80 min-h-[320px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition flex bg-white"
+            className="relative w-full max-w-3xl h-72 sm:h-80 md:h-[300px] lg:h-[320px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition flex bg-white"
           >
             {/* 오른쪽 상단 아이콘 */}
             <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-gray-100/60 flex items-center justify-center shadow-inner">
@@ -61,6 +61,7 @@ export default function ReviewPreview() {
                     alt="작성자"
                     className="rounded-full border border-white/20"
                     objectFit="cover"
+                    size="w-12 h-12"
                   />
                 </div>
 
@@ -129,14 +130,16 @@ export default function ReviewPreview() {
       <div className="relative max-w-screen-2xl mx-auto z-20">
         {/* 제목 + 설명 */}
         <div className="text-center mb-12 text-white">
-          <h2 className="text-3xl font-bold">여행의 흔적, 혼자 남긴 이야기</h2>
-          <p className="text-sm text-white/80 mt-2">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+            여행의 흔적, 혼자 남긴 이야기
+          </h2>
+          <p className="text-xs sm:text-sm text-white/80 mt-2">
             당신만의 순간이 누군가의 여행이 됩니다.
           </p>
           <div className="text-center mt-8">
             <Link
               to="/reviews"
-              className="text-sm px-4 py-2 border rounded-full text-white border-white/30 hover:bg-white/10 transition"
+              className="text-xs sm:text-sm px-3 sm:px-4 py-1 sm:py-1.5 border rounded-full text-white border-white/30 hover:bg-white/10 transition"
             >
               더 많은 이야기 보기 →
             </Link>

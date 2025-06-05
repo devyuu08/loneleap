@@ -12,7 +12,7 @@ export const regions = [
   {
     name: "강원",
     slug: "gangwon",
-    position: { top: "25%", left: "65%" },
+    position: { top: "25%", left: "63%" },
   },
   {
     name: "충청",
@@ -27,7 +27,7 @@ export const regions = [
   {
     name: "경북/경남",
     slug: "gyeongsang",
-    position: { top: "52%", left: "65%" },
+    position: { top: "52%", left: "63%" },
   },
   {
     name: "제주",

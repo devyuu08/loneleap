@@ -27,14 +27,14 @@ export default function HeroWithFilterSearch({
           count={count}
         />
 
-        <div className="mt-8 flex flex-wrap justify-center items-center gap-4 w-full">
+        <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-4 w-full">
           {/* 필터 */}
-          <div className="flex gap-2">
+          <div className="flex flex-wrap justify-center gap-2 max-w-full">
             {filters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => onFilterChange(filter)}
-                className={`px-4 py-1.5 rounded-full text-sm border ${
+                className={`px-4 py-1.5 rounded-full text-sm border whitespace-nowrap ${
                   activeFilter === filter
                     ? "bg-white text-black"
                     : "bg-white/20 text-white hover:bg-white/30"
@@ -47,8 +47,8 @@ export default function HeroWithFilterSearch({
 
           {/* 검색창 */}
           {showSearch && (
-            <div className="relative w-full max-w-xs">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 w-4 h-4" />
+            <div className="relative w-full sm:w-auto max-w-xs min-w-[200px]">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/70 w-4 h-4" />
               <input
                 type="text"
                 value={searchKeyword}

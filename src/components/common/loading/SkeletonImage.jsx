@@ -7,7 +7,7 @@ export default function SkeletonImage({
   fallbackSrc = "/images/no_image.png",
   objectFit = "cover",
   absolute = false,
-  size = "w-full h-full",
+  size = "",
 }) {
   const [loaded, setLoaded] = useState(false);
   const [currentSrc, setCurrentSrc] = useState(src);
@@ -16,7 +16,8 @@ export default function SkeletonImage({
   const wrapperClass = `${absolute ? "absolute inset-0" : "relative"} ${size}`;
 
   const imageClass = `
-    transition-opacity duration-300 w-full h-full 
+    transition-opacity duration-300 
+    w-full h-full max-w-full max-h-full 
     object-${objectFit} ${absolute ? "absolute inset-0" : ""} 
     ${loaded && !error ? "opacity-100" : "opacity-0"} 
     ${className}
@@ -47,10 +48,8 @@ export default function SkeletonImage({
         onLoad={() => setLoaded(true)}
         onError={() => {
           if (currentSrc !== fallbackSrc) {
-            // 첫 실패 → fallback 이미지로 교체
             setCurrentSrc(fallbackSrc);
           } else {
-            // fallback도 실패 → 텍스트 fallback
             setError(true);
           }
         }}

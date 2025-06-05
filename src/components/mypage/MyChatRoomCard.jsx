@@ -68,9 +68,7 @@ function MyChatRoomCard({ room }) {
               key={index}
               src={user.photoURL || "/images/default-profile.png"}
               alt="참여자"
-              className="rounded-full border-2 border-white"
-              objectFit="cover"
-              size=" w-6 h-6"
+              className="w-6 h-6 object-cover rounded-full border-2 border-white"
             />
           ))}
 

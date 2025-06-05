@@ -6,16 +6,16 @@ export default function Footer() {
 
   return (
     <footer className="bg-gray-50 text-gray-700 text-sm border-t">
-      <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         {/* 브랜드 소개 + 소셜 */}
-        <div>
+        <div className="text-center sm:text-left">
           <h3 className="font-heading text-xl font-bold text-gray-900 mb-2">
             LoneLeap
           </h3>
           <p className="text-gray-500 mb-4">
             당신만의 여정을 위한 감성적인 혼행 플랫폼
           </p>
-          <div className="flex space-x-4 text-gray-500">
+          <div className="flex justify-center sm:justify-start space-x-4 text-gray-500">
             <a href="#" aria-label="Instagram">
               <Instagram className={iconClass} />
             </a>
@@ -29,7 +29,7 @@ export default function Footer() {
         </div>
 
         {/* 여행 정보 */}
-        <div>
+        <div className="text-center sm:text-left">
           <h4 className={sectionTitleClass}>여행 정보</h4>
           <ul className="space-y-2">
             <li>
@@ -48,7 +48,7 @@ export default function Footer() {
         </div>
 
         {/* 고객 지원 */}
-        <div>
+        <div className="text-center sm:text-left">
           <h4 className={sectionTitleClass}>고객 지원</h4>
           <ul className="space-y-2">
             <li>
@@ -67,7 +67,7 @@ export default function Footer() {
         </div>
 
         {/* 회사 정보 */}
-        <div>
+        <div className="text-center sm:text-left">
           <h4 className={sectionTitleClass}>LoneLeap 소개</h4>
           <ul className="space-y-2">
             <li>
@@ -87,7 +87,7 @@ export default function Footer() {
       </div>
 
       {/* 바텀 라인 */}
-      <div className="border-t text-gray-400 text-xs flex flex-col md:flex-row justify-between items-center px-6 py-4">
+      <div className="border-t text-gray-400 text-xs flex flex-col sm:flex-row justify-between items-center gap-2 px-4 sm:px-6 py-4 text-center sm:text-left">
         <p>© {new Date().getFullYear()} LoneLeap. All rights reserved.</p>
         <div>
           <select className="bg-transparent text-gray-500 focus:outline-none">

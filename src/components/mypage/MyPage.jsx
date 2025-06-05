@@ -49,7 +49,7 @@ export default function MyPage({
           descColor: "text-gray-300",
         },
         (items) => (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 place-items-center sm:place-items-start">
             {items.map((item) => (
               <MyItineraryCard key={item.id} itinerary={item} />
             ))}
@@ -70,7 +70,7 @@ export default function MyPage({
           descColor: "text-gray-300",
         },
         (reviews) => (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 place-items-center sm:place-items-start">
             {reviews.map((review) => (
               <MyReviewCard key={review.id} review={review} />
             ))}

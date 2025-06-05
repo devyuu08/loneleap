@@ -21,7 +21,8 @@ export default function ParticipantList({ users, isLoading }) {
               <SkeletonImage
                 src={user.photoURL || "/images/default-profile.png"}
                 alt={user.displayName || "참여자"}
-                className="rounded-full object-cover"
+                objectFit="cover"
+                className="rounded-full"
                 size="w-8 h-8"
               />
 

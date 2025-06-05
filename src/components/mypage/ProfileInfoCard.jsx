@@ -8,9 +8,7 @@ export default function ProfileInfoCard({ user, onImageChange }) {
         <SkeletonImage
           src={user?.photoURL || "/images/default-profile.png"}
           alt="프로필 이미지"
-          className="rounded-full border-2 border-white shadow-md"
-          size="w-32 h-32"
-          objectFit="cover"
+          className="w-32 h-32 object-cover rounded-full border-2 border-white shadow-md"
         />
         <label
           htmlFor="profile-image-upload"
