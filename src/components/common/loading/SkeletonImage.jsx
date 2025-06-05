@@ -4,11 +4,13 @@ export default function SkeletonImage({
   src,
   alt = "이미지",
   className = "",
+  fallbackSrc = "/images/no_image.png",
   objectFit = "cover",
   absolute = false,
   size = "w-full h-full",
 }) {
   const [loaded, setLoaded] = useState(false);
+  const [currentSrc, setCurrentSrc] = useState(src);
   const [error, setError] = useState(false);
 
   const wrapperClass = `${absolute ? "absolute inset-0" : "relative"} ${size}`;
@@ -38,12 +40,20 @@ export default function SkeletonImage({
 
       {/* 실제 이미지 */}
       <img
-        src={src}
+        src={currentSrc}
         alt={alt}
         loading="lazy"
         decoding="async"
         onLoad={() => setLoaded(true)}
-        onError={() => setError(true)}
+        onError={() => {
+          if (currentSrc !== fallbackSrc) {
+            // 첫 실패 → fallback 이미지로 교체
+            setCurrentSrc(fallbackSrc);
+          } else {
+            // fallback도 실패 → 텍스트 fallback
+            setError(true);
+          }
+        }}
         className={imageClass}
         style={{ willChange: "opacity" }}
       />
