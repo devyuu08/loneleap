@@ -5,7 +5,7 @@ export default function HeroSection({
   imageSrc,
   imageAlt = "배경 이미지",
   children,
-  height = "h-[80vh]",
+  height = "h-[80vh] sm:h-[70vh] md:h-[75vh] lg:h-[80vh]",
   overlayColor = "bg-black/30",
 }) {
   return (
@@ -23,7 +23,7 @@ export default function HeroSection({
 
       <div className={`absolute inset-0 ${overlayColor}`} />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-16 flex flex-col items-center justify-center">
         <div className="w-full">{children}</div>
       </div>
     </section>
