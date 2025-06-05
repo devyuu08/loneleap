@@ -52,7 +52,7 @@ function DestinationSlider() {
           <SwiperSlide key={id}>
             <Link
               to={`/recommendations/${id}`}
-              className="relative block w-full h-52 sm:h-64 md:h-72 rounded-xl overflow-hidden shadow hover:brightness-105 transition bg-gray-200"
+              className="relative block w-full h-64 sm:h-80 md:h-[300px] rounded-xl overflow-hidden shadow hover:brightness-105 transition bg-gray-200"
             >
               <SkeletonImage src={imageUrl} alt={name} className="rounded-xl" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
