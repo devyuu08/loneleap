@@ -65,14 +65,8 @@ function ItineraryCard({ itinerary }) {
           {itinerary.summary || "여행 요약 정보가 없습니다."}
         </p>
 
-        {/* 장소 수 + 작성자 정보 */}
-        <div className="flex justify-between items-center mt-2">
-          {/* 장소 개수 */}
-          <div className="flex items-center gap-1 text-xs text-gray-400">
-            <Map className="w-4 h-4" />
-            {placeCount}개 장소
-          </div>
-
+        {/* 작성자 정보 */}
+        <div className="flex justify-end items-center mt-2">
           {/* 작성자 정보 */}
           {itinerary.createdBy && (
             <div className="flex items-center gap-2">
