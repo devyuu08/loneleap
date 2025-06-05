@@ -40,8 +40,8 @@ function ItineraryCard({ itinerary }) {
           src={imageUrl}
           alt={`${location} 대표 이미지`}
           objectFit="cover"
+          size="w-full h-full"
         />
-
         {/* 위치 태그 */}
         <span className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
           {location}
