@@ -64,19 +64,19 @@ export default function RecommendationList({
       </section>
 
       {/* 일정 만들기 CTA 섹션 */}
-      <section className="relative overflow-hidden py-24 px-6 bg-[#EDEDEA] text-center">
+      <section className="relative overflow-hidden py-12 sm:py-16 lg:py-24 px-6 md:px-12 bg-[#EDEDEA] text-center">
         {/* 블러 포인트 */}
         <div className="absolute -top-20 -left-20 w-96 h-96 bg-white/30 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-80 h-80 bg-gray-300/20 rounded-full blur-2xl" />
 
         {/* 콘텐츠 */}
-        <div className="relative z-10 max-w-xl mx-auto">
-          <h3 className="text-2xl font-heading font-semibold text-gray-900 mb-3">
+        <div className="relative z-10 max-w-xl sm:max-w-2xl mx-auto">
+          <h3 className="text-xl sm:text-2xl font-heading font-semibold text-gray-900 mb-3">
             이 계절, 당신만의 여정을 그려보세요.
           </h3>
-          <p className="text-sm text-gray-600 mb-6 leading-relaxed">
+          <p className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
             추천 여행지를 기반으로 나만의 감성을 담은 일정을 만들어보세요.
-            <br />
+            <br className="hidden sm:block" />
             혼자 떠나지만, 당신의 여행은 언제나 특별하니까요.
           </p>
           <Link
