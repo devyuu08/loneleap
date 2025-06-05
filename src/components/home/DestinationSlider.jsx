@@ -62,6 +62,8 @@ function DestinationSlider() {
                   src={imageUrl}
                   alt={name}
                   className="rounded-xl"
+                  objectFit="cover"
+                  size="w-full h-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white z-10">

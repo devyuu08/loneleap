@@ -61,6 +61,7 @@ export default function ReviewPreview() {
                     alt="작성자"
                     className="rounded-full border border-white/20"
                     objectFit="cover"
+                    size="w-12 h-12"
                   />
                 </div>
 
