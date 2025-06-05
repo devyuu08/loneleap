@@ -23,15 +23,17 @@ function CommentForm({ user, content, setContent, isPending, onSubmit }) {
           disabled={isPending}
         />
       </div>
-      <div className="flex justify-between items-center">
-        <p className="text-xs text-gray-400">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-0">
+        {/* PC 전용 안내 문구 */}
+        <p className="text-xs text-gray-400 hidden md:block">
           타인을 존중하는 따뜻한 댓글을 남겨주세요. 비방이나 무례한 표현은
           제재될 수 있어요.
         </p>
+
         <button
           type="submit"
           disabled={isPending || !content.trim()}
-          className="text-sm px-4 py-1.5 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition disabled:opacity-50 min-w-[72px] flex items-center justify-center"
+          className="text-sm px-4 py-1.5 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition disabled:opacity-50 min-w-[72px] flex items-center justify-center self-end"
         >
           {isPending ? (
             <span className="w-4 h-4 flex items-center justify-center">
