@@ -38,29 +38,38 @@ function DestinationSlider() {
       <Swiper
         modules={[Navigation]}
         navigation
-        spaceBetween={20}
-        slidesPerView={4}
-        slidesPerGroup={1}
+        loop={displayedDestinations.length >= 3}
+        spaceBetween={30}
+        observer
+        observeParents
+        watchSlidesProgress
+        resizeObserver
         breakpoints={{
-          320: { slidesPerView: 1 },
+          0: { slidesPerView: 1 },
           640: { slidesPerView: 2 },
-          768: { slidesPerView: 3 },
-          1024: { slidesPerView: 4 },
+          1024: { slidesPerView: 3 },
         }}
+        className="max-w-6xl mx-auto"
       >
         {displayedDestinations.map(({ id, name, summary, imageUrl }) => (
-          <SwiperSlide key={id}>
-            <Link
-              to={`/recommendations/${id}`}
-              className="relative block w-full h-64 sm:h-80 md:h-[300px] rounded-xl overflow-hidden shadow hover:brightness-105 transition bg-gray-200"
-            >
-              <SkeletonImage src={imageUrl} alt={name} className="rounded-xl" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
-              <div className="absolute bottom-4 left-4 text-white z-10">
-                <h3 className="font-semibold text-base sm:text-lg">{name}</h3>
-                <p className="text-xs sm:text-sm line-clamp-2">{summary}</p>
-              </div>
-            </Link>
+          <SwiperSlide key={id} className="block">
+            <div className="flex justify-center">
+              <Link
+                to={`/recommendations/${id}`}
+                className="relative w-full max-w-3xl h-64 sm:h-80 md:h-[300px] lg:h-[320px] rounded-xl overflow-hidden shadow hover:brightness-105 transition bg-gray-200"
+              >
+                <SkeletonImage
+                  src={imageUrl}
+                  alt={name}
+                  className="rounded-xl"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+                <div className="absolute bottom-4 left-4 text-white z-10">
+                  <h3 className="font-semibold text-base sm:text-lg">{name}</h3>
+                  <p className="text-xs sm:text-sm line-clamp-2">{summary}</p>
+                </div>
+              </Link>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
