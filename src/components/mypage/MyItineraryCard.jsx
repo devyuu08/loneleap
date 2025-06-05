@@ -52,7 +52,11 @@ function MyItineraryCard({ itinerary }) {
     >
       {/* 이미지 영역 */}
       <div className="relative h-48 bg-gray-100">
-        <SkeletonImage src={imageUrl} alt={title} objectFit="cover" />
+        <SkeletonImage
+          src={imageUrl}
+          alt={title}
+          className="w-full h-full object-cover"
+        />
 
         {/* 날짜 배지 */}
         <div className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
