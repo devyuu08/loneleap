@@ -21,22 +21,20 @@ export default function RecommendationHero({ data }) {
 
       {/* 텍스트 레이어 */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 md:px-12 h-full flex flex-col justify-end pb-8 sm:pb-12 text-white">
-        <p className="text-sm opacity-90">{location}</p>
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mt-1">
-          {name}
-        </h1>
-        <p className="text-base mt-2">{summary}</p>
+        {/* 위치 뱃지 */}
+        <span className="inline-block text-xs sm:text-sm bg-white/20 text-white px-3 py-1 rounded-full w-fit mb-2">
+          {location}
+        </span>
 
-        <div className="flex items-center gap-4 text-sm text-white/80 mt-6">
-          <span>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">{name}</h1>
+
+        {/* summary + 등록일 (양쪽 정렬) */}
+        <div className="flex items-center justify-between mt-3 text-base">
+          <p className="truncate max-w-[75%]">{summary}</p>
+          <p className="text-sm text-white/80 ml-4 shrink-0">
             등록일:{" "}
             {createdAt?.toDate ? format(createdAt.toDate(), "yyyy.MM.dd") : "-"}
-          </span>
-          <div className="flex items-center gap-2 ml-auto">
-            <Heart className="w-4 h-4" />
-            <Share2 className="w-4 h-4" />
-            <Copy className="w-5 h-5" />
-          </div>
+          </p>
         </div>
       </div>
     </div>
