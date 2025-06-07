@@ -1,5 +1,9 @@
 import PublicItineraryContainer from "@/containers/itinerary/PublicItineraryContainer";
 
 export default function PublicItineraryPage() {
-  return <PublicItineraryContainer />;
+  return (
+    <div className="pt-16">
+      <PublicItineraryContainer />;
+    </div>
+  );
 }
