@@ -44,13 +44,17 @@ function MyItineraryCard({ itinerary }) {
     },
     [id]
   );
+
+  const CARD_WRAPPER =
+    "bg-white rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-transform duration-300 overflow-hidden text-black w-full max-w-xs cursor-pointer";
+
   return (
     <div
       onClick={handleCardClick}
       role="button"
       tabIndex="0"
       onKeyDown={handleKeyDown}
-      className="bg-white rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-transform duration-300 overflow-hidden text-black w-full max-w-xs cursor-pointer"
+      className={CARD_WRAPPER}
     >
       {/* 이미지 영역 */}
       <div className="relative h-48 bg-gray-100">
