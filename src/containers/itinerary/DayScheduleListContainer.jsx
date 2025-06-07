@@ -6,6 +6,11 @@ import { db } from "@/services/firebase";
 import { useAddScheduleToDay } from "@/hooks/itinerary/useAddScheduleToDay";
 import DayScheduleList from "@/components/itinerary/DayScheduleList";
 
+/**
+ * DayScheduleListContainer
+ * - 요일별 일정 리스트 및 세부 일정 추가/삭제 처리
+ */
+
 export default function DayScheduleListContainer({
   days = [],
   isOwner = false,

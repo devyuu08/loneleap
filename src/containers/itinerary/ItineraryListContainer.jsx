@@ -5,6 +5,11 @@ import ItineraryList from "@/components/itinerary/ItineraryList";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 import HeroWithFilterSearch from "@/components/common/layout/HeroWithFilterSearch";
 
+/**
+ * ItineraryListContainer
+ * - 전체 여행 일정 목록 조회 및 필터/검색 상태 관리
+ */
+
 const FILTERS = ["최신순", "오래된순"];
 
 export default function ItineraryListContainer() {

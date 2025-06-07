@@ -9,6 +9,11 @@ import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
 import ItineraryDetail from "@/components/itinerary/ItineraryDetail";
 import { useCallback } from "react";
 
+/**
+ * ItineraryDetailContainer
+ * - 개별 일정 상세 정보 조회 및 삭제 처리
+ */
+
 export default function ItineraryDetailContainer() {
   const { id } = useParams();
   const navigate = useNavigate();
