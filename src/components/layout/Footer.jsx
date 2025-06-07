@@ -1,8 +1,11 @@
 import { Instagram, Facebook, Twitter } from "lucide-react";
 
 export default function Footer() {
-  const iconClass = "w-5 h-5 hover:text-gray-700 transition";
-  const sectionTitleClass = "font-semibold text-gray-900 mb-3";
+  const ICON_CLASS = "w-5 h-5 hover:text-gray-700 transition";
+  const SECTION_TITLE_CLASS = "font-semibold text-gray-900 mb-3";
+
+  const BOTTOM_LINE_CLASS =
+    "border-t text-gray-400 text-xs flex flex-col sm:flex-row justify-between items-center gap-2 px-4 sm:px-6 py-4 text-center sm:text-left";
 
   return (
     <footer className="bg-gray-50 text-gray-700 text-sm border-t">
@@ -17,20 +20,20 @@ export default function Footer() {
           </p>
           <div className="flex justify-center sm:justify-start space-x-4 text-gray-500">
             <a href="#" aria-label="Instagram">
-              <Instagram className={iconClass} />
+              <Instagram className={ICON_CLASS} />
             </a>
             <a href="#" aria-label="Facebook">
-              <Facebook className={iconClass} />
+              <Facebook className={ICON_CLASS} />
             </a>
             <a href="#" aria-label="Twitter">
-              <Twitter className={iconClass} />
+              <Twitter className={ICON_CLASS} />
             </a>
           </div>
         </div>
 
         {/* 여행 정보 */}
         <div className="text-center sm:text-left">
-          <h4 className={sectionTitleClass}>여행 정보</h4>
+          <h4 className={SECTION_TITLE_CLASS}>여행 정보</h4>
           <ul className="space-y-2">
             <li>
               <a href="#">인기 여행지</a>
@@ -49,7 +52,7 @@ export default function Footer() {
 
         {/* 고객 지원 */}
         <div className="text-center sm:text-left">
-          <h4 className={sectionTitleClass}>고객 지원</h4>
+          <h4 className={SECTION_TITLE_CLASS}>고객 지원</h4>
           <ul className="space-y-2">
             <li>
               <a href="#">자주 묻는 질문</a>
@@ -68,7 +71,7 @@ export default function Footer() {
 
         {/* 회사 정보 */}
         <div className="text-center sm:text-left">
-          <h4 className={sectionTitleClass}>LoneLeap 소개</h4>
+          <h4 className={SECTION_TITLE_CLASS}>LoneLeap 소개</h4>
           <ul className="space-y-2">
             <li>
               <a href="#">회사 소개</a>
@@ -87,7 +90,7 @@ export default function Footer() {
       </div>
 
       {/* 바텀 라인 */}
-      <div className="border-t text-gray-400 text-xs flex flex-col sm:flex-row justify-between items-center gap-2 px-4 sm:px-6 py-4 text-center sm:text-left">
+      <div className={BOTTOM_LINE_CLASS}>
         <p>© {new Date().getFullYear()} LoneLeap. All rights reserved.</p>
         <div>
           <select className="bg-transparent text-gray-500 focus:outline-none">

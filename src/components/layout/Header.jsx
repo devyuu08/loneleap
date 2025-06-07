@@ -34,12 +34,19 @@ export default function Header() {
   ];
   const isHeroPage = heroPaths.includes(location.pathname);
 
-  const baseLinkClass =
+  const BASE_LINK_CLASS =
     "flex items-center gap-1.5 pb-1 hover:text-black font-body";
-  const activeLinkClass = "border-b-2 border-black text-black";
+  const ACTIVE_LINK_CLASS = "border-b-2 border-black text-black";
+  const ICON_CLASS = "w-4 h-4 text-inherit";
+
   const getNavLinkClass = (isActive) =>
-    isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass;
-  const iconClass = "w-4 h-4 text-inherit";
+    isActive ? `${BASE_LINK_CLASS} ${ACTIVE_LINK_CLASS}` : BASE_LINK_CLASS;
+
+  const USER_TAG_CLASS =
+    "shrink-0 max-w-xs truncate px-4 py-1.5 rounded-full bg-[#f2f2f2]/70 text-gray-800 font-body shadow-sm border border-gray-300 text-sm font-medium";
+
+  const USER_ROLE_CLASS =
+    "text-[11px] uppercase tracking-widest text-gray-500 mr-1";
 
   useEffect(() => {
     if (!isHeroPage) {
@@ -58,10 +65,8 @@ export default function Header() {
 
   const navItems = user ? (
     <>
-      <span className="shrink-0 max-w-xs truncate px-4 py-1.5 rounded-full bg-[#f2f2f2]/70 text-gray-800 font-body shadow-sm border border-gray-300 text-sm font-medium">
-        <span className="text-[11px] uppercase tracking-widest text-gray-500 mr-1">
-          Traveler
-        </span>
+      <span className={USER_TAG_CLASS}>
+        <span className={USER_ROLE_CLASS}>Traveler</span>
         <span className="text-gray-800 font-semibold">
           {(user.displayName || user.email)?.split("@")[0] || "익명"}
         </span>
@@ -71,31 +76,31 @@ export default function Header() {
         to="/itinerary"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <CalendarCheck className={iconClass} /> Journeys
+        <CalendarCheck className={ICON_CLASS} /> Journeys
       </NavLink>
       <NavLink
         to="/reviews"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <MessagesSquare className={iconClass} /> Stories
+        <MessagesSquare className={ICON_CLASS} /> Stories
       </NavLink>
       <NavLink
         to="/chat"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <MessageCircle className={iconClass} /> Open Chats
+        <MessageCircle className={ICON_CLASS} /> Open Chats
       </NavLink>
       <NavLink
         to="/recommendations"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <MapPin className={iconClass} /> Next Stops
+        <MapPin className={ICON_CLASS} /> Next Stops
       </NavLink>
       <NavLink
         to="/mypage"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <UserCircle className={iconClass} /> My Cabin
+        <UserCircle className={ICON_CLASS} /> My Cabin
       </NavLink>
     </>
   ) : (
@@ -104,13 +109,13 @@ export default function Header() {
         to="/login"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <LogIn className={iconClass} /> Login
+        <LogIn className={ICON_CLASS} /> Login
       </NavLink>
       <NavLink
         to="/signup"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <UserPlus className={iconClass} /> Sign Up
+        <UserPlus className={ICON_CLASS} /> Sign Up
       </NavLink>
     </>
   );
