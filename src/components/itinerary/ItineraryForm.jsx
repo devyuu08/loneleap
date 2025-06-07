@@ -25,6 +25,12 @@ export default function ItineraryForm({
   isSubmitting,
   submitLabel,
 }) {
+  const FORM_CONTAINER =
+    "mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-6 sm:p-8 md:p-10 rounded-3xl shadow-md border border-white/30 text-gray-800";
+
+  const FORM_HEADER =
+    "text-2xl sm:text-3xl md:text-4xl font-extrabold text-center bg-gradient-to-r from-white/90 to-gray-300 bg-clip-text text-transparent drop-shadow-sm";
+
   return (
     <>
       <article
@@ -37,19 +43,14 @@ export default function ItineraryForm({
         {/* 내용 전체 */}
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 text-white">
           {/* 헤더 문구 */}
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center bg-gradient-to-r from-white/90 to-gray-300 bg-clip-text text-transparent drop-shadow-sm">
-            나만의 여행 일정을 기록해보세요
-          </h2>
+          <h2 className={FORM_HEADER}>나만의 여행 일정을 기록해보세요</h2>
           <p className="text-sm sm:text-base mt-3 sm:mt-4 text-white/80 text-center leading-relaxed">
             여행의 시작과 끝, 그리고 그 사이의 모든 기억을 <br />
             LoneLeap에서 아름답게 남겨보세요.
           </p>
 
           {/* 일정 폼 */}
-          <form
-            onSubmit={handleSubmit}
-            className="mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-6 sm:p-8 md:p-10 rounded-3xl shadow-md border border-white/30 text-gray-800"
-          >
+          <form onSubmit={handleSubmit} className={FORM_CONTAINER}>
             {/* 여행 제목 */}
             <div>
               <FormInput

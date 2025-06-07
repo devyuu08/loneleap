@@ -13,8 +13,14 @@ export default function ItineraryHero({ data }) {
         )}`
       : "여행 날짜 미정";
 
+  const HERO_WRAPPER =
+    "relative w-full h-80 sm:h-[360px] md:h-[420px] rounded-3xl overflow-hidden";
+
+  const TEXT_LAYER =
+    "relative z-10 max-w-6xl mx-auto px-6 sm:px-8 md:px-12 h-full flex flex-col justify-end pb-8 sm:pb-12 text-white";
+
   return (
-    <div className="relative w-full h-80 sm:h-[360px] md:h-[420px] rounded-3xl overflow-hidden">
+    <div className={HERO_WRAPPER}>
       {/* 배경 이미지 */}
       <div className="absolute inset-0 z-0">
         <SkeletonImage
@@ -28,7 +34,7 @@ export default function ItineraryHero({ data }) {
       </div>
 
       {/* 텍스트 */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 md:px-12 h-full flex flex-col justify-end pb-8 sm:pb-12 text-white">
+      <div className={TEXT_LAYER}>
         <div className="flex items-center gap-2 text-sm opacity-90">
           <Calendar className="w-4 h-4" />
           <span>{formattedPeriod}</span>

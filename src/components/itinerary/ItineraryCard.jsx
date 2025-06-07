@@ -1,20 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { Map } from "lucide-react";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 function ItineraryCard({ itinerary }) {
   const navigate = useNavigate();
-  const {
-    id,
-    title,
-    location,
-    startDate,
-    endDate,
-    imageUrl,
-    placeCount = 0,
-  } = itinerary || {};
+  const { id, title, location, startDate, endDate, imageUrl } = itinerary || {};
 
   const dateRange = startDate
     ? endDate
