@@ -11,6 +11,12 @@ import { leaveRoom } from "@/services/chat/leaveRoom";
 import { fetchRoomInfo } from "@/services/chat/fetchRoomInfo";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 
+/**
+ * ChatRoomDetailContainer
+ * - 채팅방 상세 정보 및 메시지 리스트 로딩
+ * - 참여자 등록 및 메시지 스크롤 유지 처리 포함
+ */
+
 export default function ChatRoomDetailContainer({ roomId }) {
   const scrollRef = useRef(null);
   const executedRef = useRef(false);

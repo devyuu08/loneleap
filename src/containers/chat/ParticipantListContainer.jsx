@@ -4,6 +4,11 @@ import { db } from "@/services/firebase";
 import { useUsersByIds } from "@/hooks/chat/useUsersByIds";
 import ParticipantList from "@/components/chat/ParticipantList";
 
+/**
+ * ParticipantListContainer
+ * - 채팅방 참여자 목록 실시간 조회 및 렌더링
+ */
+
 export default function ParticipantListContainer({ roomId }) {
   const [userIds, setUserIds] = useState([]);
 

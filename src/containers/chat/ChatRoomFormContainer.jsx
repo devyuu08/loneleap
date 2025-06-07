@@ -5,6 +5,12 @@ import { useCreateChatRoom } from "@/hooks/chat/useCreateChatRoom";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
 import ChatRoomForm from "@/components/chat/ChatRoomForm";
 
+/**
+ * ChatRoomFormContainer
+ * - 채팅방 생성 폼 상태 및 유효성 검사 처리
+ * - 로그인 여부 확인 및 채팅방 생성 후 리디렉션
+ */
+
 export default function ChatRoomFormContainer() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");

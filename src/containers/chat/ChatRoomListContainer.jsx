@@ -6,6 +6,12 @@ import { useChatRooms } from "@/hooks/chat/useChatRooms";
 import ChatRoomList from "@/components/chat/ChatRoomList";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
 
+/**
+ * ChatRoomListContainer
+ * - 채팅방 목록 필터링 및 검색 기능 포함
+ * - 전체/카테고리별 분류 및 검색어 필터링 적용
+ */
+
 export default function ChatRoomListContainer() {
   const [activeFilter, setActiveFilter] = useState("전체");
   const [searchKeyword, setSearchKeyword] = useState("");
