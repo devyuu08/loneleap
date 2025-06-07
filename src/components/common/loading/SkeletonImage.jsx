@@ -55,7 +55,7 @@ export default function SkeletonImage({
             setError(true);
           }
         }}
-        className={imageClass}
+        className={clsx(imageClass, className)}
         style={{ willChange: "opacity" }}
       />
     </div>
