@@ -1,13 +1,21 @@
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
+/**
+ * 채팅방 참여자 목록 컴포넌트
+ * - 참여자 수 표시
+ * - SkeletonImage로 사용자 프로필 이미지 표시
+ * - 참여자 이름 또는 이메일 일부 출력
+ */
+
 export default function ParticipantList({ users, isLoading }) {
+  // 로딩 중이거나 users가 배열이 아니면 렌더링하지 않음
   if (isLoading || !Array.isArray(users)) return null;
 
   const PARTICIPANT_CARD =
     "bg-white/80 backdrop-blur-md border border-gray-200 rounded-xl shadow-sm p-4";
 
   return (
-    <div className={PARTICIPANT_CARD}>
+    <section className={PARTICIPANT_CARD} aria-label="참여자 목록 섹션">
       <p className="text-sm font-semibold text-gray-800 mb-4 border-b pb-2">
         현재 참여자 {users.length}명
       </p>
@@ -36,6 +44,6 @@ export default function ParticipantList({ users, isLoading }) {
           ))}
         </ul>
       )}
-    </div>
+    </section>
   );
 }

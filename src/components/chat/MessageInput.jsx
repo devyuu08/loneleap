@@ -2,6 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Send, Image as ImageIcon } from "lucide-react";
 
+/**
+ * 채팅 입력창 컴포넌트
+ * - 텍스트 입력 필드와 전송 버튼 제공
+ * - 전송 중일 때 비활성화 처리
+ */
+
 function MessageInput({
   message,
   setMessage,
@@ -22,11 +28,15 @@ function MessageInput({
 
   return (
     <div className="flex items-center gap-3">
-      <button className="text-gray-500 hover:text-gray-700">
+      {/* 이미지 업로드 버튼 (미구현 상태) */}
+      <button
+        className="text-gray-500 hover:text-gray-700"
+        aria-label="이미지 전송"
+      >
         <ImageIcon className="w-5 h-5" />
       </button>
 
-      {/* 입력창 */}
+      {/* 텍스트 입력 필드 */}
       <input
         ref={inputRef}
         type="text"
@@ -39,7 +49,7 @@ function MessageInput({
         maxLength={500}
       />
 
-      {/* 전송 버튼 */}
+      {/* 메시지 전송 버튼 */}
       <button
         onClick={handleSend}
         disabled={isSubmitting}
