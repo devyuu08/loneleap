@@ -5,6 +5,13 @@ import { formatDateOnly } from "@/utils/formatDate";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
 
+/**
+ * MyReviewCard
+ * - 내가 작성한 리뷰를 카드 형태로 보여주는 컴포넌트
+ * - 리뷰 상세 페이지로 이동 가능 (클릭 / 키보드 접근)
+ * - 이미지, 제목, 여행지, 별점, 좋아요 수, 신고 상태 표시
+ */
+
 function MyReviewCard({ review = {} }) {
   const navigate = useNavigate();
   const {
@@ -18,10 +25,12 @@ function MyReviewCard({ review = {} }) {
     likesCount = 0,
   } = review;
 
+  // 카드 클릭 시 리뷰 상세로 이동
   const handleNavigate = useCallback(() => {
     navigate(`/reviews/${id}`);
   }, [navigate, id]);
 
+  // 키보드 접근 (Enter/Space) 시 이동
   const handleKeyDown = useCallback(
     (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -31,6 +40,7 @@ function MyReviewCard({ review = {} }) {
     [navigate, id]
   );
 
+  // 수정 버튼 클릭 시 수정 페이지 이동
   const handleEditClick = useCallback(
     (e) => {
       e.stopPropagation();
@@ -39,6 +49,7 @@ function MyReviewCard({ review = {} }) {
     [navigate, id]
   );
 
+  // 데이터 누락 시 예외 UI
   if (!id || !title) {
     return (
       <div className="bg-gray-100 rounded-xl p-6 shadow-sm text-center text-gray-500">
@@ -70,21 +81,26 @@ function MyReviewCard({ review = {} }) {
         </div>
       </div>
 
-      {/* 텍스트 영역 */}
+      {/* 텍스트 및 액션 영역 */}
       <div className="p-4 flex flex-col gap-2">
+        {/* 제목 */}
         <h3 className="text-base font-semibold line-clamp-1">
           {title || "리뷰 제목 없음"}
         </h3>
+
+        {/* 여행지 */}
         <p className="text-sm text-gray-500 line-clamp-2">
           {destination || "여행지 정보 없음"}
         </p>
 
+        {/* 신고 상태 */}
         {reported && (
           <div className="text-xs text-red-500 font-medium mt-1">
             🚨 신고된 리뷰입니다
           </div>
         )}
 
+        {/* 별점 + 액션 버튼 (좋아요 / 수정) */}
         <div className="flex justify-between items-center mt-2">
           <div className="text-sm text-yellow-500">
             {"★".repeat(rating)}

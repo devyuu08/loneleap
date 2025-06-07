@@ -1,5 +1,12 @@
 import { useRef, useEffect, useState } from "react";
 
+/**
+ * SectionTabs
+ * - 마이페이지 내 섹션 전환 탭 UI
+ * - 선택된 탭 하단에 애니메이션 underline 표시
+ * - 반응형 대응 및 리사이즈 시 underline 위치 재계산
+ */
+
 export default function SectionTabs({ activeTab, onChange }) {
   const tabs = [
     { key: "itinerary", label: "내 일정" },
@@ -10,6 +17,7 @@ export default function SectionTabs({ activeTab, onChange }) {
   const containerRef = useRef(null);
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
 
+  // 현재 활성 탭 기준으로 underline 위치 설정
   useEffect(() => {
     const activeButton = containerRef.current?.querySelector(
       `[data-tab="${activeTab}"]`
@@ -20,6 +28,7 @@ export default function SectionTabs({ activeTab, onChange }) {
     }
   }, [activeTab]);
 
+  // 활성 탭 변경 시 underline 위치 갱신
   useEffect(() => {
     const updateUnderline = () => {
       const activeButton = containerRef.current?.querySelector(
@@ -38,7 +47,11 @@ export default function SectionTabs({ activeTab, onChange }) {
   }, [activeTab]);
 
   return (
-    <div className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-2 border-b border-white/30">
+    <nav
+      className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-2 border-b border-white/30"
+      aria-label="마이페이지 섹션 탭"
+    >
+      {/* 탭 버튼 그룹 */}
       <div
         ref={containerRef}
         className="flex items-center justify-center gap-2 sm:gap-6"
@@ -59,11 +72,12 @@ export default function SectionTabs({ activeTab, onChange }) {
         ))}
       </div>
 
-      {/* underline */}
+      {/* 하단 underline 애니메이션 */}
       <span
         className="absolute bottom-0 h-0.5 bg-white transition-all duration-300 ease-in-out"
         style={{ left: underlineStyle.left, width: underlineStyle.width }}
+        aria-hidden="true"
       />
-    </div>
+    </nav>
   );
 }

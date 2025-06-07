@@ -10,6 +10,14 @@ import ErrorState from "@/components/common/feedback/ErrorState";
 
 import { CalendarDays, MessageSquareText, MessagesSquare } from "lucide-react";
 
+/**
+ * MyPage
+ * - 마이페이지 메인 컴포넌트
+ * - 작성한 일정 / 리뷰 / 채팅방 목록을 탭 형태로 전환해 보여줌
+ * - 빈 목록일 경우 EmptyState, 오류 시 ErrorState 표시
+ * - Floating 버튼으로 작성 페이지 이동 가능
+ */
+
 export default function MyPage({
   user,
   activeTab,
@@ -29,6 +37,7 @@ export default function MyPage({
     descColor: "text-gray-300",
   };
 
+  // 탭에 따른 콘텐츠 렌더링
   const renderContent = () => {
     const renderTabContent = (query, EmptyStateProps, renderItems) => {
       if (query.isLoading) {
@@ -48,6 +57,7 @@ export default function MyPage({
       return renderItems(items);
     };
 
+    // 일정 탭
     if (activeTab === "itinerary") {
       return renderTabContent(
         myItinerariesQuery,
@@ -67,6 +77,7 @@ export default function MyPage({
       );
     }
 
+    // 리뷰 탭
     if (activeTab === "review") {
       return renderTabContent(
         myReviewsQuery,
@@ -86,6 +97,7 @@ export default function MyPage({
       );
     }
 
+    // 채팅 탭
     if (activeTab === "chat") {
       return renderTabContent(
         myChatRoomsQuery,
@@ -112,10 +124,12 @@ export default function MyPage({
     <main className="min-h-screen bg-[url('/images/mypage-bg.jpg')] bg-cover bg-center bg-no-repeat">
       <div className="min-h-screen bg-black/40 backdrop-blur-sm">
         <LayoutWrapper>
+          {/* 프로필 영역 */}
           <section>
             <ProfileSectionContainer user={user} />
           </section>
 
+          {/* 탭 + 콘텐츠 영역 */}
           <section>
             <div className="max-w-5xl mx-auto">
               <SectionTabs activeTab={activeTab} onChange={onTabChange} />
@@ -125,6 +139,7 @@ export default function MyPage({
         </LayoutWrapper>
       </div>
 
+      {/* 플로팅 액션 버튼 */}
       <FloatingButtons
         createPath={
           activeTab === "itinerary"
