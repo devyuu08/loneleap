@@ -3,6 +3,7 @@ import { Edit2, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatDateOnly } from "@/utils/formatDate";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
+import { shareItinerary } from "@/services/itinerary/shareItinerary";
 
 function MyItineraryCard({ itinerary }) {
   const navigate = useNavigate();
@@ -29,19 +30,20 @@ function MyItineraryCard({ itinerary }) {
     [navigate, id]
   );
 
-  const handleShareClick = useCallback((e) => {
-    e.stopPropagation();
-    alert("공유 기능은 추후 지원됩니다.");
-  }, []);
+  const handleShareClick = useCallback(
+    async (e) => {
+      e.stopPropagation();
 
-  if (!itinerary?.id || !itinerary?.title) {
-    return (
-      <div className="bg-gray-100 rounded-xl p-6 shadow-sm text-center text-gray-500">
-        여행 정보를 불러올 수 없습니다.
-      </div>
-    );
-  }
-
+      try {
+        await shareItinerary(id);
+        alert("공유 링크가 복사되었습니다!");
+      } catch (error) {
+        console.error("공유 실패:", error);
+        alert("공유 링크 생성에 실패했습니다.");
+      }
+    },
+    [id]
+  );
   return (
     <div
       onClick={handleCardClick}
