@@ -3,6 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { fetchComments } from "@/services/review/fetchComments";
 
+/**
+ * useComments
+ * - 특정 리뷰에 대한 댓글 목록을 가져오는 query 훅
+ * - reviewId가 존재할 때만 fetch 수행
+ * - staleTime 3분, cacheTime 10분 설정
+ */
+
 export const useComments = (reviewId, options = {}) => {
   return useQuery({
     queryKey: QUERY_KEYS.COMMENTS(reviewId),

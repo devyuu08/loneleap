@@ -3,6 +3,12 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
 import { useMutationWithFeedback } from "@/hooks/common/useMutationWithFeedback";
 import { addComment } from "@/services/review/addComment";
 
+/**
+ * useAddComment
+ * - 특정 리뷰에 댓글을 등록하는 mutation 훅
+ * - 로그인 유저만 등록 가능, 작성 후 댓글 쿼리 무효화
+ */
+
 export const useAddComment = (reviewId) => {
   const user = useSelector((state) => state.user.user);
 

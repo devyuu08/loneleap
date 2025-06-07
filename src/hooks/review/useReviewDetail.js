@@ -4,10 +4,12 @@ import { db } from "@/services/firebase";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 
 /**
- * 특정 리뷰의 상세 정보를 가져오는 커스텀 훅
- * @param {string} id - 조회할 리뷰의 ID
- * @returns {Object} - 리뷰 데이터와 로딩/에러 상태
+ * useReviewDetail
+ * - 특정 리뷰의 상세 정보를 조회하는 query 훅
+ * - reviewId 기반으로 Firestore에서 문서 fetch
+ * - 존재하지 않을 경우 예외 처리 포함
  */
+
 export const useReviewDetail = (reviewId) => {
   return useQuery({
     queryKey: QUERY_KEYS.REVIEW_DETAIL(reviewId),

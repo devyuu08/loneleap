@@ -3,6 +3,13 @@ import { useSelector } from "react-redux";
 import { useMutationWithFeedback } from "@/hooks/common/useMutationWithFeedback";
 import { reportReview } from "@/services/review/reportReview";
 
+/**
+ * useReportReview
+ * - 리뷰 신고를 위한 mutation 훅
+ * - 로그인 유저만 신고 가능, Firebase ID 토큰 강제 갱신 포함
+ * - 성공/실패 시 콜백 및 메시지 처리 포함
+ */
+
 export const useReportReview = ({
   onSuccessCallback,
   onErrorCallback,
