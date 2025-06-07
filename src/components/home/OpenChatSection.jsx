@@ -20,6 +20,13 @@ const features = [
   },
 ];
 
+/**
+ * 오픈채팅 기능 소개 섹션
+ * - LoneLeap에서 실시간 소통할 수 있는 오픈채팅 기능 안내
+ * - 왼쪽 텍스트 + 오른쪽 이미지 구조 (반응형)
+ * - 시멘틱 구조 및 접근성 보완
+ */
+
 function OpenChatSection() {
   const CHAT_FEATURE_ICON =
     "w-7 h-7 rounded-full bg-blue-100 text-blue-600 font-semibold text-xs flex items-center justify-center shrink-0";
@@ -46,6 +53,7 @@ function OpenChatSection() {
           확장해보세요.
         </p>
 
+        {/* 특징 리스트 */}
         <ul className="space-y-5 text-xs sm:text-sm text-gray-700 text-center lg:text-left">
           {features.map(({ title, description }, idx) => (
             <li
@@ -65,13 +73,21 @@ function OpenChatSection() {
           ))}
         </ul>
 
-        <Link to="/chat" className={CHAT_JOIN_BUTTON}>
+        {/* CTA 버튼 */}
+        <Link
+          to="/chat"
+          className={CHAT_JOIN_BUTTON}
+          aria-label="오픈채팅 기능으로 이동"
+        >
           오픈채팅 참여하기
         </Link>
       </div>
 
       {/* 오른쪽: 이미지 */}
-      <div className="w-full lg:w-[480px] aspect-[4/3] max-w-md sm:max-w-lg">
+      <div
+        className="w-full lg:w-[480px] aspect-[4/3] max-w-md sm:max-w-lg"
+        aria-hidden="true"
+      >
         <img
           src="/images/chat-banner.jpg"
           alt="오픈채팅 소개"

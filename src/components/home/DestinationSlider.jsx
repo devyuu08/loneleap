@@ -9,9 +9,17 @@ import SkeletonImage from "@/components/common/loading/SkeletonImage";
 import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 import React, { useMemo } from "react";
 
+/**
+ * 추천 여행지 슬라이더 컴포넌트
+ * - 시즌별 추천 여행지 목록을 슬라이드 형태로 출력
+ * - 최대 8개만 표시, Swiper로 반응형 구성
+ * - 각 카드 클릭 시 상세 페이지로 이동
+ */
+
 function DestinationSlider() {
   const { data: destinations, isLoading } = useRecommendationList();
 
+  // 최대 8개까지만 표시
   const displayedDestinations = useMemo(() => {
     return destinations?.slice(0, 8) ?? [];
   }, [destinations]);
@@ -28,7 +36,8 @@ function DestinationSlider() {
 
   return (
     <MainSectionWrapper bg="bg-gray-50" className="overflow-hidden">
-      <div className="text-center mb-8 md:mb-12 px-4 sm:px-6">
+      {/* 헤더 */}
+      <header className="text-center mb-8 md:mb-12 px-4 sm:px-6">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
           이 계절, 혼자 떠나기 좋은 곳
         </h2>
@@ -38,8 +47,9 @@ function DestinationSlider() {
         <Link to="/recommendations" className={MORE_LINK_BUTTON}>
           더보기 →
         </Link>
-      </div>
+      </header>
 
+      {/* 추천 여행지 슬라이더 */}
       <Swiper
         modules={[Navigation]}
         navigation
@@ -55,11 +65,13 @@ function DestinationSlider() {
           1024: { slidesPerView: 3 },
         }}
         className="max-w-6xl mx-auto"
+        aria-label="추천 여행지 슬라이더"
       >
         {displayedDestinations.map(({ id, name, summary, imageUrl }) => (
           <SwiperSlide key={id} className="block">
             <div className="flex justify-center">
               <Link to={`/recommendations/${id}`} className={SLIDE_CARD}>
+                {/* 이미지 + 오버레이 */}
                 <SkeletonImage
                   src={imageUrl}
                   alt={name}
@@ -68,6 +80,8 @@ function DestinationSlider() {
                   size="w-full h-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+
+                {/* 텍스트 정보 */}
                 <div className={SLIDE_TEXT_BOX}>
                   <h3 className="font-semibold text-base sm:text-lg">{name}</h3>
                   <p className="text-xs sm:text-sm line-clamp-2">{summary}</p>
