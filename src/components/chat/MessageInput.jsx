@@ -10,6 +10,16 @@ function MessageInput({
   isSubmitting,
   inputRef,
 }) {
+  const chatInput =
+    "flex-1 bg-white/70 rounded-full px-4 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 border border-gray-300 shadow-sm";
+
+  const sendButton =
+    "p-2 rounded-full text-white backdrop-blur-sm transition-all shadow-md";
+
+  const disabledSendButton = "bg-gray-400 cursor-not-allowed opacity-70";
+
+  const activeSendButton = "bg-black/80 hover:bg-black hover:shadow-xl";
+
   return (
     <div className="flex items-center gap-3">
       <button className="text-gray-500 hover:text-gray-700">
@@ -25,7 +35,7 @@ function MessageInput({
         onKeyDown={handleKeyDown}
         placeholder="메시지를 입력하세요..."
         disabled={isSubmitting}
-        className="flex-1 bg-white/70 rounded-full px-4 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 border border-gray-300 shadow-sm"
+        className={chatInput}
         maxLength={500}
       />
 
@@ -34,10 +44,8 @@ function MessageInput({
         onClick={handleSend}
         disabled={isSubmitting}
         aria-label="메시지 전송"
-        className={`p-2 rounded-full text-white backdrop-blur-sm transition-all shadow-md ${
-          isSubmitting
-            ? "bg-gray-400 cursor-not-allowed opacity-70"
-            : "bg-black/80 hover:bg-black hover:shadow-xl"
+        className={`${sendButton} ${
+          isSubmitting ? disabledSendButton : activeSendButton
         }`}
       >
         <Send className="w-5 h-5" />

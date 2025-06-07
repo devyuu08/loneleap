@@ -69,6 +69,12 @@ function ChatMessage({
     }
   }
 
+  const messageBubbleMine =
+    "px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm bg-[#5A5A5A] text-white rounded-br-none";
+
+  const messageBubbleOthers =
+    "px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm bg-[#F2F2F2] text-gray-900 rounded-bl-none";
+
   return (
     <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
@@ -85,13 +91,7 @@ function ChatMessage({
           </p>
         )}
 
-        <div
-          className={`px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm ${
-            isMine
-              ? "bg-[#5A5A5A] text-white rounded-br-none"
-              : "bg-[#F2F2F2] text-gray-900 rounded-bl-none"
-          }`}
-        >
+        <div className={isMine ? messageBubbleMine : messageBubbleOthers}>
           {messageText}
         </div>
 

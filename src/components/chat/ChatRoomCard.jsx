@@ -28,10 +28,13 @@ function ChatRoomCard({ room = {} }) {
     return formatRelativeTime(room.createdAt);
   }, [room.createdAt]);
 
+  const chatCardWrapper =
+    "flex justify-between items-start p-5 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer";
+
   return (
     <article
       onClick={handleClick}
-      className="flex justify-between items-start p-5 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition cursor-pointer"
+      className={chatCardWrapper}
       role="button"
       tabIndex="0"
       aria-label={`${room.name} 채팅방`}
