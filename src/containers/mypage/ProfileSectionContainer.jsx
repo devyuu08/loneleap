@@ -16,6 +16,11 @@ import { uploadUserProfileImage } from "@/services/user/uploadUserProfileImage";
 import { updateUserPhotoInContent } from "@/services/user/updateUserPhotoInContent";
 import { deleteUserAccount } from "@/services/user/deleteUserAccount";
 
+/**
+ * ProfileSectionContainer
+ * - 프로필 섹션 관련 상태 및 사용자 설정(이미지, 비밀번호, 로그아웃, 탈퇴 등) 처리
+ */
+
 export default function ProfileSectionContainer() {
   const user = useSelector((state) => state.user.user);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
