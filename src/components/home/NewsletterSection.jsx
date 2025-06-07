@@ -22,6 +22,13 @@ export default function NewsletterSection() {
     },
     [email]
   );
+
+  const NEWSLETTER_INPUT =
+    "w-[240px] sm:w-64 min-w-[200px] px-4 py-2 rounded-full bg-white/30 backdrop-blur text-white placeholder-white/60 text-xs sm:text-sm placeholder:text-xs sm:placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-white transition";
+
+  const NEWSLETTER_BUTTON =
+    "px-5 py-2 rounded-full bg-white/20 text-white hover:bg-white/30 hover:text-sky-200 transition backdrop-blur border border-white/30 text-xs sm:text-sm";
+
   return (
     <MainSectionWrapper className="overflow-hidden min-h-[520px]">
       {/* 배경 이미지 */}
@@ -57,12 +64,9 @@ export default function NewsletterSection() {
               if (error) setError("");
             }}
             placeholder="이메일 주소"
-            className="w-[240px] sm:w-64 min-w-[200px] px-4 py-2 rounded-full bg-white/30 backdrop-blur text-white placeholder-white/60 text-xs sm:text-sm placeholder:text-xs sm:placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-white transition"
+            className={NEWSLETTER_INPUT}
           />
-          <button
-            type="submit"
-            className="px-5 py-2 rounded-full bg-white/20 text-white hover:bg-white/30 hover:text-sky-200 transition backdrop-blur border border-white/30 text-xs sm:text-sm"
-          >
+          <button type="submit" className={NEWSLETTER_BUTTON}>
             구독하기
           </button>
         </form>
