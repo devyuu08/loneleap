@@ -2,6 +2,13 @@ import React from "react";
 import CommentForm from "@/components/review/CommentForm";
 import CommentListSection from "@/components/review/CommentListSection";
 
+/**
+ * CommentList
+ * - 리뷰 상세 페이지에서 댓글 입력과 댓글 목록 표시를 담당하는 컴포넌트
+ * - CommentForm + CommentListSection 구성
+ * - 현재 유저 ID, 작성 중 상태, 로딩 상태 등을 props로 받아 처리
+ */
+
 function CommentList({
   currentUserId,
   reviewId,
@@ -14,10 +21,16 @@ function CommentList({
   handleSubmit,
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm px-6 py-8 space-y-8">
-      {/* 댓글 입력 박스 */}
+    <section
+      className="bg-white rounded-2xl shadow-sm px-6 py-8 space-y-8"
+      aria-labelledby="comment-section-heading"
+    >
+      {/* 댓글 작성 영역 */}
       <div>
-        <h3 className="text-base font-semibold text-gray-900 mb-4">
+        <h3
+          id="comment-section-heading"
+          className="text-base font-semibold text-gray-900 mb-4"
+        >
           이 여행지에서의 감정을 나눠보세요
         </h3>
 
@@ -46,7 +59,7 @@ function CommentList({
           reviewId={reviewId}
         />
       </div>
-    </div>
+    </section>
   );
 }
 

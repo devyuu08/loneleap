@@ -6,6 +6,13 @@ import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import FormInput from "@/components/common/form/FormInput";
 
+/**
+ * ReviewForm
+ * - 두 단계로 구성된 리뷰 작성 폼 (step 1: 기본 정보, step 2: 인터뷰 답변)
+ * - 여행 제목, 장소, 별점, 이미지 업로드 → 인터뷰 질문 답변 순서로 작성
+ * - 상태 및 오류 처리를 props로 전달받아 제어
+ */
+
 function ReviewForm({
   step,
   setStep,
@@ -44,47 +51,44 @@ function ReviewForm({
       {/* 어두운 오버레이 */}
       <div className="absolute inset-0 bg-black/40" />
 
-      {/* 내용 전체 */}
+      {/* 리뷰 작성 폼 전체 영역 */}
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 text-white">
-        {/* 헤더 문구 */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center bg-gradient-to-r from-white/90 to-gray-300 bg-clip-text text-transparent drop-shadow-sm">
-          혼자 떠난 그 순간, 당신의 이야기로 남겨보세요
-        </h2>
-        <p className="text-sm sm:text-base mt-3 sm:mt-4 text-white/80 text-center leading-relaxed">
-          낯선 도시, 익숙하지 않은 거리.
-          <br />
-          홀로 마주한 풍경과 감정을 천천히 풀어보세요.
-        </p>
+        {/* 인트로 메시지 */}
+        <header className="text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-white/90 to-gray-300 bg-clip-text text-transparent drop-shadow-sm">
+            혼자 떠난 그 순간, 당신의 이야기로 남겨보세요
+          </h2>
+          <p className="text-sm sm:text-base mt-3 sm:mt-4 text-white/80 leading-relaxed">
+            낯선 도시, 익숙하지 않은 거리.
+            <br />
+            홀로 마주한 풍경과 감정을 천천히 풀어보세요.
+          </p>
+        </header>
 
-        {/* 폼 */}
+        {/* 폼 영역 */}
         <div className="mt-10">
+          {/* Step 1: 기본 리뷰 정보 입력 */}
           {step === 1 && (
             <form className={FORM_STEP1_CLASS}>
-              {/* 제목 */}
-              <div>
-                <FormInput
-                  label="리뷰 제목"
-                  id="title"
-                  name="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="예: 비 오는 날의 제주 혼행기"
-                  error={errors.title}
-                />
-              </div>
+              <FormInput
+                label="리뷰 제목"
+                id="title"
+                name="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="예: 비 오는 날의 제주 혼행기"
+                error={errors.title}
+              />
 
-              {/* 여행지명 */}
-              <div>
-                <FormInput
-                  label="여행지명"
-                  id="destination"
-                  name="destination"
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  placeholder="예: 성산일출봉, 한라산, 월정리 해변"
-                  error={errors.destination}
-                />
-              </div>
+              <FormInput
+                label="여행지명"
+                id="destination"
+                name="destination"
+                value={destination}
+                onChange={(e) => setDestination(e.target.value)}
+                placeholder="예: 성산일출봉, 한라산, 월정리 해변"
+                error={errors.destination}
+              />
 
               {/* 별점 */}
               <div>
@@ -109,6 +113,7 @@ function ReviewForm({
             </form>
           )}
 
+          {/* Step 2: 인터뷰형 질문 폼 */}
           {step === 2 && (
             <form onSubmit={handleSubmit} className={FORM_STEP2_CLASS}>
               <h2 className="text-2xl font-semibold text-center">
@@ -145,8 +150,8 @@ function ReviewForm({
             </form>
           )}
 
-          {/* 안내 박스 */}
-          <div className="mt-12 bg-white/80 backdrop-blur-md text-sm text-gray-700 px-6 py-5 rounded-xl shadow-sm leading-relaxed">
+          {/* 리뷰 작성 가이드 안내 */}
+          <section className="mt-12 bg-white/80 backdrop-blur-md text-sm text-gray-700 px-6 py-5 rounded-xl shadow-sm leading-relaxed">
             <p className="font-semibold text-gray-800 mb-2">리뷰 작성 안내</p>
             <ul className="list-disc list-inside space-y-1 leading-relaxed">
               <li>
@@ -170,7 +175,7 @@ function ReviewForm({
                 여행자들과 함께 공유됩니다.
               </li>
             </ul>
-          </div>
+          </section>
         </div>
       </div>
     </section>
