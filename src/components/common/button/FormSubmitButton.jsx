@@ -1,33 +1,32 @@
 import clsx from "clsx";
 import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
+import {
+  baseButtonClasses,
+  buttonVariants,
+  sizeVariants,
+} from "@/utils/buttonVariants";
 
 export default function FormSubmitButton({
   isLoading,
   label = "제출",
   fullWidth = true,
   variant = "dark",
+  size = "md",
 }) {
-  const baseClasses =
-    "px-6 py-3 text-sm font-semibold rounded-full shadow-md backdrop-blur-sm transition-all flex items-center justify-center gap-2";
-
-  const variants = {
-    dark: isLoading
-      ? "bg-gray-400 text-white cursor-not-allowed opacity-70"
-      : "bg-black/80 text-white hover:bg-black hover:shadow-xl",
-    light: isLoading
-      ? "bg-gray-300 text-white cursor-not-allowed opacity-70"
-      : "bg-[#6D8591] text-white hover:bg-[#4d5e66]",
-  };
+  const appliedVariant = isLoading ? "disabled" : variant;
 
   return (
     <button
       type="submit"
       disabled={isLoading}
       className={clsx(
+        baseButtonClasses,
+        buttonVariants[appliedVariant],
+        sizeVariants[size],
         fullWidth ? "w-full" : "w-auto",
-        baseClasses,
-        variants[variant]
+        "backdrop-blur-sm shadow-md rounded-full"
       )}
+      aria-label={label}
     >
       <div className="relative h-5 flex items-center justify-center min-w-[4rem]">
         {isLoading ? (

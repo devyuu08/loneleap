@@ -1,5 +1,11 @@
 import PropTypes from "prop-types";
 import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
+import {
+  baseButtonClasses,
+  buttonVariants,
+  sizeVariants,
+} from "@/utils/buttonVariants";
+import clsx from "clsx";
 
 export default function ModalFooterButton({
   onClose,
@@ -9,26 +15,41 @@ export default function ModalFooterButton({
   confirmColor = "black",
   disabled = false,
 }) {
-  const baseConfirmColor =
-    confirmColor === "red"
-      ? "bg-red-600 hover:bg-red-700"
-      : "bg-black hover:bg-gray-900";
+  const confirmVariant =
+    isLoading || disabled
+      ? "disabled"
+      : confirmColor === "red"
+      ? "danger"
+      : "dark";
 
   return (
     <div className="flex justify-end gap-3 mt-4">
+      {/* 취소 버튼: outline 스타일 적용 */}
       <button
         type="button"
         onClick={onClose}
-        className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-100"
+        className={clsx(
+          baseButtonClasses,
+          buttonVariants.outline,
+          sizeVariants.sm,
+          "rounded-lg"
+        )}
       >
         취소
       </button>
 
+      {/* 확인 버튼: dark 또는 danger variant */}
       <button
         type="button"
         onClick={onConfirm}
         disabled={isLoading || disabled}
-        className={`px-4 py-2 rounded-lg text-white transition min-w-[80px] flex items-center justify-center disabled:opacity-60 ${baseConfirmColor}`}
+        className={clsx(
+          baseButtonClasses,
+          buttonVariants[confirmVariant],
+          sizeVariants.sm,
+          "rounded-lg min-w-[80px]",
+          "disabled:opacity-60"
+        )}
       >
         {isLoading ? (
           <span className="w-4 h-4 flex items-center justify-center">
