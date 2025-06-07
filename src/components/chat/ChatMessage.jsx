@@ -69,10 +69,10 @@ function ChatMessage({
     }
   }
 
-  const messageBubbleMine =
+  const MESSAGE_BUBBLE_MINE =
     "px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm bg-[#5A5A5A] text-white rounded-br-none";
 
-  const messageBubbleOthers =
+  const MESSAGE_BUBBLE_OTHERS =
     "px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm bg-[#F2F2F2] text-gray-900 rounded-bl-none";
 
   return (
@@ -91,7 +91,7 @@ function ChatMessage({
           </p>
         )}
 
-        <div className={isMine ? messageBubbleMine : messageBubbleOthers}>
+        <div className={isMine ? MESSAGE_BUBBLE_MINE : MESSAGE_BUBBLE_OTHERS}>
           {messageText}
         </div>
 
