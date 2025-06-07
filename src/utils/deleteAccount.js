@@ -9,9 +9,10 @@ import {
 import { db } from "@/services/firebase";
 
 /**
- * 공개 프로필 익명화 (닉네임, 프로필 이미지)
+ * 공개 사용자 프로필을 익명화 처리합니다.
  * @param {string} uid - 사용자 UID
  */
+
 export const anonymizePublicProfile = async (uid) => {
   const publicRef = doc(db, "users_public", uid);
   await updateDoc(publicRef, {
@@ -20,6 +21,10 @@ export const anonymizePublicProfile = async (uid) => {
   });
 };
 
+/**
+ * 사용자의 리뷰, 일정, 채팅방, 메시지 등을 익명화 처리합니다.
+ * @param {string} uid - 사용자 UID
+ */
 export const anonymizeUserContent = async (uid) => {
   const reviewQ = query(
     collection(db, "reviews"),

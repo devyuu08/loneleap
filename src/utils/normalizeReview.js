@@ -1,3 +1,9 @@
+/**
+ * 리뷰 문서 데이터를 정제하여 필요한 형태로 반환합니다.
+ * @param {firebase.firestore.DocumentSnapshot} doc - Firestore 리뷰 문서
+ * @returns {Object} 정제된 리뷰 객체
+ */
+
 export const normalizeReview = (doc) => {
   const data = doc.data();
   return {
