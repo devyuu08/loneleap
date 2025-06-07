@@ -6,6 +6,12 @@ import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import EmptyState from "@/components/common/feedback/EmptyState";
 import { MapPin } from "lucide-react";
 
+/**
+ * RecommendationList
+ * - 추천 여행지 목록 페이지 컴포넌트
+ * - 지역 필터 + 추천 카드 리스트 + 일정 만들기 CTA 섹션으로 구성됨
+ */
+
 const REGION_FILTERS = [
   "전체 지역",
   "서울",
@@ -28,6 +34,7 @@ export default function RecommendationList({
 }) {
   return (
     <>
+      {/* 상단 Hero + 지역 필터 */}
       <HeroWithFilterSearch
         imageSrc="/images/recommendation-list-hero.jpg"
         title="이런 지역은 어때요?"
@@ -40,8 +47,15 @@ export default function RecommendationList({
         showSearch={false}
       />
 
-      {/* 추천 여행지 카드 섹션 */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 py-12 sm:py-16 lg:py-20">
+      {/* 추천 여행지 카드 리스트 */}
+      <section
+        aria-labelledby="recommendation-section-title"
+        className="max-w-7xl mx-auto px-6 md:px-12 py-12 sm:py-16 lg:py-20"
+      >
+        <h2 id="recommendation-section-title" className="sr-only">
+          추천 여행지 목록
+        </h2>
+
         {isLoading ? (
           <LoadingSpinner />
         ) : isError ? (
@@ -64,16 +78,22 @@ export default function RecommendationList({
       </section>
 
       {/* 일정 만들기 CTA 섹션 */}
-      <section className="relative overflow-hidden py-12 sm:py-16 lg:py-24 px-6 md:px-12 bg-[#EDEDEA] text-center">
-        {/* 블러 포인트 */}
+      <section
+        aria-labelledby="cta-section-title"
+        className="relative overflow-hidden py-12 sm:py-16 lg:py-24 px-6 md:px-12 bg-[#EDEDEA] text-center"
+      >
+        {/* 블러 디자인 요소 */}
         <div className="absolute -top-20 -left-20 w-96 h-96 bg-white/30 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-80 h-80 bg-gray-300/20 rounded-full blur-2xl" />
 
-        {/* 콘텐츠 */}
+        {/* CTA 콘텐츠 */}
         <div className="relative z-10 max-w-xl sm:max-w-2xl mx-auto">
-          <h3 className="text-xl sm:text-2xl font-heading font-semibold text-gray-900 mb-3">
+          <h2
+            id="cta-section-title"
+            className="text-xl sm:text-2xl font-heading font-semibold text-gray-900 mb-3"
+          >
             이 계절, 당신만의 여정을 그려보세요.
-          </h3>
+          </h2>
           <p className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
             추천 여행지를 기반으로 나만의 감성을 담은 일정을 만들어보세요.
             <br className="hidden sm:block" />
