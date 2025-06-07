@@ -4,7 +4,7 @@ import {
   baseButtonClasses,
   buttonVariants,
   sizeVariants,
-} from "@/utils/buttonVariants";
+} from "@/styles/buttonStyles";
 import clsx from "clsx";
 
 export default function ModalFooterButton({

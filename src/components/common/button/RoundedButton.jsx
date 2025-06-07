@@ -3,7 +3,7 @@ import {
   baseButtonClasses,
   buttonVariants,
   sizeVariants,
-} from "@/utils/buttonVariants";
+} from "@/styles/buttonStyles";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 

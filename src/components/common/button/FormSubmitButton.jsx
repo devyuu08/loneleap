@@ -4,7 +4,7 @@ import {
   baseButtonClasses,
   buttonVariants,
   sizeVariants,
-} from "@/utils/buttonVariants";
+} from "@/styles/buttonStyles";
 
 export default function FormSubmitButton({
   isLoading,

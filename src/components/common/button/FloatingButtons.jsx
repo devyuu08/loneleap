@@ -1,6 +1,6 @@
 import { ArrowLeft, Pencil, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { baseButtonClasses, buttonVariants } from "@/utils/buttonVariants";
+import { baseButtonClasses, buttonVariants } from "@/styles/buttonStyles";
 import clsx from "clsx";
 
 export function EditFloatingButton({ editPath }) {

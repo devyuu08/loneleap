@@ -1,6 +1,6 @@
 import { AlertOctagon } from "lucide-react";
 import PropTypes from "prop-types";
-import { buttonVariants } from "@/utils/buttonVariants";
+import { buttonVariants } from "@/styles/buttonStyles";
 
 export default function ErrorState({ message, onRetry }) {
   return (
