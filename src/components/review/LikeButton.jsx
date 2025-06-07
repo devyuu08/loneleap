@@ -10,17 +10,18 @@ function LikeButton({
   disabled = false,
   onClick,
 }) {
-  const baseClass = "flex items-center gap-1 transition-all";
-  const disabledClass = disabled ? "opacity-50 cursor-not-allowed" : "";
-  const variantClass =
+  const BASE_CLASS = "flex items-center gap-1 transition-all";
+  const DISABLED_CLASS = disabled ? "opacity-50 cursor-not-allowed" : "";
+  const VARIANT_CLASS =
     variant === "detail"
       ? "px-3 py-1.5 rounded-full border border-gray-300 text-sm bg-white/60 text-gray-800 backdrop-blur-sm shadow-sm hover:bg-white/80 transition"
       : "text-sm text-gray-500 hover:text-red-500 transition";
+
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className={cn(baseClass, disabledClass, variantClass)}
+      className={cn(BASE_CLASS, DISABLED_CLASS, VARIANT_CLASS)}
       aria-label={hasLiked ? "좋아요 취소" : "좋아요 누르기"}
     >
       {hasLiked ? (

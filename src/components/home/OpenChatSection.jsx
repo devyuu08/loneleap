@@ -21,6 +21,15 @@ const features = [
 ];
 
 function OpenChatSection() {
+  const CHAT_FEATURE_ICON =
+    "w-7 h-7 rounded-full bg-blue-100 text-blue-600 font-semibold text-xs flex items-center justify-center shrink-0";
+
+  const CHAT_JOIN_BUTTON =
+    "inline-block mt-8 px-4 sm:px-6 py-2 sm:py-3 bg-black text-white rounded-lg text-xs sm:text-sm hover:bg-gray-800 transition mx-auto lg:ml-0";
+
+  const CHAT_IMAGE =
+    "w-full h-full object-cover rounded-3xl shadow-xl ring-1 ring-gray-200";
+
   return (
     <MainSectionWrapper
       bg="bg-gradient-to-br from-white to-gray-50 py-20"
@@ -43,7 +52,7 @@ function OpenChatSection() {
               key={title}
               className="flex items-start gap-3 text-left justify-center lg:justify-start max-w-md mx-auto lg:mx-0"
             >
-              <div className="w-7 h-7 rounded-full bg-blue-100 text-blue-600 font-semibold text-xs flex items-center justify-center shrink-0">
+              <div className={CHAT_FEATURE_ICON}>
                 {String(idx + 1).padStart(2, "0")}
               </div>
               <div>
@@ -56,10 +65,7 @@ function OpenChatSection() {
           ))}
         </ul>
 
-        <Link
-          to="/chat"
-          className="inline-block mt-8 px-4 sm:px-6 py-2 sm:py-3 bg-black text-white rounded-lg text-xs sm:text-sm hover:bg-gray-800 transition mx-auto lg:ml-0"
-        >
+        <Link to="/chat" className={CHAT_JOIN_BUTTON}>
           오픈채팅 참여하기
         </Link>
       </div>
@@ -71,7 +77,7 @@ function OpenChatSection() {
           alt="오픈채팅 소개"
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-cover rounded-3xl shadow-xl ring-1 ring-gray-200"
+          className={CHAT_IMAGE}
         />
       </div>
     </MainSectionWrapper>

@@ -4,9 +4,9 @@ export default function HeroHeader({ title, subtitle, countLabel, count }) {
   return (
     <div className="text-center space-y-2 sm:space-y-3">
       {title && (
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold drop-shadow-sm">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold drop-shadow-sm">
           {title}
-        </h2>
+        </h1>
       )}
       {subtitle && (
         <p className="text-sm sm:text-base text-white/90">{subtitle}</p>

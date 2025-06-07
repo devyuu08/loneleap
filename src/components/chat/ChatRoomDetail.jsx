@@ -21,6 +21,9 @@ export default function ChatRoomDetail({
   const roomName = roomInfo.name || "채팅방";
   const creatorName = roomInfo.createdBy?.displayName || "익명";
 
+  const CHAT_ROOM_SIDEBAR =
+    "hidden md:block w-64 border-r border-gray-200 bg-white/70 backdrop-blur-md p-4";
+
   return (
     <section
       className="relative h-screen bg-cover bg-center flex items-center justify-center px-4"
@@ -32,7 +35,7 @@ export default function ChatRoomDetail({
       {/* 채팅 박스 */}
       <div className="relative z-10 w-full max-w-6xl h-full md:h-[90vh] bg-white rounded-2xl shadow-xl overflow-hidden flex">
         {/* 참여자 목록 (좌측 사이드) */}
-        <aside className="hidden md:block w-64 border-r border-gray-200 bg-white/70 backdrop-blur-md p-4">
+        <aside className={CHAT_ROOM_SIDEBAR}>
           <ParticipantListContainer roomId={roomId} />
         </aside>
 

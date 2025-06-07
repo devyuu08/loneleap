@@ -35,17 +35,23 @@ export default function ReviewPreview() {
     }
   };
 
+  const REVIEW_CARD =
+    "relative w-full max-w-3xl h-72 sm:h-80 md:h-[300px] lg:h-[320px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition flex bg-white";
+
+  const QUOTE_ICON_WRAPPER =
+    "absolute top-4 right-4 w-12 h-12 rounded-full bg-gray-100/60 flex items-center justify-center shadow-inner";
+
+  const CTA_BUTTON =
+    "text-xs sm:text-sm px-3 sm:px-4 py-1 sm:py-1.5 border rounded-full text-white border-white/30 hover:bg-white/10 transition";
+
   const slides = useMemo(() => {
     if (!Array.isArray(reviews)) return [];
     return reviews.map((review) => (
       <SwiperSlide key={review.id} className="block">
         <div className="flex justify-center">
-          <Link
-            to={`/reviews/${review.id}`}
-            className="relative w-full max-w-3xl h-72 sm:h-80 md:h-[300px] lg:h-[320px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition flex bg-white"
-          >
+          <Link to={`/reviews/${review.id}`} className={REVIEW_CARD}>
             {/* 오른쪽 상단 아이콘 */}
-            <div className="absolute top-4 right-4 w-12 h-12 rounded-full bg-gray-100/60 flex items-center justify-center shadow-inner">
+            <div className={QUOTE_ICON_WRAPPER}>
               <Quote className="w-7 h-7 text-gray-600 opacity-60" />
             </div>
 
@@ -137,10 +143,7 @@ export default function ReviewPreview() {
             당신만의 순간이 누군가의 여행이 됩니다.
           </p>
           <div className="text-center mt-8">
-            <Link
-              to="/reviews"
-              className="text-xs sm:text-sm px-3 sm:px-4 py-1 sm:py-1.5 border rounded-full text-white border-white/30 hover:bg-white/10 transition"
-            >
+            <Link to="/reviews" className={CTA_BUTTON}>
               더 많은 이야기 보기 →
             </Link>
           </div>

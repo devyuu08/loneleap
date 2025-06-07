@@ -3,7 +3,7 @@ import { AlertCircle } from "lucide-react";
 export default function ErrorMessage({
   message,
   className = "",
-  align = "left", // "left" or "center"
+  align = "left",
 }) {
   if (!message) return null;
 

@@ -27,6 +27,15 @@ function ReviewForm({
   errors,
   submitError,
 }) {
+  const FORM_STEP1_CLASS =
+    "mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-6 sm:p-8 md:p-10 rounded-3xl shadow-md border border-white/30 text-gray-800";
+
+  const FORM_STEP2_CLASS =
+    "space-y-10 bg-white/80 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-2xl shadow-lg border border-gray-200 text-gray-800";
+
+  const STEP_BUTTON_BASE =
+    "px-6 py-3 text-sm font-semibold rounded-full text-gray-800 shadow-md hover:shadow-xl hover:bg-white transition-all backdrop-blur-sm border border-white/30";
+
   return (
     <section
       className="relative min-h-screen bg-cover bg-center bg-no-repeat"
@@ -50,7 +59,7 @@ function ReviewForm({
         {/* 폼 */}
         <div className="mt-10">
           {step === 1 && (
-            <form className="mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-6 sm:p-8 md:p-10 rounded-3xl shadow-md border border-white/30 text-gray-800">
+            <form className={FORM_STEP1_CLASS}>
               {/* 제목 */}
               <div>
                 <FormInput
@@ -92,7 +101,7 @@ function ReviewForm({
                 <button
                   type="button"
                   onClick={handleNextStep}
-                  className="px-6 py-3 text-sm font-semibold rounded-full bg-white/80 text-gray-800 shadow-md hover:shadow-xl hover:bg-white transition-all backdrop-blur-sm border border-white/30"
+                  className={`${STEP_BUTTON_BASE} bg-white/80`}
                 >
                   다음 질문으로 이어가기 →
                 </button>
@@ -101,10 +110,7 @@ function ReviewForm({
           )}
 
           {step === 2 && (
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-10 bg-white/80 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-2xl shadow-lg border border-gray-200 text-gray-800"
-            >
+            <form onSubmit={handleSubmit} className={FORM_STEP2_CLASS}>
               <h2 className="text-2xl font-semibold text-center">
                 여행에 대한 질문에 답해주세요
               </h2>
@@ -120,7 +126,7 @@ function ReviewForm({
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="px-6 py-3 text-sm font-semibold rounded-full bg-white/70 text-gray-800 shadow-md hover:shadow-xl hover:bg-white transition-all backdrop-blur-sm border border-white/30"
+                  className={`${STEP_BUTTON_BASE} bg-white/70`}
                 >
                   ← 이전 단계로 돌아가기
                 </button>

@@ -7,12 +7,12 @@ export default function NotFoundMessage({
 }) {
   return (
     <div
-      className="py-20 text-center text-gray-400"
+      className="py-20 text-center text-gray-500"
       role="status"
       aria-live="polite"
     >
       <div className="mb-3 flex justify-center">{icon}</div>
-      <p className="text-base text-gray-500">{message}</p>
+      <p className="text-base">{message}</p>
     </div>
   );
 }

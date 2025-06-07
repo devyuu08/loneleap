@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { formatDateOnly } from "@/utils/formatDate";
 import { Bell } from "lucide-react";
-import SkeletonImage from "../common/loading/SkeletonImage";
+import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
 function MyChatRoomCard({ room }) {
   const navigate = useNavigate();
@@ -30,13 +30,16 @@ function MyChatRoomCard({ room }) {
     );
   }
 
+  const CARD_WRAPPER =
+    "group bg-white rounded-xl shadow-lg hover:shadow-md hover:-translate-y-1 transition overflow-hidden cursor-pointer p-6 flex flex-col justify-between h-full";
+
   return (
     <div
       onClick={handleNavigate}
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      className="group bg-white rounded-xl shadow-lg hover:shadow-md hover:-translate-y-1 transition overflow-hidden cursor-pointer p-6 flex flex-col justify-between h-full"
+      className={CARD_WRAPPER}
     >
       {/* 상단: 제목 + 알림 뱃지 */}
       <div className="flex justify-between items-start mb-2">

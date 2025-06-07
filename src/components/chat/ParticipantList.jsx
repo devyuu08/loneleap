@@ -3,8 +3,11 @@ import SkeletonImage from "@/components/common/loading/SkeletonImage";
 export default function ParticipantList({ users, isLoading }) {
   if (isLoading || !Array.isArray(users)) return null;
 
+  const PARTICIPANT_CARD =
+    "bg-white/80 backdrop-blur-md border border-gray-200 rounded-xl shadow-sm p-4";
+
   return (
-    <div className="bg-white/80 backdrop-blur-md border border-gray-200 rounded-xl shadow-sm p-4">
+    <div className={PARTICIPANT_CARD}>
       <p className="text-sm font-semibold text-gray-800 mb-4 border-b pb-2">
         현재 참여자 {users.length}명
       </p>

@@ -17,6 +17,7 @@ export default function HeroSection({
           src={imageSrc}
           alt={imageAlt}
           objectFit="cover"
+          className="w-full h-full object-cover"
           absolute={true}
         />
       )}

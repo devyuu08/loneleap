@@ -1,5 +1,6 @@
 import { AlertOctagon } from "lucide-react";
 import PropTypes from "prop-types";
+import { buttonVariants } from "@/styles/buttonStyles";
 
 export default function ErrorState({ message, onRetry }) {
   return (
@@ -17,7 +18,7 @@ export default function ErrorState({ message, onRetry }) {
       </p>
       <button
         onClick={onRetry || (() => window.location.reload())}
-        className="mt-5 inline-block px-4 py-2 rounded bg-gray-200 text-sm hover:bg-gray-300 transition"
+        className={`mt-5 inline-block text-sm rounded px-4 py-2 ${buttonVariants.outline}`}
       >
         새로고침
       </button>

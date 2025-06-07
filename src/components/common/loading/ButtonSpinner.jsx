@@ -6,6 +6,8 @@ export default function ButtonSpinner({ size = 16, color = "white" }) {
       height={size}
       viewBox="0 0 24 24"
       fill="none"
+      aria-label="로딩 중"
+      role="status"
       aria-hidden="true"
     >
       <circle
