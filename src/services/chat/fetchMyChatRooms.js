@@ -9,8 +9,11 @@ import {
 import { db } from "@/services/firebase";
 
 /**
- * 사용자가 참여한 채팅방 조회
+ * 현재 로그인한 사용자의 채팅방 목록을 조회
+ * @param {string} uid - 사용자 UID
+ * @returns {Promise<Array>} - 참여한 채팅방 목록
  */
+
 export async function fetchMyChatRooms(uid) {
   const q = query(
     collection(db, "chatRooms"),
