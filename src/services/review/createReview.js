@@ -9,6 +9,13 @@ import {
 import { db } from "@/services/firebase";
 import { uploadImage } from "@/utils/uploadImage";
 
+/**
+ * 새로운 리뷰를 생성
+ * @param {Object} review - 리뷰 데이터
+ * @param {Object} user - 작성자 정보
+ * @returns {Promise<string>} 생성된 리뷰 ID
+ */
+
 export async function createReview(review, user) {
   const {
     title,

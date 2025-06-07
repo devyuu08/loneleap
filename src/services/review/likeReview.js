@@ -7,6 +7,13 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
+/**
+ * 특정 리뷰에 좋아요를 추가
+ * @param {string} reviewId - 리뷰 ID
+ * @param {string} userId - 사용자 ID
+ * @returns {Promise<void>}
+ */
+
 export async function likeReview(reviewId, userId) {
   try {
     await setDoc(
