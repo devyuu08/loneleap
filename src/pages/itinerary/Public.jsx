@@ -1,5 +1,5 @@
-import PublicItinerary from "@/components/itinerary/PublicItinerary";
+import PublicItineraryContainer from "@/containers/itinerary/PublicItineraryContainer";
 
 export default function PublicItineraryPage() {
-  return <PublicItinerary />;
+  return <PublicItineraryContainer />;
 }
