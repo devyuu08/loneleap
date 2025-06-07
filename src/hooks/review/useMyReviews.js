@@ -4,6 +4,13 @@ import { auth } from "@/services/firebase";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { fetchMyReviews } from "@/services/review/fetchMyReviews";
 
+/**
+ * useMyReviews
+ * - 현재 로그인한 사용자의 리뷰 목록을 조회
+ * - user.uid 기반으로 queryKey 구성
+ * - 로딩 중에는 fetch 방지, staleTime 5분, cacheTime 30분 유지
+ */
+
 export const useMyReviews = (options = {}) => {
   const [user, loading] = useAuthState(auth);
 

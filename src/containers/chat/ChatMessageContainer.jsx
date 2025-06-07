@@ -1,3 +1,9 @@
+/**
+ * ChatMessageContainer
+ * - 채팅 메시지 렌더링 및 신고 처리 로직 담당
+ * - 본인 메시지 여부 판별 및 신고 모달 연동
+ */
+
 import { useSelector } from "react-redux";
 import { useCallback, useMemo, useState } from "react";
 import { useReportMessage } from "@/hooks/chat/useReportMessage";

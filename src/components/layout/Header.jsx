@@ -16,6 +16,13 @@ import { useSelector } from "react-redux";
 
 import { motion } from "framer-motion";
 
+/**
+ * Header 컴포넌트
+ * - 페이지 최상단 고정 내비게이션 바
+ * - 로그인 여부에 따라 다른 메뉴 노출
+ * - 스크롤/모바일 상태에 따라 배경 및 텍스트 스타일 변경
+ */
+
 export default function Header() {
   const user = useSelector((state) => state.user.user);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,20 +41,7 @@ export default function Header() {
   ];
   const isHeroPage = heroPaths.includes(location.pathname);
 
-  const BASE_LINK_CLASS =
-    "flex items-center gap-1.5 pb-1 hover:text-black font-body";
-  const ACTIVE_LINK_CLASS = "border-b-2 border-black text-black";
-  const ICON_CLASS = "w-4 h-4 text-inherit";
-
-  const getNavLinkClass = (isActive) =>
-    isActive ? `${BASE_LINK_CLASS} ${ACTIVE_LINK_CLASS}` : BASE_LINK_CLASS;
-
-  const USER_TAG_CLASS =
-    "shrink-0 max-w-xs truncate px-4 py-1.5 rounded-full bg-[#f2f2f2]/70 text-gray-800 font-body shadow-sm border border-gray-300 text-sm font-medium";
-
-  const USER_ROLE_CLASS =
-    "text-[11px] uppercase tracking-widest text-gray-500 mr-1";
-
+  // 스크롤 시 헤더 스타일 변경
   useEffect(() => {
     if (!isHeroPage) {
       setIsScrolled(true);
@@ -63,6 +57,21 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHeroPage]);
 
+  // 네비게이션 클래스 정의
+  const BASE_LINK_CLASS =
+    "flex items-center gap-1.5 pb-1 hover:text-black font-body";
+  const ACTIVE_LINK_CLASS = "border-b-2 border-black text-black";
+  const ICON_CLASS = "w-4 h-4 text-inherit";
+  const getNavLinkClass = (isActive) =>
+    isActive ? `${BASE_LINK_CLASS} ${ACTIVE_LINK_CLASS}` : BASE_LINK_CLASS;
+
+  // 사용자 정보 스타일
+  const USER_TAG_CLASS =
+    "shrink-0 max-w-xs truncate px-4 py-1.5 rounded-full bg-[#f2f2f2]/70 text-gray-800 font-body shadow-sm border border-gray-300 text-sm font-medium";
+  const USER_ROLE_CLASS =
+    "text-[11px] uppercase tracking-widest text-gray-500 mr-1";
+
+  // 로그인 여부에 따른 메뉴 구성
   const navItems = user ? (
     <>
       <span className={USER_TAG_CLASS}>
@@ -129,10 +138,11 @@ export default function Header() {
       }`}
     >
       <div className="w-full mx-auto px-4 md:px-6 flex justify-between items-center h-16">
-        {/* 로고 */}
+        {/* 로고 영역 */}
         <Link
           to="/"
           className="flex items-center gap-2 text-xl font-heading font-bold whitespace-nowrap"
+          aria-label="홈으로 이동"
         >
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -150,6 +160,9 @@ export default function Header() {
         <button
           className="lg:hidden"
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+          aria-label={
+            isMobileMenuOpen ? "모바일 메뉴 닫기" : "모바일 메뉴 열기"
+          }
         >
           {isMobileMenuOpen ? (
             <X className="w-6 h-6" />
@@ -158,18 +171,26 @@ export default function Header() {
           )}
         </button>
 
-        {/* 데스크탑 메뉴 */}
-        <nav className="hidden lg:flex flex-wrap items-center gap-4 md:gap-6 text-sm max-w-full overflow-x-auto">
+        {/* 데스크탑 내비게이션 */}
+        <nav
+          role="navigation"
+          aria-label="메인 메뉴"
+          className="hidden lg:flex flex-wrap items-center gap-4 md:gap-6 text-sm max-w-full overflow-x-auto"
+        >
           {navItems}
         </nav>
       </div>
 
-      {/* 모바일 메뉴 드롭다운 */}
+      {/* 모바일 내비게이션 */}
       {isMobileMenuOpen && (
-        <div
-          className={`lg:hidden bg-white border-t border-gray-200 shadow-sm text-gray-800 px-4 pb-4`}
-        >
-          <nav className="flex flex-col gap-3 text-sm pt-2">{navItems}</nav>
+        <div className="lg:hidden bg-white border-t border-gray-200 shadow-sm text-gray-800 px-4 pb-4">
+          <nav
+            className="flex flex-col gap-3 text-sm pt-2"
+            role="navigation"
+            aria-label="모바일 메뉴"
+          >
+            {navItems}
+          </nav>
         </div>
       )}
     </header>

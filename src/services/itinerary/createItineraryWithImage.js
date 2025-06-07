@@ -4,11 +4,14 @@ import { createItinerary } from "@/services/itinerary/createItinerary";
 import { uploadImage } from "@/utils/uploadImage";
 
 /**
- * 일정 생성 + 이미지 업로드 처리 함수
- * @param {object} formData - 일정 데이터 + 이미지
- * @param {object} user - 로그인 유저
- * @returns {Promise<string>} - 생성된 문서 ID
+ * 이미지 업로드를 포함한 일정 생성을 처리
+ *
+ * @param {object} formData - 사용자 입력 폼 데이터 (image 포함)
+ * @param {object} user - 현재 로그인한 사용자 객체
+ * @returns {Promise<string>} - 생성된 일정 ID
+ * @throws {Error} - 로그인되지 않았거나 업로드 실패 시
  */
+
 export async function createItineraryWithImage(formData, user) {
   if (!user) throw new Error("로그인이 필요합니다.");
 

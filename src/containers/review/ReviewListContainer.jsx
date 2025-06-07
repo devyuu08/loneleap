@@ -8,6 +8,13 @@ import HeroWithFilterSearch from "@/components/common/layout/HeroWithFilterSearc
 
 import { AlertTriangle } from "lucide-react";
 
+/**
+ * ReviewListContainer
+ * - 전체 리뷰 목록을 조회하고 정렬/검색 기능을 적용하는 컨테이너 컴포넌트
+ * - 정렬 기준(최신순/별점순/좋아요순)과 키워드 검색을 통해 리뷰 데이터를 필터링
+ * - 필터링된 결과를 ReviewList 컴포넌트에 전달하여 리스트 UI를 렌더링
+ */
+
 const FILTERS = ["최신순", "별점순", "좋아요순"];
 
 export default function ReviewListContainer() {

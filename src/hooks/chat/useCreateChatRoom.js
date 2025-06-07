@@ -9,8 +9,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 
 /**
- * 채팅방 생성 훅
- * @param {Function} onSuccessNavigate - 생성 후 이동 콜백 (예: navigate 함수)
+ * useCreateChatRoom
+ * - 새로운 채팅방을 생성하는 mutation 훅
+ * - Firestore에 문서를 추가하고, 캐시를 갱신하며, 성공 시 네비게이션 처리까지 수행
+ * - 사용자 인증 확인 및 기본값 처리 포함
  */
 
 export const useCreateChatRoom = (onSuccessNavigate) => {

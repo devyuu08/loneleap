@@ -4,6 +4,11 @@ import { updateChecklist } from "@/services/itinerary/updateChecklist";
 import { useParams } from "react-router-dom";
 import ChecklistSection from "@/components/itinerary/ChecklistSection";
 
+/**
+ * ChecklistSectionContainer
+ * - 필수/선택 준비물 관리 및 자동 저장 처리
+ */
+
 export default function ChecklistSectionContainer({ checklist }) {
   const { id: itineraryId } = useParams();
   const [localChecklist, setLocalChecklist] = useState({

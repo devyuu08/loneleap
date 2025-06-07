@@ -2,7 +2,16 @@ import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import { uploadImage } from "@/utils/uploadImage";
 
-// 일정 수정 함수
+/**
+ * 일정을 수정하고 Firestore에 업데이트
+ * 이미지가 File 객체인 경우 업로드도 처리
+ *
+ * @param {string} id - 수정할 일정 ID
+ * @param {object} updatedData - 수정할 데이터 객체 (title, location 등)
+ * @returns {Promise<boolean>} - 성공 여부
+ * @throws {Error} - 문서 존재 여부 확인 실패 또는 업로드 실패 시
+ */
+
 export async function updateItinerary(id, updatedData) {
   try {
     const docRef = doc(db, "itineraries", id);

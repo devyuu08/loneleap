@@ -2,6 +2,13 @@ import { useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import { reportMessage } from "@/services/chat/reportMessage";
 
+/**
+ * useReportMessage
+ * - 채팅 메시지를 신고하는 mutation 훅
+ * - 사용자 인증 여부 확인 후 신고 처리 요청
+ * - 성공/실패 시 사용자 피드백 알림 제공
+ */
+
 export const useReportMessage = () => {
   const user = useSelector((state) => state.user.user);
 

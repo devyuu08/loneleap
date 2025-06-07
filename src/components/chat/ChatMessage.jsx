@@ -6,6 +6,12 @@ import { ko } from "date-fns/locale";
 import ReportModal from "@/components/common/modal/ReportModal.jsx";
 import ModalPortal from "@/components/common/modal/ModalPortal";
 
+/**
+ * 채팅 메시지 컴포넌트
+ * - 일반 메시지, 시스템 메시지(date, join, leave) 모두 처리
+ * - 본인 메시지 여부에 따라 정렬 및 스타일 다르게 적용
+ * - 메시지 신고 기능 포함 (신고 버튼 + 공통 모달)
+ */
 function ChatMessage({
   message,
   isMine,
@@ -23,6 +29,7 @@ function ChatMessage({
     userName,
   } = message;
 
+  // 메시지 시간 포맷팅 (상대 시간)
   const formattedTime = useMemo(() => {
     if (!createdAt) return "시간 정보 없음";
     const dateObj =
@@ -32,10 +39,12 @@ function ChatMessage({
     return formatRelative(dateObj, new Date(), { locale: ko });
   }, [createdAt]);
 
+  // 신고 모달 열기 핸들러
   const handleOpenModal = useCallback(() => {
     setOpenReportModal(true);
   }, [setOpenReportModal]);
 
+  // 시스템 메시지 처리
   if (type === "system") {
     const systemTextStyles = "text-center text-[12px] my-4";
 
@@ -69,6 +78,7 @@ function ChatMessage({
     }
   }
 
+  // 일반 메시지 버블 스타일
   const MESSAGE_BUBBLE_MINE =
     "px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm bg-[#5A5A5A] text-white rounded-br-none";
 
@@ -76,7 +86,7 @@ function ChatMessage({
     "px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm bg-[#F2F2F2] text-gray-900 rounded-bl-none";
 
   return (
-    <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+    <article className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
         {!isMine && (
           <img
@@ -107,9 +117,16 @@ function ChatMessage({
           </div>
         )}
 
-        <p className="text-[10px] text-gray-400 mt-1 text-right">
+        <time
+          className="text-[10px] text-gray-400 mt-1 text-right block"
+          dateTime={
+            createdAt
+              ? new Date(createdAt.toDate?.() || createdAt).toISOString()
+              : undefined
+          }
+        >
           {formattedTime}
-        </p>
+        </time>
 
         {/* 공통 신고 모달 */}
         {openReportModal && (
@@ -122,7 +139,7 @@ function ChatMessage({
           </ModalPortal>
         )}
       </div>
-    </div>
+    </article>
   );
 }
 

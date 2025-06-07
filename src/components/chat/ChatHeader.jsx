@@ -5,6 +5,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { LogOut } from "lucide-react";
 
+/**
+ * 채팅방 상단 헤더 컴포넌트
+ * - 뒤로가기 버튼 (모바일)
+ * - 유저 이름 및 타이틀 표시
+ * - 메뉴 버튼으로 채팅방 나가기 기능 제공
+ */
 export default function ChatHeader({
   title = "채팅방",
   userName = "사용자",
@@ -14,6 +20,7 @@ export default function ChatHeader({
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef();
 
+  // 메뉴 바깥 클릭 시 닫기
   const handleClickOutside = useCallback((e) => {
     if (menuRef.current && !menuRef.current.contains(e.target)) {
       setMenuOpen(false);

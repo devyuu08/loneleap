@@ -5,6 +5,13 @@ import React, { useMemo, useState } from "react";
 import { useRegionCounts } from "@/hooks/itinerary/useRegionCounts";
 import MainSectionWrapper from "@/components/common/layout/MainSectionWrapper";
 
+/**
+ * 지역별 여행 일정 현황 섹션
+ * - 왼쪽: 설명 + 등록 일정 수 + CTA 버튼
+ * - 오른쪽: 지도 이미지와 각 지역 마커 (일정 수 표시)
+ * - 지역 클릭 시 activeRegion 상태 변경
+ */
+
 function RegionMapSection() {
   const [activeRegion, setActiveRegion] = useState(null);
 
@@ -38,9 +45,12 @@ function RegionMapSection() {
       bg="bg-gradient-to-br from-white to-gray-50 py-20"
       containerClass="max-w-screen-xl px-4 flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 sm:gap-10 lg:gap-12"
     >
-      {/* 왼쪽: 텍스트 + CTA */}
+      {/* 왼쪽: 설명 영역 */}
       <div className="max-w-lg text-center lg:text-left flex-1">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-snug mb-5">
+        <h2
+          id="region-map-title"
+          className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-snug mb-5"
+        >
           지역별 여행 일정 현황을 한눈에!
         </h2>
         <p className="text-xs sm:text-sm text-gray-600 mb-7 leading-relaxed">
@@ -48,8 +58,8 @@ function RegionMapSection() {
           지역별로 어떤 일정이 준비되어 있는지 직접 확인해보세요.
         </p>
 
-        {/* 정보 박스 */}
-        <div className={INFO_BOX_WRAPPER}>
+        {/* 등록 현황 박스 */}
+        <aside className={INFO_BOX_WRAPPER} aria-label="일정 등록 정보">
           <div className="absolute -top-3 left-6 text-xs text-gray-400 px-2 backdrop-blur-sm rounded-md">
             지금 등록된 일정은?
           </div>
@@ -62,16 +72,20 @@ function RegionMapSection() {
             최근 인기 지역은 <strong>서울</strong>과 <strong>제주도</strong>
             입니다.
           </p>
-        </div>
+        </aside>
 
         {/* CTA 버튼 */}
-        <Link to="/itinerary" className={ITINERARY_BUTTON}>
+        <Link
+          to="/itinerary"
+          className={ITINERARY_BUTTON}
+          aria-label="전체 일정 페이지로 이동"
+        >
           전체 일정 보기 →
         </Link>
       </div>
 
-      {/* 오른쪽: 지도 */}
-      <div className={MAP_CONTAINER}>
+      {/* 오른쪽: 지도 이미지 + 마커 */}
+      <figure className={MAP_CONTAINER} aria-label="대한민국 지역 지도">
         <img
           src="/images/korea-map.png"
           alt="대한민국 지도"
@@ -80,8 +94,9 @@ function RegionMapSection() {
           className="w-full h-full object-contain"
         />
 
+        {/* 각 지역 마커 */}
         {mappedRegions.map((r) => (
-          <div
+          <figcaption
             key={r.slug}
             className="absolute -translate-x-1/2 -translate-y-1/2 text-center"
             style={{ top: r.position.top, left: r.position.left }}
@@ -97,9 +112,9 @@ function RegionMapSection() {
             >
               {r.count}
             </button>
-          </div>
+          </figcaption>
         ))}
-      </div>
+      </figure>
     </MainSectionWrapper>
   );
 }

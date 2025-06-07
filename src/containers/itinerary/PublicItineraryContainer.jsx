@@ -6,6 +6,11 @@ import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 import PublicItinerary from "@/components/itinerary/PublicItinerary";
 
+/**
+ * PublicItineraryContainer
+ * - 공유 링크를 통해 공개 일정을 조회하고 표시
+ */
+
 export default function PublicItineraryContainer() {
   const { id } = useParams();
   const [itinerary, setItinerary] = useState(null);

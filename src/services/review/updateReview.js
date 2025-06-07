@@ -2,6 +2,13 @@ import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import { uploadImage } from "@/utils/uploadImage";
 
+/**
+ * 리뷰 내용을 수정
+ * @param {string} id - 리뷰 ID
+ * @param {Object} updatedData - 수정할 데이터
+ * @returns {Promise<boolean>}
+ */
+
 export async function updateReview(id, updatedData) {
   try {
     const docRef = doc(db, "reviews", id);

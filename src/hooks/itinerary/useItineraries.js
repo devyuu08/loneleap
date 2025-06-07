@@ -2,6 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { fetchItineraries } from "@/services/itinerary/fetchItineraries";
 
+/**
+ * useItineraries
+ * - 전체 여행 일정 리스트를 가져오는 query 훅
+ * - 최신 순으로 정렬되며, 캐시 및 폴링 전략 포함
+ * - `enabled` 파라미터를 통해 조건부 fetch 가능
+ */
+
 export const useItineraries = (enabled = true) => {
   return useQuery({
     queryKey: [QUERY_KEYS.ITINERARIES],

@@ -9,6 +9,13 @@ import {
 } from "firebase/firestore";
 import { db } from "@/services/firebase";
 
+/**
+ * 사용자를 채팅방에 참여시키고 시스템 메시지를 추가
+ * @param {Object} params
+ * @param {string} params.roomId - 채팅방 ID
+ * @param {Object} params.user - 사용자 정보 객체
+ */
+
 export async function joinRoom({ roomId, user }) {
   try {
     const roomRef = doc(db, "chatRooms", roomId);

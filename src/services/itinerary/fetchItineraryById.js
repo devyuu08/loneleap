@@ -1,7 +1,14 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase";
 
-// 특정 일정 상세 조회 함수
+/**
+ * 일정 ID를 기반으로 상세 정보를 조회
+ *
+ * @param {string} id - 일정 ID
+ * @returns {Promise<object|null>} - 일정 데이터 또는 null
+ * @throws {Error} - 조회 중 오류 발생 시
+ */
+
 export async function fetchItineraryById(id) {
   try {
     // ID 유효성 검사

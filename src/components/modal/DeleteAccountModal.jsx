@@ -8,11 +8,18 @@ import { auth } from "@/services/firebase";
 import FormInput from "@/components/common/form/FormInput";
 import ModalFooterButton from "@/components/common/button/ModalFooterButton";
 
+/**
+ * DeleteAccountModal
+ * - 사용자 계정 탈퇴 처리 모달
+ * - 소셜/비밀번호 계정 여부에 따라 입력 요구 여부 결정
+ */
+
 export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // 모달 열릴 때 상태 초기화
   useEffect(() => {
     if (isOpen) {
       setPassword("");
@@ -25,6 +32,7 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
     (p) => p.providerId === "password"
   );
 
+  // 탈퇴 확인 핸들러 (비밀번호 입력 기반)
   const handleConfirm = async () => {
     if (!password.trim()) {
       setError("비밀번호를 입력해주세요.");
@@ -56,23 +64,34 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
       open={isOpen}
       onClose={onClose}
       className="fixed z-50 inset-0 overflow-y-auto"
+      aria-labelledby="delete-account-title"
+      aria-describedby="delete-account-desc"
     >
       <div className="flex items-center justify-center min-h-screen px-4">
+        {/* 배경 오버레이 */}
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" />
+
+        {/* 모달 본문 */}
         <div className="relative bg-white w-full max-w-md rounded-xl p-6 z-10">
           {/* 헤더 */}
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">계정 탈퇴</h2>
-            <button onClick={onClose}>
+          <header className="flex justify-between items-center mb-4">
+            <h2 id="delete-account-title" className="text-lg font-semibold">
+              계정 탈퇴
+            </h2>
+            <button onClick={onClose} aria-label="닫기">
               <X className="w-5 h-5 text-gray-500" />
             </button>
-          </div>
+          </header>
 
-          {/* 내용 */}
-          <div className="space-y-4">
+          {/* 설명 + 입력 영역 */}
+          <section aria-describedby="delete-account-desc" className="space-y-4">
+            {/* 안내 문구 */}
             <div className="flex items-start gap-3 text-red-600">
               <AlertTriangle className="w-5 h-5 mt-1" />
-              <div className="text-sm text-gray-700 space-y-1">
+              <div
+                id="delete-account-desc"
+                className="text-sm text-gray-700 space-y-1"
+              >
                 <p>
                   작성한{" "}
                   <strong className="text-red-700 font-medium">
@@ -80,7 +99,7 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
                   </strong>
                 </p>
                 <p>
-                  대신, 작성자 정보는{" "}
+                  작성자는{" "}
                   <strong className="text-red-700 font-medium">
                     "탈퇴한 사용자"
                   </strong>
@@ -89,15 +108,16 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
                 <p>
                   기록 삭제를 원하실 경우,{" "}
                   <strong className="text-red-700 font-medium">
-                    관리자에게 별도로 문의
+                    관리자에게 문의
                   </strong>
                   해 주세요.
                 </p>
               </div>
             </div>
 
+            {/* 비밀번호 확인 또는 안내 */}
             {isPasswordUser ? (
-              <>
+              <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
                 <p className="text-sm text-gray-700">
                   탈퇴를 위해 비밀번호를 다시 입력해주세요.
                 </p>
@@ -110,7 +130,7 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
                   placeholder="현재 비밀번호"
                   error={error}
                 />
-              </>
+              </form>
             ) : (
               <p className="text-sm text-gray-700">
                 이 계정은 소셜 로그인으로 가입되었습니다. 별도 비밀번호 확인
@@ -118,6 +138,7 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
               </p>
             )}
 
+            {/* 하단 버튼 */}
             <ModalFooterButton
               onClose={onClose}
               onConfirm={isPasswordUser ? handleConfirm : onConfirm}
@@ -126,7 +147,7 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
               isLoading={isLoading}
               disabled={isPasswordUser && !password}
             />
-          </div>
+          </section>
         </div>
       </div>
     </Dialog>

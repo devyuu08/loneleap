@@ -12,6 +12,14 @@ import ReviewForm from "@/components/review/ReviewForm";
 import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 
+/**
+ * ReviewFormContainer
+ * - 리뷰 작성 및 수정 로직을 처리하는 컨테이너 컴포넌트
+ * - step 상태를 기반으로 폼 UI를 단계별로 렌더링하며, 유효성 검사 포함
+ * - Firebase Storage를 통한 이미지 업로드, Firestore에 리뷰 저장 처리
+ * - 작성/수정 모드를 isEditMode로 분기하여 UI와 제출 처리 분기
+ */
+
 export default function ReviewFormContainer({ isEditMode = false }) {
   const navigate = useNavigate();
   const { id } = useParams();

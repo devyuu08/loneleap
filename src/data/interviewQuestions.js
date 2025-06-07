@@ -1,8 +1,22 @@
+/**
+ * FIXED_QUESTIONS
+ * - 리뷰 작성 시 항상 포함되는 고정 질문 리스트
+ * - 여행의 시작, 인상 깊은 순간, 다음 여행 계획 등을 중심으로 구성
+ * - ReviewFormContainer에서 초기 질문으로 사용됨
+ */
+
 export const FIXED_QUESTIONS = [
   { id: 1, text: "이번 여행은 어떻게 시작되었나요?" },
   { id: 2, text: "가장 인상 깊었던 순간은 언제였나요?" },
   { id: 10, text: "다음엔 어디로 떠나고 싶나요?" },
 ];
+
+/**
+ * RANDOM_QUESTIONS
+ * - 인터뷰형 리뷰 작성 시 무작위로 섞여 나오는 보조 질문 리스트
+ * - 혼행 감정, 나만의 장소, 여행 후 변화 등 감성 중심 질문 포함
+ * - FIXED_QUESTIONS와 조합하여 최대 6개로 구성됨
+ */
 
 export const RANDOM_QUESTIONS = [
   { id: 3, text: "혼자였기 때문에 느낀 감정이 있나요?" },

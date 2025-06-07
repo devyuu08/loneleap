@@ -2,11 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { fetchChatRooms } from "@/services/chat/fetchChatRooms";
 
-// Firestore에서 채팅방 목록 최신순으로 가져오는 기본 구조
-// limitCount: 가져올 채팅방의 수 (기본값: 10)
 /**
- * 전체 채팅방 목록 훅
+ * useChatRooms
+ * - 채팅방 리스트를 조건에 맞게 조회하는 React Query 훅
+ * - 정렬 방향, 필터 조건, 페이징 수 설정 가능
+ * - 30초마다 polling하며 실시간성 유지
  */
+
 export const useChatRooms = ({
   limitCount = 10,
   orderDirection = "desc",

@@ -1,5 +1,12 @@
 import PropTypes from "prop-types";
 
+/**
+ * ReviewSortButtons
+ * - 리뷰 목록 정렬 옵션을 선택할 수 있는 버튼 그룹
+ * - 현재 선택된 정렬 방식에 따라 버튼 스타일 변경
+ * - 시멘틱 마크업 및 접근성 속성(aria-pressed, role="group") 적용
+ */
+
 export default function ReviewSortButtons({ sort, onChange }) {
   const BASE_BUTTON_STYLE =
     "px-4 py-2 rounded-full text-sm font-medium border transition";
@@ -12,6 +19,7 @@ export default function ReviewSortButtons({ sort, onChange }) {
       role="group"
       aria-label="리뷰 정렬 옵션"
     >
+      {/* 최신순 버튼 */}
       <button
         type="button"
         aria-pressed={sort === "latest"}
@@ -22,6 +30,8 @@ export default function ReviewSortButtons({ sort, onChange }) {
       >
         최신순
       </button>
+
+      {/* 평점순 버튼 */}
       <button
         type="button"
         aria-pressed={sort === "rating"}

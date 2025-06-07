@@ -10,6 +10,11 @@ import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
 import ItineraryForm from "@/components/itinerary/ItineraryForm";
 
+/**
+ * ItineraryFormContainer
+ * - 일정 등록/수정 폼 상태 및 유효성 검사, 제출 처리
+ */
+
 export default function ItineraryFormContainer({ isEditMode = false }) {
   const { id } = useParams();
   const navigate = useNavigate();

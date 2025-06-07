@@ -3,6 +3,12 @@ import { useSelector } from "react-redux";
 import MessageInput from "@/components/chat/MessageInput";
 import { sendChatMessage } from "@/services/chat/sendMessage";
 
+/**
+ * MessageInputContainer
+ * - 채팅 입력창 상태 및 전송 처리 담당
+ * - Enter 키 입력, 전송 중 상태 관리 포함
+ */
+
 export default function MessageInputContainer({ roomId }) {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);

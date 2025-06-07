@@ -2,6 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { fetchReviews } from "@/services/review/fetchReviews";
 
+/**
+ * useReviews
+ * - 전체 리뷰 리스트를 가져오는 query 훅
+ * - 최신순 정렬 포함
+ * - 캐시 최적화를 위해 staleTime 5분, cacheTime 30분 설정
+ */
+
 export const useReviews = (enabled = true) => {
   return useQuery({
     queryKey: [QUERY_KEYS.REVIEWS],

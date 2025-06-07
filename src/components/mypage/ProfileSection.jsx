@@ -7,6 +7,13 @@ import ChangePasswordModal from "@/components/modal/ChangePasswordModal";
 import DeleteAccountModal from "@/components/modal/DeleteAccountModal";
 import ProfileInfoCard from "@/components/mypage/ProfileInfoCard";
 
+/**
+ * ProfileSection
+ * - 마이페이지 상단 영역에서 사용자 정보, 통계, 버튼, 모달을 포함한 메인 컴포넌트
+ * - 프로필 이미지, 닉네임, bio, 일정/리뷰/채팅 수 등의 정보를 표시
+ * - 프로필 수정, 설정, 비밀번호 변경, 로그아웃, 탈퇴 기능 포함
+ */
+
 export default function ProfileSection({
   user,
   stats,
@@ -21,13 +28,14 @@ export default function ProfileSection({
 }) {
   return (
     <>
+      {/* 사용자 정보 및 통계 표시 영역 */}
       <section className="flex flex-col items-center text-center px-4 sm:px-6 py-12 sm:py-16">
-        {/* 프로필 정보 */}
+        {/* 프로필 카드 */}
         <div className="py-8 sm:py-10">
           <ProfileInfoCard user={user} onImageChange={onImageChange} />
         </div>
 
-        {/* 버튼 그룹 */}
+        {/* 버튼 그룹: 프로필 수정, 설정, 로그아웃 */}
         <div className="flex justify-center gap-3 sm:gap-4 mb-10 flex-wrap">
           <RoundedButton
             label="Profile"
@@ -49,7 +57,7 @@ export default function ProfileSection({
           />
         </div>
 
-        {/* 하단 통계 */}
+        {/* 통계 정보 카드 리스트 */}
         <div className="flex flex-wrap justify-center gap-4 sm:gap-6 w-full max-w-5xl px-0 sm:px-6">
           {[
             { label: "여행 일정", count: stats?.itineraryCount },
@@ -68,7 +76,8 @@ export default function ProfileSection({
           ))}
         </div>
       </section>
-      {/* 모달 컴포넌트 렌더링 */}
+
+      {/* 모달들: 프로필 수정, 설정, 비밀번호 변경, 계정 탈퇴 */}
       <ModalPortal>
         <ProfileEditModal
           isOpen={modals.isEditModalOpen}

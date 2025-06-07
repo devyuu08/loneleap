@@ -3,6 +3,13 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 
+/**
+ * useRegionCounts
+ * - 전체 일정 데이터를 기반으로 지역별 일정 개수를 계산하는 query 훅
+ * - 지역별 필터 버튼 혹은 지도 기반 시각화 등에 사용
+ * - 결과에 총합(total)도 포함됨
+ */
+
 const LOCATION_MAP = {
   서울: "seoul",
   경기도: "seoul", // 서울 & 경기로 묶음

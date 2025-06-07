@@ -2,11 +2,14 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "@/services/firebase";
 
 /**
- * 이미지를 Firebase Storage에 업로드하고 다운로드 URL 반환
- * @param {File} image - 업로드할 이미지 파일
- * @param {string} folder - 저장할 폴더 이름 (예: 'reviews', 'itineraries')
- * @returns {Promise<string>} - 업로드된 이미지의 다운로드 URL
+ * Firebase Storage에 이미지를 업로드하고 URL을 반환합니다.
+ * @param {File} image - 업로드할 이미지 파일 객체
+ * @param {string} folder - 저장 폴더 경로 (기본: "uploads")
+ * @param {string} userUid - 사용자 UID
+ * @returns {Promise<string>} 다운로드 가능한 이미지 URL
+ * @throws 업로드 실패 또는 파일 조건 미충족 시 에러 발생
  */
+
 export const uploadImage = async (image, folder = "uploads", userUid) => {
   const maxSizeInBytes = 5 * 1024 * 1024;
   const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
