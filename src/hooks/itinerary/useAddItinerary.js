@@ -5,11 +5,13 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
 import { createItineraryWithImage } from "@/services/itinerary/createItineraryWithImage";
 
 /**
- * 일정 생성 훅
- * @param {Object} options
- * @param {Function} options.onSuccessCallback - 생성 성공 시 호출
- * @param {Function} options.onErrorCallback - 생성 실패 시 호출
+ * useAddItinerary
+ * - 새로운 여행 일정을 등록하는 mutation 훅
+ * - 이미지 업로드를 포함한 일정 등록을 수행하며, 사용자 인증 상태 필요
+ * - 등록 성공 시 전체 일정, 나의 일정 목록 캐시 무효화
+ * - 등록 성공/실패 시 콜백 함수 실행
  */
+
 export const useAddItinerary = ({
   onSuccessCallback = () => {},
   onErrorCallback = () => {},

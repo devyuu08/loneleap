@@ -5,6 +5,13 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
 import { deleteItineraryAndDecreaseCount } from "@/services/itinerary/deleteItineraryWithCount";
 import { useAuthState } from "react-firebase-hooks/auth";
 
+/**
+ * useDeleteItinerary
+ * - 사용자의 여행 일정을 삭제하는 mutation 훅
+ * - 삭제 성공 시 전체 일정 목록 및 사용자 일정 목록 캐시 무효화
+ * - 성공/실패 콜백 함수 등록 가능
+ */
+
 export const useDeleteItinerary = ({
   onSuccess = () => {},
   onError = () => {},
