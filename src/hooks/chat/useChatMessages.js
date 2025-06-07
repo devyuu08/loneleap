@@ -12,6 +12,13 @@ import {
 import { db } from "@/services/firebase";
 import { insertDateSeparators } from "@/utils/chatUtils";
 
+/**
+ * useChatMessages
+ * - 특정 채팅방의 최신 메시지를 실시간으로 구독하여 반환
+ * - 최초 50개 메시지를 내림차순으로 불러오고, 이후 더보기 기능 제공
+ * - 날짜 구분선을 삽입하여 메시지를 정렬함
+ */
+
 export const useChatMessages = (roomId) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);

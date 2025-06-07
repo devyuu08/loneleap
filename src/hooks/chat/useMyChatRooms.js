@@ -4,8 +4,12 @@ import { fetchMyChatRooms } from "@/services/chat/fetchMyChatRooms";
 import { useSelector } from "react-redux";
 
 /**
- * 내가 참여한 채팅방 목록 훅
+ * useMyChatRooms
+ * - 현재 로그인한 사용자가 참여한 채팅방 목록 조회
+ * - user.uid를 기준으로 필터링된 쿼리 사용
+ * - 30초 polling + 포커스 시 자동 갱신
  */
+
 export const useMyChatRooms = (options = {}) => {
   const user = useSelector((state) => state.user.user);
 
