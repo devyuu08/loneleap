@@ -18,6 +18,7 @@ import Callback from "@/pages/auth/Callback";
 import ProtectedRoute from "@/components/common/route/ProtectedRoute";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
 import FloatingButtons from "@/components/common/button/FloatingButtons";
+import PublicItineraryPage from "@/pages/itinerary/Public";
 
 const Home = React.lazy(() => import("@/pages/home/Home"));
 const CreateItineraryPage = React.lazy(() =>
@@ -119,6 +120,10 @@ function App() {
                 }
               />
             </Route>
+            <Route
+              path="/itinerary/public/:id"
+              element={<PublicItineraryPage />}
+            />
             <Route path="/reviews">
               <Route
                 index

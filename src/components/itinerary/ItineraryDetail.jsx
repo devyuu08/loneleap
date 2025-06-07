@@ -40,7 +40,10 @@ export default function ItineraryDetail({
             label="등록일"
             value={
               createdAt
-                ? format(new Date(createdAt), "yyyy.MM.dd")
+                ? format(
+                    createdAt.toDate?.() ?? new Date(createdAt),
+                    "yyyy.MM.dd"
+                  )
                 : "정보 없음"
             }
           />
