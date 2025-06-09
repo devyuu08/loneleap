@@ -11,7 +11,7 @@ import { fetchMyReviews } from "@/services/review/fetchMyReviews";
  * - 로딩 중에는 fetch 방지, staleTime 5분, cacheTime 30분 유지
  */
 
-export const useMyReviews = (options = {}) => {
+export function useMyReviews(options = {}) {
   const [user, loading] = useAuthState(auth);
 
   return useQuery({
@@ -25,4 +25,4 @@ export const useMyReviews = (options = {}) => {
     },
     ...options,
   });
-};
+}

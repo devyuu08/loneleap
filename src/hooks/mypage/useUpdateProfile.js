@@ -12,7 +12,7 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
  * - 성공 시 리뷰, 일정, 채팅방 목록 캐시 무효화 처리
  */
 
-export const useUpdateProfile = () => {
+export function useUpdateProfile() {
   const { user, isLoading: isUserLoading } = useUser();
   const dispatch = useDispatch();
 
@@ -37,4 +37,4 @@ export const useUpdateProfile = () => {
       [QUERY_KEYS.CHAT_ROOMS],
     ],
   });
-};
+}

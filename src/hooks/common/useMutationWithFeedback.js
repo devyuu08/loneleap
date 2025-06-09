@@ -29,7 +29,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
-export const useMutationWithFeedback = ({
+export function useMutationWithFeedback({
   mutationFn,
   successMessage = "",
   errorMessage = "처리 중 오류가 발생했습니다.",
@@ -37,7 +37,7 @@ export const useMutationWithFeedback = ({
   redirectTo = "",
   onSuccessCallback,
   onErrorCallback,
-}) => {
+}) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -66,4 +66,4 @@ export const useMutationWithFeedback = ({
       }
     },
   });
-};
+}

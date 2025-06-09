@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
  * - 30초 polling + 포커스 시 자동 갱신
  */
 
-export const useMyChatRooms = (options = {}) => {
+export function useMyChatRooms(options = {}) {
   const user = useSelector((state) => state.user.user);
 
   return useQuery({
@@ -22,4 +22,4 @@ export const useMyChatRooms = (options = {}) => {
     refetchInterval: 30000,
     ...options,
   });
-};
+}

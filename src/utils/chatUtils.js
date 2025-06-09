@@ -6,7 +6,7 @@ import dayjs from "dayjs";
  * @returns {Array} 날짜 구분이 삽입된 메시지 배열
  */
 
-export const insertDateSeparators = (messages) => {
+export function insertDateSeparators(messages) {
   const result = [];
   let lastDate = null;
 
@@ -30,4 +30,4 @@ export const insertDateSeparators = (messages) => {
   });
 
   return result;
-};
+}

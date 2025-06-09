@@ -12,10 +12,10 @@ import { useAuthState } from "react-firebase-hooks/auth";
  * - 성공/실패 콜백 함수 등록 가능
  */
 
-export const useDeleteItinerary = ({
+export function useDeleteItinerary({
   onSuccess = () => {},
   onError = () => {},
-} = {}) => {
+} = {}) {
   const [user] = useAuthState(auth);
   const queryClient = useQueryClient();
 
@@ -38,4 +38,4 @@ export const useDeleteItinerary = ({
 
     onError: onError,
   });
-};
+}

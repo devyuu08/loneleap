@@ -7,7 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase";
 
 // 현재 로그인된 사용자 정보를 반환하는 커스텀 훅
-export const useUser = () => {
+export function useUser() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const isLoading = useSelector((state) => state.user.isLoading);
@@ -47,4 +47,4 @@ export const useUser = () => {
   }, [dispatch]);
 
   return { user, isLoading };
-};
+}

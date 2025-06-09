@@ -9,7 +9,7 @@ import { fetchItineraries } from "@/services/itinerary/fetchItineraries";
  * - `enabled` 파라미터를 통해 조건부 fetch 가능
  */
 
-export const useItineraries = (enabled = true) => {
+export function useItineraries(enabled = true) {
   return useQuery({
     queryKey: [QUERY_KEYS.ITINERARIES],
     queryFn: () => fetchItineraries(20),
@@ -21,4 +21,4 @@ export const useItineraries = (enabled = true) => {
       console.error("일정 데이터를 불러오는 중 오류 발생:", err);
     },
   });
-};
+}

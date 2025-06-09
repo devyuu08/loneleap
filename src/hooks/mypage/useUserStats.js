@@ -9,7 +9,7 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
  * - `uid`가 존재할 때만 fetch하며, 기본적으로 1분간 fresh 상태 유지
  */
 
-export const useUserStats = (uid, options = {}) => {
+export function useUserStats(uid, options = {}) {
   return useQuery({
     queryKey: QUERY_KEYS.USER_STATS(uid),
     queryFn: () => fetchUserStats(uid),
@@ -19,4 +19,4 @@ export const useUserStats = (uid, options = {}) => {
     refetchOnWindowFocus: false,
     ...options,
   });
-};
+}

@@ -8,8 +8,9 @@ import { fetchRecentReviews } from "@/services/review/fetchRecentReviews";
  * - 별도 staleTime/cacheTime 설정 없이 단순 fetch
  */
 
-export const useRecentReviews = () =>
-  useQuery({
+export function useRecentReviews() {
+  return useQuery({
     queryKey: [QUERY_KEYS.RECENT_REVIEWS],
     queryFn: fetchRecentReviews,
   });
+}

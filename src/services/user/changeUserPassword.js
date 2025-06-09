@@ -10,7 +10,7 @@ import {
  * @param {string} newPassword 새 비밀번호
  * @param {string} currentPassword 기존 비밀번호 (reauthenticate용)
  */
-export const changeUserPassword = async (newPassword, currentPassword) => {
+export async function changeUserPassword(newPassword, currentPassword) {
   const user = auth.currentUser;
 
   if (!user || !user.email) {
@@ -25,4 +25,4 @@ export const changeUserPassword = async (newPassword, currentPassword) => {
 
   // 새 비밀번호로 변경
   await updatePassword(user, newPassword);
-};
+}

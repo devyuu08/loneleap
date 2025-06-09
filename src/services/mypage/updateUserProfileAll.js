@@ -23,14 +23,14 @@ import { updateFirebaseUserProfile } from "@/services/user/updateFirebaseUserPro
  * @returns {Promise<void>}
  */
 
-export const updateUserProfileAll = async ({
+export async function updateUserProfileAll({
   uid,
   displayName,
   photoURL,
   bio,
   dispatch,
   user,
-}) => {
+}) {
   // Firebase Auth 프로필
   await updateFirebaseUserProfile({ displayName, photoURL });
 
@@ -51,4 +51,4 @@ export const updateUserProfileAll = async ({
     photoURL,
     bio,
   });
-};
+}
