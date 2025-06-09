@@ -9,7 +9,7 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
  * - 일정 상세 페이지에서 사용
  */
 
-export const useItineraryDetail = (id) => {
+export function useItineraryDetail(id) {
   return useQuery({
     queryKey: QUERY_KEYS.ITINERARY_DETAIL(id),
     queryFn: () => fetchItineraryById(id),
@@ -17,4 +17,4 @@ export const useItineraryDetail = (id) => {
     enabled: !!id, // id가 존재할 때만 fetch
     onError: (err) => console.error("상세 일정 불러오기 실패:", err),
   });
-};
+}

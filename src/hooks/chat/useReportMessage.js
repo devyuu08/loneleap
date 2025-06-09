@@ -8,7 +8,7 @@ import { reportMessage } from "@/services/chat/reportMessage";
  * - 사용자 인증 여부 확인 후 신고 처리 요청
  */
 
-export const useReportMessage = () => {
+export function useReportMessage() {
   const user = useSelector((state) => state.user.user);
 
   return useMutation({
@@ -19,4 +19,4 @@ export const useReportMessage = () => {
       return reportMessage({ messageId, roomId, reason, user });
     },
   });
-};
+}

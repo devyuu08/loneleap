@@ -11,7 +11,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
  * - 성공 시 리뷰 목록 캐시 무효화 및 리뷰 페이지로 리디렉션
  */
 
-export const useDeleteReview = () => {
+export function useDeleteReview() {
   const [user] = useAuthState(auth);
 
   return useMutationWithFeedback({
@@ -24,4 +24,4 @@ export const useDeleteReview = () => {
     ],
     redirectTo: "/reviews",
   });
-};
+}

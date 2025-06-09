@@ -11,12 +11,13 @@ import { toggleReviewLike } from "@/services/review/toggleReviewLike";
  * - enabled 조건을 통해 userId 또는 reviewId 없을 때 요청 방지
  */
 
-export const useReviewLikeStatus = (reviewId, userId) =>
-  useQuery({
+export function useReviewLikeStatus(reviewId, userId) {
+  return useQuery({
     queryKey: QUERY_KEYS.REVIEW_LIKE_STATUS(reviewId, userId),
     queryFn: () => hasUserLikedReview(reviewId, userId),
     enabled: !!reviewId && !!userId,
   });
+}
 
 /**
  * useToggleReviewLike
@@ -25,7 +26,7 @@ export const useReviewLikeStatus = (reviewId, userId) =>
  * - 메시지는 생략하고, 에러 메시지만 출력
  */
 
-export const useToggleReviewLike = (reviewId, userId) => {
+export function useToggleReviewLike(reviewId, userId) {
   return useMutationWithFeedback({
     mutationFn: () => toggleReviewLike(reviewId, userId),
     successMessage: "", // 메시지 생략
@@ -35,4 +36,4 @@ export const useToggleReviewLike = (reviewId, userId) => {
       QUERY_KEYS.REVIEW_DETAIL(reviewId),
     ],
   });
-};
+}

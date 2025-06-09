@@ -9,13 +9,13 @@ import { fetchChatRooms } from "@/services/chat/fetchChatRooms";
  * - 30초마다 polling하며 실시간성 유지
  */
 
-export const useChatRooms = ({
+export function useChatRooms({
   limitCount = 10,
   orderDirection = "desc",
   filterBy = null,
   enabled = true,
   ...options
-} = {}) => {
+} = {}) {
   return useQuery({
     queryKey: QUERY_KEYS.CHAT_ROOMS_FILTERED(
       limitCount,
@@ -35,4 +35,4 @@ export const useChatRooms = ({
     enabled,
     ...options,
   });
-};
+}

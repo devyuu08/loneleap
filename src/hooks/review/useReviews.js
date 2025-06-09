@@ -9,7 +9,7 @@ import { fetchReviews } from "@/services/review/fetchReviews";
  * - 캐시 최적화를 위해 staleTime 5분, cacheTime 30분 설정
  */
 
-export const useReviews = (enabled = true) => {
+export function useReviews(enabled = true) {
   return useQuery({
     queryKey: [QUERY_KEYS.REVIEWS],
     queryFn: fetchReviews,
@@ -22,4 +22,4 @@ export const useReviews = (enabled = true) => {
       console.error("리뷰 데이터를 불러오는 중 오류 발생:", err);
     },
   });
-};
+}

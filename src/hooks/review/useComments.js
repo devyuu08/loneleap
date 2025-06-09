@@ -10,7 +10,7 @@ import { fetchComments } from "@/services/review/fetchComments";
  * - staleTime 3분, cacheTime 10분 설정
  */
 
-export const useComments = (reviewId, options = {}) => {
+export function useComments(reviewId, options = {}) {
   return useQuery({
     queryKey: QUERY_KEYS.COMMENTS(reviewId),
     queryFn: () => fetchComments(reviewId),
@@ -22,4 +22,4 @@ export const useComments = (reviewId, options = {}) => {
     },
     ...options,
   });
-};
+}

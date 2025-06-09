@@ -9,7 +9,7 @@ import { deleteComment } from "@/services/review/deleteComment";
  * - 삭제 후 댓글 쿼리 무효화
  */
 
-export const useDeleteComment = (reviewId) => {
+export function useDeleteComment(reviewId) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -46,4 +46,4 @@ export const useDeleteComment = (reviewId) => {
       });
     },
   });
-};
+}

@@ -9,7 +9,7 @@ import { addComment } from "@/services/review/addComment";
  * - 로그인 유저만 등록 가능, 작성 후 댓글 쿼리 무효화
  */
 
-export const useAddComment = (reviewId) => {
+export function useAddComment(reviewId) {
   const user = useSelector((state) => state.user.user);
 
   const checkAuth = () => {
@@ -25,4 +25,4 @@ export const useAddComment = (reviewId) => {
     errorMessage: "댓글 등록 중 오류가 발생했습니다.",
     queryKeysToInvalidate: [[QUERY_KEYS.COMMENTS(reviewId)]],
   });
-};
+}

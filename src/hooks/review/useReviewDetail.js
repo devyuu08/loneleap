@@ -10,7 +10,7 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
  * - 존재하지 않을 경우 예외 처리 포함
  */
 
-export const useReviewDetail = (reviewId) => {
+export function useReviewDetail(reviewId) {
   return useQuery({
     queryKey: QUERY_KEYS.REVIEW_DETAIL(reviewId),
     queryFn: async () => {
@@ -30,4 +30,4 @@ export const useReviewDetail = (reviewId) => {
       console.error("리뷰 상세 조회 오류:", err);
     },
   });
-};
+}

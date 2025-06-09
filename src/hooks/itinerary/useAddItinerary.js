@@ -12,10 +12,10 @@ import { createItineraryWithImage } from "@/services/itinerary/createItineraryWi
  * - 등록 성공/실패 시 콜백 함수 실행
  */
 
-export const useAddItinerary = ({
+export function useAddItinerary({
   onSuccessCallback = () => {},
   onErrorCallback = () => {},
-} = {}) => {
+} = {}) {
   const user = useSelector((state) => state.user.user);
   const queryClient = useQueryClient();
 
@@ -40,4 +40,4 @@ export const useAddItinerary = ({
       onErrorCallback(error);
     },
   });
-};
+}

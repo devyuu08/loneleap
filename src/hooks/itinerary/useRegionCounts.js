@@ -44,7 +44,7 @@ const fetchRegionCounts = async () => {
   return counts;
 };
 
-export const useRegionCounts = () => {
+export function useRegionCounts() {
   return useQuery({
     queryKey: [QUERY_KEYS.REGION_COUNTS],
     queryFn: fetchRegionCounts,
@@ -54,4 +54,4 @@ export const useRegionCounts = () => {
       total: Object.values(data).reduce((a, b) => a + b, 0),
     }),
   });
-};
+}

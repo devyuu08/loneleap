@@ -9,7 +9,7 @@ import { reportReview } from "@/services/review/reportReview";
  * - 로그인 유저만 신고 가능, Firebase ID 토큰 강제 갱신 포함
  */
 
-export const useReportReview = () => {
+export function useReportReview() {
   const user = useSelector((state) => state.user.user);
 
   return useMutation({
@@ -19,4 +19,4 @@ export const useReportReview = () => {
       return await reportReview({ reviewId, reason, reporterId: user.uid });
     },
   });
-};
+}

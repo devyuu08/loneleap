@@ -19,7 +19,7 @@ import { insertDateSeparators } from "@/utils/chatUtils";
  * - 날짜 구분선을 삽입하여 메시지를 정렬함
  */
 
-export const useChatMessages = (roomId) => {
+export function useChatMessages(roomId) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -95,4 +95,4 @@ export const useChatMessages = (roomId) => {
   }, [roomId, lastDoc]);
 
   return { messages, loading, loadingMore, error, loadMoreMessages };
-};
+}

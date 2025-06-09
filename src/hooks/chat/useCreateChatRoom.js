@@ -15,7 +15,7 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
  * - 사용자 인증 확인 및 기본값 처리 포함
  */
 
-export const useCreateChatRoom = (onSuccessNavigate) => {
+export function useCreateChatRoom(onSuccessNavigate) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -89,4 +89,4 @@ export const useCreateChatRoom = (onSuccessNavigate) => {
       alert("채팅방 생성 중 오류가 발생했습니다.");
     },
   });
-};
+}

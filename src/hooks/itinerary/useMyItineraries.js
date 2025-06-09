@@ -11,7 +11,7 @@ import { fetchMyItineraries } from "@/services/itinerary/fetchMyItineraries";
  * - 마이페이지 또는 일정 관리 페이지에서 사용
  */
 
-export const useMyItineraries = (options = {}) => {
+export function useMyItineraries(options = {}) {
   const [user, loading] = useAuthState(auth);
 
   return useQuery({
@@ -21,4 +21,4 @@ export const useMyItineraries = (options = {}) => {
     enabled: !loading && !!user?.uid && options.enabled !== false,
     ...options,
   });
-};
+}
