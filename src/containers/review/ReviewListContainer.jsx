@@ -70,7 +70,7 @@ export default function ReviewListContainer() {
         onFilterChange={setSort}
         searchKeyword={searchKeyword}
         onSearchChange={setSearchKeyword}
-        placeholder="여행지 이름으로 리뷰 검색"
+        searchPlaceholder="여행지 뱃지로 리뷰 검색"
       />
 
       {/* 리뷰 리스트 UI 분리 */}

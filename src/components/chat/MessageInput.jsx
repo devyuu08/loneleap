@@ -32,6 +32,7 @@ function MessageInput({
       <button
         className="text-gray-500 hover:text-gray-700"
         aria-label="이미지 전송"
+        onClick={() => alert("이미지 전송 기능은 현재 준비 중입니다.")}
       >
         <ImageIcon className="w-5 h-5" />
       </button>

@@ -32,7 +32,7 @@ function RegionMapSection() {
     "relative w-full max-w-[500px] aspect-[5/4] rounded-3xl bg-white shadow-xl p-6 ring-1 ring-gray-200 mt-8 lg:mt-0 flex-shrink-0";
 
   const regionMarkerButton =
-    "w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-white/80 text-gray-900 font-semibold text-xs sm:text-sm shadow ring-1 ring-gray-300 flex items-center justify-center transition hover:scale-110";
+    "cursor-default w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-white/80 text-gray-900 font-semibold text-xs sm:text-sm shadow ring-1 ring-gray-300 flex items-center justify-center transition hover:scale-110";
 
   const infoBoxWrapper =
     "relative bg-slate-50 border border-dashed border-gray-300 px-6 py-5 rounded-2xl shadow-sm mb-6 mx-auto";
