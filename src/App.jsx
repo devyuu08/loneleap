@@ -43,6 +43,7 @@ const RecommendationListPage = React.lazy(() =>
 const RecommendationDetailPage = React.lazy(() =>
   import("@/pages/recommendations/Detail")
 );
+const NotFound = React.lazy(() => import("@/pages/errors/NotFound"));
 
 function App() {
   const dispatch = useDispatch();
@@ -76,7 +77,7 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {!isChatDetailPage && !isOAuthCallbackPage && <Header />}
+      {!isChatDetailPage && !isOAuthCallbackPage && !NotFound && <Header />}
 
       {/* main에 flex-grow를 줘서 Routes가 영역을 채우게 함 */}
       <main className="flex-grow">
@@ -212,12 +213,13 @@ function App() {
                 }
               />
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>
 
       {!isHome && <FloatingButtons />}
-      {!isChatDetailPage && !isOAuthCallbackPage && <Footer />}
+      {!isChatDetailPage && !isOAuthCallbackPage && !NotFound && <Footer />}
     </div>
   );
 }
