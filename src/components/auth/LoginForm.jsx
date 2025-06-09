@@ -41,7 +41,13 @@ export default function LoginForm({
           </header>
 
           {/* 로그인 폼 */}
-          <form className="space-y-5" onSubmit={onSubmit}>
+          <form
+            className="space-y-5"
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmit(); // => LoginFormContainer → useLogin → mutate()
+            }}
+          >
             {/* 이메일 입력 */}
             <FormInput
               label="이메일"
