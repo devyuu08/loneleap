@@ -4,7 +4,7 @@
  * @returns {Object} 정제된 리뷰 객체
  */
 
-export const normalizeReview = (doc) => {
+export function normalizeReview(doc) {
   const data = doc.data();
   return {
     id: doc.id,
@@ -18,4 +18,4 @@ export const normalizeReview = (doc) => {
       photoURL: data.createdBy?.photoURL || "/images/default-profile.png",
     },
   };
-};
+}

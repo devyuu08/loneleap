@@ -10,7 +10,7 @@ import { storage } from "@/services/firebase";
  * @throws 업로드 실패 또는 파일 조건 미충족 시 에러 발생
  */
 
-export const uploadImage = async (image, folder = "uploads", userUid) => {
+export async function uploadImage(image, folder = "uploads", userUid) {
   const maxSizeInBytes = 5 * 1024 * 1024;
   const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
 
@@ -34,4 +34,4 @@ export const uploadImage = async (image, folder = "uploads", userUid) => {
     console.error("이미지 업로드 실패:", error);
     throw new Error("이미지 업로드에 실패했습니다. 다시 시도해주세요.");
   }
-};
+}

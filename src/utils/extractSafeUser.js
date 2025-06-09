@@ -5,10 +5,12 @@
  * @returns {Object} 가공된 사용자 정보
  */
 
-export const extractSafeUser = (user, bio = "") => ({
-  uid: user.uid,
-  email: user.email,
-  displayName: user.displayName || "",
-  photoURL: user.photoURL || "",
-  bio,
-});
+export function extractSafeUser(user, bio = "") {
+  return {
+    uid: user.uid,
+    email: user.email,
+    displayName: user.displayName || "",
+    photoURL: user.photoURL || "",
+    bio,
+  };
+}

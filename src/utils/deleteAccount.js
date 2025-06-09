@@ -13,19 +13,19 @@ import { db } from "@/services/firebase";
  * @param {string} uid - 사용자 UID
  */
 
-export const anonymizePublicProfile = async (uid) => {
+export async function anonymizePublicProfile(uid) {
   const publicRef = doc(db, "users_public", uid);
   await updateDoc(publicRef, {
     displayName: "탈퇴한 사용자",
     photoURL: "/images/default-profile.png",
   });
-};
+}
 
 /**
  * 사용자의 리뷰, 일정, 채팅방, 메시지 등을 익명화 처리합니다.
  * @param {string} uid - 사용자 UID
  */
-export const anonymizeUserContent = async (uid) => {
+export async function anonymizeUserContent(uid) {
   const reviewQ = query(
     collection(db, "reviews"),
     where("createdBy.uid", "==", uid)
@@ -68,4 +68,4 @@ export const anonymizeUserContent = async (uid) => {
   } catch (err) {
     throw err;
   }
-};
+}
