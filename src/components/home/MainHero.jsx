@@ -31,10 +31,10 @@ function MainHero() {
 
   if (isLoading) return null;
 
-  const HERO_IMAGE_CLASS =
+  const heroImageClass =
     "absolute inset-0 w-full h-full object-cover transition-opacity duration-[3000ms] sm:duration-[5000ms]";
-  const HERO_IMAGE_ACTIVE = "opacity-100";
-  const HERO_IMAGE_INACTIVE = "opacity-0";
+  const heroImageActive = "opacity-100";
+  const heroImageInactive = "opacity-0";
 
   return (
     <section className="relative h-[70vh] sm:h-[80vh] md:h-[90vh] pt-16 text-white flex items-center justify-start overflow-hidden">
@@ -45,8 +45,8 @@ function MainHero() {
           alt={`슬라이드 이미지 ${index + 1}`}
           loading="lazy"
           decoding="async"
-          className={`${HERO_IMAGE_CLASS} ${
-            index === current ? HERO_IMAGE_ACTIVE : HERO_IMAGE_INACTIVE
+          className={`${heroImageClass} ${
+            index === current ? heroImageActive : heroImageInactive
           }`}
           style={{ willChange: "opacity", transform: "translateZ(0)" }}
         />

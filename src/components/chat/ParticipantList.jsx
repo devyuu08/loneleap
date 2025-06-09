@@ -11,11 +11,11 @@ export default function ParticipantList({ users, isLoading }) {
   // 로딩 중이거나 users가 배열이 아니면 렌더링하지 않음
   if (isLoading || !Array.isArray(users)) return null;
 
-  const PARTICIPANT_CARD =
+  const participantCard =
     "bg-white/80 backdrop-blur-md border border-gray-200 rounded-xl shadow-sm p-4";
 
   return (
-    <section className={PARTICIPANT_CARD} aria-label="참여자 목록 섹션">
+    <section className={participantCard} aria-label="참여자 목록 섹션">
       <p className="text-sm font-semibold text-gray-800 mb-4 border-b pb-2">
         현재 참여자 {users.length}명
       </p>

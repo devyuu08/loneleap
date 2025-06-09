@@ -8,10 +8,10 @@ import PropTypes from "prop-types";
  */
 
 export default function ReviewSortButtons({ sort, onChange }) {
-  const BASE_BUTTON_STYLE =
+  const baseButtonStyle =
     "px-4 py-2 rounded-full text-sm font-medium border transition";
-  const ACTIVE_BUTTON_STYLE = "bg-[#0F172A] text-white";
-  const INACTIVE_BUTTON_STYLE = "bg-white text-gray-700 border-gray-300";
+  const activeButtonStyle = "bg-[#0F172A] text-white";
+  const inactiveButtonStyle = "bg-white text-gray-700 border-gray-300";
 
   return (
     <div
@@ -23,8 +23,8 @@ export default function ReviewSortButtons({ sort, onChange }) {
       <button
         type="button"
         aria-pressed={sort === "latest"}
-        className={`${BASE_BUTTON_STYLE} ${
-          sort === "latest" ? ACTIVE_BUTTON_STYLE : INACTIVE_BUTTON_STYLE
+        className={`${baseButtonStyle} ${
+          sort === "latest" ? activeButtonStyle : inactiveButtonStyle
         }`}
         onClick={() => onChange("latest")}
       >
@@ -35,8 +35,8 @@ export default function ReviewSortButtons({ sort, onChange }) {
       <button
         type="button"
         aria-pressed={sort === "rating"}
-        className={`${BASE_BUTTON_STYLE} ${
-          sort === "rating" ? ACTIVE_BUTTON_STYLE : INACTIVE_BUTTON_STYLE
+        className={`${baseButtonStyle} ${
+          sort === "rating" ? activeButtonStyle : inactiveButtonStyle
         }`}
         onClick={() => onChange("rating")}
       >

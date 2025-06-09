@@ -12,7 +12,7 @@ import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
  */
 
 function ReportButton({ isOpen, isPending, onOpen, onClose, onSubmit }) {
-  const BUTTON_CLASS =
+  const buttonClass =
     "px-3 py-1.5 rounded-full border border-gray-300 text-sm bg-white/60 text-gray-800 backdrop-blur-sm shadow-sm hover:bg-white/80 transition disabled:opacity-50";
 
   return (
@@ -21,7 +21,7 @@ function ReportButton({ isOpen, isPending, onOpen, onClose, onSubmit }) {
       <button
         onClick={onOpen}
         disabled={isPending}
-        className={BUTTON_CLASS}
+        className={buttonClass}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls="report-modal"

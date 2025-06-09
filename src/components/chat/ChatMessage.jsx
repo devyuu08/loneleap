@@ -79,10 +79,10 @@ function ChatMessage({
   }
 
   // 일반 메시지 버블 스타일
-  const MESSAGE_BUBBLE_MINE =
+  const messageBubbleMine =
     "px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm bg-[#5A5A5A] text-white rounded-br-none";
 
-  const MESSAGE_BUBBLE_OTHERS =
+  const messageBubbleOthers =
     "px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm bg-[#F2F2F2] text-gray-900 rounded-bl-none";
 
   return (
@@ -101,7 +101,7 @@ function ChatMessage({
           </p>
         )}
 
-        <div className={isMine ? MESSAGE_BUBBLE_MINE : MESSAGE_BUBBLE_OTHERS}>
+        <div className={isMine ? messageBubbleMine : messageBubbleOthers}>
           {messageText}
         </div>
 

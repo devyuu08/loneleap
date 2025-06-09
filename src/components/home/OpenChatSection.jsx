@@ -28,13 +28,13 @@ const features = [
  */
 
 function OpenChatSection() {
-  const CHAT_FEATURE_ICON =
+  const chatFeatureIcon =
     "w-7 h-7 rounded-full bg-blue-100 text-blue-600 font-semibold text-xs flex items-center justify-center shrink-0";
 
-  const CHAT_JOIN_BUTTON =
+  const chatJoinButton =
     "inline-block mt-8 px-4 sm:px-6 py-2 sm:py-3 bg-black text-white rounded-lg text-xs sm:text-sm hover:bg-gray-800 transition mx-auto lg:ml-0";
 
-  const CHAT_IMAGE =
+  const chatImage =
     "w-full h-full object-cover rounded-3xl shadow-xl ring-1 ring-gray-200";
 
   return (
@@ -60,7 +60,7 @@ function OpenChatSection() {
               key={title}
               className="flex items-start gap-3 text-left justify-center lg:justify-start max-w-md mx-auto lg:mx-0"
             >
-              <div className={CHAT_FEATURE_ICON}>
+              <div className={chatFeatureIcon}>
                 {String(idx + 1).padStart(2, "0")}
               </div>
               <div>
@@ -76,7 +76,7 @@ function OpenChatSection() {
         {/* CTA 버튼 */}
         <Link
           to="/chat"
-          className={CHAT_JOIN_BUTTON}
+          className={chatJoinButton}
           aria-label="오픈채팅 기능으로 이동"
         >
           오픈채팅 참여하기
@@ -93,7 +93,7 @@ function OpenChatSection() {
           alt="오픈채팅 소개"
           loading="lazy"
           decoding="async"
-          className={CHAT_IMAGE}
+          className={chatImage}
         />
       </div>
     </MainSectionWrapper>

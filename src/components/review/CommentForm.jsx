@@ -10,10 +10,10 @@ import SkeletonImage from "@/components/common/loading/SkeletonImage";
  */
 
 function CommentForm({ user, content, setContent, isPending, onSubmit }) {
-  const TEXTAREA_CLASS =
+  const textareaClass =
     "w-full resize-none border border-gray-300 rounded-md p-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-black";
 
-  const SUBMIT_BTN_CLASS =
+  const submitBtnClass =
     "text-sm px-4 py-1.5 rounded-full bg-gray-900 text-white hover:bg-gray-800 transition disabled:opacity-50 min-w-[72px] flex items-center justify-center self-end";
 
   return (
@@ -29,7 +29,7 @@ function CommentForm({ user, content, setContent, isPending, onSubmit }) {
         <textarea
           id="comment-textarea"
           rows={3}
-          className={TEXTAREA_CLASS}
+          className={textareaClass}
           placeholder="이 여행지에서의 당신의 감정을 들려주세요..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -49,7 +49,7 @@ function CommentForm({ user, content, setContent, isPending, onSubmit }) {
         <button
           type="submit"
           disabled={isPending || !content.trim()}
-          className={SUBMIT_BTN_CLASS}
+          className={submitBtnClass}
           aria-disabled={isPending || !content.trim()}
           aria-label="댓글 등록"
         >

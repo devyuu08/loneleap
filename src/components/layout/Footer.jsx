@@ -7,10 +7,10 @@ import { Instagram, Facebook, Twitter } from "lucide-react";
  */
 
 export default function Footer() {
-  const ICON_CLASS = "w-5 h-5 hover:text-gray-700 transition";
-  const SECTION_TITLE_CLASS = "font-semibold text-gray-900 mb-3";
+  const iconClass = "w-5 h-5 hover:text-gray-700 transition";
+  const sectionTitleClass = "font-semibold text-gray-900 mb-3";
 
-  const BOTTOM_LINE_CLASS =
+  const bottomLineClass =
     "border-t text-gray-400 text-xs flex flex-col sm:flex-row justify-between items-center gap-2 px-4 sm:px-6 py-4 text-center sm:text-left";
 
   return (
@@ -30,13 +30,13 @@ export default function Footer() {
             aria-label="소셜 미디어 링크"
           >
             <a href="#" aria-label="Instagram">
-              <Instagram className={ICON_CLASS} />
+              <Instagram className={iconClass} />
             </a>
             <a href="#" aria-label="Facebook">
-              <Facebook className={ICON_CLASS} />
+              <Facebook className={iconClass} />
             </a>
             <a href="#" aria-label="Twitter">
-              <Twitter className={ICON_CLASS} />
+              <Twitter className={iconClass} />
             </a>
           </nav>
         </section>
@@ -46,7 +46,7 @@ export default function Footer() {
           className="text-center sm:text-left"
           aria-labelledby="travel-info-title"
         >
-          <h4 id="travel-info-title" className={SECTION_TITLE_CLASS}>
+          <h4 id="travel-info-title" className={sectionTitleClass}>
             여행 정보
           </h4>
           <nav>
@@ -72,7 +72,7 @@ export default function Footer() {
           className="text-center sm:text-left"
           aria-labelledby="support-title"
         >
-          <h4 id="support-title" className={SECTION_TITLE_CLASS}>
+          <h4 id="support-title" className={sectionTitleClass}>
             고객 지원
           </h4>
           <nav>
@@ -98,7 +98,7 @@ export default function Footer() {
           className="text-center sm:text-left"
           aria-labelledby="about-title"
         >
-          <h4 id="about-title" className={SECTION_TITLE_CLASS}>
+          <h4 id="about-title" className={sectionTitleClass}>
             LoneLeap 소개
           </h4>
           <nav>
@@ -121,7 +121,7 @@ export default function Footer() {
       </div>
 
       {/* 하단 라인 */}
-      <div className={BOTTOM_LINE_CLASS}>
+      <div className={bottomLineClass}>
         <p>© {new Date().getFullYear()} LoneLeap. All rights reserved.</p>
         <div>
           <label htmlFor="language-select" className="sr-only">

@@ -58,24 +58,24 @@ export default function Header() {
   }, [isHeroPage]);
 
   // 네비게이션 클래스 정의
-  const BASE_LINK_CLASS =
+  const baseLinkClass =
     "flex items-center gap-1.5 pb-1 hover:text-black font-body";
-  const ACTIVE_LINK_CLASS = "border-b-2 border-black text-black";
-  const ICON_CLASS = "w-4 h-4 text-inherit";
+  const activeLinkClass = "border-b-2 border-black text-black";
+  const iconClass = "w-4 h-4 text-inherit";
   const getNavLinkClass = (isActive) =>
-    isActive ? `${BASE_LINK_CLASS} ${ACTIVE_LINK_CLASS}` : BASE_LINK_CLASS;
+    isActive ? `${baseLinkClass} ${activeLinkClass}` : baseLinkClass;
 
   // 사용자 정보 스타일
-  const USER_TAG_CLASS =
+  const userTagClass =
     "shrink-0 max-w-xs truncate px-4 py-1.5 rounded-full bg-[#f2f2f2]/70 text-gray-800 font-body shadow-sm border border-gray-300 text-sm font-medium";
-  const USER_ROLE_CLASS =
+  const userRoleClass =
     "text-[11px] uppercase tracking-widest text-gray-500 mr-1";
 
   // 로그인 여부에 따른 메뉴 구성
   const navItems = user ? (
     <>
-      <span className={USER_TAG_CLASS}>
-        <span className={USER_ROLE_CLASS}>Traveler</span>
+      <span className={userTagClass}>
+        <span className={userRoleClass}>Traveler</span>
         <span className="text-gray-800 font-semibold">
           {(user.displayName || user.email)?.split("@")[0] || "익명"}
         </span>
@@ -85,31 +85,31 @@ export default function Header() {
         to="/itinerary"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <CalendarCheck className={ICON_CLASS} /> Journeys
+        <CalendarCheck className={iconClass} /> Journeys
       </NavLink>
       <NavLink
         to="/reviews"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <MessagesSquare className={ICON_CLASS} /> Stories
+        <MessagesSquare className={iconClass} /> Stories
       </NavLink>
       <NavLink
         to="/chat"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <MessageCircle className={ICON_CLASS} /> Open Chats
+        <MessageCircle className={iconClass} /> Open Chats
       </NavLink>
       <NavLink
         to="/recommendations"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <MapPin className={ICON_CLASS} /> Next Stops
+        <MapPin className={iconClass} /> Next Stops
       </NavLink>
       <NavLink
         to="/mypage"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <UserCircle className={ICON_CLASS} /> My Cabin
+        <UserCircle className={iconClass} /> My Cabin
       </NavLink>
     </>
   ) : (
@@ -118,13 +118,13 @@ export default function Header() {
         to="/login"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <LogIn className={ICON_CLASS} /> Login
+        <LogIn className={iconClass} /> Login
       </NavLink>
       <NavLink
         to="/signup"
         className={({ isActive }) => getNavLinkClass(isActive)}
       >
-        <UserPlus className={ICON_CLASS} /> Sign Up
+        <UserPlus className={iconClass} /> Sign Up
       </NavLink>
     </>
   );

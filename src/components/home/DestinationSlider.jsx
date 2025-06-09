@@ -26,13 +26,13 @@ function DestinationSlider() {
 
   if (isLoading || !destinations) return null;
 
-  const SLIDE_CARD =
+  const slideCard =
     "relative w-full max-w-3xl h-64 sm:h-80 md:h-[300px] lg:h-[320px] rounded-xl overflow-hidden shadow hover:brightness-105 transition bg-gray-200";
 
-  const MORE_LINK_BUTTON =
+  const moreLinkButton =
     "inline-block mt-4 text-xs sm:text-sm px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-100 transition";
 
-  const SLIDE_TEXT_BOX = "absolute bottom-4 left-4 text-white z-10";
+  const slideTextBox = "absolute bottom-4 left-4 text-white z-10";
 
   return (
     <MainSectionWrapper bg="bg-gray-50" className="overflow-hidden">
@@ -44,7 +44,7 @@ function DestinationSlider() {
         <p className="text-gray-500 text-xs sm:text-sm mt-2">
           당신의 감성에 닿는, 잊지 못할 여행지를 소개합니다.
         </p>
-        <Link to="/recommendations" className={MORE_LINK_BUTTON}>
+        <Link to="/recommendations" className={moreLinkButton}>
           더보기 →
         </Link>
       </header>
@@ -70,7 +70,7 @@ function DestinationSlider() {
         {displayedDestinations.map(({ id, name, summary, imageUrl }) => (
           <SwiperSlide key={id} className="block">
             <div className="flex justify-center">
-              <Link to={`/recommendations/${id}`} className={SLIDE_CARD}>
+              <Link to={`/recommendations/${id}`} className={slideCard}>
                 {/* 이미지 + 오버레이 */}
                 <SkeletonImage
                   src={imageUrl}
@@ -82,7 +82,7 @@ function DestinationSlider() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
 
                 {/* 텍스트 정보 */}
-                <div className={SLIDE_TEXT_BOX}>
+                <div className={slideTextBox}>
                   <h3 className="font-semibold text-base sm:text-lg">{name}</h3>
                   <p className="text-xs sm:text-sm line-clamp-2">{summary}</p>
                 </div>

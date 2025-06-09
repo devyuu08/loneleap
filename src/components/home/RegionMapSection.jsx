@@ -28,18 +28,17 @@ function RegionMapSection() {
 
   const totalCount = regionCounts.total;
 
-  const MAP_CONTAINER =
+  const mapContainer =
     "relative w-full max-w-[500px] aspect-[5/4] rounded-3xl bg-white shadow-xl p-6 ring-1 ring-gray-200 mt-8 lg:mt-0 flex-shrink-0";
 
-  const REGION_MARKER_BUTTON =
+  const regionMarkerButton =
     "w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-white/80 text-gray-900 font-semibold text-xs sm:text-sm shadow ring-1 ring-gray-300 flex items-center justify-center transition hover:scale-110";
 
-  const INFO_BOX_WRAPPER =
+  const infoBoxWrapper =
     "relative bg-slate-50 border border-dashed border-gray-300 px-6 py-5 rounded-2xl shadow-sm mb-6 mx-auto";
 
-  const ITINERARY_BUTTON =
+  const itineraryButton =
     "inline-block px-4 py-2 sm:px-6 sm:py-3 bg-black text-white rounded-lg text-xs sm:text-sm hover:bg-gray-800 transition mx-auto";
-
   return (
     <MainSectionWrapper
       bg="bg-gradient-to-br from-white to-gray-50 py-20"
@@ -59,7 +58,7 @@ function RegionMapSection() {
         </p>
 
         {/* 등록 현황 박스 */}
-        <aside className={INFO_BOX_WRAPPER} aria-label="일정 등록 정보">
+        <aside className={infoBoxWrapper} aria-label="일정 등록 정보">
           <div className="absolute -top-3 left-6 text-xs text-gray-400 px-2 backdrop-blur-sm rounded-md">
             지금 등록된 일정은?
           </div>
@@ -77,7 +76,7 @@ function RegionMapSection() {
         {/* CTA 버튼 */}
         <Link
           to="/itinerary"
-          className={ITINERARY_BUTTON}
+          className={itineraryButton}
           aria-label="전체 일정 페이지로 이동"
         >
           전체 일정 보기 →
@@ -85,7 +84,7 @@ function RegionMapSection() {
       </div>
 
       {/* 오른쪽: 지도 이미지 + 마커 */}
-      <figure className={MAP_CONTAINER} aria-label="대한민국 지역 지도">
+      <figure className={mapContainer} aria-label="대한민국 지역 지도">
         <img
           src="/images/korea-map.png"
           alt="대한민국 지도"
@@ -108,7 +107,7 @@ function RegionMapSection() {
               onClick={() =>
                 setActiveRegion(activeRegion === r.slug ? null : r.slug)
               }
-              className={REGION_MARKER_BUTTON}
+              className={regionMarkerButton}
             >
               {r.count}
             </button>

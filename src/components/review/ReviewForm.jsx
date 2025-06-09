@@ -34,13 +34,13 @@ function ReviewForm({
   errors,
   submitError,
 }) {
-  const FORM_STEP1_CLASS =
+  const formStep1Class =
     "mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-6 sm:p-8 md:p-10 rounded-3xl shadow-md border border-white/30 text-gray-800";
 
-  const FORM_STEP2_CLASS =
+  const formStep2Class =
     "space-y-10 bg-white/80 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-2xl shadow-lg border border-gray-200 text-gray-800";
 
-  const STEP_BUTTON_BASE =
+  const stepButtonBase =
     "px-6 py-3 text-sm font-semibold rounded-full text-gray-800 shadow-md hover:shadow-xl hover:bg-white transition-all backdrop-blur-sm border border-white/30";
 
   return (
@@ -69,7 +69,7 @@ function ReviewForm({
         <div className="mt-10">
           {/* Step 1: 기본 리뷰 정보 입력 */}
           {step === 1 && (
-            <form className={FORM_STEP1_CLASS}>
+            <form className={formStep1Class}>
               <FormInput
                 label="리뷰 제목"
                 id="title"
@@ -105,7 +105,7 @@ function ReviewForm({
                 <button
                   type="button"
                   onClick={handleNextStep}
-                  className={`${STEP_BUTTON_BASE} bg-white/80`}
+                  className={`${stepButtonBase} bg-white/80`}
                 >
                   다음 질문으로 이어가기 →
                 </button>
@@ -115,7 +115,7 @@ function ReviewForm({
 
           {/* Step 2: 인터뷰형 질문 폼 */}
           {step === 2 && (
-            <form onSubmit={handleSubmit} className={FORM_STEP2_CLASS}>
+            <form onSubmit={handleSubmit} className={formStep2Class}>
               <h2 className="text-2xl font-semibold text-center">
                 여행에 대한 질문에 답해주세요
               </h2>
@@ -131,7 +131,7 @@ function ReviewForm({
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className={`${STEP_BUTTON_BASE} bg-white/70`}
+                  className={`${stepButtonBase} bg-white/70`}
                 >
                   ← 이전 단계로 돌아가기
                 </button>
