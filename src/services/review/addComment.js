@@ -10,7 +10,7 @@ import { db } from "@/services/firebase";
  * @returns {Promise<void>}
  */
 
-export const addComment = async ({ reviewId, content, user }) => {
+export async function addComment({ reviewId, content, user }) {
   const commentRef = collection(db, "reviews", reviewId, "comments");
   await addDoc(commentRef, {
     content,
@@ -22,4 +22,4 @@ export const addComment = async ({ reviewId, content, user }) => {
     authorUid: user.uid,
     createdAt: serverTimestamp(),
   });
-};
+}

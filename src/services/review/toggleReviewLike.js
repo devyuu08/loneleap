@@ -9,9 +9,9 @@ import { hasUserLikedReview } from "@/services/review/hasUserLikedReview";
  * @returns {Promise<void>}
  */
 
-export const toggleReviewLike = async (reviewId, userId) => {
+export async function toggleReviewLike(reviewId, userId) {
   const hasLiked = await hasUserLikedReview(reviewId, userId);
   return hasLiked
     ? unlikeReview(reviewId, userId)
     : likeReview(reviewId, userId);
-};
+}

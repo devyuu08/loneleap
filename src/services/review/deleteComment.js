@@ -9,7 +9,7 @@ import { db } from "@/services/firebase";
  * @returns {Promise<void>}
  */
 
-export const deleteComment = async ({ reviewId, commentId }) => {
+export async function deleteComment({ reviewId, commentId }) {
   const commentDoc = doc(db, "reviews", reviewId, "comments", commentId);
   await deleteDoc(commentDoc);
-};
+}

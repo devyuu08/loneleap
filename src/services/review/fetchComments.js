@@ -7,10 +7,10 @@ import { collection, getDocs, orderBy, query } from "firebase/firestore";
  * @returns {Promise<Array>} 댓글 목록
  */
 
-export const fetchComments = async (reviewId) => {
+export async function fetchComments(reviewId) {
   const commentsRef = collection(db, "reviews", reviewId, "comments");
   const q = query(commentsRef, orderBy("createdAt", "asc"));
   const snapshot = await getDocs(q);
 
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-};
+}

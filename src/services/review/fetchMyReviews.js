@@ -8,7 +8,7 @@ import { normalizeReview } from "@/utils/normalizeReview";
  * @returns {Promise<Array>}
  */
 
-export const fetchMyReviews = async (uid) => {
+export async function fetchMyReviews(uid) {
   const q = query(
     collection(db, "reviews"),
     where("createdBy.uid", "==", uid),
@@ -16,4 +16,4 @@ export const fetchMyReviews = async (uid) => {
   );
   const snapshot = await getDocs(q);
   return snapshot.docs.map(normalizeReview);
-};
+}

@@ -9,7 +9,7 @@ import { auth, db } from "@/services/firebase";
  * @param {string} displayName - 사용자 닉네임
  * @returns {Promise<UserCredential>} - Firebase 인증 결과
  */
-export const signUpUser = async (email, password, displayName) => {
+export async function signUpUser(email, password, displayName) {
   // 1. Firebase Authentication에 사용자 생성
   const result = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -47,4 +47,4 @@ export const signUpUser = async (email, password, displayName) => {
   }
 
   return result;
-};
+}
