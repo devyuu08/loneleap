@@ -85,68 +85,82 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
 
           {/* 설명 + 입력 영역 */}
           <section aria-describedby="delete-account-desc" className="space-y-4">
-            {/* 안내 문구 */}
-            <div className="flex items-start gap-3 text-red-600">
-              <AlertTriangle className="w-5 h-5 mt-1" />
-              <div
-                id="delete-account-desc"
-                className="text-sm text-gray-700 space-y-1"
-              >
+            {isPasswordUser ? (
+              <>
+                {/* 안내 문구 */}
+                <div className="flex items-start gap-3 text-red-600">
+                  <AlertTriangle className="w-5 h-5 mt-1" />
+                  <div
+                    id="delete-account-desc"
+                    className="text-sm text-gray-700 space-y-1"
+                  >
+                    <p>
+                      작성한{" "}
+                      <strong className="text-red-700 font-medium">
+                        리뷰, 일정, 채팅방 기록은 삭제되지 않습니다.
+                      </strong>
+                    </p>
+                    <p>
+                      작성자는{" "}
+                      <strong className="text-red-700 font-medium">
+                        "탈퇴한 사용자"
+                      </strong>
+                      로 익명 처리됩니다.
+                    </p>
+                    <p>
+                      기록 삭제를 원하실 경우,{" "}
+                      <strong className="text-red-700 font-medium">
+                        관리자에게 문의
+                      </strong>
+                      해 주세요.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 비밀번호 입력 폼 */}
+                <form
+                  onSubmit={(e) => e.preventDefault()}
+                  className="space-y-4"
+                >
+                  <p className="text-sm text-gray-700">
+                    탈퇴를 위해 비밀번호를 다시 입력해주세요.
+                  </p>
+                  <FormInput
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="현재 비밀번호"
+                    error={error}
+                  />
+                </form>
+
+                {/* 탈퇴 버튼 */}
+                <ModalFooterButton
+                  onClose={onClose}
+                  onConfirm={handleConfirm}
+                  confirmLabel="탈퇴하기"
+                  confirmColor="red"
+                  isLoading={isLoading}
+                  disabled={!password}
+                />
+              </>
+            ) : (
+              // 소셜 로그인 안내 문구만
+              <div className="text-sm text-gray-700 space-y-2">
                 <p>
-                  작성한{" "}
-                  <strong className="text-red-700 font-medium">
-                    리뷰, 일정, 채팅방 기록은 삭제되지 않습니다.
-                  </strong>
+                  이 계정은 소셜 로그인(Google, Naver 등)으로 가입된 계정입니다.
                 </p>
                 <p>
-                  작성자는{" "}
-                  <strong className="text-red-700 font-medium">
-                    "탈퇴한 사용자"
+                  보안상의 이유로 클라이언트에서는 탈퇴가 불가능합니다.
+                  <br />
+                  <strong className="text-red-600">
+                    계정 탈퇴를 원하실 경우, 관리자에게 문의해 주세요.
                   </strong>
-                  로 익명 처리됩니다.
-                </p>
-                <p>
-                  기록 삭제를 원하실 경우,{" "}
-                  <strong className="text-red-700 font-medium">
-                    관리자에게 문의
-                  </strong>
-                  해 주세요.
                 </p>
               </div>
-            </div>
-
-            {/* 비밀번호 확인 또는 안내 */}
-            {isPasswordUser ? (
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-                <p className="text-sm text-gray-700">
-                  탈퇴를 위해 비밀번호를 다시 입력해주세요.
-                </p>
-                <FormInput
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="현재 비밀번호"
-                  error={error}
-                />
-              </form>
-            ) : (
-              <p className="text-sm text-gray-700">
-                이 계정은 소셜 로그인으로 가입되었습니다. 별도 비밀번호 확인
-                없이 탈퇴할 수 있습니다.
-              </p>
             )}
-
-            {/* 하단 버튼 */}
-            <ModalFooterButton
-              onClose={onClose}
-              onConfirm={isPasswordUser ? handleConfirm : onConfirm}
-              confirmLabel="탈퇴하기"
-              confirmColor="red"
-              isLoading={isLoading}
-              disabled={isPasswordUser && !password}
-            />
           </section>
         </div>
       </div>
