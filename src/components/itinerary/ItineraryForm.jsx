@@ -5,6 +5,8 @@ import ImageUploader from "@/components/common/upload/ImageUploader";
 import FormInput from "@/components/common/form/FormInput";
 import FormTextarea from "@/components/common/form/FormTextarea";
 import React from "react";
+import FormSelect from "@/components/common/form/FormSelect";
+import { regions } from "@/data/regions";
 
 /**
  * ItineraryForm – 여행 일정 생성/수정용 폼
@@ -32,6 +34,11 @@ export default function ItineraryForm({
   isSubmitting,
   submitLabel,
 }) {
+  const regionOptions = regions.map((region) => ({
+    value: region.name,
+    label: region.name,
+  }));
+
   const formContainer =
     "mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-6 sm:p-8 md:p-10 rounded-3xl shadow-md border border-white/30 text-gray-800";
 
@@ -71,13 +78,13 @@ export default function ItineraryForm({
               error={errors.title}
             />
 
-            <FormInput
+            <FormSelect
               label="여행 지역"
               id="location"
               name="location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              placeholder="여행할 지역을 입력하세요"
+              options={regionOptions}
               error={errors.location}
             />
 
