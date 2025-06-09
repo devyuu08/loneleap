@@ -14,7 +14,18 @@ import { auth } from "@/services/firebase";
  * @returns {Promise<UserCredential>}
  */
 export async function signIn(email, password) {
-  return await signInWithEmailAndPassword(auth, email, password);
+  try {
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    return result;
+  } catch (err) {
+    console.error("로그인 실패:", err.code, err.message);
+
+    if (err.code === "auth/network-request-failed") {
+      await signOut(auth); // 꼬인 세션 초기화
+    }
+
+    throw err;
+  }
 }
 
 /**
