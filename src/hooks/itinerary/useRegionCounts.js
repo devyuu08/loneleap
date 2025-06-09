@@ -11,8 +11,7 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
  */
 
 const LOCATION_MAP = {
-  서울: "seoul",
-  경기도: "seoul", // 서울 & 경기로 묶음
+  "서울/경기": "seoul", // 서울 & 경기로 묶음
   인천: "incheon",
   강원도: "gangwon",
   충청도: "chungcheong",
