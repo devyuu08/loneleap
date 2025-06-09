@@ -32,10 +32,10 @@ export default function ItineraryForm({
   isSubmitting,
   submitLabel,
 }) {
-  const FORM_CONTAINER =
+  const formContainer =
     "mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-6 sm:p-8 md:p-10 rounded-3xl shadow-md border border-white/30 text-gray-800";
 
-  const FORM_HEADER =
+  const formHeader =
     "text-2xl sm:text-3xl md:text-4xl font-extrabold text-center bg-gradient-to-r from-white/90 to-gray-300 bg-clip-text text-transparent drop-shadow-sm";
 
   return (
@@ -49,7 +49,7 @@ export default function ItineraryForm({
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 text-white">
         <header className="text-center">
-          <h2 id="itinerary-form-heading" className={FORM_HEADER}>
+          <h2 id="itinerary-form-heading" className={formHeader}>
             나만의 여행 일정을 기록해보세요
           </h2>
           <p className="text-sm sm:text-base mt-3 sm:mt-4 text-white/80 leading-relaxed">
@@ -59,7 +59,7 @@ export default function ItineraryForm({
         </header>
 
         {/* 일정 폼 */}
-        <form onSubmit={handleSubmit} className={FORM_CONTAINER}>
+        <form onSubmit={handleSubmit} className={formContainer}>
           <section aria-label="일정 기본 정보 입력" className="space-y-6">
             <FormInput
               label="여행 제목"

@@ -39,7 +39,7 @@ function MyChatRoomCard({ room }) {
     );
   }
 
-  const CARD_WRAPPER =
+  const cardWrapper =
     "group bg-white rounded-xl shadow-lg hover:shadow-md hover:-translate-y-1 transition overflow-hidden cursor-pointer p-6 flex flex-col justify-between h-full";
 
   return (
@@ -48,7 +48,7 @@ function MyChatRoomCard({ room }) {
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      className={CARD_WRAPPER}
+      className={cardWrapper}
       aria-label={`${room.name} 채팅방으로 이동`}
     >
       {/* 상단 영역: 채팅방 이름 + 알림 뱃지 */}

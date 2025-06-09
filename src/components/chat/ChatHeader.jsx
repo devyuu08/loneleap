@@ -33,11 +33,11 @@ export default function ChatHeader({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [handleClickOutside]);
 
-  const CHAT_HEADER_WRAPPER =
+  const chatHeaderWrapper =
     "relative flex items-center justify-between px-4 py-2 border-b border-gray-100 bg-white";
 
   return (
-    <header className={CHAT_HEADER_WRAPPER}>
+    <header className={chatHeaderWrapper}>
       <div className="flex items-center gap-3">
         {onBack && (
           <button onClick={onBack} className="md:hidden">

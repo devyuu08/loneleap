@@ -30,10 +30,10 @@ export default function NewsletterSection() {
     [email]
   );
 
-  const NEWSLETTER_INPUT =
+  const newsletterInput =
     "w-[240px] sm:w-64 min-w-[200px] px-4 py-2 rounded-full bg-white/30 backdrop-blur text-white placeholder-white/60 text-xs sm:text-sm placeholder:text-xs sm:placeholder:text-sm focus:outline-none focus:ring-2 focus:ring-white transition";
 
-  const NEWSLETTER_BUTTON =
+  const newsletterButton =
     "px-5 py-2 rounded-full bg-white/20 text-white hover:bg-white/30 hover:text-sky-200 transition backdrop-blur border border-white/30 text-xs sm:text-sm";
 
   return (
@@ -73,11 +73,11 @@ export default function NewsletterSection() {
               if (error) setError("");
             }}
             placeholder="이메일 주소"
-            className={NEWSLETTER_INPUT}
+            className={newsletterInput}
           />
           <button
             type="submit"
-            className={NEWSLETTER_BUTTON}
+            className={newsletterButton}
             aria-label="이메일 주소로 뉴스레터 구독"
           >
             구독하기
