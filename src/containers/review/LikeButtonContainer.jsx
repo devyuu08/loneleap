@@ -9,7 +9,8 @@ import { useEffect, useState } from "react";
 /**
  * LikeButtonContainer
  * - 리뷰에 대한 좋아요 상태를 조회하고, 좋아요 토글을 처리하는 컨테이너 컴포넌트
- * - 현재 사용자 ID 기반으로 좋아요 여부 조회 및 toggle mutation 처리
+ * - 서버에서 가져온 좋아요 여부를 로컬 상태에 반영하여 렌더링에 사용
+ * - 클릭 시 로컬 UI를 먼저 업데이트한 후 서버에 요청을 보내는 옵티미스틱 UI 구조
  * - 버튼 UI와 상태(활성/비활성)를 LikeButton 컴포넌트에 전달
  */
 
