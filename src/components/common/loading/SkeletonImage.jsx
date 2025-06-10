@@ -32,7 +32,7 @@ export default function SkeletonImage({
   return (
     <div className={`${wrapperClass} ${className}`}>
       {/* 로딩 스켈레톤 */}
-      {!loaded && !error && <div className={skeletonClass} />}
+      {!loaded && !error && <div className={clsx(skeletonClass, className)} />}
 
       {/* 에러 fallback */}
       {error && (
