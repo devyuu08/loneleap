@@ -38,6 +38,8 @@ export async function createReview(review, user) {
   let imageUrl = "";
   if (image instanceof File) {
     imageUrl = await uploadImage(image, "reviews", user.uid);
+  } else if (typeof image === "string") {
+    imageUrl = image;
   }
 
   const reviewData = {
