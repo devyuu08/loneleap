@@ -28,6 +28,7 @@ export default function ProfileSectionContainer() {
   const [isSettingModalOpen, setIsSettingModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const { data: stats, isLoading: statsLoading } = useUserStats(user?.uid);
 
   const dispatch = useDispatch();
@@ -58,6 +59,9 @@ export default function ProfileSectionContainer() {
     async (e) => {
       const file = e.target.files?.[0];
       if (!file || !user) return;
+
+      setUploading(true);
+
       try {
         // Firebase Storage 업로드
         const downloadURL = await uploadUserProfileImage(file, user.uid);
@@ -81,6 +85,8 @@ export default function ProfileSectionContainer() {
       } catch (err) {
         console.error("프로필 이미지 업로드 오류:", err);
         alert("이미지 업로드에 실패했습니다.");
+      } finally {
+        setUploading(false); // 업로드 종료 표시
       }
     },
     [user, dispatch]
@@ -138,6 +144,7 @@ export default function ProfileSectionContainer() {
       onPasswordChange={handlePasswordChange}
       onLogout={handleLogout}
       onDeleteAccount={handleDeleteAccount}
+      uploading={uploading}
     />
   );
 }

@@ -8,16 +8,22 @@ import SkeletonImage from "@/components/common/loading/SkeletonImage";
  * - 프로필 이미지 클릭 시 업로드 가능 (input[type="file"])
  */
 
-export default function ProfileInfoCard({ user, onImageChange }) {
+export default function ProfileInfoCard({ user, onImageChange, uploading }) {
   return (
     <section className="flex flex-col items-center text-center">
       {/* 프로필 이미지 업로드 영역 */}
       <figure className="relative group w-32 h-32 mb-4">
         <SkeletonImage
+          key={user?.photoURL}
           src={user?.photoURL || "/images/default-profile.png"}
           alt="프로필 이미지"
           className="w-32 h-32 object-cover rounded-full border-2 border-white shadow-md"
         />
+        {uploading && (
+          <div className="absolute inset-0 bg-black/60 rounded-full flex items-center justify-center z-10">
+            <span className="text-white text-sm">이미지 반영 중...</span>
+          </div>
+        )}
 
         {/* 이미지 변경 오버레이 */}
         <label
