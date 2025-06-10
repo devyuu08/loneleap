@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { auth } from "@/services/firebase";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadImage } from "@/utils/uploadImage";
 import { useAddItinerary } from "@/hooks/itinerary/useAddItinerary";
 import { updateItinerary } from "@/services/itinerary/updateItinerary";
@@ -9,6 +9,7 @@ import { useItineraryDetail } from "@/hooks/itinerary/useItineraryDetail";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
 import ItineraryForm from "@/components/itinerary/ItineraryForm";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 /**
  * ItineraryFormContainer
@@ -18,6 +19,7 @@ import ItineraryForm from "@/components/itinerary/ItineraryForm";
 export default function ItineraryFormContainer({ isEditMode = false }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data: initialData, isLoading } = useItineraryDetail(id, {
     enabled: isEditMode,
@@ -51,7 +53,16 @@ export default function ItineraryFormContainer({ isEditMode = false }) {
 
   const { mutate: updateMutate, isPending: isUpdating } = useMutation({
     mutationFn: ({ id, updatedData }) => updateItinerary(id, updatedData),
-    onSuccess: () => navigate(`/itinerary/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.ITINERARY_DETAIL(id),
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.MY_ITINERARIES(auth.currentUser?.uid),
+      });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ITINERARIES] });
+      navigate(`/itinerary/${id}`);
+    },
     onError: () => alert("일정 수정 중 오류가 발생했습니다."),
   });
 
