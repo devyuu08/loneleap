@@ -14,8 +14,11 @@ import { toggleReviewLike } from "@/services/review/toggleReviewLike";
 export function useReviewLikeStatus(reviewId, userId) {
   return useQuery({
     queryKey: QUERY_KEYS.REVIEW_LIKE_STATUS(reviewId, userId),
-    queryFn: () => hasUserLikedReview(reviewId, userId),
-    enabled: !!reviewId && !!userId,
+    queryFn: async () => {
+      if (!userId) return false;
+      return hasUserLikedReview(reviewId, userId);
+    },
+    enabled: !!reviewId,
   });
 }
 

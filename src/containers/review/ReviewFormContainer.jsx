@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useReviewDetail } from "@/hooks/review/useReviewDetail";
 import useAddReview from "@/hooks/review/useAddReview";
@@ -11,6 +11,7 @@ import { uploadImage } from "@/utils/uploadImage";
 import ReviewForm from "@/components/review/ReviewForm";
 import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 /**
  * ReviewFormContainer
@@ -23,6 +24,7 @@ import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 export default function ReviewFormContainer({ isEditMode = false }) {
   const navigate = useNavigate();
   const { id } = useParams();
+  const queryClient = useQueryClient();
 
   const { data: initialData, isLoading } = useReviewDetail(id, {
     enabled: isEditMode,
@@ -68,7 +70,10 @@ export default function ReviewFormContainer({ isEditMode = false }) {
 
   const { mutate: updateReview, isPending: isUpdating } = useMutation({
     mutationFn: ({ id, updatedData }) => updateReviewData(id, updatedData),
-    onSuccess: () => navigate(`/reviews/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.REVIEW_DETAIL(id) });
+      navigate(`/reviews/${id}`);
+    },
     onError: () => alert("리뷰 수정 중 오류가 발생했습니다."),
   });
 

@@ -25,6 +25,7 @@ export default function ProfileSection({
   onPasswordChange,
   onLogout,
   onDeleteAccount,
+  uploading,
 }) {
   return (
     <>
@@ -32,7 +33,11 @@ export default function ProfileSection({
       <section className="flex flex-col items-center text-center px-4 sm:px-6 py-12 sm:py-16">
         {/* 프로필 카드 */}
         <div className="py-8 sm:py-10">
-          <ProfileInfoCard user={user} onImageChange={onImageChange} />
+          <ProfileInfoCard
+            user={user}
+            onImageChange={onImageChange}
+            uploading={uploading}
+          />
         </div>
 
         {/* 버튼 그룹: 프로필 수정, 설정, 로그아웃 */}

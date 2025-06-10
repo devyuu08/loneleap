@@ -11,7 +11,7 @@ export function normalizeReview(doc) {
     ...data,
     createdAt: data.createdAt?.toDate() || new Date(),
     updatedAt: data.updatedAt?.toDate() || new Date(),
-    likesCount: data.likesCount || 0,
+    likesCount: data.likesCount ?? 0,
     createdBy: {
       uid: data.createdBy?.uid || "",
       displayName: data.createdBy?.displayName || "익명",

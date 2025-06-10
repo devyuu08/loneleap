@@ -23,6 +23,6 @@ export function useAddComment(reviewId) {
     },
     successMessage: "댓글이 등록되었습니다.",
     errorMessage: "댓글 등록 중 오류가 발생했습니다.",
-    queryKeysToInvalidate: [[QUERY_KEYS.COMMENTS(reviewId)]],
+    queryKeysToInvalidate: [QUERY_KEYS.COMMENTS(reviewId)],
   });
 }

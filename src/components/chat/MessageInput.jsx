@@ -45,7 +45,6 @@ function MessageInput({
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="메시지를 입력하세요..."
-        disabled={isSubmitting}
         className={chatInput}
         maxLength={500}
       />

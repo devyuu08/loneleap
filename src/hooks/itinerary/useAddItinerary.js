@@ -32,6 +32,8 @@ export function useAddItinerary({
         });
       }
 
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.REGION_COUNTS] });
+
       onSuccessCallback(newId);
     },
     onError: (error) => {
