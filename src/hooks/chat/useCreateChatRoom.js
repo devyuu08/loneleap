@@ -52,34 +52,42 @@ export function useCreateChatRoom(onSuccessNavigate) {
     },
 
     onSuccess: (newRoom) => {
+      const newRoomData = {
+        id: newRoom.id,
+        name: newRoom.title,
+        description: newRoom.description,
+        category: newRoom.category,
+        createdBy: {
+          uid: newRoom.user.uid,
+          displayName: newRoom.user.displayName,
+          photoURL: newRoom.user.photoURL,
+        },
+        participants: [newRoom.user.uid],
+        createdAt: Timestamp.now(),
+        isActive: true,
+      };
+
+      // 전체 캐시 무효화
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.CHAT_ROOMS],
         predicate: (query) => query.queryKey[0] === QUERY_KEYS.CHAT_ROOMS,
       });
 
-      queryClient.setQueriesData(
-        {
-          queryKey: [QUERY_KEYS.CHAT_ROOMS],
-          predicate: (query) => query.queryKey[0] === QUERY_KEYS.CHAT_ROOMS,
-        },
-        (prev) => {
-          const newRoomData = {
-            id: newRoom.id,
-            name: newRoom.title,
-            description: newRoom.description,
-            createdBy: {
-              uid: newRoom.user.uid,
-              displayName: newRoom.user.displayName,
-              photoURL: newRoom.user.photoURL,
-            },
-            participants: [newRoom.user.uid],
-            createdAt: Timestamp.now(),
-            isActive: true,
-          };
-          return prev ? [...prev, newRoomData] : [newRoomData];
-        }
+      // 전체 채팅방 목록에도 추가
+      queryClient.setQueryData(
+        QUERY_KEYS.CHAT_ROOMS_FILTERED(10, "desc", null),
+        (prev) => (prev ? [newRoomData, ...prev] : [newRoomData])
       );
-      // 네비게이션
+
+      // 현재 카테고리 캐시에 Optimistic 추가
+      if (newRoom.category) {
+        queryClient.setQueryData(
+          QUERY_KEYS.CHAT_ROOMS_FILTERED(10, "desc", newRoom.category),
+          (prev) => (prev ? [newRoomData, ...prev] : [newRoomData])
+        );
+      }
+
+      // 네비게이션 이동
       if (onSuccessNavigate) {
         onSuccessNavigate(`/chat/${newRoom.id}`);
       }
