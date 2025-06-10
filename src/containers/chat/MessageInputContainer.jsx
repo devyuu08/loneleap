@@ -27,6 +27,7 @@ export default function MessageInputContainer({ roomId }) {
     try {
       await sendChatMessage({ roomId, message, user });
       setMessage("");
+      inputRef.current?.focus();
     } catch (error) {
       console.error("메시지 전송 오류:", error);
       alert("메시지 전송에 실패했습니다.");
