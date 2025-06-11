@@ -31,7 +31,7 @@ function ReviewCard({ review }) {
       tabIndex={0}
       role="button"
       aria-label={`리뷰: ${title}`}
-      className="group bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden cursor-pointer outline-none focus:ring-2 focus:ring-black"
+      className="group bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden cursor-pointer outline-none focus:ring-0"
     >
       {/* 이미지 섹션 */}
       <figure className="relative h-56">
