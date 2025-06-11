@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { useCallback, useMemo, useState } from "react";
 import { useReportMessage } from "@/hooks/chat/useReportMessage";
 import ChatMessage from "@/components/chat/ChatMessage";
+import toast from "react-hot-toast";
 
 export default function ChatMessageContainer({ message }) {
   const user = useSelector((state) => state.user.user);
@@ -27,10 +28,10 @@ export default function ChatMessageContainer({ message }) {
           roomId: message.roomId,
           reason,
         });
-        alert("신고가 접수되었습니다.");
+        toast.success("신고가 접수되었습니다.");
         setOpenReportModal(false);
       } catch (err) {
-        alert(err?.message || "신고 처리 중 오류가 발생했습니다.");
+        toast.error(err?.message || "신고 처리 중 오류가 발생했습니다.");
       }
     },
     [message.id, message.roomId, reportMutation]

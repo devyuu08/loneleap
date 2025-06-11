@@ -58,7 +58,6 @@ export function useChatMessages(roomId) {
         }
       },
       (err) => {
-        console.error("실시간 구독 에러:", err);
         setError(err);
         setLoading(false);
       }
@@ -87,7 +86,6 @@ export function useChatMessages(roomId) {
       setMessages((prev) => insertDateSeparators([...more.reverse(), ...prev]));
       setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
     } catch (err) {
-      console.error("이전 메시지 로드 중 오류:", err);
       setError(err);
     } finally {
       setLoadingMore(false);

@@ -21,6 +21,8 @@ export async function deleteItineraryAndDecreaseCount({ itineraryId }) {
       itineraryCount: increment(-1),
     });
   } catch (err) {
-    console.warn("itineraryCount 감소 실패:", err);
+    if (import.meta.env.DEV) {
+      console.warn("itineraryCount 감소 실패:", err);
+    }
   }
 }

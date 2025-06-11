@@ -21,7 +21,9 @@ export async function deleteReview(id) {
     await deleteDoc(docRef);
     return true;
   } catch (error) {
-    console.error("리뷰 삭제 중 오류:", error);
+    if (import.meta.env.DEV) {
+      console.error("리뷰 삭제 중 오류:", error);
+    }
     throw error;
   }
 }

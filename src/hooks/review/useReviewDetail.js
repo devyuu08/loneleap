@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import { QUERY_KEYS } from "@/constants/queryKeys";
-
+import { toast } from "react-hot-toast";
 /**
  * useReviewDetail
  * - 특정 리뷰의 상세 정보를 조회하는 query 훅
@@ -26,8 +26,8 @@ export function useReviewDetail(reviewId) {
     enabled: !!reviewId,
     staleTime: 5 * 60 * 1000, // 5분
     cacheTime: 30 * 60 * 1000, // 30분
-    onError: (err) => {
-      console.error("리뷰 상세 조회 오류:", err);
+    onError: () => {
+      toast.error("리뷰 상세 정보를 불러오는 중 문제가 발생했습니다.");
     },
   });
 }

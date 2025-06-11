@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDateOnly } from "@/utils/formatDate";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 import { shareItinerary } from "@/services/itinerary/shareItinerary";
+import { toast } from "react-hot-toast";
 
 /**
  * MyItineraryCard
@@ -47,10 +48,9 @@ function MyItineraryCard({ itinerary }) {
 
       try {
         await shareItinerary(id);
-        alert("공유 링크가 복사되었습니다!");
+        toast.success("공유 링크가 복사되었습니다!");
       } catch (error) {
-        console.error("공유 실패:", error);
-        alert("공유 링크 생성에 실패했습니다.");
+        toast.error("공유 링크 생성에 실패했습니다.");
       }
     },
     [id]

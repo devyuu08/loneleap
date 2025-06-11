@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { auth } from "@/services/firebase";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { createItineraryWithImage } from "@/services/itinerary/createItineraryWithImage";
+import toast from "react-hot-toast";
 
 /**
  * useAddItinerary
@@ -22,7 +23,7 @@ export function useAddItinerary({
   return useMutation({
     mutationFn: (formData) => createItineraryWithImage(formData, user),
     onSuccess: (newId) => {
-      alert("일정이 성공적으로 등록되었습니다!");
+      toast.success("일정이 성공적으로 등록되었습니다!");
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ITINERARIES] });
 
       const uid = auth.currentUser?.uid;
@@ -37,8 +38,7 @@ export function useAddItinerary({
       onSuccessCallback(newId);
     },
     onError: (error) => {
-      console.error(error);
-      alert(`일정 등록 중 오류가 발생했습니다: ${error.message}`);
+      toast.error(`일정 등록 중 오류가 발생했습니다: ${error.message}`);
       onErrorCallback(error);
     },
   });

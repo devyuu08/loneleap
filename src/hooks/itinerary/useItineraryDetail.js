@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchItineraryById } from "@/services/itinerary/fetchItineraryById";
 import { QUERY_KEYS } from "@/constants/queryKeys";
+import { toast } from "react-hot-toast";
 
 /**
  * useItineraryDetail
@@ -15,6 +16,8 @@ export function useItineraryDetail(id) {
     queryFn: () => fetchItineraryById(id),
     staleTime: 3 * 60 * 1000,
     enabled: !!id, // id가 존재할 때만 fetch
-    onError: (err) => console.error("상세 일정 불러오기 실패:", err),
+    onError: () => {
+      toast.error("상세 일정을 불러오는 중 문제가 발생했습니다.");
+    },
   });
 }

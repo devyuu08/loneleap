@@ -40,7 +40,9 @@ export async function addScheduleToDay(itineraryId, dayIndex, newSchedule) {
 
     return true;
   } catch (error) {
-    console.error("세부 일정 추가 중 오류 발생:", error);
+    if (import.meta.env.DEV) {
+      console.warn("세부 일정 추가 중 오류:", error);
+    }
     throw error;
   }
 }

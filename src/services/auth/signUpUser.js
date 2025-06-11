@@ -42,8 +42,9 @@ export async function signUpUser(email, password, displayName) {
       createdAt: serverTimestamp(), // 서버 기준 생성 시각
     });
   } catch (error) {
-    // Firestore 저장 중 오류 발생 시 로그 출력
-    console.error("회원가입 후 Firestore 저장 실패:", error);
+    if (import.meta.env.DEV) {
+      console.warn("회원가입 후 Firestore 저장 실패:", error);
+    }
   }
 
   return result;

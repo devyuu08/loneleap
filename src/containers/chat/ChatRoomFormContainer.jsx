@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useCreateChatRoom } from "@/hooks/chat/useCreateChatRoom";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
 import ChatRoomForm from "@/components/chat/ChatRoomForm";
+import toast from "react-hot-toast";
 
 /**
  * ChatRoomFormContainer
@@ -30,7 +31,7 @@ export default function ChatRoomFormContainer() {
   useEffect(() => {
     // 로딩이 끝났고, 로그인하지 않은 경우에만 실행
     if (!isLoading && !user && !didAlert) {
-      alert("로그인이 필요합니다.");
+      toast.error("로그인이 필요합니다.");
       setDidAlert(true);
       navigate("/login", { state: { from: "/chat/create" } });
     }
@@ -55,8 +56,7 @@ export default function ChatRoomFormContainer() {
       try {
         await createRoom({ title, description, category, user });
       } catch (err) {
-        console.error("채팅방 생성 오류:", err);
-        alert("채팅방 생성 중 오류가 발생했습니다.");
+        toast.error("채팅방 생성 중 오류가 발생했습니다.");
       }
     },
     [validateForm, title, description, category, user, createRoom]

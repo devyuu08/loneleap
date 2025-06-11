@@ -29,7 +29,9 @@ export async function updateItinerary(id, updatedData) {
       try {
         imageUrl = await uploadImage(updatedData.image, "itineraries");
       } catch (uploadErr) {
-        console.error("이미지 업로드 실패:", uploadErr);
+        if (import.meta.env.DEV) {
+          console.error("이미지 업로드 실패:", uploadErr);
+        }
         throw new Error("이미지 업로드에 실패했습니다. 다시 시도해주세요.");
       }
     } else if (typeof updatedData.image === "string") {
@@ -53,7 +55,9 @@ export async function updateItinerary(id, updatedData) {
     await updateDoc(docRef, dataToUpdate);
     return true;
   } catch (error) {
-    console.error("일정 수정 중 오류 발생:", error);
+    if (import.meta.env.DEV) {
+      console.error("일정 수정 중 오류 발생:", error);
+    }
     throw error;
   }
 }

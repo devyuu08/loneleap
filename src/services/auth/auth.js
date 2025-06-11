@@ -18,13 +18,15 @@ export async function signIn(email, password) {
     const result = await signInWithEmailAndPassword(auth, email, password);
     return result;
   } catch (err) {
-    console.error("로그인 실패:", err.code, err.message);
+    if (import.meta.env.DEV) {
+      console.warn("로그인 실패:", err.code, err.message);
+    }
 
     if (err.code === "auth/network-request-failed") {
       await signOut(auth); // 꼬인 세션 초기화
     }
 
-    throw err;
+    throw err; // 클라이언트에서 에러 메시지를 핸들링하도록 위임
   }
 }
 

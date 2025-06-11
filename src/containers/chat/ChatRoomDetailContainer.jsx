@@ -10,6 +10,7 @@ import { joinRoom } from "@/services/chat/joinRoom";
 import { leaveRoom } from "@/services/chat/leaveRoom";
 import { fetchRoomInfo } from "@/services/chat/fetchRoomInfo";
 import { QUERY_KEYS } from "@/constants/queryKeys";
+import toast from "react-hot-toast";
 
 /**
  * ChatRoomDetailContainer
@@ -35,10 +36,11 @@ export default function ChatRoomDetailContainer({ roomId }) {
     const execute = async () => {
       if (!roomId || !currentUser?.uid || executedRef.current) return;
       executedRef.current = true;
+
       try {
         await joinRoom({ roomId, user: currentUser });
-      } catch (err) {
-        console.error("채팅방 참여자 등록 실패:", err);
+      } catch {
+        toast.error("채팅방 참여 등록 중 문제가 발생했습니다.");
       }
     };
     execute();
@@ -54,7 +56,7 @@ export default function ChatRoomDetailContainer({ roomId }) {
         const data = await fetchRoomInfo(roomId);
         setRoomInfo(data);
       } catch (err) {
-        console.error("채팅방 정보 가져오기 실패:", err);
+        setRoomInfo({ title: "채팅방 정보를 불러올 수 없습니다." });
       } finally {
         setRoomInfoLoading(false);
       }
@@ -79,8 +81,7 @@ export default function ChatRoomDetailContainer({ roomId }) {
       );
       navigate("/chat");
     } catch (err) {
-      alert("채팅방 나가기 중 오류 발생");
-      console.error(err);
+      toast.error("채팅방 나가기 중 오류 발생");
     }
   }, [roomId, currentUser, queryClient, navigate]);
 

@@ -22,7 +22,9 @@ export async function deleteItinerary(id) {
     await deleteDoc(docRef);
     return true;
   } catch (error) {
-    console.error("일정 삭제 중 오류:", error);
+    if (import.meta.env.DEV) {
+      console.error("일정 삭제 중 오류:", error);
+    }
     throw error;
   }
 }

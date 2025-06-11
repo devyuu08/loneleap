@@ -4,7 +4,7 @@
  * 공통 mutation 패턴을 캡슐화한 커스텀 훅
  *
  * [기능]
- * - mutation 실행 후 성공/실패 메시지(alert) 자동 출력
+ * - mutation 실행 후 성공/실패 메시지(toast) 자동 출력
  * - 지정된 쿼리 키 무효화로 최신 데이터 유지
  * - 성공 시 페이지 이동 또는 콜백 실행 가능
  * - 실패 시 사용자 피드백 제공 및 onError 콜백 실행
@@ -27,6 +27,7 @@
  */
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export function useMutationWithFeedback({
@@ -44,7 +45,7 @@ export function useMutationWithFeedback({
   return useMutation({
     mutationFn,
     onSuccess: async (result) => {
-      if (successMessage) alert(successMessage);
+      if (successMessage) toast.success(successMessage);
 
       for (const key of queryKeysToInvalidate) {
         await queryClient.invalidateQueries({ queryKey: key });
@@ -59,8 +60,7 @@ export function useMutationWithFeedback({
       }
     },
     onError: (error) => {
-      console.error(error);
-      alert(error.message || errorMessage);
+      toast.error(error.message || errorMessage);
       if (typeof onErrorCallback === "function") {
         onErrorCallback(error);
       }

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { fetchItineraries } from "@/services/itinerary/fetchItineraries";
+import { toast } from "react-hot-toast";
 
 /**
  * useItineraries
@@ -18,7 +19,7 @@ export function useItineraries(enabled = true) {
     select: (data) => data.sort((a, b) => b.createdAt - a.createdAt),
     enabled,
     onError: (err) => {
-      console.error("일정 데이터를 불러오는 중 오류 발생:", err);
+      toast.error("일정 데이터를 불러오는 중 문제가 발생했습니다.");
     },
   });
 }

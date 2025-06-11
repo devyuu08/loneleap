@@ -25,7 +25,9 @@ export async function likeReview(reviewId, userId) {
       likesCount: increment(1),
     });
   } catch (err) {
-    console.error("좋아요 처리 실패:", err);
+    if (import.meta.env.DEV) {
+      console.error("좋아요 처리 실패:", err);
+    }
     throw new Error("좋아요 처리 중 오류가 발생했습니다.");
   }
 }

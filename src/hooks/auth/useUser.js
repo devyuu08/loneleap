@@ -25,9 +25,7 @@ export function useUser() {
           if (publicDoc.exists()) {
             bio = publicDoc.data().bio || "";
           }
-        } catch (err) {
-          console.warn("bio 가져오기 실패:", err);
-        }
+        } catch (err) {}
 
         // Redux 상태에 사용자 정보 저장
         updateUserState({

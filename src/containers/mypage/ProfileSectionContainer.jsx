@@ -15,6 +15,7 @@ import ProfileSection from "@/components/mypage/ProfileSection";
 import { uploadUserProfileImage } from "@/services/user/uploadUserProfileImage";
 import { updateUserPhotoInContent } from "@/services/user/updateUserPhotoInContent";
 import { deleteUserAccount } from "@/services/user/deleteUserAccount";
+import toast from "react-hot-toast";
 
 /**
  * ProfileSectionContainer
@@ -83,8 +84,7 @@ export default function ProfileSectionContainer() {
         // Redux 상태 동기화
         dispatch(setUser({ ...user, photoURL: auth.currentUser.photoURL }));
       } catch (err) {
-        console.error("프로필 이미지 업로드 오류:", err);
-        alert("이미지 업로드에 실패했습니다.");
+        toast.error("이미지 업로드에 실패했습니다.");
       } finally {
         setUploading(false); // 업로드 종료 표시
       }
@@ -95,10 +95,11 @@ export default function ProfileSectionContainer() {
   const handlePasswordChange = useCallback(async (currentPw, newPw) => {
     try {
       await changeUserPassword(newPw, currentPw);
-      alert("비밀번호가 성공적으로 변경되었습니다.");
+      toast.success("비밀번호가 성공적으로 변경되었습니다.");
     } catch (err) {
-      console.error("비밀번호 변경 실패:", err);
-      alert("비밀번호 변경에 실패했습니다. 현재 비밀번호를 다시 확인해주세요.");
+      toast.error(
+        "비밀번호 변경에 실패했습니다. 현재 비밀번호를 다시 확인해주세요."
+      );
     }
   }, []);
 
@@ -109,8 +110,7 @@ export default function ProfileSectionContainer() {
       dispatch(clearUser()); // Redux 상태 초기화
       navigate("/"); // 홈으로 이동
     } catch (error) {
-      console.error("로그아웃 실패:", error);
-      alert("로그아웃에 실패했습니다.");
+      toast.error("로그아웃에 실패했습니다.");
     } finally {
       setIsLoggingOut(false);
     }
@@ -126,7 +126,7 @@ export default function ProfileSectionContainer() {
         dispatch(clearUser());
         navigate("/");
       } catch (err) {
-        alert("계정 탈퇴 중 오류가 발생했습니다: " + err.message);
+        toast.error("계정 탈퇴 중 오류가 발생했습니다: " + err.message);
       }
     },
     [dispatch, navigate, user?.email]

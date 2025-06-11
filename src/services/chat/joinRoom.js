@@ -39,6 +39,9 @@ export async function joinRoom({ roomId, user }) {
       });
     }
   } catch (err) {
-    console.error("채팅방 참여자 등록 실패:", err);
+    if (import.meta.env.DEV) {
+      console.warn("채팅방 참여자 등록 실패:", err);
+    }
+    throw err; // 호출부에서 catch하도록 예외 전달
   }
 }

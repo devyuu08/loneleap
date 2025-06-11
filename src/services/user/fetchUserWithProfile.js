@@ -62,6 +62,8 @@ export async function fetchUserWithProfile(firebaseUser, dispatch) {
 
     dispatch(setUser(safeUser));
   } catch (error) {
-    console.error("사용자 정보 불러오기 실패:", error);
+    if (import.meta.env.DEV) {
+      console.error("사용자 정보 불러오기 실패:", error);
+    }
   }
 }

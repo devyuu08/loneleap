@@ -10,6 +10,7 @@ import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
 import ItineraryForm from "@/components/itinerary/ItineraryForm";
 import { QUERY_KEYS } from "@/constants/queryKeys";
+import toast from "react-hot-toast";
 
 /**
  * ItineraryFormContainer
@@ -63,7 +64,7 @@ export default function ItineraryFormContainer({ isEditMode = false }) {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ITINERARIES] });
       navigate(`/itinerary/${id}`);
     },
-    onError: () => alert("일정 수정 중 오류가 발생했습니다."),
+    onError: () => toast.error("일정 수정 중 오류가 발생했습니다."),
   });
 
   const isSubmitting = isEditMode ? isUpdating : isAdding;
@@ -90,7 +91,7 @@ export default function ItineraryFormContainer({ isEditMode = false }) {
 
       const user = auth.currentUser;
       if (!user?.uid) {
-        alert("로그인이 필요합니다.");
+        toast.error("로그인이 필요합니다.");
         return;
       }
 
@@ -99,7 +100,7 @@ export default function ItineraryFormContainer({ isEditMode = false }) {
         try {
           imageUrl = await uploadImage(imageFile, "itineraries", user.uid);
         } catch (err) {
-          alert("이미지 업로드에 실패했습니다.");
+          toast.error("이미지 업로드에 실패했습니다.");
           return;
         }
       } else if (typeof imageFile === "string") {
