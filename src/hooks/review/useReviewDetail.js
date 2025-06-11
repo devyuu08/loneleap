@@ -2,32 +2,32 @@ import { useQuery } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import { QUERY_KEYS } from "@/constants/queryKeys";
-
+import { toast } from "react-hot-toast";
 /**
- * 특정 리뷰의 상세 정보를 가져오는 커스텀 훅
- * @param {string} id - 조회할 리뷰의 ID
- * @returns {Object} - 리뷰 데이터와 로딩/에러 상태
+ * useReviewDetail
+ * - 특정 리뷰의 상세 정보를 조회하는 query 훅
+ * - reviewId 기반으로 Firestore에서 문서 fetch
+ * - 존재하지 않을 경우 예외 처리 포함
  */
-export const useReviewDetail = (reviewId) => {
+
+export function useReviewDetail(reviewId) {
   return useQuery({
     queryKey: QUERY_KEYS.REVIEW_DETAIL(reviewId),
     queryFn: async () => {
-      try {
-        const docRef = doc(db, "reviews", reviewId);
-        const snapshot = await getDoc(docRef);
+      const docRef = doc(db, "reviews", reviewId);
+      const snapshot = await getDoc(docRef);
 
-        if (!snapshot.exists()) {
-          throw new Error("리뷰가 존재하지 않습니다.");
-        }
-
-        return { id: snapshot.id, ...snapshot.data() };
-      } catch (error) {
-        if (error.message === "리뷰가 존재하지 않습니다.") {
-          throw error;
-        }
-        throw new Error(`리뷰 조회 중 오류가 발생했습니다: ${error.message}`);
+      if (!snapshot.exists()) {
+        throw new Error("리뷰가 존재하지 않습니다.");
       }
+
+      return { id: snapshot.id, ...snapshot.data() };
     },
     enabled: !!reviewId,
+    staleTime: 5 * 60 * 1000, // 5분
+    cacheTime: 30 * 60 * 1000, // 30분
+    onError: () => {
+      toast.error("리뷰 상세 정보를 불러오는 중 문제가 발생했습니다.");
+    },
   });
-};
+}

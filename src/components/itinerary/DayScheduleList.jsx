@@ -1,7 +1,15 @@
+import React from "react";
 import DayScheduleItem from "@/components/itinerary/DayScheduleItem";
 import { ChevronDown } from "lucide-react";
 
-export default function DayScheduleList({
+/**
+ * DayScheduleList – 하루 단위의 여행 일정을 아코디언 형태로 출력
+ * - 각 DAY별로 열고 닫을 수 있음
+ * - 세부 일정은 DayScheduleItem으로 구성
+ * - 작성자일 경우 입력 폼을 통해 일정 추가 가능
+ */
+
+function DayScheduleList({
   days,
   isOwner,
   openDay,
@@ -14,13 +22,15 @@ export default function DayScheduleList({
   handleDeleteSchedule,
 }) {
   return (
-    <div className="mt-10 space-y-4">
+    <section className="mt-10 space-y-4" aria-label="여행 일정 목록">
       {days.map((day, index) => (
-        <div key={day.day} className="border rounded-xl">
-          {/* 헤더 */}
+        <article key={day.day} className="border rounded-xl">
+          {/* 아코디언 헤더 */}
           <button
             onClick={() => setOpenDay(openDay === day.day ? null : day.day)}
             className="w-full flex justify-between items-center px-4 py-3 text-left"
+            aria-expanded={openDay === day.day}
+            aria-controls={`day-schedule-${day.day}`}
           >
             <h3 className="text-sm sm:text-base font-semibold text-gray-900 flex items-center gap-2">
               <span className="inline-block bg-[#6C8BA4] text-white text-xs px-2 py-1 rounded-md">
@@ -32,22 +42,28 @@ export default function DayScheduleList({
               className={`w-5 h-5 transition-transform ${
                 openDay === day.day ? "rotate-180" : ""
               }`}
+              aria-hidden="true"
             />
           </button>
 
-          {/* 아코디언 내용 */}
+          {/* 아코디언 콘텐츠 */}
           {openDay === day.day && (
-            <ul className="px-6 pb-4 space-y-3">
+            <ul
+              className="px-6 pb-4 space-y-3"
+              aria-label={`DAY ${day.day} 일정`}
+            >
+              {/* 기존 일정들 */}
               {day.schedules.map((item, idx) => (
                 <DayScheduleItem
                   key={item.id || `${day.day}-${idx}`}
                   {...item}
+                  isOwner={isOwner}
                   onDelete={() =>
                     isOwner && handleDeleteSchedule(index, item.id)
                   }
                 />
               ))}
-              {/* + 버튼 → 입력 폼 토글 */}
+              {/* + 일정 추가 버튼 */}
               {isOwner && openFormForDay !== index && (
                 <button
                   onClick={() => setOpenFormForDay(index)}
@@ -57,9 +73,9 @@ export default function DayScheduleList({
                 </button>
               )}
 
-              {/* 입력 폼 */}
+              {/* 입력 폼 영역 */}
               {isOwner && openFormForDay === index && (
-                <li className="mt-3 space-y-2">
+                <li className="mt-3 space-y-2" aria-label="일정 입력 폼">
                   <div className="flex gap-2">
                     <input
                       name="time"
@@ -67,6 +83,7 @@ export default function DayScheduleList({
                       onChange={handleFormChange}
                       placeholder="시간 (예: 10:00)"
                       className="border px-2 py-1 rounded w-28 text-sm"
+                      aria-label="시간 입력"
                     />
                     <input
                       name="activity"
@@ -74,6 +91,7 @@ export default function DayScheduleList({
                       onChange={handleFormChange}
                       placeholder="활동"
                       className="border px-2 py-1 rounded flex-1 text-sm"
+                      aria-label="활동 입력"
                     />
                   </div>
                   <textarea
@@ -82,6 +100,7 @@ export default function DayScheduleList({
                     onChange={handleFormChange}
                     placeholder="설명 (선택)"
                     className="border w-full px-2 py-1 rounded text-sm"
+                    aria-label="설명 입력"
                   />
                   <div className="flex gap-2 justify-end mt-1">
                     <button
@@ -101,8 +120,10 @@ export default function DayScheduleList({
               )}
             </ul>
           )}
-        </div>
+        </article>
       ))}
-    </div>
+    </section>
   );
 }
+
+export default React.memo(DayScheduleList);

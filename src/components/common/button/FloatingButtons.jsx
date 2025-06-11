@@ -1,5 +1,7 @@
 import { ArrowLeft, Pencil, Plus, Trash2 } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { baseButtonClasses, buttonVariants } from "@/styles/buttonStyles";
+import clsx from "clsx";
 
 export function EditFloatingButton({ editPath }) {
   const navigate = useNavigate();
@@ -7,7 +9,12 @@ export function EditFloatingButton({ editPath }) {
   return (
     <button
       onClick={() => navigate(editPath)}
-      className="bg-black/80 text-white p-3 rounded-full shadow-lg hover:bg-black transition"
+      className={clsx(
+        baseButtonClasses,
+        buttonVariants.dark,
+        "rounded-full shadow-lg",
+        "p-3"
+      )}
       aria-label="수정하기"
     >
       <Pencil className="w-4 h-4" />
@@ -26,7 +33,11 @@ export function DeleteFloatingButton({ onDelete, isPending = false }) {
     <button
       onClick={handleDelete}
       disabled={isPending}
-      className="bg-rose-400/90 text-white p-3 rounded-full shadow-lg hover:bg-rose-500 transition"
+      className={clsx(
+        baseButtonClasses,
+        "rounded-full shadow-lg p-3",
+        isPending ? buttonVariants.disabled : buttonVariants.danger
+      )}
       aria-label="삭제하기"
     >
       <Trash2 className="w-4 h-4" />
@@ -40,7 +51,11 @@ export function BackFloatingButton() {
   return (
     <button
       onClick={() => navigate(-1)}
-      className="bg-white text-gray-700 p-3 rounded-full shadow-lg hover:bg-gray-100 transition border border-gray-300"
+      className={clsx(
+        baseButtonClasses,
+        buttonVariants.outline,
+        "rounded-full shadow-lg p-3"
+      )}
       aria-label="이전 페이지로 돌아가기"
     >
       <ArrowLeft className="w-4 h-4" />
@@ -56,26 +71,12 @@ export default function FloatingButtons({
   createPath,
 }) {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const path = location.pathname;
-
-  // 수정/삭제 버튼: 특정 상세 페이지만 허용
-  const isItineraryDetail = /^\/itinerary\/[^/]+$/.test(path);
-  const isReviewDetail = /^\/reviews\/[^/]+$/.test(path);
-  const showEditDelete = isItineraryDetail || isReviewDetail;
 
   return (
     <>
       {/* 항상 표시되는 뒤로 가기 버튼 */}
       <div className="fixed bottom-6 left-6 z-50">
-        <button
-          onClick={() => navigate(-1)}
-          className="bg-white text-gray-700 p-3 rounded-full shadow-lg hover:bg-gray-100 transition border border-gray-300"
-          aria-label="뒤로 가기"
-        >
-          <ArrowLeft className="w-4 h-4" />
-        </button>
+        <BackFloatingButton />
       </div>
 
       {/* 수정/삭제 버튼: editPath와 onDelete가 있어야 렌더링 */}

@@ -2,7 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { deleteComment } from "@/services/review/deleteComment";
 
-export const useDeleteComment = (reviewId) => {
+/**
+ * useDeleteComment
+ * - 댓글 삭제 기능을 제공하는 mutation 훅
+ * - Optimistic update 방식으로 UI 반영 → 실패 시 롤백
+ * - 삭제 후 댓글 쿼리 무효화
+ */
+
+export function useDeleteComment(reviewId) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -39,4 +46,4 @@ export const useDeleteComment = (reviewId) => {
       });
     },
   });
-};
+}

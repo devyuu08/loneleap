@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { auth } from "@/services/firebase";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadImage } from "@/utils/uploadImage";
 import { useAddItinerary } from "@/hooks/itinerary/useAddItinerary";
 import { updateItinerary } from "@/services/itinerary/updateItinerary";
@@ -9,10 +9,18 @@ import { useItineraryDetail } from "@/hooks/itinerary/useItineraryDetail";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
 import ItineraryForm from "@/components/itinerary/ItineraryForm";
+import { QUERY_KEYS } from "@/constants/queryKeys";
+import toast from "react-hot-toast";
+
+/**
+ * ItineraryFormContainer
+ * - 일정 등록/수정 폼 상태 및 유효성 검사, 제출 처리
+ */
 
 export default function ItineraryFormContainer({ isEditMode = false }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data: initialData, isLoading } = useItineraryDetail(id, {
     enabled: isEditMode,
@@ -40,17 +48,29 @@ export default function ItineraryFormContainer({ isEditMode = false }) {
     }
   }, [initialData, isEditMode]);
 
-  const { mutate: addMutate, isPending: isAdding } = useAddItinerary();
+  const { mutate: addMutate, isPending: isAdding } = useAddItinerary({
+    onSuccessCallback: (newId) => navigate(`/itinerary/${newId}`),
+  });
+
   const { mutate: updateMutate, isPending: isUpdating } = useMutation({
     mutationFn: ({ id, updatedData }) => updateItinerary(id, updatedData),
-    onSuccess: () => navigate(`/itinerary/${id}`),
-    onError: () => alert("일정 수정 중 오류가 발생했습니다."),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.ITINERARY_DETAIL(id),
+      });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.MY_ITINERARIES(auth.currentUser?.uid),
+      });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ITINERARIES] });
+      navigate(`/itinerary/${id}`);
+    },
+    onError: () => toast.error("일정 수정 중 오류가 발생했습니다."),
   });
 
   const isSubmitting = isEditMode ? isUpdating : isAdding;
   const submitLabel = isEditMode ? "일정 수정 완료" : "일정 등록 완료";
 
-  const validateForm = () => {
+  const validateForm = useCallback(() => {
     const newErrors = {};
     if (!title.trim()) newErrors.title = "제목을 입력해주세요.";
     if (!location.trim()) newErrors.location = "여행지를 입력해주세요.";
@@ -62,49 +82,66 @@ export default function ItineraryFormContainer({ isEditMode = false }) {
     if (!summary.trim()) newErrors.summary = "여행 소개를 입력해주세요.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
+  }, [title, location, startDate, endDate, summary]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (!validateForm()) return;
 
-    const user = auth.currentUser;
-    if (!user?.uid) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
-    let imageUrl = "";
-    if (imageFile instanceof File) {
-      try {
-        imageUrl = await uploadImage(imageFile, "itineraries", user.uid);
-      } catch (err) {
-        alert("이미지 업로드에 실패했습니다.");
+      const user = auth.currentUser;
+      if (!user?.uid) {
+        toast.error("로그인이 필요합니다.");
         return;
       }
-    } else if (typeof imageFile === "string") {
-      imageUrl = imageFile;
-    }
 
-    const itineraryData = {
+      let imageUrl = "";
+      if (imageFile instanceof File) {
+        try {
+          imageUrl = await uploadImage(imageFile, "itineraries", user.uid);
+        } catch (err) {
+          toast.error("이미지 업로드에 실패했습니다.");
+          return;
+        }
+      } else if (typeof imageFile === "string") {
+        imageUrl = imageFile;
+      }
+
+      const itineraryData = {
+        title,
+        location,
+        startDate,
+        endDate,
+        summary,
+        isPublic,
+        image: imageUrl,
+        userId: user.uid,
+        days: initialData?.days || [],
+        checklist: initialData?.checklist || { required: [], optional: [] },
+      };
+
+      isEditMode
+        ? updateMutate({ id, updatedData: itineraryData })
+        : addMutate(itineraryData);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      validateForm,
       title,
       location,
       startDate,
       endDate,
       summary,
       isPublic,
-      image: imageUrl,
-      userId: user.uid,
-      days: initialData?.days || [],
-      checklist: initialData?.checklist || { required: [], optional: [] },
-    };
-
-    isEditMode
-      ? updateMutate({ id, updatedData: itineraryData })
-      : addMutate(itineraryData, {
-          onSuccess: (newId) => navigate(`/itinerary/${newId}`),
-        });
-  };
+      imageFile,
+      isEditMode,
+      updateMutate,
+      addMutate,
+      initialData,
+      navigate,
+      id,
+    ]
+  );
 
   // 로딩 처리
   if (isEditMode && isLoading) return <LoadingSpinner />;

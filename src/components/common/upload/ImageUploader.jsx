@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ImageIcon } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function ImageUploader({ imageFile, onChange }) {
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -23,11 +24,11 @@ export default function ImageUploader({ imageFile, onChange }) {
 
   const isValidImage = (file) => {
     if (!file.type.startsWith("image/")) {
-      alert("이미지 파일만 업로드 가능합니다.");
+      toast.error("이미지 파일만 업로드 가능합니다.");
       return false;
     }
     if (file.size > 5 * 1024 * 1024) {
-      alert("5MB 이하의 파일만 업로드 가능합니다.");
+      toast.error("5MB 이하의 파일만 업로드 가능합니다.");
       return false;
     }
     return true;

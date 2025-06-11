@@ -2,7 +2,14 @@ import { eachDayOfInterval, format } from "date-fns";
 import { db } from "@/services/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
-// 일정 생성 함수
+/**
+ * 새로운 일정을 생성하고 Firestore에 저장
+ *
+ * @param {object} itineraryData - 일정 정보 객체
+ * @returns {Promise<string>} - 생성된 일정 문서의 ID
+ * @throws {Error} - 필수 정보 누락 또는 저장 중 오류 발생 시
+ */
+
 export async function createItinerary(itineraryData) {
   try {
     const {
@@ -54,7 +61,9 @@ export async function createItinerary(itineraryData) {
 
     return docRef.id;
   } catch (error) {
-    console.error("일정 생성 중 오류 발생:", error);
+    if (import.meta.env.DEV) {
+      console.warn("일정 생성 중 오류 발생:", error);
+    }
     throw error;
   }
 }

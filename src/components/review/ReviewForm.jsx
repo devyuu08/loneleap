@@ -1,3 +1,4 @@
+import React from "react";
 import RatingInput from "@/components/review/RatingInput";
 import ImageUploader from "@/components/common/upload/ImageUploader";
 import InterviewAnswerForm from "@/components/review/InterviewAnswerForm";
@@ -5,7 +6,14 @@ import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 import FormInput from "@/components/common/form/FormInput";
 
-export default function ReviewForm({
+/**
+ * ReviewForm
+ * - 두 단계로 구성된 리뷰 작성 폼 (step 1: 기본 정보, step 2: 인터뷰 답변)
+ * - 여행 제목, 장소, 별점, 이미지 업로드 → 인터뷰 질문 답변 순서로 작성
+ * - 상태 및 오류 처리를 props로 전달받아 제어
+ */
+
+function ReviewForm({
   step,
   setStep,
   title,
@@ -26,6 +34,15 @@ export default function ReviewForm({
   errors,
   submitError,
 }) {
+  const formStep1Class =
+    "mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-6 sm:p-8 md:p-10 rounded-3xl shadow-md border border-white/30 text-gray-800";
+
+  const formStep2Class =
+    "space-y-10 bg-white/80 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-2xl shadow-lg border border-gray-200 text-gray-800";
+
+  const stepButtonBase =
+    "px-6 py-3 text-sm font-semibold rounded-full text-gray-800 shadow-md hover:shadow-xl hover:bg-white transition-all backdrop-blur-sm border border-white/30";
+
   return (
     <section
       className="relative min-h-screen bg-cover bg-center bg-no-repeat"
@@ -34,47 +51,44 @@ export default function ReviewForm({
       {/* 어두운 오버레이 */}
       <div className="absolute inset-0 bg-black/40" />
 
-      {/* 내용 전체 */}
-      <div className="relative z-10 max-w-3xl mx-auto px-4 py-20 text-white">
-        {/* 헤더 문구 */}
-        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r from-white/90 to-gray-300 bg-clip-text text-transparent drop-shadow-sm">
-          혼자 떠난 그 순간, 당신의 이야기로 남겨보세요
-        </h2>
-        <p className="text-md mt-4 text-white/80 text-center leading-relaxed">
-          낯선 도시, 익숙하지 않은 거리.
-          <br />
-          홀로 마주한 풍경과 감정을 천천히 풀어보세요.
-        </p>
+      {/* 리뷰 작성 폼 전체 영역 */}
+      <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 text-white">
+        {/* 인트로 메시지 */}
+        <header className="text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-white/90 to-gray-300 bg-clip-text text-transparent drop-shadow-sm">
+            혼자 떠난 그 순간, 당신의 이야기로 남겨보세요
+          </h2>
+          <p className="text-sm sm:text-base mt-3 sm:mt-4 text-white/80 leading-relaxed">
+            낯선 도시, 익숙하지 않은 거리.
+            <br />
+            홀로 마주한 풍경과 감정을 천천히 풀어보세요.
+          </p>
+        </header>
 
-        {/* 폼 */}
+        {/* 폼 영역 */}
         <div className="mt-10">
+          {/* Step 1: 기본 리뷰 정보 입력 */}
           {step === 1 && (
-            <form className="mt-12 space-y-6 bg-white/60 backdrop-blur-lg p-10 rounded-3xl shadow-md border border-white/30 text-gray-800">
-              {/* 제목 */}
-              <div>
-                <FormInput
-                  label="리뷰 제목"
-                  id="title"
-                  name="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="예: 비 오는 날의 제주 혼행기"
-                  error={errors.title}
-                />
-              </div>
+            <form className={formStep1Class}>
+              <FormInput
+                label="리뷰 제목"
+                id="title"
+                name="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="예: 비 오는 날의 제주 혼행기"
+                error={errors.title}
+              />
 
-              {/* 여행지명 */}
-              <div>
-                <FormInput
-                  label="여행지명"
-                  id="destination"
-                  name="destination"
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  placeholder="예: 성산일출봉, 한라산, 월정리 해변"
-                  error={errors.destination}
-                />
-              </div>
+              <FormInput
+                label="여행지명"
+                id="destination"
+                name="destination"
+                value={destination}
+                onChange={(e) => setDestination(e.target.value)}
+                placeholder="예: 성산일출봉, 한라산, 월정리 해변"
+                error={errors.destination}
+              />
 
               {/* 별점 */}
               <div>
@@ -91,7 +105,7 @@ export default function ReviewForm({
                 <button
                   type="button"
                   onClick={handleNextStep}
-                  className="px-6 py-3 text-sm font-semibold rounded-full bg-white/80 text-gray-800 shadow-md hover:shadow-xl hover:bg-white transition-all backdrop-blur-sm border border-white/30"
+                  className={`${stepButtonBase} bg-white/80`}
                 >
                   다음 질문으로 이어가기 →
                 </button>
@@ -99,11 +113,9 @@ export default function ReviewForm({
             </form>
           )}
 
+          {/* Step 2: 인터뷰형 질문 폼 */}
           {step === 2 && (
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-10 bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-lg border border-gray-200 text-gray-800"
-            >
+            <form onSubmit={handleSubmit} className={formStep2Class}>
               <h2 className="text-2xl font-semibold text-center">
                 여행에 대한 질문에 답해주세요
               </h2>
@@ -119,7 +131,7 @@ export default function ReviewForm({
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="px-6 py-3 text-sm font-semibold rounded-full bg-white/70 text-gray-800 shadow-md hover:shadow-xl hover:bg-white transition-all backdrop-blur-sm border border-white/30"
+                  className={`${stepButtonBase} bg-white/70`}
                 >
                   ← 이전 단계로 돌아가기
                 </button>
@@ -138,8 +150,8 @@ export default function ReviewForm({
             </form>
           )}
 
-          {/* 안내 박스 */}
-          <div className="mt-12 bg-white/80 backdrop-blur-md text-sm text-gray-700 px-6 py-5 rounded-xl shadow-sm leading-relaxed">
+          {/* 리뷰 작성 가이드 안내 */}
+          <section className="mt-12 bg-white/80 backdrop-blur-md text-sm text-gray-700 px-6 py-5 rounded-xl shadow-sm leading-relaxed">
             <p className="font-semibold text-gray-800 mb-2">리뷰 작성 안내</p>
             <ul className="list-disc list-inside space-y-1 leading-relaxed">
               <li>
@@ -163,9 +175,11 @@ export default function ReviewForm({
                 여행자들과 함께 공유됩니다.
               </li>
             </ul>
-          </div>
+          </section>
         </div>
       </div>
     </section>
   );
 }
+
+export default React.memo(ReviewForm);

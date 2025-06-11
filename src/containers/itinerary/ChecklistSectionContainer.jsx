@@ -3,6 +3,11 @@ import { debounce } from "lodash";
 import { updateChecklist } from "@/services/itinerary/updateChecklist";
 import { useParams } from "react-router-dom";
 import ChecklistSection from "@/components/itinerary/ChecklistSection";
+import { toast } from "react-hot-toast";
+/**
+ * ChecklistSectionContainer
+ * - 필수/선택 준비물 관리 및 자동 저장 처리
+ */
 
 export default function ChecklistSectionContainer({ checklist }) {
   const { id: itineraryId } = useParams();
@@ -26,8 +31,8 @@ export default function ChecklistSectionContainer({ checklist }) {
 
   const debouncedSave = debounce((checklistToSave) => {
     if (!itineraryId) return;
-    updateChecklist(itineraryId, checklistToSave).catch((err) =>
-      console.error("자동 저장 실패:", err)
+    updateChecklist(itineraryId, checklistToSave).catch(() =>
+      toast.error("자동 저장에 실패했습니다.")
     );
   }, 500);
 

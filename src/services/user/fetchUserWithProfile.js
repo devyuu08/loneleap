@@ -8,7 +8,7 @@ import { extractSafeUser } from "@/utils/extractSafeUser";
  * @param {User} firebaseUser
  * @param {Dispatch} dispatch
  */
-export const fetchUserWithProfile = async (firebaseUser, dispatch) => {
+export async function fetchUserWithProfile(firebaseUser, dispatch) {
   if (!firebaseUser) return;
 
   const uid = firebaseUser.uid;
@@ -62,6 +62,8 @@ export const fetchUserWithProfile = async (firebaseUser, dispatch) => {
 
     dispatch(setUser(safeUser));
   } catch (error) {
-    console.error("사용자 정보 불러오기 실패:", error);
+    if (import.meta.env.DEV) {
+      console.error("사용자 정보 불러오기 실패:", error);
+    }
   }
-};
+}

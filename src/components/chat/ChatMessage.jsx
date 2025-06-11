@@ -1,3 +1,4 @@
+import React, { useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { formatRelative } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -5,7 +6,13 @@ import { ko } from "date-fns/locale";
 import ReportModal from "@/components/common/modal/ReportModal.jsx";
 import ModalPortal from "@/components/common/modal/ModalPortal";
 
-export default function ChatMessage({
+/**
+ * 채팅 메시지 컴포넌트
+ * - 일반 메시지, 시스템 메시지(date, join, leave) 모두 처리
+ * - 본인 메시지 여부에 따라 정렬 및 스타일 다르게 적용
+ * - 메시지 신고 기능 포함 (신고 버튼 + 공통 모달)
+ */
+function ChatMessage({
   message,
   isMine,
   onReport,
@@ -22,6 +29,22 @@ export default function ChatMessage({
     userName,
   } = message;
 
+  // 메시지 시간 포맷팅 (상대 시간)
+  const formattedTime = useMemo(() => {
+    if (!createdAt) return "시간 정보 없음";
+    const dateObj =
+      typeof createdAt.toDate === "function"
+        ? createdAt.toDate()
+        : new Date(createdAt);
+    return formatRelative(dateObj, new Date(), { locale: ko });
+  }, [createdAt]);
+
+  // 신고 모달 열기 핸들러
+  const handleOpenModal = useCallback(() => {
+    setOpenReportModal(true);
+  }, [setOpenReportModal]);
+
+  // 시스템 메시지 처리
   if (type === "system") {
     const systemTextStyles = "text-center text-[12px] my-4";
 
@@ -55,8 +78,15 @@ export default function ChatMessage({
     }
   }
 
+  // 일반 메시지 버블 스타일
+  const messageBubbleMine =
+    "px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm bg-[#5A5A5A] text-white rounded-br-none";
+
+  const messageBubbleOthers =
+    "px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm bg-[#F2F2F2] text-gray-900 rounded-bl-none";
+
   return (
-    <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
+    <article className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div className="max-w-xs">
         {!isMine && (
           <img
@@ -71,20 +101,14 @@ export default function ChatMessage({
           </p>
         )}
 
-        <div
-          className={`px-4 py-2 rounded-xl text-sm leading-relaxed shadow-sm ${
-            isMine
-              ? "bg-[#5A5A5A] text-white rounded-br-none"
-              : "bg-[#F2F2F2] text-gray-900 rounded-bl-none"
-          }`}
-        >
+        <div className={isMine ? messageBubbleMine : messageBubbleOthers}>
           {messageText}
         </div>
 
         {!isMine && (
           <div className="group relative">
             <button
-              onClick={() => setOpenReportModal(true)}
+              onClick={handleOpenModal}
               className="text-xs text-gray-500 mt-1 hover:underline opacity-50 group-hover:opacity-100 transition-opacity"
               aria-label="이 메시지 신고하기"
             >
@@ -93,13 +117,16 @@ export default function ChatMessage({
           </div>
         )}
 
-        <p className="text-[10px] text-gray-400 mt-1 text-right">
-          {createdAt
-            ? typeof createdAt.toDate === "function"
-              ? formatRelative(createdAt.toDate(), new Date(), { locale: ko })
-              : formatRelative(new Date(createdAt), new Date(), { locale: ko })
-            : "시간 정보 없음"}
-        </p>
+        <time
+          className="text-[10px] text-gray-400 mt-1 text-right block"
+          dateTime={
+            createdAt
+              ? new Date(createdAt.toDate?.() || createdAt).toISOString()
+              : undefined
+          }
+        >
+          {formattedTime}
+        </time>
 
         {/* 공통 신고 모달 */}
         {openReportModal && (
@@ -112,7 +139,7 @@ export default function ChatMessage({
           </ModalPortal>
         )}
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -124,3 +151,5 @@ ChatMessage.propTypes = {
   setOpenReportModal: PropTypes.func.isRequired,
   isReporting: PropTypes.bool.isRequired,
 };
+
+export default React.memo(ChatMessage);

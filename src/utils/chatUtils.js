@@ -1,6 +1,12 @@
 import dayjs from "dayjs";
 
-export const insertDateSeparators = (messages) => {
+/**
+ * 채팅 메시지 목록에 날짜 구분 시스템 메시지를 삽입합니다.
+ * @param {Array} messages - 정렬된 메시지 배열
+ * @returns {Array} 날짜 구분이 삽입된 메시지 배열
+ */
+
+export function insertDateSeparators(messages) {
   const result = [];
   let lastDate = null;
 
@@ -24,4 +30,4 @@ export const insertDateSeparators = (messages) => {
   });
 
   return result;
-};
+}

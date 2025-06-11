@@ -6,6 +6,12 @@ import { useChatRooms } from "@/hooks/chat/useChatRooms";
 import ChatRoomList from "@/components/chat/ChatRoomList";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
 
+/**
+ * ChatRoomListContainer
+ * - 채팅방 목록 필터링 및 검색 기능 포함
+ * - 전체/카테고리별 분류 및 검색어 필터링 적용
+ */
+
 export default function ChatRoomListContainer() {
   const [activeFilter, setActiveFilter] = useState("전체");
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -13,25 +19,18 @@ export default function ChatRoomListContainer() {
   const navigate = useNavigate();
   const { data: chatrooms, isLoading } = useChatRooms();
 
+  const roomsByCategory = useMemo(() => {
+    return activeFilter === "전체"
+      ? chatrooms
+      : chatrooms.filter((room) => room.category === activeFilter);
+  }, [chatrooms, activeFilter]);
+
   const filteredRooms = useMemo(() => {
-    if (!Array.isArray(chatrooms)) return [];
-
-    let result = [...chatrooms];
-
-    // 1. 카테고리 필터링
-    if (activeFilter !== "전체") {
-      result = result.filter((room) => room.category === activeFilter);
-    }
-
-    // 2. 검색 필터링
-    if (searchKeyword.trim()) {
-      result = result.filter((room) =>
-        room.name?.toLowerCase().includes(searchKeyword.trim().toLowerCase())
-      );
-    }
-
-    return result;
-  }, [chatrooms, activeFilter, searchKeyword]);
+    if (!searchKeyword.trim()) return roomsByCategory;
+    return roomsByCategory.filter((room) =>
+      room.name?.toLowerCase().includes(searchKeyword.trim().toLowerCase())
+    );
+  }, [roomsByCategory, searchKeyword]);
 
   if (isLoading) return <LoadingSpinner />;
 

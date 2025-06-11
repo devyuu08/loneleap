@@ -1,7 +1,13 @@
+import React from "react";
 import PropTypes from "prop-types";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import {
+  formBaseStyle,
+  formVisualStyle,
+  getFormBorderColor,
+} from "@/styles/formStyles";
 
-export default function FormInput({
+function FormInput({
   label,
   id,
   name,
@@ -11,12 +17,6 @@ export default function FormInput({
   placeholder = "",
   error,
 }) {
-  const inputBaseStyle =
-    "w-full px-4 py-3 rounded-md border text-sm focus:outline-none focus:ring-2";
-  const borderColor = error ? "border-red-400" : "border-gray-300";
-  const visualStyle =
-    "bg-white/70 text-gray-800 placeholder:text-gray-400 focus:ring-gray-700";
-
   return (
     <div>
       {label && (
@@ -35,7 +35,9 @@ export default function FormInput({
         onChange={onChange}
         placeholder={placeholder}
         required
-        className={`${inputBaseStyle} ${borderColor} ${visualStyle}`}
+        className={`${formBaseStyle} ${getFormBorderColor(
+          error
+        )} ${formVisualStyle}`}
       />
       {error && <ErrorMessage message={error} />}
     </div>
@@ -52,3 +54,5 @@ FormInput.propTypes = {
   placeholder: PropTypes.string,
   error: PropTypes.string,
 };
+
+export default React.memo(FormInput);

@@ -1,6 +1,13 @@
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { db } from "@/services/firebase";
 
+/**
+ * 일정 목록을 최신순으로 조회
+ *
+ * @param {number} limitCount - 가져올 일정 개수 제한
+ * @returns {Promise<object[]>} - 일정 데이터 배열
+ */
+
 export async function fetchItineraries(limitCount = 20) {
   const q = query(
     collection(db, "itineraries"),

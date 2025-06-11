@@ -14,6 +14,7 @@ export default function LoadingSpinner({ size = "md", fullscreen = true }) {
       }`}
       role="status"
       aria-label="Loading"
+      aria-live="assertive"
     >
       <div
         className={`rounded-full border-gray-300 border-t-gray-800 animate-spin ${sizeMap[size]}`}

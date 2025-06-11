@@ -6,14 +6,17 @@ import { updateUserState } from "@/services/user/updateUserState";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/services/firebase";
 
-export const useUser = () => {
+// 현재 로그인된 사용자 정보를 반환하는 커스텀 훅
+export function useUser() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const isLoading = useSelector((state) => state.user.isLoading);
 
   useEffect(() => {
+    // Firebase 인증 상태 변화 감지
     const unsubscribe = observeAuth(async (firebaseUser) => {
       if (firebaseUser) {
+        // 공개 프로필 정보(bio) 조회
         let bio = "";
         try {
           const publicDoc = await getDoc(
@@ -22,10 +25,9 @@ export const useUser = () => {
           if (publicDoc.exists()) {
             bio = publicDoc.data().bio || "";
           }
-        } catch (err) {
-          console.warn("bio 가져오기 실패:", err);
-        }
+        } catch (err) {}
 
+        // Redux 상태에 사용자 정보 저장
         updateUserState({
           dispatch,
           user: firebaseUser,
@@ -34,12 +36,13 @@ export const useUser = () => {
           bio,
         });
       } else {
+        // 로그아웃 시 사용자 상태 초기화
         dispatch(clearUser());
       }
     });
 
-    return () => unsubscribe();
+    return () => unsubscribe(); // cleanup 함수 등록
   }, [dispatch]);
 
   return { user, isLoading };
-};
+}

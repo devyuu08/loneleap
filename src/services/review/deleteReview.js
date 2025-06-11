@@ -1,6 +1,12 @@
 import { db } from "@/services/firebase";
 import { doc, getDoc, deleteDoc } from "firebase/firestore";
 
+/**
+ * 특정 리뷰를 삭제
+ * @param {string} id - 리뷰 ID
+ * @returns {Promise<boolean>}
+ */
+
 export async function deleteReview(id) {
   try {
     // 문서 존재 확인
@@ -15,7 +21,9 @@ export async function deleteReview(id) {
     await deleteDoc(docRef);
     return true;
   } catch (error) {
-    console.error("리뷰 삭제 중 오류:", error);
+    if (import.meta.env.DEV) {
+      console.error("리뷰 삭제 중 오류:", error);
+    }
     throw error;
   }
 }

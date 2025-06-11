@@ -2,6 +2,13 @@ import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import { uploadImage } from "@/utils/uploadImage";
 
+/**
+ * 리뷰 내용을 수정
+ * @param {string} id - 리뷰 ID
+ * @param {Object} updatedData - 수정할 데이터
+ * @returns {Promise<boolean>}
+ */
+
 export async function updateReview(id, updatedData) {
   try {
     const docRef = doc(db, "reviews", id);
@@ -18,7 +25,9 @@ export async function updateReview(id, updatedData) {
       try {
         imageUrl = await uploadImage(updatedData.image, "reviews");
       } catch (uploadErr) {
-        console.error("이미지 업로드 실패:", uploadErr);
+        if (import.meta.env.DEV) {
+          console.error("이미지 업로드 실패:", uploadErr);
+        }
         throw new Error("이미지 업로드에 실패했습니다. 다시 시도해주세요.");
       }
     } else if (typeof updatedData.image === "string") {
@@ -44,7 +53,9 @@ export async function updateReview(id, updatedData) {
     await updateDoc(docRef, dataToUpdate);
     return true;
   } catch (error) {
-    console.error("리뷰 수정 중 오류 발생:", error);
+    if (import.meta.env.DEV) {
+      console.error("리뷰 수정 중 오류 발생:", error);
+    }
     throw error;
   }
 }

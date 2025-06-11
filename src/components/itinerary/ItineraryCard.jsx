@@ -1,9 +1,15 @@
+import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { Map } from "lucide-react";
 import SkeletonImage from "@/components/common/loading/SkeletonImage";
 
-export default function ItineraryCard({ itinerary }) {
+/**
+ * ItineraryCard – 여행 일정 미리보기 카드 컴포넌트
+ * - 일정 제목, 날짜, 요약, 작성자 정보를 표시
+ * - 클릭 또는 Enter/Space 키로 상세 페이지 이동
+ */
+
+function ItineraryCard({ itinerary }) {
   const navigate = useNavigate();
   const {
     id,
@@ -12,7 +18,8 @@ export default function ItineraryCard({ itinerary }) {
     startDate,
     endDate,
     imageUrl,
-    placeCount = 0,
+    summary,
+    createdBy,
   } = itinerary || {};
 
   const dateRange = startDate
@@ -21,82 +28,68 @@ export default function ItineraryCard({ itinerary }) {
       : startDate
     : "날짜 미정";
 
+  const handleNavigation = () => navigate(`/itinerary/${id}`);
+
   return (
-    <div
+    <article
       onClick={() => navigate(`/itinerary/${id}`)}
       role="button"
       tabIndex="0"
+      aria-label={`일정 카드: ${title || "제목 없음"}`}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          navigate(`/itinerary/${id}`);
-        }
+        if (e.key === "Enter" || e.key === " ") handleNavigation();
       }}
       className="group bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden cursor-pointer"
     >
-      {/* 썸네일 이미지 섹션 */}
+      {/* 썸네일 이미지 */}
       <div className="relative h-56">
         <SkeletonImage
           src={imageUrl}
-          alt={`${location} 대표 이미지`}
+          alt={`${location || "여행지"} 대표 이미지`}
           objectFit="cover"
+          size="w-full h-full"
         />
 
-        {/* 위치 태그 */}
+        {/* 지역 태그 */}
         <span className="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1 rounded-full">
-          {location}
+          {location || "지역 미정"}
         </span>
       </div>
 
-      {/* 카드 본문 섹션 */}
+      {/* 카드 본문 */}
       <div className="p-4 space-y-1">
-        {/* 날짜 표시 */}
-        <div className="flex justify-between items-center text-xs text-gray-500">
-          <span>{dateRange}</span>
-        </div>
+        {/* 날짜 */}
+        <time className="block text-xs text-gray-500">{dateRange}</time>
 
-        {/* 일정 제목 */}
+        {/* 제목 */}
         <h3 className="text-base font-semibold text-gray-900 line-clamp-1">
           {title || "제목 없음"}
         </h3>
 
-        {/* 요약 정보 */}
+        {/* 요약 설명 */}
         <p className="text-sm text-gray-500 line-clamp-2">
-          {itinerary.summary || "여행 요약 정보가 없습니다."}
+          {summary || "여행 요약 정보가 없습니다."}
         </p>
 
-        {/* 장소 수 + 작성자 정보 */}
-        <div className="flex justify-between items-center mt-2">
-          {/* 장소 개수 */}
-          <div className="flex items-center gap-1 text-xs text-gray-400">
-            <Map className="w-4 h-4" />
-            {placeCount}개 장소
-          </div>
-
-          {/* 작성자 정보 */}
-          {itinerary.createdBy && (
+        {/* 작성자 정보 */}
+        {createdBy && (
+          <div className="flex justify-end items-center mt-2">
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-500 truncate max-w-[100px]">
-                {itinerary.createdBy.displayName || "익명"}
+                {createdBy.displayName || "익명"}
               </span>
-              <img
-                src={
-                  itinerary.createdBy?.photoURL || "/images/default-profile.png"
-                }
-                alt="작성자"
-                className="w-5 h-5 rounded-full object-cover"
-                onError={(e) => {
-                  const fallback = "/images/default-profile.png";
-                  if (!e.target.dataset.errorHandled) {
-                    e.target.src = fallback;
-                    e.target.dataset.errorHandled = "true";
-                  }
-                }}
+              <SkeletonImage
+                src={createdBy.photoURL || "/images/default-profile.png"}
+                alt="작성자 프로필 이미지"
+                className="rounded-full object-cover"
+                objectFit="cover"
+                size="w-6 h-6"
               />
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </div>
+    </article>
   );
 }
 
@@ -117,3 +110,5 @@ ItineraryCard.propTypes = {
     }),
   }).isRequired,
 };
+
+export default React.memo(ItineraryCard);

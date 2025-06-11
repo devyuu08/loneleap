@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
@@ -10,6 +10,13 @@ import { joinRoom } from "@/services/chat/joinRoom";
 import { leaveRoom } from "@/services/chat/leaveRoom";
 import { fetchRoomInfo } from "@/services/chat/fetchRoomInfo";
 import { QUERY_KEYS } from "@/constants/queryKeys";
+import toast from "react-hot-toast";
+
+/**
+ * ChatRoomDetailContainer
+ * - 채팅방 상세 정보 및 메시지 리스트 로딩
+ * - 참여자 등록 및 메시지 스크롤 유지 처리 포함
+ */
 
 export default function ChatRoomDetailContainer({ roomId }) {
   const scrollRef = useRef(null);
@@ -29,10 +36,11 @@ export default function ChatRoomDetailContainer({ roomId }) {
     const execute = async () => {
       if (!roomId || !currentUser?.uid || executedRef.current) return;
       executedRef.current = true;
+
       try {
         await joinRoom({ roomId, user: currentUser });
-      } catch (err) {
-        console.error("채팅방 참여자 등록 실패:", err);
+      } catch {
+        toast.error("채팅방 참여 등록 중 문제가 발생했습니다.");
       }
     };
     execute();
@@ -48,7 +56,7 @@ export default function ChatRoomDetailContainer({ roomId }) {
         const data = await fetchRoomInfo(roomId);
         setRoomInfo(data);
       } catch (err) {
-        console.error("채팅방 정보 가져오기 실패:", err);
+        setRoomInfo({ title: "채팅방 정보를 불러올 수 없습니다." });
       } finally {
         setRoomInfoLoading(false);
       }
@@ -64,15 +72,8 @@ export default function ChatRoomDetailContainer({ roomId }) {
     }
   }, [messages]);
 
-  if (!roomId) {
-    return (
-      <div className="text-center text-gray-500">채팅방 ID가 없습니다.</div>
-    );
-  }
-
-  const handleLeaveRoom = async () => {
+  const handleLeaveRoom = useCallback(async () => {
     if (!confirm("정말 채팅방을 나가시겠어요?")) return;
-
     try {
       await leaveRoom({ roomId, user: currentUser });
       await queryClient.invalidateQueries(
@@ -80,10 +81,15 @@ export default function ChatRoomDetailContainer({ roomId }) {
       );
       navigate("/chat");
     } catch (err) {
-      alert("채팅방 나가기 중 오류 발생");
-      console.error(err);
+      toast.error("채팅방 나가기 중 오류 발생");
     }
-  };
+  }, [roomId, currentUser, queryClient, navigate]);
+
+  if (!roomId) {
+    return (
+      <div className="text-center text-gray-500">채팅방 ID가 없습니다.</div>
+    );
+  }
 
   if (messageLoading || roomInfoLoading) return <LoadingSpinner />;
 

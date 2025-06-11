@@ -12,6 +12,15 @@ import {
 } from "firebase/firestore";
 import { db } from "@/services/firebase";
 
+/**
+ * 특정 리뷰를 신고
+ * @param {Object} params
+ * @param {string} params.reviewId - 리뷰 ID
+ * @param {string} params.reason - 신고 사유
+ * @param {string} params.reporterId - 신고자 ID
+ * @returns {Promise<void>}
+ */
+
 export async function reportReview({ reviewId, reason, reporterId }) {
   if (!reviewId) throw new Error("리뷰 ID가 필요합니다.");
   if (!reason || reason.trim() === "")

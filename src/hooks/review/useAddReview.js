@@ -4,12 +4,12 @@ import { createReview } from "@/services/review/createReview";
 import { useMutationWithFeedback } from "@/hooks/common/useMutationWithFeedback";
 
 /**
- * 리뷰 추가 기능을 제공하는 커스텀 훅
- * @param {Object} options - 훅 옵션
- * @param {Function} options.onSuccessCallback - 성공 시 콜백
- * @param {Function} options.onErrorCallback - 실패 시 콜백
- * @returns {Object} 리뷰 추가 관련 함수와 상태
+ * useAddReview
+ * - 리뷰 등록을 위한 mutation 훅
+ * - 인증된 사용자만 리뷰 등록 가능
+ * - 등록 후 리뷰 목록 캐시 무효화 및 콜백 실행 가능
  */
+
 export default function useAddReview({
   onSuccessCallback,
   onErrorCallback,

@@ -1,9 +1,14 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useItineraries } from "@/hooks/itinerary/useItineraries";
 
 import ItineraryList from "@/components/itinerary/ItineraryList";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 import HeroWithFilterSearch from "@/components/common/layout/HeroWithFilterSearch";
+
+/**
+ * ItineraryListContainer
+ * - 전체 여행 일정 목록 조회 및 필터/검색 상태 관리
+ */
 
 const FILTERS = ["최신순", "오래된순"];
 
@@ -15,25 +20,29 @@ export default function ItineraryListContainer() {
   const filteredItineraries = useMemo(() => {
     if (!Array.isArray(itineraries)) return [];
 
-    let result = [...itineraries];
     const convertToDate = (ts) => (ts ? new Date(ts) : new Date(0));
+    let sorted = itineraries;
 
-    result.sort((a, b) =>
-      activeFilter === "최신순"
-        ? convertToDate(b.createdAt) - convertToDate(a.createdAt)
-        : convertToDate(a.createdAt) - convertToDate(b.createdAt)
-    );
-
-    if (searchKeyword.trim()) {
-      result = result.filter((itinerary) =>
-        itinerary.location
-          ?.toLowerCase()
-          .includes(searchKeyword.trim().toLowerCase())
+    if (activeFilter === "오래된순") {
+      sorted = [...itineraries].sort(
+        (a, b) => convertToDate(a.createdAt) - convertToDate(b.createdAt)
       );
     }
 
-    return result;
+    return sorted.filter((itinerary) =>
+      itinerary.location
+        ?.toLowerCase()
+        .includes(searchKeyword.trim().toLowerCase())
+    );
   }, [itineraries, activeFilter, searchKeyword]);
+
+  const handleFilterChange = useCallback((filter) => {
+    setActiveFilter(filter);
+  }, []);
+
+  const handleSearchChange = useCallback((keyword) => {
+    setSearchKeyword(keyword);
+  }, []);
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -61,9 +70,9 @@ export default function ItineraryListContainer() {
         count={itineraries.length}
         filters={FILTERS}
         activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
+        onFilterChange={handleFilterChange}
         searchKeyword={searchKeyword}
-        onSearchChange={setSearchKeyword}
+        onSearchChange={handleSearchChange}
         searchPlaceholder="여행지 뱃지로 검색"
       />
 

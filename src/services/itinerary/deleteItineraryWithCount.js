@@ -3,8 +3,13 @@ import { updateDoc, doc, increment } from "firebase/firestore";
 import { auth, db } from "@/services/firebase";
 
 /**
- * 일정 삭제 + 카운트 감소를 함께 처리
+ * 일정을 삭제하고 사용자 문서의 itineraryCount를 감소시킴
+ *
+ * @param {object} param
+ * @param {string} param.itineraryId - 삭제할 일정의 ID
+ * @returns {Promise<void>}
  */
+
 export async function deleteItineraryAndDecreaseCount({ itineraryId }) {
   await deleteItinerary(itineraryId);
 
@@ -16,6 +21,8 @@ export async function deleteItineraryAndDecreaseCount({ itineraryId }) {
       itineraryCount: increment(-1),
     });
   } catch (err) {
-    console.warn("itineraryCount 감소 실패:", err);
+    if (import.meta.env.DEV) {
+      console.warn("itineraryCount 감소 실패:", err);
+    }
   }
 }

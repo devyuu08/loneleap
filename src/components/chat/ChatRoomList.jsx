@@ -2,8 +2,16 @@ import ChatRoomCard from "@/components/chat/ChatRoomCard";
 import EmptyState from "@/components/common/feedback/EmptyState";
 import { MessageSquare } from "lucide-react";
 import HeroWithFilterSearch from "@/components/common/layout/HeroWithFilterSearch";
+import { useCallback } from "react";
 
 const CHATROOM_FILTERS = ["전체", "동행", "정보"];
+
+/**
+ * 채팅방 목록 화면 컴포넌트
+ * - 필터/검색 바 Hero 포함
+ * - 조건에 맞는 채팅방 리스트 렌더링
+ * - 채팅방 생성 버튼 포함
+ */
 
 export default function ChatRoomList({
   chatrooms,
@@ -14,8 +22,13 @@ export default function ChatRoomList({
   setSearchKeyword,
   onCreate,
 }) {
+  const handleCreateClick = useCallback(() => {
+    onCreate();
+  }, [onCreate]);
+
   return (
     <>
+      {/* 필터 + 검색 Hero 섹션 */}
       <HeroWithFilterSearch
         imageSrc="/images/chat-list-hero.jpg"
         title="함께 떠나는 대화, 여행의 또 다른 시작"
@@ -29,7 +42,11 @@ export default function ChatRoomList({
         onSearchChange={setSearchKeyword}
         searchPlaceholder="채팅방 제목으로 검색"
       />
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      {/* 채팅방 리스트 영역 */}
+      <section
+        className="max-w-6xl mx-auto px-6 py-12"
+        aria-label="채팅방 목록"
+      >
         {filteredRooms.length === 0 ? (
           <EmptyState
             icon={<MessageSquare className="w-8 h-8 text-gray-500" />}
@@ -43,10 +60,12 @@ export default function ChatRoomList({
             ))}
           </div>
         )}
-      </div>
+      </section>
+
+      {/* 채팅방 생성 버튼 */}
       <button
         className="fixed bottom-6 right-6 z-50 px-5 py-3 bg-black text-white text-sm font-medium rounded-full shadow-lg hover:bg-gray-800 transition"
-        onClick={onCreate}
+        onClick={handleCreateClick}
         aria-label="새 채팅방 만들기"
       >
         + 새 채팅방

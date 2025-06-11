@@ -8,6 +8,13 @@ import HeroWithFilterSearch from "@/components/common/layout/HeroWithFilterSearc
 
 import { AlertTriangle } from "lucide-react";
 
+/**
+ * ReviewListContainer
+ * - 전체 리뷰 목록을 조회하고 정렬/검색 기능을 적용하는 컨테이너 컴포넌트
+ * - 정렬 기준(최신순/별점순/좋아요순)과 키워드 검색을 통해 리뷰 데이터를 필터링
+ * - 필터링된 결과를 ReviewList 컴포넌트에 전달하여 리스트 UI를 렌더링
+ */
+
 const FILTERS = ["최신순", "별점순", "좋아요순"];
 
 export default function ReviewListContainer() {
@@ -22,9 +29,7 @@ export default function ReviewListContainer() {
     let result = [...reviews];
 
     // 정렬
-    if (sort === "최신순") {
-      result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    } else if (sort === "별점순") {
+    if (sort === "별점순") {
       result.sort((a, b) => b.rating - a.rating);
     } else if (sort === "좋아요순") {
       result.sort((a, b) => (b.likesCount || 0) - (a.likesCount || 0));
@@ -65,7 +70,7 @@ export default function ReviewListContainer() {
         onFilterChange={setSort}
         searchKeyword={searchKeyword}
         onSearchChange={setSearchKeyword}
-        placeholder="여행지 이름으로 리뷰 검색"
+        searchPlaceholder="여행지 뱃지로 리뷰 검색"
       />
 
       {/* 리뷰 리스트 UI 분리 */}

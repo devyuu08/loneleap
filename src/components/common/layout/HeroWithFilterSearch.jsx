@@ -17,6 +17,14 @@ export default function HeroWithFilterSearch({
   searchPlaceholder = "검색어 입력",
   showSearch = true,
 }) {
+  const filterButtonBase =
+    "px-4 py-1.5 rounded-full text-sm border whitespace-nowrap transition";
+  const filterButtonActive = "bg-white text-black";
+  const filterButtonInactive = "bg-white/20 text-white hover:bg-white/30";
+
+  const searchInputClass =
+    "w-full pl-10 pr-4 py-2 rounded-full bg-white/90 text-gray-800 text-sm border border-white focus:outline-none focus:ring-1 focus:ring-white";
+
   return (
     <HeroSection imageSrc={imageSrc}>
       <div className="space-y-6 w-full flex flex-col items-center">
@@ -27,18 +35,18 @@ export default function HeroWithFilterSearch({
           count={count}
         />
 
-        <div className="mt-8 flex flex-wrap justify-center items-center gap-4 w-full">
+        <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap justify-center items-center gap-4 w-full">
           {/* 필터 */}
-          <div className="flex gap-2">
+          <div className="flex flex-wrap justify-center gap-2 max-w-full">
             {filters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => onFilterChange(filter)}
-                className={`px-4 py-1.5 rounded-full text-sm border ${
+                className={`${filterButtonBase} ${
                   activeFilter === filter
-                    ? "bg-white text-black"
-                    : "bg-white/20 text-white hover:bg-white/30"
-                } transition`}
+                    ? filterButtonActive
+                    : filterButtonInactive
+                }`}
               >
                 {filter}
               </button>
@@ -47,14 +55,15 @@ export default function HeroWithFilterSearch({
 
           {/* 검색창 */}
           {showSearch && (
-            <div className="relative w-full max-w-xs">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 w-4 h-4" />
+            <div className="relative w-full sm:w-auto max-w-xs min-w-[200px]">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-black/70 w-4 h-4" />
               <input
                 type="text"
                 value={searchKeyword}
                 onChange={(e) => onSearchChange(e.target.value)}
                 placeholder={searchPlaceholder}
-                className="w-full pl-10 pr-4 py-2 rounded-full bg-white/90 text-gray-800 text-sm border border-white focus:outline-none focus:ring-1 focus:ring-white"
+                aria-label="검색어 입력"
+                className={searchInputClass}
               />
             </div>
           )}

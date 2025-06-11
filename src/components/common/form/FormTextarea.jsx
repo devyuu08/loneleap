@@ -1,7 +1,13 @@
+import React from "react";
 import ErrorMessage from "@/components/common/feedback/ErrorMessage";
 import PropTypes from "prop-types";
+import {
+  getFormBorderColor,
+  formBaseStyle,
+  formVisualStyle,
+} from "@/styles/formStyles";
 
-export default function FormTextarea({
+function FormTextarea({
   label,
   id,
   name,
@@ -11,12 +17,6 @@ export default function FormTextarea({
   error,
   rows = 3,
 }) {
-  const baseStyle =
-    "w-full px-4 py-3 rounded-md border text-sm focus:outline-none focus:ring-2";
-  const borderColor = error ? "border-red-400" : "border-gray-300";
-  const visualStyle =
-    "bg-white/70 text-gray-800 placeholder:text-gray-400 focus:ring-gray-700";
-
   return (
     <div>
       {label && (
@@ -34,7 +34,9 @@ export default function FormTextarea({
         onChange={onChange}
         placeholder={placeholder}
         rows={rows}
-        className={`${baseStyle} ${borderColor} ${visualStyle}`}
+        className={`${formBaseStyle} ${getFormBorderColor(
+          error
+        )} ${formVisualStyle}`}
       />
       {error && <ErrorMessage message={error} />}
     </div>
@@ -51,3 +53,5 @@ FormTextarea.propTypes = {
   error: PropTypes.string,
   rows: PropTypes.number,
 };
+
+export default React.memo(FormTextarea);

@@ -17,30 +17,38 @@ export default function LoginForm({
   onGoogleLogin,
 }) {
   return (
-    <div className="relative min-h-screen bg-gray-100">
-      {/* 배경 이미지 */}
+    <main className="relative min-h-screen bg-gray-100">
+      {/* 배경 이미지 및 반투명 오버레이 */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url('/images/auth-bg.jpg')` }}
         aria-hidden="true"
       />
-
-      {/* 어두운 오버레이 */}
       <div
         className="absolute inset-0 bg-black bg-opacity-20"
         aria-hidden="true"
       />
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen py-32 px-4 sm:px-6 lg:px-8">
+      {/* 로그인 카드 */}
+      <section className="relative z-10 flex items-center justify-center min-h-screen py-32 px-4 sm:px-6 lg:px-8">
         <div className="bg-white/50 w-full max-w-sm p-8 rounded-xl shadow-sm border backdrop-blur-md">
-          <div className="text-center mb-8">
+          {/* 브랜드 타이틀 */}
+          <header className="text-center mb-8">
             <h1 className="text-xl font-semibold text-gray-800">LONELEAP</h1>
             <p className="mt-1 text-sm text-gray-500">
               혼자 떠나는 여정, 스스로를 향한 도약
             </p>
-          </div>
+          </header>
 
-          <form className="space-y-5" onSubmit={onSubmit}>
+          {/* 로그인 폼 */}
+          <form
+            className="space-y-5"
+            onSubmit={(e) => {
+              e.preventDefault();
+              onSubmit(); // => LoginFormContainer → useLogin → mutate()
+            }}
+          >
+            {/* 이메일 입력 */}
             <FormInput
               label="이메일"
               id="email"
@@ -50,6 +58,8 @@ export default function LoginForm({
               value={email}
               onChange={onEmailChange}
             />
+
+            {/* 비밀번호 입력 */}
             <FormInput
               label="비밀번호"
               id="password"
@@ -59,20 +69,24 @@ export default function LoginForm({
               onChange={onPasswordChange}
             />
 
+            {/* 이메일 로그인 버튼 */}
             <FormSubmitButton
               isLoading={isEmailLoading}
               label="로그인"
               variant="light"
             />
 
+            {/* 오류 메시지 출력 */}
             {error && <ErrorMessage message={error} align="center" />}
 
+            {/* 구분선 */}
             <div className="flex items-center gap-2 text-sm text-gray-700">
               <div className="h-px flex-1 bg-gray-500" />
               또는
               <div className="h-px flex-1 bg-gray-500" />
             </div>
 
+            {/* 구글 로그인 버튼 */}
             <button
               type="button"
               onClick={onGoogleLogin}
@@ -89,10 +103,12 @@ export default function LoginForm({
               )}
             </button>
 
+            {/* 네이버 로그인 버튼 */}
             <LoginWithNaverButton />
           </form>
 
-          <div className="flex items-center justify-between mt-6 text-sm text-gray-600">
+          {/* 회원가입 안내 */}
+          <footer className="flex items-center justify-between mt-6 text-sm text-gray-600">
             아직 계정이 없으신가요?
             <Link
               to="/signup"
@@ -100,9 +116,9 @@ export default function LoginForm({
             >
               회원가입하기
             </Link>
-          </div>
+          </footer>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

@@ -22,7 +22,7 @@ export default function SignUpForm({
   onSubmit,
 }) {
   return (
-    <div className="relative min-h-screen bg-gray-100">
+    <main className="relative min-h-screen bg-gray-100">
       {/* 배경 이미지 */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -36,16 +36,20 @@ export default function SignUpForm({
         aria-hidden="true"
       />
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen py-32 px-4 sm:px-6 lg:px-8">
+      {/* 회원가입 카드 컨테이너 */}
+      <section className="relative z-10 flex items-center justify-center min-h-screen py-32 px-4 sm:px-6 lg:px-8">
         <div className="bg-white/50 w-full max-w-sm p-8 rounded-xl shadow-sm border backdrop-blur-md">
-          <div className="text-center mb-8">
+          {/* 서비스 브랜드 타이틀 */}
+          <header className="text-center mb-8">
             <h1 className="text-xl font-semibold text-gray-800">LONELEAP</h1>
             <p className="mt-1 text-sm text-gray-500">
               혼자 떠나는 여정, 스스로를 향한 도약
             </p>
-          </div>
+          </header>
 
+          {/* 회원가입 입력 폼 */}
           <form className="space-y-5" onSubmit={onSubmit}>
+            {/* 이메일 입력 */}
             <FormInput
               id="email"
               name="email"
@@ -56,18 +60,18 @@ export default function SignUpForm({
               onChange={onEmailChange}
             />
 
-            <div>
-              <FormInput
-                id="nickname"
-                name="nickname"
-                type="text"
-                label="닉네임"
-                placeholder="닉네임을 입력하세요"
-                value={nickname}
-                onChange={onNicknameChange}
-              />
-            </div>
+            {/* 닉네임 입력 */}
+            <FormInput
+              id="nickname"
+              name="nickname"
+              type="text"
+              label="닉네임"
+              placeholder="닉네임을 입력하세요"
+              value={nickname}
+              onChange={onNicknameChange}
+            />
 
+            {/* 비밀번호 입력 + 보기 토글 */}
             <div className="relative">
               <FormInput
                 id="password"
@@ -91,6 +95,7 @@ export default function SignUpForm({
               </button>
             </div>
 
+            {/* 비밀번호 확인 입력 + 보기 토글 */}
             <div className="relative">
               <FormInput
                 id="passwordConfirm"
@@ -119,8 +124,10 @@ export default function SignUpForm({
               </button>
             </div>
 
+            {/* 오류 메시지 출력 */}
             {error && <ErrorMessage message={error} align="center" />}
 
+            {/* 제출 버튼 */}
             <FormSubmitButton
               isLoading={loading}
               label="가입하기"
@@ -128,7 +135,8 @@ export default function SignUpForm({
             />
           </form>
 
-          <p className="flex items-center justify-between text-sm text-gray-600 mt-6">
+          {/* 로그인 페이지 이동 안내 */}
+          <footer className="flex items-center justify-between text-sm text-gray-600 mt-6">
             이미 계정이 있으신가요?{" "}
             <Link
               to="/login"
@@ -136,9 +144,9 @@ export default function SignUpForm({
             >
               로그인
             </Link>
-          </p>
+          </footer>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

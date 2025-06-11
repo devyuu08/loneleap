@@ -19,7 +19,8 @@ service cloud.firestore {
     }
 
     match /itineraries/{itineraryId} {
-      allow read, create: if isSignedIn();
+      allow read: if request.auth != null || resource.data.isPublic == true;
+      allow create: if isSignedIn();
 
       allow update: if isSignedIn() && (
         resource.data.createdBy.uid == request.auth.uid ||

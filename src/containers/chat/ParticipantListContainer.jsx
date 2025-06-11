@@ -4,6 +4,11 @@ import { db } from "@/services/firebase";
 import { useUsersByIds } from "@/hooks/chat/useUsersByIds";
 import ParticipantList from "@/components/chat/ParticipantList";
 
+/**
+ * ParticipantListContainer
+ * - 채팅방 참여자 목록 실시간 조회 및 렌더링
+ */
+
 export default function ParticipantListContainer({ roomId }) {
   const [userIds, setUserIds] = useState([]);
 
@@ -23,7 +28,9 @@ export default function ParticipantListContainer({ roomId }) {
     return () => unsub();
   }, [roomId]);
 
-  const { data: users, isLoading } = useUsersByIds(userIds);
+  const { data: users, isLoading } = useUsersByIds(userIds, {
+    enabled: userIds.length > 0, // 불필요한 쿼리 방지
+  });
 
   return <ParticipantList users={users} isLoading={isLoading} />;
 }
