@@ -37,6 +37,7 @@ export function useToggleReviewLike(reviewId, userId) {
     queryKeysToInvalidate: [
       QUERY_KEYS.REVIEW_LIKE_STATUS(reviewId, userId),
       QUERY_KEYS.REVIEW_DETAIL(reviewId),
+      [QUERY_KEYS.REVIEWS],
     ],
   });
 }
