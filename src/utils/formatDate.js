@@ -33,7 +33,9 @@ export function formatDate(dateValue) {
 
     return "날짜 형식 오류";
   } catch (error) {
-    console.error("날짜 형식 변환 오류:", error);
+    if (import.meta.env.DEV) {
+      console.error("날짜 형식 변환 오류:", error);
+    }
     return "날짜 변환 오류";
   }
 }

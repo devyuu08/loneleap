@@ -61,7 +61,9 @@ export async function createItinerary(itineraryData) {
 
     return docRef.id;
   } catch (error) {
-    console.error("일정 생성 중 오류 발생:", error);
+    if (import.meta.env.DEV) {
+      console.warn("일정 생성 중 오류 발생:", error);
+    }
     throw error;
   }
 }

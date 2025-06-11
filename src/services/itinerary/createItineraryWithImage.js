@@ -42,7 +42,9 @@ export async function createItineraryWithImage(formData, user) {
       itineraryCount: increment(1),
     });
   } catch (err) {
-    console.warn("itineraryCount 증가 실패:", err);
+    if (import.meta.env.DEV) {
+      console.warn("itineraryCount 증가 실패:", err);
+    }
   }
 
   return newId;

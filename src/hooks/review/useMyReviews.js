@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { auth } from "@/services/firebase";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { fetchMyReviews } from "@/services/review/fetchMyReviews";
+import { toast } from "react-hot-toast";
 
 /**
  * useMyReviews
@@ -20,8 +21,8 @@ export function useMyReviews(options = {}) {
     enabled: !loading && !!user?.uid && options.enabled !== false,
     staleTime: 5 * 60 * 1000, // 5분 동안 fresh 상태 유지
     cacheTime: 30 * 60 * 1000, // 30분 동안 캐시 유지
-    onError: (err) => {
-      console.error("내 리뷰 불러오기 오류:", err);
+    onError: () => {
+      toast.error("내 리뷰를 불러오는 중 문제가 발생했습니다.");
     },
     ...options,
   });

@@ -34,7 +34,6 @@ export default function PublicItineraryContainer() {
 
         setItinerary(data);
       } catch (err) {
-        console.error(err);
         setError("일정 조회 중 오류가 발생했습니다.");
       } finally {
         setLoading(false);

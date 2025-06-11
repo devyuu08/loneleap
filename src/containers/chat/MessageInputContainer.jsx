@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import MessageInput from "@/components/chat/MessageInput";
 import { sendChatMessage } from "@/services/chat/sendMessage";
+import toast from "react-hot-toast";
 
 /**
  * MessageInputContainer
@@ -29,8 +30,7 @@ export default function MessageInputContainer({ roomId }) {
       setMessage("");
       inputRef.current?.focus();
     } catch (error) {
-      console.error("메시지 전송 오류:", error);
-      alert("메시지 전송에 실패했습니다.");
+      toast.error("메시지 전송에 실패했습니다.");
     } finally {
       setIsSubmitting(false);
     }

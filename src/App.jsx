@@ -7,6 +7,7 @@ import { clearUser } from "@/store/userSlice";
 
 import { observeAuth } from "@/services/auth/auth";
 import { fetchUserWithProfile } from "@/services/user/fetchUserWithProfile";
+import { Toaster } from "react-hot-toast";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -19,6 +20,7 @@ import ProtectedRoute from "@/components/common/route/ProtectedRoute";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
 import FloatingButtons from "@/components/common/button/FloatingButtons";
 import PublicItineraryPage from "@/pages/itinerary/Public";
+import { CheckCircle, XCircle } from "lucide-react";
 
 const Home = React.lazy(() => import("@/pages/home/Home"));
 const CreateItineraryPage = React.lazy(() =>
@@ -220,6 +222,26 @@ function App() {
 
       {!isHome && <FloatingButtons />}
       {!isChatDetailPage && !isOAuthCallbackPage && <Footer />}
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: "rgba(0, 0, 0, 0.7)",
+            color: "#ffffff",
+            borderRadius: "14px",
+            padding: "14px 18px",
+            fontSize: "15px",
+            backdropFilter: "blur(4px)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
+          },
+          success: {
+            icon: <CheckCircle className="text-blue-400 w-5 h-5" />,
+          },
+          error: {
+            icon: <XCircle className="text-red-400 w-5 h-5" />,
+          },
+        }}
+      />
     </div>
   );
 }

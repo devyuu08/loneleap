@@ -43,7 +43,6 @@ export default function DeleteAccountModal({ isOpen, onClose, onConfirm }) {
     try {
       await onConfirm(password.trim());
     } catch (err) {
-      console.error("계정 탈퇴 실패:", err);
       if (
         err.code === "auth/wrong-password" ||
         err.code === "auth/invalid-credential"

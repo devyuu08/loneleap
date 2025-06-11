@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { fetchComments } from "@/services/review/fetchComments";
+import { toast } from "react-hot-toast";
 
 /**
  * useComments
@@ -17,8 +18,8 @@ export function useComments(reviewId, options = {}) {
     enabled: !!reviewId && options.enabled !== false,
     staleTime: 3 * 60 * 1000, // 캐싱 최적화
     cacheTime: 10 * 60 * 1000,
-    onError: (err) => {
-      console.error("댓글 불러오기 오류:", err);
+    onError: () => {
+      toast.error("댓글을 불러오는 중 문제가 발생했습니다.");
     },
     ...options,
   });

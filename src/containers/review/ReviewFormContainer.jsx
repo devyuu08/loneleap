@@ -12,6 +12,7 @@ import ReviewForm from "@/components/review/ReviewForm";
 import NotFoundMessage from "@/components/common/feedback/NotFoundMessage";
 import LoadingSpinner from "@/components/common/loading/LoadingSpinner";
 import { QUERY_KEYS } from "@/constants/queryKeys";
+import toast from "react-hot-toast";
 
 /**
  * ReviewFormContainer
@@ -74,7 +75,7 @@ export default function ReviewFormContainer({ isEditMode = false }) {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.REVIEW_DETAIL(id) });
       navigate(`/reviews/${id}`);
     },
-    onError: () => alert("리뷰 수정 중 오류가 발생했습니다."),
+    onError: () => toast.error("리뷰 수정 중 오류가 발생했습니다."),
   });
 
   const isSubmitting = isEditMode ? isUpdating : isCreating;

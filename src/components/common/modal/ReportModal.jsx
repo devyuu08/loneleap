@@ -31,7 +31,6 @@ export default function ReportModal({ onClose, onSubmit, isPending }) {
       await onSubmit({ reason });
       onClose();
     } catch (err) {
-      console.error("신고 오류:", err);
       setError("신고 처리 중 문제가 발생했습니다.");
     }
   };

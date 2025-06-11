@@ -36,7 +36,9 @@ export async function fetchItineraryById(id) {
       return null; // 문서가 존재하지 않음
     }
   } catch (error) {
-    console.error("일정 상세 조회 오류:", error);
+    if (import.meta.env.DEV) {
+      console.error("일정 상세 조회 오류:", error);
+    }
     throw error;
   }
 }

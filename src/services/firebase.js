@@ -16,12 +16,22 @@ const requiredEnvVars = [
 
 // 누락된 변수 검사
 let missingVars = [];
+
 requiredEnvVars.forEach((varName) => {
   if (!import.meta.env[varName]) {
-    console.error(`필수 환경 변수 ${varName}이(가) 누락되었습니다.`);
     missingVars.push(varName);
   }
 });
+
+if (missingVars.length > 0) {
+  const message = `필수 환경 변수 누락: ${missingVars.join(", ")}`;
+
+  if (import.meta.env.MODE === "development") {
+    console.warn(message);
+  } else {
+    throw new Error(message);
+  }
+}
 
 // 누락된 변수가 있으면 개발 환경에서는 실행을 중단
 if (missingVars.length > 0 && import.meta.env.DEV) {
@@ -46,14 +56,21 @@ const firebaseConfig = {
 let app;
 try {
   app = initializeApp(firebaseConfig);
-  console.log("Firebase가 정상적으로 초기화되었습니다.");
+
+  if (import.meta.env.DEV) {
+    // 개발 환경에서만 로그 출력
+    console.info("Firebase 초기화 성공");
+  }
 } catch (error) {
-  console.error("Firebase 초기화 중 오류가 발생했습니다:", error);
-  // 전역 에러 상태 설정 또는 오류 화면으로 리디렉션
-  // 예: window.location.href = '/error?type=firebase_init';
-  // 또는 Redux/상태 관리에 오류 상태 저장
-  if (!import.meta.env.DEV) {
-    // 프로덕션 환경에서 사용자에게 오류 표시 또는 재시도 기회 제공
+  const isDev = import.meta.env.DEV;
+
+  // 개발 환경일 때만 콘솔 출력
+  if (isDev) {
+    console.warn("Firebase 초기화 중 오류 발생:", error);
+  }
+
+  // 프로덕션 fallback 처리
+  if (!isDev) {
     const fallbackElement = document.getElementById("firebase-error-fallback");
     if (fallbackElement) {
       fallbackElement.style.display = "block";

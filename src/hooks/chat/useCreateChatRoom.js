@@ -7,6 +7,7 @@ import {
 import { db } from "@/services/firebase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
+import toast from "react-hot-toast";
 
 /**
  * useCreateChatRoom
@@ -93,8 +94,7 @@ export function useCreateChatRoom(onSuccessNavigate) {
       }
     },
     onError: (error) => {
-      console.error("채팅방 생성 오류:", error.message);
-      alert("채팅방 생성 중 오류가 발생했습니다.");
+      toast.error("채팅방 생성 중 오류가 발생했습니다.");
     },
   });
 }

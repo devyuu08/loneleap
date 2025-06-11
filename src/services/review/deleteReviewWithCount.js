@@ -18,7 +18,9 @@ export async function deleteReviewWithCount(reviewId) {
         reviewCount: increment(-1),
       });
     } catch (err) {
-      console.warn("reviewCount 감소 실패:", err);
+      if (import.meta.env.DEV) {
+        console.warn("reviewCount 감소 실패:", err);
+      }
     }
   }
 }

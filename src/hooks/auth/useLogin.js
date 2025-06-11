@@ -5,6 +5,7 @@ import { setUser } from "@/store/userSlice";
 
 import { signIn, signInWithGoogle } from "@/services/auth/auth";
 import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 // 로그인 관련 로직을 캡슐화한 커스텀 훅
 export function useLogin() {
@@ -39,8 +40,7 @@ export function useLogin() {
       navigate("/");
     },
     onError: (err) => {
-      console.error("이메일 로그인 실패:", err.message);
-      alert("이메일 또는 비밀번호가 잘못되었습니다.");
+      toast.error("이메일 또는 비밀번호가 잘못되었습니다.");
     },
     retry: 0, // 실패 시 재시도하지 않음
   });
@@ -63,8 +63,7 @@ export function useLogin() {
         navigate("/");
       },
       onError: (err) => {
-        console.error("Google 로그인 실패:", err.message);
-        alert("Google 로그인 중 오류가 발생했습니다.");
+        toast.error("Google 로그인 중 오류가 발생했습니다.");
       },
       retry: 1, // 최대 1회 재시도
     }

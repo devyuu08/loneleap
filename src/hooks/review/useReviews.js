@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { fetchReviews } from "@/services/review/fetchReviews";
+import { toast } from "react-hot-toast";
 
 /**
  * useReviews
@@ -21,8 +22,8 @@ export function useReviews(enabled = true) {
     select: (data) =>
       data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
     enabled,
-    onError: (err) => {
-      console.error("리뷰 데이터를 불러오는 중 오류 발생:", err);
+    onError: () => {
+      toast.error("리뷰 데이터를 불러오는 중 문제가 발생했습니다.");
     },
   });
 }

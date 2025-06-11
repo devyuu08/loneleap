@@ -5,6 +5,7 @@ import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "@/services/firebase";
 import { useAddScheduleToDay } from "@/hooks/itinerary/useAddScheduleToDay";
 import DayScheduleList from "@/components/itinerary/DayScheduleList";
+import toast from "react-hot-toast";
 
 /**
  * DayScheduleListContainer
@@ -34,7 +35,7 @@ export default function DayScheduleListContainer({
   const handleFormSubmit = useCallback(
     (dayIndex) => {
       if (!formData.time || !formData.activity) {
-        alert("시간과 활동은 필수입니다.");
+        toast.error("시간과 활동은 필수입니다.");
         return;
       }
 
@@ -72,8 +73,7 @@ export default function DayScheduleListContainer({
 
         queryClient.invalidateQueries(["itineraryDetail", itineraryId]);
       } catch (error) {
-        console.error("일정 삭제 실패:", error);
-        alert("일정 삭제에 실패했습니다.");
+        toast.error("일정 삭제에 실패했습니다.");
       }
     },
     [itineraryId, queryClient]
