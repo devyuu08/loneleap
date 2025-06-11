@@ -1,102 +1,28 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-
-import { setUser } from "store/userSlice";
-import { signUp } from "services/auth";
-
+import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import ErrorMessage from "@/components/common/feedback/ErrorMessage";
+import FormInput from "@/components/common/form/FormInput";
+import FormSubmitButton from "@/components/common/button/FormSubmitButton";
 
-export default function SignUpForm() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState(""); // Added state for password confirmation
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [nickname, setNickname] = useState("");
-
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-
-    const trimmedEmail = email.trim();
-    const trimmedPassword = password.trim();
-
-    // 클라이언트 측 유효성 검사
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!trimmedEmail || !emailRegex.test(trimmedEmail)) {
-      setError("유효한 이메일 주소를 입력해주세요.");
-      return;
-    }
-
-    if (!nickname.trim()) {
-      setError("닉네임을 입력해주세요.");
-      return;
-    }
-
-    const trimmedNickname = nickname.trim();
-    if (trimmedNickname.length > 20) {
-      setError("닉네임은 20자 이하로 입력해주세요.");
-      return;
-    }
-
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(trimmedPassword)) {
-      setError(
-        "비밀번호는 최소 8자 이상이며, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다."
-      );
-      return;
-    }
-
-    // 비밀번호 확인 일치 검사
-    const trimmedPasswordConfirm = passwordConfirm.trim();
-    if (trimmedPassword !== trimmedPasswordConfirm) {
-      setError("비밀번호가 일치하지 않습니다.");
-      return;
-    }
-
-    setError("");
-    setLoading(true);
-
-    try {
-      const result = await signUp(
-        trimmedEmail,
-        trimmedPassword,
-        nickname.trim()
-      );
-      dispatch(
-        setUser({
-          uid: result.user.uid,
-          email: result.user.email,
-          displayName: result.user.displayName,
-          photoURL: result.user.photoURL,
-        })
-      );
-      navigate("/");
-    } catch (err) {
-      if (err.code === "auth/email-already-in-use") {
-        setError("이미 사용 중인 이메일입니다.");
-      } else if (err.code === "auth/weak-password") {
-        +setError(
-          "비밀번호는 최소 8자 이상이며, 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다."
-        );
-      } else {
-        setError("회원가입에 실패했습니다.");
-        console.error("회원가입 오류:", err.code, err.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
+export default function SignUpForm({
+  email,
+  nickname,
+  password,
+  passwordConfirm,
+  error,
+  loading,
+  showPassword,
+  showPasswordConfirm,
+  onEmailChange,
+  onNicknameChange,
+  onPasswordChange,
+  onPasswordConfirmChange,
+  onTogglePassword,
+  onTogglePasswordConfirm,
+  onSubmit,
+}) {
   return (
-    <div className="relative min-h-screen bg-gray-100">
+    <main className="relative min-h-screen bg-gray-100">
       {/* 배경 이미지 */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -110,65 +36,56 @@ export default function SignUpForm() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 flex items-center justify-center min-h-screen py-32 px-4 sm:px-6 lg:px-8">
+      {/* 회원가입 카드 컨테이너 */}
+      <section className="relative z-10 flex items-center justify-center min-h-screen py-32 px-4 sm:px-6 lg:px-8">
         <div className="bg-white/50 w-full max-w-sm p-8 rounded-xl shadow-sm border backdrop-blur-md">
-          <div className="text-center mb-8">
+          {/* 서비스 브랜드 타이틀 */}
+          <header className="text-center mb-8">
             <h1 className="text-xl font-semibold text-gray-800">LONELEAP</h1>
             <p className="mt-1 text-sm text-gray-500">
               혼자 떠나는 여정, 스스로를 향한 도약
             </p>
-          </div>
+          </header>
 
-          {error && (
-            <div className="text-red-500 text-sm mb-4 text-center">{error}</div>
-          )}
+          {/* 회원가입 입력 폼 */}
+          <form className="space-y-5" onSubmit={onSubmit}>
+            {/* 이메일 입력 */}
+            <FormInput
+              id="email"
+              name="email"
+              type="email"
+              label="이메일"
+              placeholder="your@email.com"
+              value={email}
+              onChange={onEmailChange}
+            />
 
-          <form className="space-y-5" onSubmit={handleSignUp}>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium">
-                이메일
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="your@email.com"
-                className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+            {/* 닉네임 입력 */}
+            <FormInput
+              id="nickname"
+              name="nickname"
+              type="text"
+              label="닉네임"
+              placeholder="닉네임을 입력하세요"
+              value={nickname}
+              onChange={onNicknameChange}
+            />
 
-            <div>
-              <label htmlFor="nickname" className="block text-sm font-medium">
-                닉네임
-              </label>
-              <input
-                id="nickname"
-                type="text"
-                placeholder="닉네임을 입력하세요"
-                className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
-                required
-              />
-            </div>
-
+            {/* 비밀번호 입력 + 보기 토글 */}
             <div className="relative">
-              <label htmlFor="password" className="block text-sm font-medium">
-                비밀번호
-              </label>
-              <input
+              <FormInput
                 id="password"
+                name="password"
                 type={showPassword ? "text" : "password"}
-                className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                label="비밀번호"
+                value={password}
+                onChange={onPasswordChange}
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={onTogglePassword}
                 aria-label={showPassword ? "비밀번호 숨기기" : "비밀번호 보기"}
+                className="absolute right-3 top-10 text-gray-500 hover:text-gray-700"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -178,24 +95,21 @@ export default function SignUpForm() {
               </button>
             </div>
 
+            {/* 비밀번호 확인 입력 + 보기 토글 */}
             <div className="relative">
-              <label
-                htmlFor="passwordConfirm"
-                className="block text-sm font-medium"
-              >
-                비밀번호 확인
-              </label>
-              <input
+              <FormInput
                 id="passwordConfirm"
+                name="passwordConfirm"
                 type={showPasswordConfirm ? "text" : "password"}
-                className="w-full px-4 py-3 rounded-md border border-gray-300 bg-gray-50 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
-                onChange={(e) => setPasswordConfirm(e.target.value)}
-                required
+                label="비밀번호 확인"
+                value={passwordConfirm}
+                onChange={onPasswordConfirmChange}
               />
+
               <button
                 type="button"
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                className="absolute right-3 top-10 transform text-gray-500 hover:text-gray-700"
+                onClick={onTogglePasswordConfirm}
                 aria-label={
                   showPasswordConfirm
                     ? "비밀번호 확인 숨기기"
@@ -210,15 +124,19 @@ export default function SignUpForm() {
               </button>
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-[#6D8591] text-white rounded-md hover:bg-[#4d5e66] transition"
-            >
-              {loading ? "가입 중..." : "가입하기"}
-            </button>
+            {/* 오류 메시지 출력 */}
+            {error && <ErrorMessage message={error} align="center" />}
+
+            {/* 제출 버튼 */}
+            <FormSubmitButton
+              isLoading={loading}
+              label="가입하기"
+              variant="light"
+            />
           </form>
 
-          <p className="flex items-center justify-between text-sm text-gray-600 mt-6">
+          {/* 로그인 페이지 이동 안내 */}
+          <footer className="flex items-center justify-between text-sm text-gray-600 mt-6">
             이미 계정이 있으신가요?{" "}
             <Link
               to="/login"
@@ -226,9 +144,9 @@ export default function SignUpForm() {
             >
               로그인
             </Link>
-          </p>
+          </footer>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

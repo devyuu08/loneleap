@@ -1,10 +1,10 @@
-import LayoutWrapper from "components/common/LayoutWrapper";
-import ItineraryDetail from "components/itinerary/ItineraryDetail";
+import LayoutWrapper from "@/components/common/layout/LayoutWrapper";
+import ItineraryDetailContainer from "@/containers/itinerary/ItineraryDetailContainer";
 
 export default function ItineraryDetailPage() {
   return (
     <LayoutWrapper>
-      <ItineraryDetail />
+      <ItineraryDetailContainer />
     </LayoutWrapper>
   );
 }

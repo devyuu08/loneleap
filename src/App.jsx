@@ -1,55 +1,66 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { setUser, clearUser } from "store/userSlice";
+import { clearUser } from "@/store/userSlice";
 
-import { observeAuth } from "services/auth";
-import { fetchUserWithProfile } from "services/userService";
+import { observeAuth } from "@/services/auth/auth";
+import { fetchUserWithProfile } from "@/services/user/fetchUserWithProfile";
+import { Toaster } from "react-hot-toast";
 
-import Header from "components/layout/Header";
-import Footer from "components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
-import AuthForm from "components/auth/AuthForm";
+import Login from "@/pages/auth/Login";
+import SignUp from "@/pages/auth/SignUp";
+import Callback from "@/pages/auth/Callback";
 
-import ProtectedRoute from "components/common/ProtectedRoute";
-import LoadingSpinner from "components/common/LoadingSpinner.jsx";
+import ProtectedRoute from "@/components/common/route/ProtectedRoute";
+import LoadingSpinner from "@/components/common/loading/LoadingSpinner.jsx";
+import FloatingButtons from "@/components/common/button/FloatingButtons";
+import PublicItineraryPage from "@/pages/itinerary/Public";
+import { CheckCircle, XCircle } from "lucide-react";
 
-import Home from "pages/home/Home";
-import CreateItineraryPage from "pages/itinerary/Create";
-import ItineraryListPage from "pages/itinerary/List";
-import ItineraryDetailPage from "pages/itinerary/Detail";
-import EditItineraryPage from "pages/itinerary/Edit";
-import CreateReviewPage from "pages/review/Create";
-import SignUp from "pages/auth/SignUp";
-import ReviewListPage from "pages/review/List";
-import ReviewDetailPage from "pages/review/Detail";
-import CreateChatRoomPage from "pages/chat/Create";
-import ChatRoomListPage from "pages/chat/List";
-import ChatRoomDetailPage from "pages/chat/Detail";
-import MyPage from "pages/mypage/MyPage";
-import RecommendationListPage from "pages/recommendations/List";
-import RecommendationDetailPage from "pages/recommendations/Detail";
-import EditReviewPage from "pages/review/Edit";
-import FloatingButtons from "components/common/FloatingButtons";
+const Home = React.lazy(() => import("@/pages/home/Home"));
+const CreateItineraryPage = React.lazy(() =>
+  import("@/pages/itinerary/Create")
+);
+const ItineraryListPage = React.lazy(() => import("@/pages/itinerary/List"));
+const ItineraryDetailPage = React.lazy(() =>
+  import("@/pages/itinerary/Detail")
+);
+const EditItineraryPage = React.lazy(() => import("@/pages/itinerary/Edit"));
+const CreateReviewPage = React.lazy(() => import("@/pages/review/Create"));
+const ReviewListPage = React.lazy(() => import("@/pages/review/List"));
+const ReviewDetailPage = React.lazy(() => import("@/pages/review/Detail"));
+const EditReviewPage = React.lazy(() => import("@/pages/review/Edit"));
+const CreateChatRoomPage = React.lazy(() => import("@/pages/chat/Create"));
+const ChatRoomListPage = React.lazy(() => import("@/pages/chat/List"));
+const ChatRoomDetailPage = React.lazy(() => import("@/pages/chat/Detail"));
+const MyPage = React.lazy(() => import("@/pages/mypage/MyPage"));
+const RecommendationListPage = React.lazy(() =>
+  import("@/pages/recommendations/List")
+);
+const RecommendationDetailPage = React.lazy(() =>
+  import("@/pages/recommendations/Detail")
+);
+const NotFound = React.lazy(() => import("@/pages/errors/NotFound"));
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.currentUser);
   const [loading, setLoading] = React.useState(true);
 
   const location = useLocation();
 
   const pathParts = location.pathname.split("/");
   const isHome = location.pathname === "/";
+  const isOAuthCallbackPage = location.pathname === "/oauth/callback";
 
   const isChatDetailPage =
     pathParts[1] === "chat" &&
     pathParts.length === 3 &&
     pathParts[2] !== "create";
-
-  const isRecommendationPage = location.pathname.startsWith("/recommendations");
 
   useEffect(() => {
     const unsubscribe = observeAuth(async (user) => {
@@ -68,142 +79,169 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {!isChatDetailPage && <Header />}
+      {!isChatDetailPage && !isOAuthCallbackPage && <Header />}
 
       {/* main에 flex-grow를 줘서 Routes가 영역을 채우게 함 */}
       <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<AuthForm />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/itinerary">
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/oauth/callback" element={<Callback />} />
+            <Route path="/itinerary">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <ItineraryListPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="create"
+                element={
+                  <ProtectedRoute>
+                    <CreateItineraryPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit/:id"
+                element={
+                  <ProtectedRoute>
+                    <EditItineraryPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":id"
+                element={
+                  <ProtectedRoute>
+                    <ItineraryDetailPage />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
             <Route
-              index
-              element={
-                <ProtectedRoute>
-                  <ItineraryListPage />
-                </ProtectedRoute>
-              }
+              path="/itinerary/public/:id"
+              element={<PublicItineraryPage />}
             />
-            <Route
-              path="create"
-              element={
-                <ProtectedRoute>
-                  <CreateItineraryPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="edit/:id"
-              element={
-                <ProtectedRoute>
-                  <EditItineraryPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path=":id"
-              element={
-                <ProtectedRoute>
-                  <ItineraryDetailPage />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
-          <Route path="/reviews">
-            <Route
-              index
-              element={
-                <ProtectedRoute>
-                  <ReviewListPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="create"
-              element={
-                <ProtectedRoute>
-                  <CreateReviewPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="edit/:id"
-              element={
-                <ProtectedRoute>
-                  <EditReviewPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path=":id"
-              element={
-                <ProtectedRoute>
-                  <ReviewDetailPage />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
-          <Route path="/chat">
-            <Route
-              index
-              element={
-                <ProtectedRoute>
-                  <ChatRoomListPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="create"
-              element={
-                <ProtectedRoute>
-                  <CreateChatRoomPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path=":id"
-              element={
-                <ProtectedRoute>
-                  <ChatRoomDetailPage />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
-          <Route path="/mypage">
-            <Route
-              index
-              element={
-                <ProtectedRoute>
-                  <MyPage />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
-          <Route path="/recommendations">
-            <Route
-              index
-              element={
-                <ProtectedRoute>
-                  <RecommendationListPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path=":id"
-              element={
-                <ProtectedRoute>
-                  <RecommendationDetailPage />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
-        </Routes>
+            <Route path="/reviews">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <ReviewListPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="create"
+                element={
+                  <ProtectedRoute>
+                    <CreateReviewPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit/:id"
+                element={
+                  <ProtectedRoute>
+                    <EditReviewPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":id"
+                element={
+                  <ProtectedRoute>
+                    <ReviewDetailPage />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route path="/chat">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <ChatRoomListPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="create"
+                element={
+                  <ProtectedRoute>
+                    <CreateChatRoomPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":id"
+                element={
+                  <ProtectedRoute>
+                    <ChatRoomDetailPage />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route path="/mypage">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <MyPage />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route path="/recommendations">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <RecommendationListPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":id"
+                element={
+                  <ProtectedRoute>
+                    <RecommendationDetailPage />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </main>
 
       {!isHome && <FloatingButtons />}
-
-      {!isChatDetailPage && <Footer />}
+      {!isChatDetailPage && !isOAuthCallbackPage && <Footer />}
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: "rgba(0, 0, 0, 0.7)",
+            color: "#ffffff",
+            borderRadius: "14px",
+            padding: "14px 18px",
+            fontSize: "15px",
+            backdropFilter: "blur(4px)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
+          },
+          success: {
+            icon: <CheckCircle className="text-blue-400 w-5 h-5" />,
+          },
+          error: {
+            icon: <XCircle className="text-red-400 w-5 h-5" />,
+          },
+        }}
+      />
     </div>
   );
 }

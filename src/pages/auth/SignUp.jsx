@@ -1,9 +1,5 @@
-import SignUpForm from "components/auth/SignUpForm";
+import SignUpFormContainer from "@/containers/auth/SignUpFormContainer";
 
 export default function Login() {
-  return (
-    <div>
-      <SignUpForm />
-    </div>
-  );
+  return <SignUpFormContainer />;
 }

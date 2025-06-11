@@ -1,44 +1,41 @@
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useUser } from "hooks/useUser";
-import {
-  useReviewLikeStatus,
-  useToggleReviewLike,
-} from "services/queries/review/useReviewLike";
-import { cn } from "utils/utils";
+import PropTypes from "prop-types";
+import { cn } from "@/utils/utils";
+import React from "react";
 
-export default function LikeButton({
-  reviewId,
+/**
+ * LikeButton
+ * - 좋아요 버튼 컴포넌트 (카드형 / 상세형 UI 지원)
+ * - 좋아요 여부에 따라 하트 아이콘 상태 전환
+ * - 좋아요 수를 함께 표시
+ * - variant prop으로 스타일 분기 (e.g., card, detail)
+ * - aria-label로 접근성 지원
+ */
+
+function LikeButton({
+  hasLiked,
   likesCount = 0,
   variant = "card",
+  disabled = false,
+  onClick,
 }) {
-  const { user } = useUser();
-  const userId = user?.uid;
-
-  const { data: hasLiked } = useReviewLikeStatus(reviewId, userId);
-  const { mutate, isPending: isMutating } = useToggleReviewLike(
-    reviewId,
-    userId
-  );
-
-  const handleLikeBtnClick = (e) => {
-    e.stopPropagation();
-    if (!user || isMutating) return;
-    mutate();
-  };
-
   const baseClass = "flex items-center gap-1 transition-all";
-  const disabledClass = isMutating ? "opacity-50 cursor-not-allowed" : "";
+  const disabledClass = disabled ? "opacity-50 cursor-not-allowed" : "";
+
+  // 카드용 vs 상세용 스타일 분기
   const variantClass =
     variant === "detail"
       ? "px-3 py-1.5 rounded-full border border-gray-300 text-sm bg-white/60 text-gray-800 backdrop-blur-sm shadow-sm hover:bg-white/80 transition"
       : "text-sm text-gray-500 hover:text-red-500 transition";
+
   return (
     <button
-      onClick={handleLikeBtnClick}
-      disabled={!user || isMutating}
+      onClick={onClick}
+      disabled={disabled}
       className={cn(baseClass, disabledClass, variantClass)}
       aria-label={hasLiked ? "좋아요 취소" : "좋아요 누르기"}
     >
+      {/* 하트 아이콘: 좋아요 여부에 따라 변경 */}
       {hasLiked ? (
         <AiFillHeart
           className={
@@ -54,7 +51,19 @@ export default function LikeButton({
           }
         />
       )}
+
+      {/* 좋아요 수 */}
       <span className="font-medium">{likesCount}</span>
     </button>
   );
 }
+
+LikeButton.propTypes = {
+  hasLiked: PropTypes.bool,
+  likesCount: PropTypes.number,
+  variant: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+};
+
+export default React.memo(LikeButton);

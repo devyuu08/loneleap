@@ -1,51 +1,44 @@
+/**
+ * regions
+ * - 홈 페이지의 지도 기반 일정 탐색 섹션에서 사용하는 지역 정보
+ * - 각 지역은 슬러그(slug)와 마커 위치(position) 정보를 포함함
+ * - 지도에 마커를 렌더링할 때 top/left % 단위 좌표로 위치 지정
+ */
+
 export const regions = [
   {
-    name: "서울 & 경기",
+    name: "서울/경기",
     slug: "seoul",
-    count: 24,
-    desc: "도심 속 혼자만의 시간을 위한 장소들",
-    position: { top: "32%", left: "49%" },
+    position: { top: "31%", left: "49%" },
   },
   {
     name: "인천",
     slug: "incheon",
-    count: 10,
-    desc: "서해를 품은 낭만적인 혼행지",
     position: { top: "33%", left: "38%" },
   },
   {
     name: "강원도",
     slug: "gangwon",
-    count: 18,
-    desc: "자연과 함께하는 고요한 여행 장소들",
-    position: { top: "25%", left: "65%" },
+    position: { top: "25%", left: "63%" },
   },
   {
     name: "충청도",
     slug: "chungcheong",
-    count: 14,
-    desc: "조용한 바닷가와 숲길이 어우러진 곳",
     position: { top: "45%", left: "47%" },
   },
   {
     name: "전라도",
     slug: "jeolla",
-    count: 17,
-    desc: "느긋한 리듬과 따뜻한 풍경을 지닌 지역",
-    position: { top: "63%", left: "45%" },
+    position: { top: "60%", left: "45%" },
   },
   {
     name: "경상도",
     slug: "gyeongsang",
-    count: 21,
-    desc: "산과 바다가 만나는 절경의 여정",
-    position: { top: "58%", left: "65%" },
+    position: { top: "52%", left: "63%" },
   },
   {
     name: "제주도",
     slug: "jeju",
-    count: 22,
-    desc: "섬 속의 고독을 즐기는 장소들",
-    position: { top: "91%", left: "36%" },
+    position: { top: "88%", left: "36%" },
   },
 ];

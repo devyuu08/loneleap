@@ -1,44 +1,43 @@
-import { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { useReportReview } from "services/queries/review/useReportReview";
-import ReportModal from "components/common/ReportModal";
-import ModalPortal from "components/common/ModalPortal";
+import ReportModal from "@/components/common/modal/ReportModal";
+import ModalPortal from "@/components/common/modal/ModalPortal";
+import ButtonSpinner from "@/components/common/loading/ButtonSpinner";
 
-export default function ReportButton({ reviewId }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const reportMutation = useReportReview();
+/**
+ * ReportButton
+ * - 사용자가 특정 항목(리뷰, 메시지 등)을 신고할 수 있는 버튼 + 모달 트리거 역할
+ * - 신고 로딩 중 스피너 표시
+ * - 신고 모달을 조건부로 렌더링 (ModalPortal 사용)
+ */
 
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
-
-  const handleSubmit = ({ reason }) => {
-    return reportMutation
-      .mutateAsync({ reviewId, reason })
-      .then(() => {
-        alert("신고가 접수되었습니다.");
-        setIsOpen(false);
-      })
-      .catch((err) => {
-        alert(err?.message || "신고 처리 중 오류가 발생했습니다.");
-      });
-  };
+function ReportButton({ isOpen, isPending, onOpen, onClose, onSubmit }) {
+  const buttonClass =
+    "px-3 py-1.5 rounded-full border border-gray-300 text-sm bg-white/60 text-gray-800 backdrop-blur-sm shadow-sm hover:bg-white/80 transition disabled:opacity-50";
 
   return (
     <>
+      {/* 신고하기 버튼 */}
       <button
-        onClick={handleOpen}
-        disabled={reportMutation.isPending}
-        className="px-3 py-1.5 rounded-full border border-gray-300 text-sm bg-white/60 text-gray-800 backdrop-blur-sm shadow-sm hover:bg-white/80 transition disabled:opacity-50"
+        onClick={onOpen}
+        disabled={isPending}
+        className={buttonClass}
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
+        aria-controls="report-modal"
       >
-        {reportMutation.isPending ? "신고 중..." : "신고하기"}
+        <span className="inline-flex items-center justify-center w-[64px] h-[20px]">
+          {isPending ? <ButtonSpinner size={16} color="#4B5563" /> : "신고하기"}
+        </span>
       </button>
 
+      {/* 신고 모달 */}
       {isOpen && (
         <ModalPortal>
           <ReportModal
-            onClose={handleClose}
-            onSubmit={handleSubmit}
-            isPending={reportMutation.isPending}
+            onClose={onClose}
+            onSubmit={onSubmit}
+            isPending={isPending}
           />
         </ModalPortal>
       )}
@@ -47,5 +46,11 @@ export default function ReportButton({ reviewId }) {
 }
 
 ReportButton.propTypes = {
-  reviewId: PropTypes.string.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  isPending: PropTypes.bool.isRequired,
+  onOpen: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
+
+export default React.memo(ReportButton);

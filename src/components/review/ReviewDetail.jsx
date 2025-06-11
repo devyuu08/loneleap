@@ -1,36 +1,42 @@
-import { useReviewDetail } from "services/queries/review/useReviewDetail";
-import LoadingSpinner from "components/common/LoadingSpinner";
-import NotFoundMessage from "components/common/NotFoundMessage";
-import ReportButton from "components/Review/ReportButton";
-import LikeButton from "components/review/LikeButton";
-import CommentList from "components/review/CommentList";
-import { useUser } from "hooks/useUser";
-import ReviewHero from "components/review/ReviewHero";
-import { useDeleteReview } from "services/queries/review/useDeleteReview";
-import FloatingButtons from "components/common/FloatingButtons";
+import ReviewHero from "@/components/review/ReviewHero";
+import FloatingButtons from "@/components/common/button/FloatingButtons";
+import CommentListContainer from "@/containers/review/CommentListContainer";
+import LikeButtonContainer from "@/containers/review/LikeButtonContainer";
+import ReportButtonContainer from "@/containers/review/ReportButtonContainer";
+import QuestionAnswerBlock from "@/components/review/QuestionAnswerBlock";
+import { useCallback } from "react";
 
-export default function ReviewDetail({ reviewId }) {
-  const { user } = useUser();
-  const { data, isLoading, isError } = useReviewDetail(reviewId);
-  const { mutate: deleteReview, isPending } = useDeleteReview();
+/**
+ * ReviewDetail
+ * - 리뷰 상세 페이지 본문을 렌더링하는 컴포넌트
+ * - 텍스트형/인터뷰형 리뷰 유형에 따라 본문을 조건부 렌더링
+ * - 좋아요, 신고, 댓글 기능 포함
+ * - 리뷰 작성자일 경우 수정/삭제 버튼 노출
+ */
 
-  if (isLoading) return <LoadingSpinner />;
-  if (isError || !data)
-    return <NotFoundMessage message="리뷰를 찾을 수 없습니다." />;
+export default function ReviewDetail({
+  reviewId,
+  review,
+  onDelete,
+  isDeletePending,
+  isOwner,
+}) {
+  const { content, likesCount, interviewQuestions, interviewAnswers, type } =
+    review;
 
-  const { content, likesCount } = data;
-
-  const isOwner = user?.uid === data.createdBy?.uid;
+  const handleDelete = useCallback(() => {
+    onDelete(reviewId);
+  }, [onDelete, reviewId]);
 
   return (
     <article className="pb-16">
-      {/* Hero 섹션 */}
-      <ReviewHero review={data} />
+      {/* 리뷰 상단 Hero 영역 */}
+      <ReviewHero review={review} />
 
       <div className="px-4 mt-12">
-        {/* 본문 내용 */}
-        <div className="space-y-8">
-          {data.type === "standard" ? (
+        {/* 리뷰 본문 내용 */}
+        <section className="space-y-8">
+          {type === "standard" ? (
             <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
               <p className="text-base leading-relaxed text-gray-700 whitespace-pre-line">
                 {content || "리뷰 내용이 없습니다."}
@@ -38,71 +44,65 @@ export default function ReviewDetail({ reviewId }) {
             </div>
           ) : (
             <div className="bg-white/70 backdrop-blur-sm p-10 rounded-2xl shadow border border-gray-100 space-y-12">
-              {data.interviewQuestions.map((q, index) => (
-                <div
+              {interviewQuestions.map((q, index) => (
+                <QuestionAnswerBlock
                   key={q.id}
-                  className={
-                    index !== 0 ? "pt-10 border-t border-gray-300/30" : ""
-                  }
-                >
-                  <h4 className="text-[18px] font-semibold text-gray-800 tracking-tight leading-snug">
-                    Q. {q.text}
-                  </h4>
-                  <div className="mt-4 pl-4 border-l-2 border-gray-200">
-                    <p className="text-[16px] text-gray-700 leading-loose whitespace-pre-line tracking-wide">
-                      {data.interviewAnswers?.[q.id] || "답변 없음"}
-                    </p>
-                  </div>
-                </div>
+                  question={q.text}
+                  answer={interviewAnswers?.[q.id]}
+                  isFirst={index === 0}
+                />
               ))}
             </div>
           )}
-        </div>
+        </section>
 
-        {/* 좋아요 / 신고 */}
-        <div className="flex justify-end items-center mt-10 text-sm text-gray-600 gap-6">
+        {/* 좋아요 / 신고 버튼 */}
+        <section className="flex justify-end items-center mt-10 text-sm text-gray-600 gap-6">
           <div className="transition hover:scale-105">
-            <LikeButton
+            <LikeButtonContainer
               reviewId={reviewId}
               likesCount={likesCount}
               variant="detail"
             />
           </div>
           <div className="transition hover:scale-105">
-            <ReportButton reviewId={reviewId} />
+            <ReportButtonContainer reviewId={reviewId} />
           </div>
-        </div>
+        </section>
 
+        {/* 작성자일 경우: 수정/삭제 버튼 노출 */}
         {isOwner && (
           <FloatingButtons
             editPath={`/reviews/edit/${reviewId}`}
-            onDelete={() => deleteReview(reviewId)}
-            isDeletePending={isPending}
+            onDelete={handleDelete}
+            isDeletePending={isDeletePending}
           />
         )}
 
         {/* 구분선 */}
-        <div className="my-12 border-t border-gray-200" />
+        <hr className="my-12 border-gray-200" />
 
-        {/* 댓글 */}
+        {/* 댓글 및 주의사항 */}
         <section className="max-w-6xl mx-auto px-4 mt-16 flex flex-col md:flex-row gap-8">
-          {/* 댓글 작성 & 리스트 - 왼쪽 영역 */}
-          <div className="md:w-2/3">
-            <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-              <h2 className="text-xl font-bold text-gray-900 mb-2">
-                혼행자의 감상 한 줄
-              </h2>
-              <p className="text-sm text-gray-500 mb-6">
-                같은 장소, 다른 감정. 다른 여행자의 시선을 통해 더 깊이
-                바라보세요.
-              </p>
-              <CommentList currentUserId={user?.uid} reviewId={reviewId} />
-            </div>
+          {/* 댓글 작성 및 리스트 */}
+          <div className="w-full md:w-2/3">
+            <section className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+              <header>
+                <h2 className="text-xl font-bold text-gray-900 mb-2">
+                  혼행자의 감상 한 줄
+                </h2>
+                <p className="text-sm text-gray-500 mb-6 hidden md:block">
+                  같은 장소, 다른 감정. 다른 여행자의 시선을 통해 더 깊이
+                  바라보세요.
+                </p>
+              </header>
+              <CommentListContainer reviewId={reviewId} />
+            </section>
           </div>
 
-          {/* 유의사항 카드 - 오른쪽 영역 */}
-          <aside className="md:w-1/3">
-            <div className="bg-gray-100/60 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-5 text-sm text-gray-700 leading-relaxed shadow-md">
+          {/* 댓글 유의사항 (PC 전용) */}
+          <aside className="w-full md:w-1/3 hidden md:block">
+            <section className="bg-gray-100/60 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-5 text-sm text-gray-700 leading-relaxed shadow-md">
               <p className="font-semibold text-gray-800 mb-2">
                 댓글 작성 시 유의사항
               </p>
@@ -111,7 +111,7 @@ export default function ReviewDetail({ reviewId }) {
                 <li>개인 정보는 입력하지 말아주세요.</li>
                 <li>여기 남긴 감정이 또 다른 여행의 시작이 됩니다.</li>
               </ul>
-            </div>
+            </section>
           </aside>
         </section>
       </div>

@@ -1,67 +1,43 @@
+import React from "react";
 import PropTypes from "prop-types";
-
-import { useEffect, useRef, useState } from "react";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "services/firebase";
-import { useSelector } from "react-redux";
-
 import { Send, Image as ImageIcon } from "lucide-react";
 
-export default function MessageInput({ roomId }) {
-  const [message, setMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const user = useSelector((state) => state.user.user);
+/**
+ * 채팅 입력창 컴포넌트
+ * - 텍스트 입력 필드와 전송 버튼 제공
+ * - 전송 중일 때 비활성화 처리
+ */
 
-  const inputRef = useRef(null);
+function MessageInput({
+  message,
+  setMessage,
+  handleSend,
+  handleKeyDown,
+  isSubmitting,
+  inputRef,
+}) {
+  const chatInput =
+    "flex-1 bg-white/70 rounded-full px-4 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 border border-gray-300 shadow-sm";
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  const sendButton =
+    "p-2 rounded-full text-white backdrop-blur-sm transition-all shadow-md";
 
-  if (!roomId) {
-    console.error("MessageInput: roomId가 제공되지 않았습니다.");
-    return <div className="text-red-500">채팅방 ID 오류</div>;
-  }
+  const disabledSendButton = "bg-gray-400 cursor-not-allowed opacity-70";
 
-  const handleSend = async () => {
-    if (!message.trim() || !user || isSubmitting) return;
-    setIsSubmitting(true);
-
-    try {
-      await addDoc(collection(db, "chatMessages"), {
-        type: "text",
-        roomId,
-        message: message.trim(),
-        sender: {
-          uid: user.uid,
-          displayName: user.displayName || "익명",
-          photoURL: user.photoURL || "",
-        },
-        createdAt: serverTimestamp(),
-      });
-      setMessage("");
-    } catch (error) {
-      console.error("메시지 전송 오류:", error);
-      alert("메시지 전송에 실패했습니다.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  };
+  const activeSendButton = "bg-black/80 hover:bg-black hover:shadow-xl";
 
   return (
     <div className="flex items-center gap-3">
-      <button className="text-gray-500 hover:text-gray-700">
+      {/* 이미지 업로드 버튼 (미구현 상태) */}
+      <button
+        className="text-gray-500 hover:text-gray-700"
+        aria-label="이미지 전송"
+        onClick={() => alert("이미지 전송 기능은 현재 준비 중입니다.")}
+      >
         <ImageIcon className="w-5 h-5" />
       </button>
 
-      {/* 입력창 */}
+      {/* 텍스트 입력 필드 */}
       <input
         ref={inputRef}
         type="text"
@@ -69,20 +45,17 @@ export default function MessageInput({ roomId }) {
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="메시지를 입력하세요..."
-        disabled={isSubmitting}
-        className="flex-1 bg-white/70 rounded-full px-4 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400 border border-gray-300 shadow-sm"
+        className={chatInput}
         maxLength={500}
       />
 
-      {/* 전송 버튼 */}
+      {/* 메시지 전송 버튼 */}
       <button
         onClick={handleSend}
         disabled={isSubmitting}
         aria-label="메시지 전송"
-        className={`p-2 rounded-full text-white backdrop-blur-sm transition-all shadow-md ${
-          isSubmitting
-            ? "bg-gray-400 cursor-not-allowed opacity-70"
-            : "bg-black/80 hover:bg-black hover:shadow-xl"
+        className={`${sendButton} ${
+          isSubmitting ? disabledSendButton : activeSendButton
         }`}
       >
         <Send className="w-5 h-5" />
@@ -92,5 +65,11 @@ export default function MessageInput({ roomId }) {
 }
 
 MessageInput.propTypes = {
-  roomId: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  handleSend: PropTypes.func.isRequired,
+  handleKeyDown: PropTypes.func.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
 };
+
+export default React.memo(MessageInput);

@@ -1,3 +1,9 @@
+/**
+ * 다양한 날짜 형식을 한국어 날짜/시간 문자열로 변환합니다.
+ * @param {any} dateValue - Timestamp, Date, ISO 문자열 등
+ * @returns {string} 포맷된 날짜 문자열
+ */
+
 export function formatDate(dateValue) {
   if (!dateValue) return "날짜 없음";
 
@@ -27,10 +33,18 @@ export function formatDate(dateValue) {
 
     return "날짜 형식 오류";
   } catch (error) {
-    console.error("날짜 형식 변환 오류:", error);
+    if (import.meta.env.DEV) {
+      console.error("날짜 형식 변환 오류:", error);
+    }
     return "날짜 변환 오류";
   }
 }
+
+/**
+ * 날짜 객체를 연-월-일 형식의 문자열로 반환합니다.
+ * @param {any} dateValue - Timestamp, Date, ISO 문자열 등
+ * @returns {string} YYYY년 MM월 DD일 형식 문자열
+ */
 
 export function formatDateOnly(dateValue) {
   if (!dateValue) return "날짜 없음";
