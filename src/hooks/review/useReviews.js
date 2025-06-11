@@ -4,9 +4,12 @@ import { fetchReviews } from "@/services/review/fetchReviews";
 
 /**
  * useReviews
- * - 전체 리뷰 리스트를 가져오는 query 훅
- * - 최신순 정렬 포함
- * - 캐시 최적화를 위해 staleTime 5분, cacheTime 30분 설정
+ *
+ * - 전체 리뷰 리스트를 가져오는 React Query 기반 커스텀 훅
+ * - 최신순(createdAt 기준 내림차순)으로 정렬된 데이터를 반환
+ * - 좋아요 상태 등의 변경 사항이 즉시 반영되도록 staleTime: 0 설정
+ * - 캐시는 30분간 유지되어 성능을 고려한 데이터 재사용 가능
+ * - React Query 캐시를 단일 상태로 사용하며, 옵티미스틱 UI 구조와 연동
  */
 
 export function useReviews(enabled = true) {
