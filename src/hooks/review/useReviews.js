@@ -13,7 +13,7 @@ export function useReviews(enabled = true) {
   return useQuery({
     queryKey: [QUERY_KEYS.REVIEWS],
     queryFn: fetchReviews,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 0,
     cacheTime: 30 * 60 * 1000,
     select: (data) =>
       data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)),
